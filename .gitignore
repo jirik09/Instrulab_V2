@@ -1,0 +1,19 @@
+
+# build files
+*.o
+*.d
+*.crf
+*.__i
+*.dep
+*.plg
+*.htm
+
+#IDE files
+*.suo
+*.uvg*
+
+desktop.ini
+
+
+#runable files
+*.exe

@@ -1,0 +1,11 @@
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\bin\Debug\InstruLab.exe
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\bin\Debug\InstruLab.pdb
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Instrulab.resources
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Generator.resources
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Properties.Resources.resources
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Scope.resources
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csproj.GenerateResource.Cache
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.exe
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.pdb
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csprojResolveAssemblyReference.cache
+F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.ArbDialog.resources
