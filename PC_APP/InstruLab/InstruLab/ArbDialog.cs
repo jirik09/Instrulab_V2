@@ -13,6 +13,9 @@ namespace InstruLab
     {
         private char separator = ';';
         private double maxValue = 1;
+        private bool skipFirstRow = true;
+        private bool skipFirstCol = true;
+
         int vref;
         int adc_res;
         public ArbDialog(int vref, int adc_res)
@@ -21,6 +24,7 @@ namespace InstruLab
             this.radioButton_vref.Text = "Voltage (0.0 - " + Math.Round((double)(vref) / 1000, 1).ToString() + ")";
             this.radioButton_adcRes.Text = "ADC (0 - " + (Math.Pow(2,adc_res)-1).ToString() + ")";
             this.vref = vref;
+            maxValue = (double)(vref) / 1000;
             this.adc_res = adc_res;
         }
 
@@ -70,6 +74,15 @@ namespace InstruLab
                 maxValue = Math.Pow(2,adc_res)-1;
             }
         }
+        private void checkBox_skip_row_CheckedChanged(object sender, EventArgs e)
+        {
+            this.skipFirstRow = checkBox_skip_row.Checked;
+        }
+
+        private void checkBox_skip_col_CheckedChanged(object sender, EventArgs e)
+        {
+            this.skipFirstCol = checkBox_skip_col.Checked;
+        }
 
         public char GetSeparator() {
             return separator;
@@ -78,5 +91,18 @@ namespace InstruLab
         public double GetMaxValue() {
             return maxValue;
         }
+
+        public bool GetSkipFirstRow()
+        {
+            return this.skipFirstRow;
+        }
+
+        public bool GetSkipFirstCol()
+        {
+            return this.skipFirstCol;
+        }
+
+
+
     }
 }

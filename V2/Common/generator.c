@@ -172,6 +172,11 @@ uint8_t genSetNumOfChannels(uint8_t chan){
 	uint8_t chanTmp=generator.numOfChannles;
 	if(generator.state==GENERATOR_IDLE){
 		if(chan<=MAX_DAC_CHANNELS){
+			while(chanTmp>0){
+				if(generator.oneChanSamples[--chanTmp]>MAX_GENERATOR_BUFF_SIZE/2/chan){
+					return GEN_BUFFER_SIZE_ERR;
+				}
+			}
 			generator.numOfChannles=chan;
 			generator.maxOneChanSamples=MAX_GENERATOR_BUFF_SIZE/2/chan;
 			for(uint8_t i=0;i<chan;i++){

@@ -9,3 +9,14 @@ F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.exe
 F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.pdb
 F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csprojResolveAssemblyReference.cache
 F:\Git\Instrulab\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.ArbDialog.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.exe
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.pdb
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\InstruLab.exe
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\InstruLab.pdb
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csprojResolveAssemblyReference.cache
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.ArbDialog.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Instrulab.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Generator.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Properties.Resources.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Scope.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csproj.GenerateResource.Cache

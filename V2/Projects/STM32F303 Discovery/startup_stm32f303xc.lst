@@ -643,18 +643,18 @@ ARM Macro Assembler    Page 10
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\instrulab_built\startup_stm32f303xc.d -o.\instrulab_built\sta
-rtup_stm32f303xc.o -I..\..\Inc -I"F:\Git\Instrulab\V2\Projects\STM32F303 Discov
-ery\RTE" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include -IC:\Keil_v5\ARM\P
-ACK\Keil\STM32F3xx_DFP\1.3.0\Device\Include --predefine="__MICROLIB SETA 1" --p
-redefine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --predefine="S
-TM32F303xC SETA 1" --list=startup_stm32f303xc.lst ..\..\Drivers\CMSIS\Device\ST
+rtup_stm32f303xc.o -I..\..\Inc -I"E:\Git\Instrulab_V2\V2\Projects\STM32F303 Dis
+covery\RTE" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\AR
+M\PACK\Keil\STM32F3xx_DFP\1.3.0\Device\Include --predefine="__MICROLIB SETA 1" 
+--predefine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --predefine
+="STM32F303xC SETA 1" --list=startup_stm32f303xc.lst ..\..\Drivers\CMSIS\Device
 
 
 
 ARM Macro Assembler    Page 11 
 
 
-\STM32F3xx\Source\Templates\arm\startup_stm32f303xc.s
+\ST\STM32F3xx\Source\Templates\arm\startup_stm32f303xc.s
 
 
 

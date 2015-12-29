@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Timers;
 using ZedGraph;
+using System.IO;
 
 namespace InstruLab
 {
@@ -145,6 +146,8 @@ namespace InstruLab
             zedGraphControl_scope.MasterPane[0].XAxis.MajorGrid.IsVisible = true;
             zedGraphControl_scope.MasterPane[0].XAxis.Title.IsVisible = false;
 
+            zedGraphControl_scope.IsEnableZoom = false;
+
             zedGraphControl_scope.MasterPane[0].YAxis.MajorGrid.IsVisible = true;
             zedGraphControl_scope.MasterPane[0].YAxis.Title.IsVisible = false;
             this.device = dev;
@@ -159,6 +162,7 @@ namespace InstruLab
 
             this.toolStripMenuItem_XY_plot.Enabled = false;
 
+            this.Text = "Scope - (" + device.get_port() + ") " + device.get_name(); 
 
             validate_radio_btns();
             validate_menu();
@@ -177,6 +181,8 @@ namespace InstruLab
             
             Thread.Sleep(10);
             scope_start();
+
+      
         }
 
         private void Zed_update(object sender, ElapsedEventArgs e)
@@ -334,9 +340,6 @@ namespace InstruLab
                 set_trigger_level(triggerLevel);
                 last_trigger_level = triggerLevel;
             }
-
-
-
 
 
             if (update)
@@ -856,6 +859,13 @@ namespace InstruLab
 
         }
 
+
+        public void reset_volt_set() {
+            gain = new double[5] { 1, 1, 1, 1, 1 };
+            offset = new int[5] { 0, 0, 0, 0, 0 };
+            this.trackBar_vol_level.Value = 500;
+            redrawVolt();
+        }
 
 
         //
@@ -1729,10 +1739,7 @@ namespace InstruLab
 
         private void button_volt_reset_all_Click(object sender, EventArgs e)
         {
-            gain = new double[5] { 1, 1, 1, 1, 1 };
-            offset = new int[5] { 0, 0, 0, 0, 0 };
-            this.trackBar_vol_level.Value = 500;
-            redrawVolt();
+            reset_volt_set();
         }
 
         private void radioButton_ver_cur_off_CheckedChanged(object sender, EventArgs e)
@@ -2461,6 +2468,16 @@ namespace InstruLab
             measValid = !measValid;
         }
 
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            meas.clearMeasurements();
+            this.label_meas1.Text = "";
+            this.label_meas2.Text = "";
+            this.label_meas3.Text = "";
+            this.label_meas4.Text = "";
+            this.label_meas5.Text = "";
+        }
+
         private void toolStripMenuItem_XY_plot_Click(object sender, EventArgs e)
         {
             if (this.toolStripMenuItem_XY_plot.Enabled)
@@ -2543,6 +2560,110 @@ namespace InstruLab
                 radioButton_hor_cur_off.Checked = true;
             }
         }
+
+        private void saveSignalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            zedGraphControl_scope.SaveAsBitmap();
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            StreamWriter signalWriter;
+            SaveFileDialog saveSignal = new SaveFileDialog();
+
+                        // Set filter options and filter index.
+            saveSignal.Filter = "CSV Files (.csv)|*.csv|Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            saveSignal.FilterIndex=1;
+            saveSignal.FileName = "signal_1";
+ 
+            // Call the ShowDialog method to show the dialog box.
+            bool done = false;
+            while (!done)
+            {
+                DialogResult userClickedOK = saveSignal.ShowDialog();
+                if (userClickedOK.Equals(DialogResult.OK))
+                {
+                    if (File.Exists(saveSignal.FileName))
+                    {
+                        try
+                        {
+                            File.Delete(saveSignal.FileName);
+                            done = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Cannot overwrite selected file \r\n", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            saveSignal.FileName = "signal_1";
+                            continue;
+                        }
+
+                    }
+                    else
+                    {
+                        done = true;
+                    }
+                }
+                else {
+                    done = true;
+                }
+            }
+
+
+            
+                signalWriter = File.AppendText(saveSignal.FileName);
+                string tmp;
+                char separator=';';
+
+                switch(actualCahnnels){
+                    case 1:
+                        signalWriter.WriteLine("time" + separator + "signal1");
+                        break;
+                    case 2:
+                        signalWriter.WriteLine("time" + separator + "signal1" + separator + "signal2");
+                        break;
+                    case 3:
+                        signalWriter.WriteLine("time" + separator + "signal1" + separator + "signal2" + separator + "signal3");
+                        break;
+                    case 4:
+                        signalWriter.WriteLine("time" + separator + "signal1" + separator + "signal2" + separator + "signal3" + separator + "signal4");
+                        break;
+                }
+
+                for(int i=0;i<signal_ch1.Length;i++){
+
+                    tmp = device.scopeCfg.timeBase[i].ToString();
+
+                    
+                    if(actualCahnnels>=1){
+                        tmp += separator + signal_ch1[i].ToString();
+                    }
+                    if(actualCahnnels>=2){
+                        tmp += separator + signal_ch2[i].ToString();
+                    }
+                    if(actualCahnnels>=3){
+                        tmp += separator + signal_ch3[i].ToString();
+                    }
+                    if(actualCahnnels>=4){
+                        tmp += separator + signal_ch4[i].ToString();
+                    }
+                    signalWriter.WriteLine(tmp);
+                }
+
+                signalWriter.Close();
+        }
+
+        private void exitOscilloscopeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void label_reset_Click(object sender, EventArgs e)
+        {
+            reset_volt_set();
+        }
+
+
+
 
 
 

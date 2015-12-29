@@ -47,6 +47,11 @@ namespace InstruLab
             }
         }
 
+        public void clearMeasurements()
+        {
+            measurements.Clear();
+        }
+
         public string getMeas(int index) {
             return this.measStrings[index];
         }
@@ -89,6 +94,8 @@ namespace InstruLab
                 int periods = 0;
                 double frq = 0;
                 double LP = samples[ch, 0];
+                int totalUp = 0;
+                int totalDown = 0;
                 if (samples[ch, 0] < center) {
                     below = true;
                 }
@@ -148,6 +155,9 @@ namespace InstruLab
                             frq += (double)samplingFreq / (up + down);
                         }
                         state -= 4;
+
+                        totalUp += up;
+                        totalDown += down;
                         up = 0;
                         down = 0;
                     }
@@ -157,13 +167,13 @@ namespace InstruLab
                 {
                     Freq[ch] = frq / periods;
                     Period[ch] = 1 / Freq[ch];
-                    //High[ch] = Math.Round((double)totalhigh / (totalhigh + totallow), 3);
+                    High[ch] = Math.Round((double)totalUp / (totalUp + totalDown), 3);
                 }
                 else
                 {
                     Freq[ch] = Double.PositiveInfinity;
                     Period[ch] = Double.PositiveInfinity;
-                    //High[ch] = Math.Round((double)totalhigh / (totalhigh + totallow), 3);
+                    High[ch] = Math.Round((double)totalUp / (totalUp + totalDown), 3);
                 }
                 calcTime[ch] = true;
             }

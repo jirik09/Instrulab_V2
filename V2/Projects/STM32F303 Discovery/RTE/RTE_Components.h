@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Component Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'Instrulab_F303_discovery' 
+ * Project: 'Instrulab_F303_Discovery' 
  * Target:  'Instrulab - F303 Discovery' 
  */
 

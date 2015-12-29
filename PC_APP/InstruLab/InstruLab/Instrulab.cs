@@ -27,7 +27,7 @@ namespace InstruLab
             comm_th = new Thread(new ThreadStart(comms.run));
             comm_th.Priority = System.Threading.ThreadPriority.Highest;
             comm_th.Start();
-            GUITimer = new System.Timers.Timer(50);
+            GUITimer = new System.Timers.Timer(100);
             GUITimer.Elapsed += new ElapsedEventHandler(Update_GUI);
             
         }
@@ -36,6 +36,7 @@ namespace InstruLab
         private void Update_GUI(object sender, ElapsedEventArgs e)
         {
             this.Invalidate();
+            //Console.WriteLine("inst update");
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -45,6 +46,7 @@ namespace InstruLab
                 case Comms_thread.CommsStates.FINDING:
                     this.toolStripProgressBar.Value = comms.get_progress();
                     this.toolStripStatusLabel.Text = "Searching in progress";
+                    this.listBox_devices.Items.Clear();
                     break;
                 case Comms_thread.CommsStates.NO_DEV_FOUND:
                     this.toolStripProgressBar.Value = 0;
@@ -69,11 +71,14 @@ namespace InstruLab
                 case Comms_thread.CommsStates.CONNECTED:
                     this.toolStripProgressBar.Value = 0;
                     this.toolStripStatusLabel.Text = "Connected to "+ comms.get_connected_device_port();
+
+                    this.Text = "Instrulab - (" + comms.get_connected_device_port()+") "+comms.get_connected_device().get_name(); 
+
                     this.btn_scope_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_connect.Text = "Disconnect";
                     this.btn_scan.Enabled = false;
-                    GUITimer.Stop();
+                    //GUITimer.Stop();
 
                     string tmpStr = "";
                     
@@ -124,10 +129,10 @@ namespace InstruLab
                         tmpStr = "";
                         for (int i = 0; i < comms.get_connected_device().genCfg.numChannels; i++)
                         {
-                            tmpStr += comms.get_connected_device().genCfg.pins[i] + ",";
+                            tmpStr += comms.get_connected_device().genCfg.pins[i] + ", ";
                         }
                         tmpStr = tmpStr.Replace("_", "");
-                        this.label_gen_pins.Text = tmpStr.Substring(0, tmpStr.Length - 1);
+                        this.label_gen_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);
                     }
 
                     if (comms.get_connected_device().scopeCfg.isScope)
@@ -154,13 +159,14 @@ namespace InstruLab
                         tmpStr = "";
                         for (int i = 0; i < comms.get_connected_device().scopeCfg.maxNumChannels; i++)
                         {
-                            tmpStr += comms.get_connected_device().scopeCfg.pins[i] + ",";
+                            tmpStr += comms.get_connected_device().scopeCfg.pins[i] + ", ";
                         }
                         tmpStr = tmpStr.Replace("_", "");
-                        this.label_scope_pins.Text = tmpStr.Substring(0, tmpStr.Length - 1);
+                        this.label_scope_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);
                     }
                     break;
                 case Comms_thread.CommsStates.DISCONNECTED:
+                    this.Text = "Instrulab";
                     this.btn_connect.Text = "Connect";
                     this.toolStripStatusLabel.Text = "Device was disconnected";
                     this.label_device.Text = "No device connected";
@@ -192,6 +198,10 @@ namespace InstruLab
                     break;
                 case Comms_thread.CommsStates.ERROR:
                     this.toolStripStatusLabel.Text = "Some error ocured";
+                    this.listBox_devices.Items.Clear();
+                    comms.disconnect_device();
+                    MessageBox.Show("Connection with device was lost\r\n", "Serial port error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+         
                     break;
             }
         }
@@ -271,6 +281,13 @@ namespace InstruLab
                 GUITimer.Start();
                 this.Invalidate();
             }
+        }
+
+
+
+        public void clearList() { 
+        
+        
         }
     }
 }

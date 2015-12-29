@@ -43,6 +43,11 @@ namespace InstruLab
                             break;
                     }
                 }
+                if (connectedDevice!=null && connectedDevice.isPortError())
+                {
+                    Console.WriteLine("do pici");
+                    commState = CommsStates.ERROR;
+                }
                 Thread.Sleep(10);
             }
         }
@@ -68,13 +73,16 @@ namespace InstruLab
                 serialPort.ReadBufferSize = 128 * 1024;
                 serialPort.BaudRate = 115200;
 
-                foreach (string s in SerialPort.GetPortNames())
+                string[] devList = SerialPort.GetPortNames();
+                string[] uniqueDevList = devList.Distinct().ToArray();
+
+                foreach (string s in uniqueDevList)
                 {
                     numberOfPorts++;
                 }
 
                 int counter = 0;
-                foreach (string serial in SerialPort.GetPortNames())
+                foreach (string serial in uniqueDevList)
                 {
                     counter++;
                     progress = (counter * 100) / numberOfPorts;
@@ -145,7 +153,7 @@ namespace InstruLab
             int i = 0;
             foreach (Device d in devices)
             {
-                result[i] = d.get_port()+":"+d.get_name();
+                result[i] = d.get_port()+": "+d.get_name();
                 i++;
             }
             this.commState = CommsStates.DEVICES_READ; //access from different thread (can cause some issue:( )
@@ -184,7 +192,8 @@ namespace InstruLab
         }
 
         public void disconnect_device() {
-            
+
+            connectedDevice.close_gen();
             connectedDevice.close_scope();
             connectedDevice.close_port();
             this.commState = CommsStates.DISCONNECTED;

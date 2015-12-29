@@ -206,7 +206,7 @@ void DACUnsetOutputBuffer(void){
   */
 void GeneratingEnable (void){
 	MX_DAC_Init();
-	//DACEnableOutput();
+	DACEnableOutput();
 	TIMGenEnable();
 }
 
@@ -216,8 +216,10 @@ void GeneratingEnable (void){
   * @retval None
   */
 void GeneratingDisable (void){
-	//DACDisableOutput();
-	TIMGenDisable();	
+	TIMGenDisable();
+	HAL_DAC_Stop(&hdac,DAC_CHANNEL_1);
+	HAL_DAC_Stop(&hdac,DAC_CHANNEL_2);
+	DACDisableOutput();	
 }
 
 /* USER CODE END 1 */

@@ -88,6 +88,9 @@ namespace InstruLab
         static Semaphore commsSemaphore = new Semaphore(1,1);  // Dostupná kapacita=1; Celková=1
         static Semaphore logSemaphore = new Semaphore(1, 1);  // Dostupná kapacita=1; Celková=1
 
+        private int semaphoreTakenBy = 0;
+        private bool portError = false;
+
 
         public Device(string portName, string name, int speed)
         {
@@ -117,9 +120,15 @@ namespace InstruLab
             {
                 logTextNL("PORT zavřen: " + this.portName);
                 logWriter.Close();
-
-                port.Close();
-                port.Dispose();
+                try
+                {
+                    port.Close();
+                    port.Dispose();
+                }
+                catch(Exception  ex){
+                //do nothing
+                }
+                
             }
         }
 
@@ -128,6 +137,7 @@ namespace InstruLab
             bool result = false;
             try
             {
+                portError = false;
                 this.port = new SerialPort();
                 this.port.PortName = portName;
                 this.port.ReadBufferSize = 128*1024;
@@ -136,7 +146,7 @@ namespace InstruLab
                 load_config();
                 port.Close();
                 port.ReadTimeout = 10000;
-                port.WriteTimeout = 5000;
+                port.WriteTimeout = 1000;
                 port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort_DataReceived);
                 port.ErrorReceived += new System.IO.Ports.SerialErrorReceivedEventHandler(this.serialPort_ErrorReceived);
                 port.Open();
@@ -175,6 +185,12 @@ namespace InstruLab
                 }
             }
             return result;
+        }
+
+
+        public bool is_open()
+        {
+            return this.port.IsOpen;
         }
 
         public void load_config()
@@ -560,6 +576,7 @@ namespace InstruLab
             if (!result) {
                 throw new Exception("Unable to take semaphore");
             }
+            semaphoreTakenBy = ms;
             return result;
         }
 
@@ -572,10 +589,11 @@ namespace InstruLab
         {
             try
             {
-                port.Write(s);
+                    port.Write(s);
 
-                //   if (!s.Equals("OSCP:SRAT")) {
-                logSend(s);
+                    //   if (!s.Equals("OSCP:SRAT")) {
+                    logSend(s);
+                
                 // }
                 //  Console.WriteLine(s);
             }
@@ -583,93 +601,176 @@ namespace InstruLab
             {
                 if (writeLog) { logTextNL("Data se nepodařilo odeslat:\r\n" + ex); }
                 Console.WriteLine(ex);
+                portError = true;
             }
         }
 
-        public void send_short_2byte(int l)
+        public bool isPortError() {
+            if (portError)
+            {
+                portError = false;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        public bool send_short_2byte(int l)
         {
-            byte[] bt = BitConverter.GetBytes(l);
-            byte[] se = new byte[2];
-            se[0] = bt[0];
-            se[1] = bt[1];
-            logText(l.ToString("D4") + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
-            port.Write(bt, 0, 2);
+            try
+            {
+                byte[] bt = BitConverter.GetBytes(l);
+                byte[] se = new byte[2];
+                se[0] = bt[0];
+                se[1] = bt[1];
+                logText(l.ToString("D4") + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
+                port.Write(bt, 0, 2);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (writeLog) { logTextNL("Data se nepodařilo odeslat:\r\n" + ex); }
+                Console.WriteLine(ex);
+                portError = true;
+                return false;
+            }
             // Console.WriteLine(l.ToString());
         }
 
 
         public void send_short(int l)
         {
-            byte[] bt = BitConverter.GetBytes(l);
-            byte[] se = new byte[4];
-            se[0] = 0;
-            se[1] = 0;
-            se[2] = bt[0];
-            se[3] = bt[1];
-            logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
-            port.Write(bt, 0, 4);
+            try
+            {
+                byte[] bt = BitConverter.GetBytes(l);
+                byte[] se = new byte[4];
+                se[0] = 0;
+                se[1] = 0;
+                se[2] = bt[0];
+                se[3] = bt[1];
+                logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
+                port.Write(bt, 0, 4);
+            }
+            catch (Exception ex)
+            {
+                if (writeLog) { logTextNL("Data se nepodařilo odeslat:\r\n" + ex); }
+                Console.WriteLine(ex);
+                portError = true;
+            }
            // Console.WriteLine(l.ToString());
         }
 
         public void send_int(int l)
         {
-            byte[] bt = BitConverter.GetBytes(l);
-            byte[] se = new byte[4];
+            try
+            {
+                byte[] bt = BitConverter.GetBytes(l);
+                byte[] se = new byte[4];
 
-            se[0] = bt[0];
-            se[1] = bt[1];
-            se[2] = bt[2];
-            se[3] = bt[3];
-            logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
-            port.Write(se, 0, 4);
-           // Console.WriteLine(l.ToString());
+                se[0] = bt[0];
+                se[1] = bt[1];
+                se[2] = bt[2];
+                se[3] = bt[3];
+                logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
+                port.Write(se, 0, 4);
+            }
+            catch (Exception ex)
+            {
+                if (writeLog) { logTextNL("Data se nepodařilo odeslat:\r\n" + ex); }
+                Console.WriteLine(ex);
+                portError = true;
+            }
+            // Console.WriteLine(l.ToString());
         }
 
         public void Log(string logMessage)
         {
-            logSemaphore.WaitOne(1000);
-            logWriter.Write("\r\nLog Entry : ");
-            logWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-            DateTime.Now.ToLongDateString());
-            logWriter.WriteLine("  :{0}", logMessage);
-            logWriter.WriteLine("-------------------------------");
-            logSemaphore.Release();
+            try
+            {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write("\r\nLog Entry : ");
+                logWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                DateTime.Now.ToLongDateString());
+                logWriter.WriteLine("  :{0}", logMessage);
+                logWriter.WriteLine("-------------------------------");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void LogEnd()
         {
-            logSemaphore.WaitOne(1000);
-            logWriter.WriteLine("Konec logu");
-            logWriter.WriteLine("-------------------------------");
-            logWriter.WriteLine("\r\n\r\n\r\n");
-            logSemaphore.Release();
+            try
+            {
+                logSemaphore.WaitOne(1000);
+                logWriter.WriteLine("Konec logu");
+                logWriter.WriteLine("-------------------------------");
+                logWriter.WriteLine("\r\n\r\n\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void logSend(string s)
         {
-            logSemaphore.WaitOne(1000);
-            logWriter.Write("Send (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
-            logSemaphore.Release();
+            try
+            {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write("Send (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
+
         public void logRecieved(string s)
         {
-            logSemaphore.WaitOne(1000);
-            logWriter.Write("Recieved (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
-            logSemaphore.Release();
+            try
+            {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write("Recieved (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void logTextNL(string s)
         {
-            logSemaphore.WaitOne(1000);
-            logWriter.Write(s+"\r\n");
-            logSemaphore.Release();
+            try
+            {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write(s + "\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex) { 
+                
+            }
         }
 
         public void logText(string s)
         {
-            logSemaphore.WaitOne(1000);
-            logWriter.Write(s + ", ");
-            logSemaphore.Release();
+            try
+            {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write(s + ", ");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public string getErrReason(int err)
@@ -706,9 +807,11 @@ namespace InstruLab
                     break;
                 case 102:
                     result = "Gen - Writing data out of memory";
+                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_ERR));
                     break;
                 case 103:
                     result = "Gen - Buffer size error";
+                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_ERR));
                     break;
                 case 104:
                     result = "Gen - Missing data";
