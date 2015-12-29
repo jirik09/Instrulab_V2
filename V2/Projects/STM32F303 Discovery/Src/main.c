@@ -96,6 +96,7 @@ int main(void)
   MX_ADC3_Init();
 	MX_ADC4_Init();
 	MX_TIM3_Init();
+	CalibrateADC();
 	#endif //USE_SCOPE
 
 	#ifdef USE_GEN

@@ -48,19 +48,16 @@
 
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
-//ADC_HandleTypeDef hadc3;
-//ADC_HandleTypeDef hadc4;
 DMA_HandleTypeDef hdma_adc1;
 DMA_HandleTypeDef hdma_adc2;
-//DMA_HandleTypeDef hdma_adc3;
-//DMA_HandleTypeDef hdma_adc4;
+
 
 
 static int ADC12_CLK_ENABLED=0;
 
-
 //uint16_t Data[3][32];
 uint32_t ADCResolution=ADC_RESOLUTION12b;
+uint32_t ADCSamplingTime=ADC_SAMPLETIME_1CYCLE_5;
 
 /* ADC1 init function */
 void MX_ADC1_Init(void)
@@ -71,7 +68,7 @@ void MX_ADC1_Init(void)
     /**Common config 
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV2;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV1;
   hadc1.Init.Resolution = ADCResolution;
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
@@ -91,7 +88,7 @@ void MX_ADC1_Init(void)
   sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = 1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  sConfig.SamplingTime = ADCSamplingTime;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   HAL_ADC_ConfigChannel(&hadc1, &sConfig);
@@ -106,7 +103,7 @@ void MX_ADC2_Init(void)
     /**Common config 
     */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV2;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV1;
   hadc2.Init.Resolution = ADCResolution;
   hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc2.Init.ContinuousConvMode = DISABLE;
@@ -120,17 +117,21 @@ void MX_ADC2_Init(void)
   hadc2.Init.LowPowerAutoWait = DISABLE;
   hadc2.Init.Overrun = OVR_DATA_OVERWRITTEN;
   HAL_ADC_Init(&hadc2);
+	
+	
 
     /**Configure Regular Channel 
     */
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = 1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  sConfig.SamplingTime = ADCSamplingTime;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   HAL_ADC_ConfigChannel(&hadc2, &sConfig);
+
 }
+
 
 
 void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
@@ -146,6 +147,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     ADC12_CLK_ENABLED++;
     if(ADC12_CLK_ENABLED==1){
       __ADC12_CLK_ENABLE();
+			__HAL_RCC_ADC12_CONFIG(RCC_ADC12PLLCLK_DIV1);
     }
   
     /**ADC1 GPIO Configuration    
@@ -188,6 +190,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     ADC12_CLK_ENABLED++;
     if(ADC12_CLK_ENABLED==1){
       __ADC12_CLK_ENABLE();
+			__HAL_RCC_ADC12_CONFIG(RCC_ADC12PLLCLK_DIV1);
     }
   
     /**ADC2 GPIO Configuration    
@@ -221,6 +224,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 
   /* USER CODE END ADC2_MspInit 1 */
   }
+
 }
 
 void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
@@ -260,7 +264,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     }
   
     /**ADC2 GPIO Configuration    
-    PA4     ------> ADC2_IN1 
+    PA4     ------> ADC2_IN1
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4);
 
@@ -283,15 +287,16 @@ void ADC_DMA_Reconfig(uint8_t chan, uint32_t *buff, uint32_t len){
 		case 1:
 			adcHandler=hadc2;
 		break;
-//		case 2:
-//			adcHandler=hadc3;
-//		break;
-//		case 3:
-//			adcHandler=hadc4;
-//		break;
 	}
-	HAL_ADC_Stop_DMA(&adcHandler);
-	HAL_ADC_Start_DMA(&adcHandler, buff, len);
+	
+	if(buff!=NULL && len!=0){
+		HAL_ADC_Start_DMA(&adcHandler, buff, len);
+	}
+}
+
+void ADC_DMA_Stop(void){
+	HAL_ADC_Stop_DMA(&hadc1);
+	HAL_ADC_Stop_DMA(&hadc2);
 }
 
 /**
@@ -310,14 +315,58 @@ uint16_t DMA_GetCurrDataCounter(uint8_t channel){
 		case 2:
 			adcHandler=hadc2;
 		break;
-//		case 3:
-//			adcHandler=hadc3;
-//		break;
-//		case 4:
-//			adcHandler=hadc4;
-//		break;
+
 	}
   return adcHandler.DMA_Handle->Instance->CNDTR;
+}
+
+/**
+  * @brief  This function will estimate maximum time to connect sampling capacitor to reduce equivalen current
+  * @param  None
+  * @retval None
+  */
+void ADC_set_sampling_time(uint32_t realfreq){
+	uint8_t ADCRes;
+	uint32_t cyclesForConversion;
+	switch(ADCResolution){
+		case ADC_RESOLUTION12b:
+			ADCRes=12;
+			break;
+		case ADC_RESOLUTION10b:
+			ADCRes=10;
+			break;
+		case ADC_RESOLUTION8b:
+			ADCRes=8;
+			break;
+		case ADC_RESOLUTION6b:
+			ADCRes=6;
+			break;
+	}
+	
+	cyclesForConversion=HAL_RCC_GetPCLK2Freq()/realfreq-ADCRes-1;
+	if(cyclesForConversion>=601){
+		ADCSamplingTime=ADC_SAMPLETIME_601CYCLES_5;
+	}else if(cyclesForConversion>=181){
+		ADCSamplingTime=ADC_SAMPLETIME_181CYCLES_5;
+	}else if(cyclesForConversion>=61){
+		ADCSamplingTime=ADC_SAMPLETIME_61CYCLES_5;
+	}else if(cyclesForConversion>=19){
+		ADCSamplingTime=ADC_SAMPLETIME_19CYCLES_5;
+	}else if(cyclesForConversion>=7){
+		ADCSamplingTime=ADC_SAMPLETIME_7CYCLES_5;
+	}else if(cyclesForConversion>=4){
+		ADCSamplingTime=ADC_SAMPLETIME_4CYCLES_5;
+	}else if(cyclesForConversion>=2){
+		ADCSamplingTime=ADC_SAMPLETIME_2CYCLES_5;
+	}else {
+		ADCSamplingTime=ADC_SAMPLETIME_1CYCLE_5;
+	}	
+	
+	HAL_ADC_Stop_DMA(&hadc1);
+	
+	MX_ADC1_Init();
+  MX_ADC2_Init();
+	
 }
 
 /**
@@ -343,8 +392,6 @@ void adcSetResolution (uint8_t res){
 	samplingDisable();
 	HAL_ADC_Stop_DMA(&hadc1);
 	HAL_ADC_Stop_DMA(&hadc2);
-//	HAL_ADC_Stop_DMA(&hadc3);
-//	HAL_ADC_Stop_DMA(&hadc4);
 	if(res==8){
 		ADCResolution	= ADC_RESOLUTION8b;
 	}else if(res==12){
@@ -355,19 +402,20 @@ void adcSetResolution (uint8_t res){
 	
 	HAL_ADC_DeInit(&hadc1);
 	HAL_ADC_DeInit(&hadc2);
-//	HAL_ADC_DeInit(&hadc3);
-//	HAL_ADC_DeInit(&hadc4);
 	
 	HAL_DMA_DeInit(&hdma_adc1);
 	HAL_DMA_DeInit(&hdma_adc2);
-//	HAL_DMA_DeInit(&hdma_adc3);
-//	HAL_DMA_DeInit(&hdma_adc4);
 	
 	MX_ADC1_Init();
   MX_ADC2_Init();
-//  MX_ADC3_Init();
-//	MX_ADC4_Init();
-} 
+}
+
+
+void CalibrateADC (void){
+	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+	HAL_ADCEx_Calibration_Start(&hadc2, ADC_SINGLE_ENDED);
+}
+
 /* USER CODE END 1 */
 
 /**

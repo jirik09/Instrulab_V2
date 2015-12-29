@@ -13,6 +13,7 @@
 *.uvg*
 
 desktop.ini
+logfile*.txt
 
 
 #runable files

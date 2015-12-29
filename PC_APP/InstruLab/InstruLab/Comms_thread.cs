@@ -37,9 +37,7 @@ namespace InstruLab
                     {
                         case Message.MsgRequest.FIND_DEVICES:
                             clearListOfDevices();
-                            find_devices(9600,0.33,0);
-                            find_devices(115200, 0.33, 0.33);
-                            find_devices(230400, 0.33, 0.66);
+                            find_devices(115200, 1, 0);
                             break;
                         case Message.MsgRequest.CONNECT_DEVICE:
                             connect_device(messg.GetMessage());

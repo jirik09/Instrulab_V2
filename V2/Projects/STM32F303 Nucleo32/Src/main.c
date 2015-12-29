@@ -90,13 +90,11 @@ int main(void)
   MX_GPIO_Init();
 	LED_On();
   MX_DMA_Init();
-	__SYSCFG_CLK_ENABLE();
 	#ifdef USE_SCOPE
   MX_ADC1_Init();
   MX_ADC2_Init();
-//  MX_ADC3_Init();
-//	MX_ADC4_Init();
 	MX_TIM3_Init();
+	CalibrateADC();
 	#endif //USE_SCOPE
 
 
@@ -115,9 +113,9 @@ int main(void)
 
   /* Init code generated for FreeRTOS */
   /* Create Start thread */
-	osThreadDef(CMD_PARSER_TASK, CmdParserTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+	osThreadDef(CMD_PARSER_TASK, CmdParserTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(USER_TASK, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-	osThreadDef(COMM_TASK, CommTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+	osThreadDef(COMM_TASK, CommTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#ifdef USE_SCOPE
 	osThreadDef(SCOPE_TASK, ScopeTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
 	osThreadDef(SCOPE_TRIG_TASK, ScopeTriggerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);

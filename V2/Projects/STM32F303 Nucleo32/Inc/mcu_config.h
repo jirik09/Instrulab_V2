@@ -20,7 +20,7 @@
 #define MCU "STM32F303K8"
 
 // Communication constatnts ===================================================
-#define COMM_BUFFER_SIZE 96
+#define COMM_BUFFER_SIZE 256
 #define UART_SPEED 115200
 
 #define USART_TX_PIN_STR "PA2_" //must be 4 chars
@@ -30,10 +30,10 @@
 #define USB_DM_PIN_STR "----" //must be 4 chars
 
 // Scope constatnts ===================================================
-#define MAX_SAMPLING_FREQ 5000000 //smps
+#define MAX_SAMPLING_FREQ 4000000 //smps
 #define MAX_ADC_CHANNELS 2
 
-#define MAX_SCOPE_BUFF_SIZE 4000 //in bytes
+#define MAX_SCOPE_BUFF_SIZE 2000 //in bytes
 #define SCOPE_BUFFER_MARGIN 50
 
 #define SCOPE_CH1_PIN_STR "A2__" //must be 4 chars
@@ -63,6 +63,10 @@
 
 #define GEN_CH1_PIN_STR "A4__" //must be 4 chars
 #define GEN_CH2_PIN_STR "A5__" //must be 4 chars
+
+
+//Definition of assert to check length of strings
+#define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}
 
 
 

@@ -217,12 +217,12 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
 void DAC_DMA_Reconfig(uint8_t chan, uint32_t *buff, uint32_t len){
 	uint32_t dacChannel=0;
 	switch(chan){
-		case 1:
+		case 0:
 			dacChannel=DAC_CHANNEL_1;
 			HAL_DAC_Stop_DMA(&hdac2,dacChannel);
 			HAL_DAC_Start_DMA(&hdac2, dacChannel, buff, len, DAC_ALIGN_12B_R);
 		break;
-		case 0:
+		case 1:
 			dacChannel=DAC_CHANNEL_2;
 			HAL_DAC_Stop_DMA(&hdac1,dacChannel);
 			HAL_DAC_Start_DMA(&hdac1, dacChannel, buff, len, DAC_ALIGN_12B_R);
@@ -248,11 +248,11 @@ void DACEnableOutput(void){
 }
 
 void DACSetOutputBuffer(void){
-//	outputBuffEn=DAC_OUTPUTBUFFER_ENABLE;
+//	outputBuffEn=DAC_OUTPUTBUFFER_DISABLE; //Swaped in F303K8 why?
 }
 
 void DACUnsetOutputBuffer(void){
-//	outputBuffEn=DAC_OUTPUTBUFFER_DISABLE;
+//	outputBuffEn=DAC_OUTPUTBUFFER_ENABLE; //swaped in F303K8 why?
 }
 
 
@@ -265,7 +265,7 @@ void DACUnsetOutputBuffer(void){
 void GeneratingEnable (void){
 	MX_DAC1_Init();
 	MX_DAC2_Init();
-//	DACEnableOutput();
+	DACEnableOutput();
 	TIMGenEnable();
 }
 
@@ -275,8 +275,10 @@ void GeneratingEnable (void){
   * @retval None
   */
 void GeneratingDisable (void){
-//	DACDisableOutput();
-	TIMGenDisable();	
+	TIMGenDisable();
+	HAL_DAC_Stop(&hdac1,DAC_CHANNEL_2);
+	HAL_DAC_Stop(&hdac2,DAC_CHANNEL_1);
+	DACDisableOutput();	
 }
 
 /* USER CODE END 1 */

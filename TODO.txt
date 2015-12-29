@@ -1,6 +1,4 @@
 TODO Obecne
-- syscfg clk en dat do hal msp
-- pin config vyhodit z mcu config
 
 
 Generator
@@ -10,21 +8,21 @@ Generator
 
 Scope
 - prepinani rozsahu (ukladani do flash)
-- nastavit dobu odberu vzorku podle vzorkovaci frekvence  (done on F3-disco)
-- dodelat tralcitko max vzorkovaci frekvence  (done on F3-disco)
+- OK nastavit dobu odberu vzorku podle vzorkovaci frekvence  (done on F3-disco)
+- OK dodelat tralcitko max vzorkovaci frekvence  (done on F3-disco)
 - dodelat volbu kanalu ADC a pinu
 
 
 Aplikace
 - generator nastaveni duty meni oba parametry   (Nepodarilo se reprodukovat)
-- zobrazovat com port v nazvu okna
+- OK zobrazovat com port v nazvu okna
 
 
 
 Obecne
 OK - Bug - generator kanal 2 generuje i kdyz neni zapnut (vypnout DMA)
-Bug 00d - aplikace nezobrazuje posledni cislo nazvu pinu (f303 discovery je napsano PB1 misto PB12)
-Bug 00c - pokud se zmeni vzorkovani behem odesilani tak se spatne vypocita X osa 
+OK - Bug 00d - aplikace nezobrazuje posledni cislo nazvu pinu (f303 discovery je napsano PB1 misto PB12)
+OK - Bug 00c - pokud se zmeni vzorkovani behem odesilani tak se spatne vypocita X osa 
 OK - Bug 00d - USB led by mela svitit i kdyz usb neni pripojeno (najit kde je pripojena - pravdepodobne to zpusobila zmena v gpio.c)
 OK - Bug 00a - Zmena frekvence pri odesilani dat vyvola chybu (internal prefix 1DataReady se dostane ven)
 OK - Bug 00b - pokuf je v datech strednik tak gen vyhodi chybu E999

@@ -636,6 +636,13 @@ void adcSetResolution (uint8_t res){
   MX_ADC3_Init();
 	MX_ADC4_Init();
 } 
+
+void CalibrateADC (void){
+	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+	HAL_ADCEx_Calibration_Start(&hadc2, ADC_SINGLE_ENDED);
+	HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
+	HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
+}
 /* USER CODE END 1 */
 
 /**
