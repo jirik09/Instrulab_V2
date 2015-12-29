@@ -73,7 +73,6 @@ static void StartThread(void const * argument);
 
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -89,6 +88,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+	
 	LED_On();
 	#ifdef USE_SCOPE
   MX_ADC1_Init();
@@ -96,10 +96,7 @@ int main(void)
   MX_ADC3_Init();
 	MX_ADC4_Init();
 	MX_TIM3_Init();
-	CalibrateADC();
 	#endif //USE_SCOPE
-
-
 
 	#ifdef USE_GEN
 	MX_DAC_Init();

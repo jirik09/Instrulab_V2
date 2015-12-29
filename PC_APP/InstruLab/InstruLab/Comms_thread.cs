@@ -36,7 +36,10 @@ namespace InstruLab
                     switch (messg.GetRequest())
                     {
                         case Message.MsgRequest.FIND_DEVICES:
-                            find_devices();
+                            clearListOfDevices();
+                            find_devices(9600,0.33,0);
+                            find_devices(115200, 0.33, 0.33);
+                            find_devices(230400, 0.33, 0.66);
                             break;
                         case Message.MsgRequest.CONNECT_DEVICE:
                             connect_device(messg.GetMessage());
@@ -45,7 +48,6 @@ namespace InstruLab
                 }
                 if (connectedDevice!=null && connectedDevice.isPortError())
                 {
-                    Console.WriteLine("do pici");
                     commState = CommsStates.ERROR;
                 }
                 Thread.Sleep(10);
@@ -60,18 +62,17 @@ namespace InstruLab
 
 
         // nalezne vsechna pripojena zarizeni a da je do listu
-        public void find_devices()
+        public void find_devices(int speed, double mull, double offset)
         {
             this.commState = CommsStates.FINDING;
-            devices.Clear();
-
+           
             numberOfPorts = 0;
 
             if (!connected)
             {
                 serialPort = new SerialPort();
                 serialPort.ReadBufferSize = 128 * 1024;
-                serialPort.BaudRate = 115200;
+                serialPort.BaudRate = speed;
 
                 string[] devList = SerialPort.GetPortNames();
                 string[] uniqueDevList = devList.Distinct().ToArray();
@@ -85,7 +86,7 @@ namespace InstruLab
                 foreach (string serial in uniqueDevList)
                 {
                     counter++;
-                    progress = (counter * 100) / numberOfPorts;
+                    progress = (int)((double)counter  * 100 / numberOfPorts*mull + offset*100);
                     try
                     {
                         Thread.Yield();
@@ -106,7 +107,18 @@ namespace InstruLab
                         Thread.Yield();
                         if (msgInput.Equals(Commands.ACKNOWLEDGE))
                         {
-                            devices.Add(new Device(serialPort.PortName, deviceName, serialPort.BaudRate));
+                            bool inList=false;
+                            Device newDevice = new Device(serialPort.PortName, deviceName, serialPort.BaudRate);
+                            foreach (var item in devices)
+                            {
+                                if (item.Equals(newDevice)) {
+                                    inList = true;
+                                }
+                            }
+                            if (!inList)
+                            {
+                                devices.Add(new Device(serialPort.PortName, deviceName, serialPort.BaudRate));
+                            }
                         }
                         serialPort.Close();
                         serialPort.Dispose();
@@ -130,6 +142,11 @@ namespace InstruLab
                 }
                 
             }
+        }
+
+        public void clearListOfDevices()
+        {
+            devices.Clear();
         }
 
         public CommsStates get_comms_state() {

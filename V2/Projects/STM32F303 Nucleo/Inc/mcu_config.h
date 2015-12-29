@@ -21,7 +21,7 @@
 
 // Communication constatnts ===================================================
 #define COMM_BUFFER_SIZE 512
-#define UART_SPEED 115200
+#define UART_SPEED 230400
 
 #define USART_GPIO GPIOA
 #define USART_TX GPIO_PIN_2
@@ -33,7 +33,7 @@
 #define USB_DM_PIN_STR "PA11" //must be 4 chars
 
 // Scope constatnts ===================================================
-#define MAX_SAMPLING_FREQ 5000000 //smps
+#define MAX_SAMPLING_FREQ 4000000 //smps
 #define MAX_ADC_CHANNELS 4
 
 #define MAX_SCOPE_BUFF_SIZE 50000 //in bytes
@@ -65,9 +65,11 @@
 #define GEN_VREF 3300
 
 #define GEN_CH1_PIN_STR "A2__" //must be 4 chars
-#define GEN_CH2_PIN_STR "D13_" //must be 4 chars
+#define GEN_CH2_PIN_STR "D12_" //must be 4 chars
 
 
 
+//Definition of assert to check length of strings
+#define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}
 
 #endif /* STM32F4_CONFIG_H_ */

@@ -583,6 +583,14 @@ namespace InstruLab
                     case Message.MsgRequest.SCOPE_NEW_DATA:
                         status_text = "";
                         //meas.calculateMeasurements(device.scopeCfg.samples, device.scopeCfg.ranges[1, selectedRange], device.scopeCfg.ranges[0, selectedRange], device.scopeCfg.actualChannels, device.scopeCfg.sampligFreq, device.scopeCfg.timeBase.Length,device.scopeCfg.actualRes);
+                        if (processSignal_th!=null && processSignal_th.IsAlive)
+                        {
+                            processSignal_th.Join();
+                        }
+                        if (calcSignal_th!=null && calcSignal_th.IsAlive)
+                        {
+                            calcSignal_th.Join();
+                        }
                         calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, device.scopeCfg.ranges[1, selectedRange], device.scopeCfg.ranges[0, selectedRange], device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length,device.scopeCfg.actualRes));
                         calcSignal_th.Start();
                         processSignal_th = new Thread(process_signals);

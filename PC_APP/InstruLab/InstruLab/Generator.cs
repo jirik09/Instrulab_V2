@@ -215,6 +215,7 @@ namespace InstruLab
                     case Message.MsgRequest.GEN_ERR:
                         generating = false;
                         sending = false;
+                        gen_stop();
                         this.Invalidate();
                         break;
 

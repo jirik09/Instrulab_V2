@@ -52,14 +52,18 @@ TIM_HandleTypeDef htim7;
 /* TIM3 init function */
 void MX_TIM3_Init(void)
 {
+  TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim_scope.Instance = TIM3;
-  htim_scope.Init.Prescaler = 2;
+  htim_scope.Init.Prescaler = 0;
   htim_scope.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim_scope.Init.Period = 2048;
+  htim_scope.Init.Period = 0;
   htim_scope.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_Base_Init(&htim_scope);
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  HAL_TIM_ConfigClockSource(&htim_scope, &sClockSourceConfig);
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
@@ -171,7 +175,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 
   /* USER CODE END TIM3_MspDeInit 0 */
     /* Peripheral clock disable */
- /////   __TIM3_CLK_DISABLE();
+    __TIM3_CLK_DISABLE();
   /* USER CODE BEGIN TIM3_MspDeInit 1 */
 
   /* USER CODE END TIM3_MspDeInit 1 */
@@ -268,10 +272,10 @@ uint8_t TIM_Reconfig(uint32_t samplingFreq,TIM_HandleTypeDef* htim_base,uint32_t
 	}
 	if(realFreq!=0){
 		*realFreq=HAL_RCC_GetPCLK2Freq()/((prescaler+1)*(autoReloadReg+1));
-		if(*realFreq>MAX_SAMPLING_FREQ && autoReloadReg<0xffff){
-			autoReloadReg++;
-			*realFreq=HAL_RCC_GetPCLK2Freq()/((prescaler+1)*(autoReloadReg+1));
-		}
+//		if(*realFreq>MAX_SAMPLING_FREQ && autoReloadReg<0xffff){
+//			autoReloadReg++;
+//			*realFreq=HAL_RCC_GetPCLK2Freq()/((prescaler+1)*(autoReloadReg+1));
+//		}
 	}
 	htim_base->Init.Period = autoReloadReg;
   htim_base->Init.Prescaler = prescaler;
@@ -288,8 +292,14 @@ void TIMScopeEnable(){
 void TIMScopeDisable(){
 	HAL_TIM_Base_Stop(&htim_scope);
 }	
-
-
+uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes){
+	if(ADCRes==12){
+		return 4800000;
+	}else if(ADCRes==8){
+		return 6000000;
+	}
+	return HAL_RCC_GetPCLK2Freq()/(ADCRes+2);
+}
 #endif //USE_SCOPE
 
 

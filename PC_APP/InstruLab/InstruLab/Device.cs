@@ -100,6 +100,16 @@ namespace InstruLab
             this.speed = speed;
         }
 
+        public bool Equals(Device dev)
+        {
+            if (dev.portName.Equals(this.portName) && dev.name.Equals(this.name))
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         public string get_processor()
         {
             return this.mcu;
@@ -804,6 +814,7 @@ namespace InstruLab
                     break;
                 case 101:
                     result = "Gen - Invalid state";
+                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_ERR));
                     break;
                 case 102:
                     result = "Gen - Writing data out of memory";

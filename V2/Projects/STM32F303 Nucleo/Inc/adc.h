@@ -60,7 +60,9 @@ void MX_ADC3_Init(void);
 void MX_ADC4_Init(void);
 
 uint16_t DMA_GetCurrDataCounter(uint8_t channel);
-void ADC_DMA_Reconfig(uint8_t chan, uint32_t *buff, uint32_t len);	
+void ADC_DMA_Reconfig(uint8_t chan, uint32_t *buff, uint32_t len);
+void ADC_DMA_Stop(void);
+void ADC_set_sampling_time(uint32_t realfreq);
 void samplingEnable(void);
 void samplingDisable(void);
 void adcSetResolution (uint8_t res);

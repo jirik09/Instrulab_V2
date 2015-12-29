@@ -37,7 +37,6 @@
 
 #ifdef USE_GEN
 #include "dac.h"
-
 #include "gpio.h"
 #include "tim.h"
 
@@ -54,6 +53,7 @@ uint32_t outputBuffEn=DAC_OUTPUTBUFFER_ENABLE;
 /* DAC init function */
 void MX_DAC_Init(void)
 {
+
   DAC_ChannelConfTypeDef sConfig;
 
     /**DAC Initialization 
@@ -69,10 +69,9 @@ void MX_DAC_Init(void)
 
     /**DAC channel OUT2 config 
     */
-  
-	sConfig.DAC_Trigger = DAC_TRIGGER_T7_TRGO;
-  sConfig.DAC_OutputBuffer = outputBuffEn;
-	HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2);
+  sConfig.DAC_Trigger = DAC_TRIGGER_T7_TRGO;
+  HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2);
+
 }
 
 void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
@@ -86,9 +85,11 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
   /* USER CODE END DAC1_MspInit 0 */
     /* Peripheral clock enable */
     __DAC1_CLK_ENABLE();
+		
   
     /**DAC1 GPIO Configuration    
-    PA4     ------> DAC1_OUT1 
+    PA4     ------> DAC_OUT1
+    PA5     ------> DAC_OUT2 
     */
     GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -106,10 +107,10 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
     hdma_dac1_ch1.Init.Mode = DMA_CIRCULAR;
     hdma_dac1_ch1.Init.Priority = DMA_PRIORITY_HIGH;
 		HAL_DMA_Init(&hdma_dac1_ch1);
-
+    __HAL_LINKDMA(hdac,DMA_Handle1,hdma_dac1_ch1);
     __HAL_REMAPDMA_CHANNEL_ENABLE(HAL_REMAPDMA_TIM6_DAC1_CH1_DMA1_CH3);
 
-    __HAL_LINKDMA(hdac,DMA_Handle1,hdma_dac1_ch1);
+
 		
 		
 		hdma_dac1_ch2.Instance = DMA1_Channel4;
@@ -121,10 +122,10 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
     hdma_dac1_ch2.Init.Mode = DMA_CIRCULAR;
     hdma_dac1_ch2.Init.Priority = DMA_PRIORITY_HIGH;
 		HAL_DMA_Init(&hdma_dac1_ch2);
-
+    __HAL_LINKDMA(hdac,DMA_Handle2,hdma_dac1_ch2);
     __HAL_REMAPDMA_CHANNEL_ENABLE(HAL_REMAPDMA_TIM7_DAC1_CH2_DMA1_CH4);
 
-    __HAL_LINKDMA(hdac,DMA_Handle2,hdma_dac1_ch2);
+
 
   /* USER CODE END DAC_MspInit 1 */
   }
@@ -133,24 +134,28 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
 void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
 {
 
-  if(hdac->Instance==DAC1)
+  if(hdac->Instance==DAC)
   {
-  /* USER CODE BEGIN DAC1_MspDeInit 0 */
+  /* USER CODE BEGIN DAC_MspDeInit 0 */
 
-  /* USER CODE END DAC1_MspDeInit 0 */
+  /* USER CODE END DAC_MspDeInit 0 */
     /* Peripheral clock disable */
     __DAC1_CLK_DISABLE();
   
-    /**DAC1 GPIO Configuration    
-    PA4     ------> DAC1_OUT1 
+    /**DAC GPIO Configuration    
+    PA4     ------> DAC_OUT1
+    PA5     ------> DAC_OUT2 
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4);
-		HAL_GPIO_DeInit(GPIOA, GPIO_PIN_5);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4|GPIO_PIN_5);
 
     /* Peripheral DMA DeInit*/
     HAL_DMA_DeInit(hdac->DMA_Handle1);
-		HAL_DMA_DeInit(hdac->DMA_Handle2);
+    HAL_DMA_DeInit(hdac->DMA_Handle2);
   }
+  /* USER CODE BEGIN DAC_MspDeInit 1 */
+
+  /* USER CODE END DAC_MspDeInit 1 */
+
 } 
 
 /* USER CODE BEGIN 1 */
@@ -211,8 +216,10 @@ void GeneratingEnable (void){
   * @retval None
   */
 void GeneratingDisable (void){
-	DACDisableOutput();
-	TIMGenDisable();	
+	TIMGenDisable();
+	HAL_DAC_Stop(&hdac,DAC_CHANNEL_1);
+	HAL_DAC_Stop(&hdac,DAC_CHANNEL_2);
+	DACDisableOutput();	
 }
 
 /* USER CODE END 1 */

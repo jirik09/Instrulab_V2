@@ -560,3 +560,3341 @@ System.IO.IOException: A device attached to the system is not functioning.
    at System.IO.Ports.SerialStream.Write(Byte[] array, Int32 offset, Int32 count, Int32 timeout)
    at System.IO.Ports.SerialPort.Write(String text)
    at InstruLa
+Log Entry : 16:52:27 úterý 29. prosince 2015
+  :PORT otevřen: COM5  Baudrate:115200  Zařízení:STM32F3-Discovery
+-------------------------------
+Send (52:45.401): GEN_:LCH1 
+20(0x00001400)
+Send (52:45.402): ;
+Send (52:45.403): GEN_:LCH2 
+20(0x00001400)
+Send (52:45.403): ;
+Send (52:45.403): GEN_:CHAN 2CH_;
+Send (52:45.404): GEN_:FREQ 
+512001(0x01D00700)
+Send (52:45.404): ;
+Send (52:45.405): GEN_:FREQ 
+512002(0x02D00700)
+Send (52:45.405): ;
+Příjem dat: 20
+Recieved (52:45.408): ACK
+Recieved (52:45.410): ACK
+Recieved (52:45.411): ACK
+Recieved (52:45.411): ACK
+Recieved (52:45.412): ACK
+Send (52:45.434): GEN_:DATA 
+18087936(0x00001401)
+Send (52:45.434): :
+2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), Send (52:45.440): ;
+Příjem dat: 4
+Recieved (52:45.440): NEXT
+Recieved (52:45.441): ACK
+Send (52:45.450): GEN_:DATA 
+34865152(0x00001402)
+Send (52:45.451): :
+2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), 2048(0x0008), Send (52:45.454): ;
+Příjem dat: 4
+Recieved (52:45.454): NEXT
+Recieved (52:45.455): ACK
+Send (52:45.462): GEN_:FRQ?;
+Příjem dat: 24
+Recieved (52:45.463): GEN_FRQ?CH_ CH208
+Recieved (52:45.463): GEN_FRQ?CH_ CH208
+Recieved (52:45.463): ACK
+Send (52:45.488): GEN_:STRT;
+Příjem dat: 8
+Recieved (52:45.488): OK
+Recieved (52:45.498): ACK
+Send (52:45.575): GEN_:FREQ 
+512001(0x01D00700)
+Send (52:45.575): ;
+Příjem dat: 4
+Send (52:45.575): GEN_:FREQ 
+Recieved (52:45.576): ACK
+512002(0x02D00700)
+Send (52:45.576): ;
+Příjem dat: 4
+Send (52:45.576): GEN_:FRQ?;
+Recieved (52:45.576): ACK
+Recieved (52:45.619): GEN_FRQ?CH_ CH208
+Recieved (52:45.622): GEN_FRQ?CH_ CH208
+Recieved (52:45.625): ACK
+Send (52:47.833): OSCP:TRIG AUTO;
+Příjem dat: 4
+Recieved (52:47.833): ACK
+Send (52:47.834): OSCP:FREQ 1K__;
+Send (52:47.834): OSCP:EDGE RISE;
+Příjem dat: 4
+Recieved (52:47.834): ACK
+Příjem dat: 4
+Send (52:47.834): OSCP:LEVL 
+32768(0x00000080)
+Recieved (52:47.834): ACK
+Send (52:47.834): ;
+Příjem dat: 4
+Recieved (52:47.835): ACK
+Send (52:47.835): OSCP:PRET 
+32768(0x00000080)
+Send (52:47.835): ;
+Příjem dat: 4
+Recieved (52:47.835): ACK
+Send (52:47.835): OSCP:CHAN 1CH_;
+Send (52:47.836): OSCP:LENG 100_;
+Příjem dat: 4
+Recieved (52:47.836): ACK
+Send (52:47.836): OSCP:DATA 12B_;
+Příjem dat: 4
+Recieved (52:47.836): ACK
+Send (52:47.836): OSCP:TRCH 1CH_;
+Příjem dat: 8
+Recieved (52:47.838): ACK
+Recieved (52:47.838): ACK
+Send (52:47.868): OSCP:STRT;
+Příjem dat: 8
+Recieved (52:47.870): SMPL
+Recieved (52:47.878): ACK
+Příjem dat: 4
+Recieved (52:47.919): SMPL
+Příjem dat: 4
+Recieved (52:48.269): TRIG
+Příjem dat: 16
+Recieved (52:48.320): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 1 of 1
+Recieved (52:48.321): S_OK
+Send (52:48.438): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:48.439): ACK
+Příjem dat: 4
+Recieved (52:48.482): SMPL
+Příjem dat: 4
+Recieved (52:48.841): TRIG
+Příjem dat: 16
+Recieved (52:48.890): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 1 of 1
+Příjem dat: 4
+Recieved (52:48.890): S_OK
+Send (52:49.2): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:49.3): ACK
+Příjem dat: 4
+Recieved (52:49.53): SMPL
+Příjem dat: 4
+Recieved (52:49.391): TRIG
+Příjem dat: 16
+Recieved (52:49.454): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 1 of 1
+Recieved (52:49.454): S_OK
+Send (52:49.579): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:49.580): ACK
+Příjem dat: 4
+Recieved (52:49.631): SMPL
+Příjem dat: 4
+Recieved (52:49.981): TRIG
+Příjem dat: 16
+Recieved (52:50.31): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 1 of 1
+Příjem dat: 4
+Recieved (52:50.31): S_OK
+Send (52:50.141): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:50.142): ACK
+Příjem dat: 4
+Recieved (52:50.227): SMPL
+Příjem dat: 4
+Recieved (52:50.532): TRIG
+Příjem dat: 16
+Recieved (52:50.593): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 1 of 1
+Příjem dat: 4
+Recieved (52:50.593): S_OK
+Send (52:50.728): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:50.729): ACK
+Příjem dat: 4
+Recieved (52:50.779): SMPL
+Příjem dat: 4
+Recieved (52:51.129): TRIG
+Příjem dat: 16
+Recieved (52:51.179): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 1 of 1
+Recieved (52:51.180): S_OK
+Send (52:51.201): OSCP:CHAN 2CH_;
+Příjem dat: 4
+Recieved (52:51.201): ACK
+Send (52:51.298): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:51.300): ACK
+Příjem dat: 4
+Recieved (52:51.341): SMPL
+Příjem dat: 4
+Recieved (52:51.699): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (52:51.741): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (52:51.741): S_OK
+Send (52:51.859): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:51.860): ACK
+Příjem dat: 4
+Recieved (52:51.910): SMPL
+Příjem dat: 4
+Recieved (52:52.260): TRIG
+Příjem dat: 16
+Recieved (52:52.302): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:52.302): S_OK
+Send (52:52.434): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:52.435): ACK
+Příjem dat: 4
+Recieved (52:52.486): SMPL
+Příjem dat: 4
+Recieved (52:52.832): TRIG
+Příjem dat: 16
+Recieved (52:52.887): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:52.888): S_OK
+Send (52:53.4): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:53.6): ACK
+Příjem dat: 4
+Recieved (52:53.56): SMPL
+Příjem dat: 4
+Recieved (52:53.406): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (52:53.457): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:53.457): S_OK
+Send (52:53.565): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:53.566): ACK
+Příjem dat: 4
+Recieved (52:53.601): SMPL
+Příjem dat: 4
+Recieved (52:53.951): TRIG
+Příjem dat: 16
+Recieved (52:54.11): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:54.11): S_OK
+Send (52:54.148): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:54.151): ACK
+Příjem dat: 4
+Recieved (52:54.192): SMPL
+Příjem dat: 4
+Recieved (52:54.550): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (52:54.600): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (52:54.600): S_OK
+Send (52:54.708): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:54.709): ACK
+Příjem dat: 4
+Recieved (52:54.759): SMPL
+Příjem dat: 4
+Recieved (52:55.109): TRIG
+Příjem dat: 16
+Recieved (52:55.161): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:55.162): S_OK
+Send (52:55.271): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:55.271): ACK
+Příjem dat: 4
+Recieved (52:55.322): SMPL
+Příjem dat: 4
+Recieved (52:55.672): TRIG
+Příjem dat: 16
+Recieved (52:55.724): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:55.726): S_OK
+Send (52:55.829): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:55.830): ACK
+Příjem dat: 4
+Recieved (52:55.880): SMPL
+Příjem dat: 4
+Recieved (52:56.222): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (52:56.281): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (52:56.281): S_OK
+Send (52:56.390): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:56.391): ACK
+Příjem dat: 4
+Recieved (52:56.442): SMPL
+Příjem dat: 4
+Recieved (52:56.791): TRIG
+Příjem dat: 16
+Recieved (52:56.844): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:56.844): S_OK
+Send (52:56.981): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:56.981): ACK
+Příjem dat: 4
+Recieved (52:57.32): SMPL
+Příjem dat: 4
+Recieved (52:57.372): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (52:57.433): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:57.434): S_OK
+Send (52:57.549): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:57.549): ACK
+Příjem dat: 4
+Recieved (52:57.602): SMPL
+Příjem dat: 4
+Recieved (52:57.950): TRIG
+Příjem dat: 16
+Recieved (52:58.2): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:58.3): S_OK
+Send (52:58.113): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:58.114): ACK
+Příjem dat: 4
+Recieved (52:58.164): SMPL
+Příjem dat: 4
+Recieved (52:58.514): TRIG
+Příjem dat: 16
+Recieved (52:58.565): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:58.566): S_OK
+Send (52:58.678): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:58.678): ACK
+Příjem dat: 4
+Recieved (52:58.729): SMPL
+Příjem dat: 4
+Recieved (52:59.72): TRIG
+Příjem dat: 16
+Recieved (52:59.122): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:59.122): S_OK
+Send (52:59.240): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:59.241): ACK
+Příjem dat: 4
+Recieved (52:59.291): SMPL
+Příjem dat: 4
+Recieved (52:59.641): TRIG
+Příjem dat: 16
+Recieved (52:59.693): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (52:59.694): S_OK
+Send (52:59.800): OSCP:NEXT;
+Příjem dat: 4
+Recieved (52:59.800): ACK
+Příjem dat: 4
+Recieved (52:59.851): SMPL
+Příjem dat: 4
+Recieved (53:0.202): TRIG
+Příjem dat: 16
+Recieved (53:0.254): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:0.254): S_OK
+Send (53:0.360): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:0.361): ACK
+Příjem dat: 4
+Recieved (53:0.401): SMPL
+Příjem dat: 4
+Recieved (53:0.762): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:0.813): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:0.813): S_OK
+Send (53:0.938): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:0.939): ACK
+Příjem dat: 4
+Recieved (53:0.982): SMPL
+Příjem dat: 4
+Recieved (53:1.340): TRIG
+Příjem dat: 16
+Recieved (53:1.391): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:1.392): S_OK
+Příjem dat: 4
+Send (53:1.529): OSCP:NEXT;
+Recieved (53:1.529): ACK
+Příjem dat: 4
+Recieved (53:1.579): SMPL
+Příjem dat: 4
+Recieved (53:1.922): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:1.980): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:1.980): S_OK
+Send (53:2.102): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:2.103): ACK
+Příjem dat: 4
+Recieved (53:2.152): SMPL
+Příjem dat: 4
+Recieved (53:2.502): TRIG
+Příjem dat: 16
+Recieved (53:2.556): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:2.557): S_OK
+Send (53:2.668): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:2.668): ACK
+Příjem dat: 4
+Recieved (53:2.719): SMPL
+Příjem dat: 4
+Recieved (53:3.69): TRIG
+Příjem dat: 16
+Recieved (53:3.120): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:3.121): S_OK
+Send (53:3.237): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:3.238): ACK
+Příjem dat: 4
+Recieved (53:3.282): SMPL
+Příjem dat: 4
+Recieved (53:3.632): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:3.689): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:3.690): S_OK
+Send (53:3.801): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:3.802): ACK
+Příjem dat: 4
+Recieved (53:3.854): SMPL
+Příjem dat: 4
+Recieved (53:4.203): TRIG
+Příjem dat: 16
+Recieved (53:4.255): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:4.256): S_OK
+Send (53:4.378): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:4.378): ACK
+Příjem dat: 4
+Recieved (53:4.429): SMPL
+Příjem dat: 4
+Recieved (53:4.779): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:4.830): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:4.831): S_OK
+Send (53:4.938): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:4.939): ACK
+Příjem dat: 4
+Recieved (53:4.990): SMPL
+Příjem dat: 4
+Recieved (53:5.340): TRIG
+Příjem dat: 16
+Recieved (53:5.390): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:5.391): S_OK
+Send (53:5.517): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:5.518): ACK
+Příjem dat: 4
+Recieved (53:5.569): SMPL
+Příjem dat: 4
+Recieved (53:5.923): TRIG
+Příjem dat: 436
+Recieved (53:5.982): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:5.984): S_OK
+Send (53:6.98): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:6.99): ACK
+Příjem dat: 4
+Recieved (53:6.150): SMPL
+Příjem dat: 4
+Recieved (53:6.500): TRIG
+Příjem dat: 16
+Recieved (53:6.555): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:6.556): S_OK
+Send (53:6.658): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:6.659): ACK
+Příjem dat: 4
+Recieved (53:6.710): SMPL
+Příjem dat: 4
+Recieved (53:7.60): TRIG
+Příjem dat: 16
+Recieved (53:7.112): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:7.114): S_OK
+Send (53:7.228): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:7.229): ACK
+Příjem dat: 4
+Recieved (53:7.279): SMPL
+Příjem dat: 4
+Recieved (53:7.630): TRIG
+Příjem dat: 16
+Recieved (53:7.672): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:7.672): S_OK
+Send (53:7.789): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:7.790): ACK
+Příjem dat: 4
+Recieved (53:7.841): SMPL
+Příjem dat: 4
+Recieved (53:8.191): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:8.241): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:8.242): S_OK
+Send (53:8.346): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:8.347): ACK
+Příjem dat: 4
+Recieved (53:8.397): SMPL
+Příjem dat: 4
+Recieved (53:8.747): TRIG
+Příjem dat: 16
+Recieved (53:8.800): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:8.801): S_OK
+Send (53:8.924): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:8.926): ACK
+Příjem dat: 4
+Recieved (53:8.976): SMPL
+Příjem dat: 4
+Recieved (53:9.330): TRIG
+Příjem dat: 16
+Recieved (53:9.381): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:9.381): S_OK
+Send (53:9.489): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:9.491): ACK
+Příjem dat: 4
+Recieved (53:9.541): SMPL
+Příjem dat: 4
+Recieved (53:9.881): TRIG
+Příjem dat: 16
+Recieved (53:9.931): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:9.931): S_OK
+Send (53:10.51): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:10.51): ACK
+Příjem dat: 4
+Recieved (53:10.92): SMPL
+Příjem dat: 4
+Recieved (53:10.452): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:10.502): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:10.502): S_OK
+Send (53:10.620): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:10.621): ACK
+Příjem dat: 4
+Recieved (53:10.671): SMPL
+Příjem dat: 4
+Recieved (53:11.21): TRIG
+Příjem dat: 16
+Recieved (53:11.72): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:11.73): S_OK
+Send (53:11.189): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:11.190): ACK
+Příjem dat: 4
+Recieved (53:11.241): SMPL
+Příjem dat: 4
+Recieved (53:11.590): TRIG
+Příjem dat: 16
+Recieved (53:11.641): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:11.643): S_OK
+Send (53:11.765): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:11.766): ACK
+Příjem dat: 4
+Recieved (53:11.802): SMPL
+Příjem dat: 4
+Recieved (53:12.166): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:12.217): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:12.217): S_OK
+Send (53:12.330): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:12.331): ACK
+Příjem dat: 4
+Recieved (53:12.381): SMPL
+Send (53:12.703): OSCP:FREQ 5K__;
+Příjem dat: 4
+Recieved (53:12.705): ACK
+Příjem dat: 4
+Recieved (53:12.715): SMPL
+Příjem dat: 4
+Recieved (53:12.785): TRIG
+Příjem dat: 436
+Recieved (53:12.797): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:12.798): S_OK
+Send (53:12.906): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:12.907): ACK
+Příjem dat: 4
+Recieved (53:12.917): SMPL
+Příjem dat: 4
+Recieved (53:12.987): TRIG
+Příjem dat: 16
+Recieved (53:13.1): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:13.2): S_OK
+Send (53:13.113): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:13.114): ACK
+Příjem dat: 4
+Recieved (53:13.128): SMPL
+Příjem dat: 4
+Recieved (53:13.193): TRIG
+Příjem dat: 436
+Recieved (53:13.215): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:13.215): S_OK
+Send (53:13.342): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:13.343): ACK
+Příjem dat: 4
+Recieved (53:13.353): SMPL
+Příjem dat: 4
+Recieved (53:13.422): TRIG
+Příjem dat: 16
+Recieved (53:13.422): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:13.422): S_OK
+Send (53:13.550): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:13.550): ACK
+Příjem dat: 4
+Recieved (53:13.560): SMPL
+Příjem dat: 4
+Recieved (53:13.630): TRIG
+Příjem dat: 16
+Recieved (53:13.632): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:13.632): S_OK
+Send (53:13.759): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:13.759): ACK
+Příjem dat: 4
+Recieved (53:13.769): SMPL
+Příjem dat: 4
+Recieved (53:13.840): TRIG
+Příjem dat: 16
+Recieved (53:13.854): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:13.856): S_OK
+Send (53:13.959): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:13.959): ACK
+Příjem dat: 4
+Recieved (53:13.970): SMPL
+Příjem dat: 4
+Recieved (53:14.41): TRIG
+Příjem dat: 16
+Recieved (53:14.53): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:14.54): S_OK
+Send (53:14.163): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:14.164): ACK
+Příjem dat: 4
+Recieved (53:14.173): SMPL
+Příjem dat: 4
+Recieved (53:14.244): TRIG
+Příjem dat: 436
+Recieved (53:14.271): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:14.271): S_OK
+Send (53:14.390): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:14.391): ACK
+Příjem dat: 4
+Recieved (53:14.401): SMPL
+Příjem dat: 4
+Recieved (53:14.471): TRIG
+Příjem dat: 436
+Recieved (53:14.488): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:14.489): S_OK
+Send (53:14.603): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:14.603): ACK
+Příjem dat: 4
+Recieved (53:14.613): SMPL
+Příjem dat: 4
+Recieved (53:14.684): TRIG
+Příjem dat: 16
+Recieved (53:14.696): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:14.698): S_OK
+Send (53:14.816): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:14.816): ACK
+Příjem dat: 4
+Recieved (53:14.827): SMPL
+Příjem dat: 4
+Recieved (53:14.897): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:14.902): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:14.902): S_OK
+Send (53:15.37): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:15.37): ACK
+Příjem dat: 4
+Recieved (53:15.48): SMPL
+Příjem dat: 4
+Recieved (53:15.120): TRIG
+Příjem dat: 16
+Recieved (53:15.143): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:15.144): S_OK
+Send (53:15.247): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:15.247): ACK
+Příjem dat: 4
+Recieved (53:15.251): SMPL
+Příjem dat: 4
+Recieved (53:15.328): TRIG
+Příjem dat: 436
+Recieved (53:15.341): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:15.342): S_OK
+Send (53:15.474): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:15.474): ACK
+Příjem dat: 4
+Recieved (53:15.484): SMPL
+Příjem dat: 4
+Recieved (53:15.552): TRIG
+Příjem dat: 16
+Recieved (53:15.552): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:15.552): S_OK
+Send (53:15.688): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:15.690): ACK
+Příjem dat: 4
+Recieved (53:15.698): SMPL
+Příjem dat: 4
+Recieved (53:15.770): TRIG
+Příjem dat: 16
+Recieved (53:15.783): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:15.795): S_OK
+Send (53:15.903): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:15.904): ACK
+Příjem dat: 4
+Recieved (53:15.913): SMPL
+Příjem dat: 4
+Recieved (53:15.983): TRIG
+Příjem dat: 16
+Recieved (53:15.996): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:15.997): S_OK
+Send (53:16.110): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:16.111): ACK
+Příjem dat: 4
+Recieved (53:16.112): SMPL
+Příjem dat: 4
+Recieved (53:16.190): TRIG
+Příjem dat: 436
+Recieved (53:16.212): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:16.213): S_OK
+Send (53:16.324): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:16.324): ACK
+Příjem dat: 4
+Recieved (53:16.332): SMPL
+Příjem dat: 4
+Recieved (53:16.404): TRIG
+Příjem dat: 16
+Recieved (53:16.412): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:16.412): S_OK
+Send (53:16.559): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:16.560): ACK
+Příjem dat: 4
+Recieved (53:16.570): SMPL
+Příjem dat: 4
+Recieved (53:16.632): TRIG
+Příjem dat: 16
+Recieved (53:16.668): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:16.668): S_OK
+Send (53:16.783): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:16.783): ACK
+Příjem dat: 4
+Recieved (53:16.794): SMPL
+Příjem dat: 4
+Recieved (53:16.864): TRIG
+Příjem dat: 16
+Recieved (53:16.879): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:16.904): S_OK
+Send (53:17.9): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:17.10): ACK
+Příjem dat: 4
+Recieved (53:17.19): SMPL
+Příjem dat: 4
+Recieved (53:17.89): TRIG
+Recieved (53:17.115): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:17.119): S_OK
+Send (53:17.225): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:17.226): ACK
+Příjem dat: 4
+Recieved (53:17.236): SMPL
+Příjem dat: 4
+Recieved (53:17.306): TRIG
+Příjem dat: 436
+Recieved (53:17.322): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:17.323): S_OK
+Send (53:17.443): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:17.443): ACK
+Příjem dat: 4
+Recieved (53:17.454): SMPL
+Příjem dat: 4
+Recieved (53:17.523): TRIG
+Příjem dat: 232
+Recieved (53:17.535): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:17.535): S_OK
+Send (53:17.660): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:17.661): ACK
+Příjem dat: 4
+Recieved (53:17.671): SMPL
+Příjem dat: 4
+Recieved (53:17.742): TRIG
+Příjem dat: 16
+Recieved (53:17.754): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:17.755): S_OK
+Send (53:17.861): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:17.862): ACK
+Příjem dat: 4
+Recieved (53:17.872): SMPL
+Příjem dat: 4
+Recieved (53:17.942): TRIG
+Příjem dat: 16
+Recieved (53:17.954): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:17.955): S_OK
+Send (53:18.64): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:18.64): ACK
+Příjem dat: 4
+Recieved (53:18.74): SMPL
+Příjem dat: 4
+Recieved (53:18.131): TRIG
+Příjem dat: 436
+Recieved (53:18.159): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:18.159): S_OK
+Send (53:18.279): OSCP:NEXT;
+Příjem dat: 8
+Recieved (53:18.295): ACK
+Recieved (53:18.319): SMPL
+Příjem dat: 4
+Recieved (53:18.361): TRIG
+Příjem dat: 16
+Recieved (53:18.373): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:18.381): S_OK
+Send (53:18.488): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:18.488): ACK
+Příjem dat: 4
+Recieved (53:18.499): SMPL
+Příjem dat: 4
+Recieved (53:18.569): TRIG
+Příjem dat: 16
+Recieved (53:18.601): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:18.605): S_OK
+Send (53:18.708): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:18.709): ACK
+Příjem dat: 4
+Recieved (53:18.719): SMPL
+Příjem dat: 4
+Recieved (53:18.789): TRIG
+Příjem dat: 16
+Recieved (53:18.809): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:18.810): S_OK
+Send (53:18.918): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:18.918): ACK
+Příjem dat: 4
+Recieved (53:18.928): SMPL
+Příjem dat: 4
+Recieved (53:18.998): TRIG
+Příjem dat: 16
+Recieved (53:19.1): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:19.1): S_OK
+Send (53:19.138): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:19.141): ACK
+Příjem dat: 4
+Recieved (53:19.148): SMPL
+Příjem dat: 4
+Recieved (53:19.218): TRIG
+Příjem dat: 16
+Recieved (53:19.230): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:19.232): S_OK
+Send (53:19.348): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:19.349): ACK
+Příjem dat: 4
+Recieved (53:19.358): SMPL
+Příjem dat: 4
+Recieved (53:19.428): TRIG
+Příjem dat: 16
+Recieved (53:19.441): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:19.442): S_OK
+Send (53:19.547): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:19.548): ACK
+Příjem dat: 4
+Recieved (53:19.558): SMPL
+Příjem dat: 4
+Recieved (53:19.631): TRIG
+Příjem dat: 436
+Recieved (53:19.641): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:19.641): S_OK
+Send (53:19.761): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:19.761): ACK
+Příjem dat: 4
+Recieved (53:19.761): SMPL
+Příjem dat: 4
+Recieved (53:19.844): TRIG
+Příjem dat: 16
+Recieved (53:19.859): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:19.865): S_OK
+Send (53:20.36): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:20.37): ACK
+Příjem dat: 4
+Recieved (53:20.47): SMPL
+Příjem dat: 4
+Recieved (53:20.111): TRIG
+Příjem dat: 16
+Recieved (53:20.131): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:20.133): S_OK
+Send (53:20.253): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:20.254): ACK
+Příjem dat: 4
+Recieved (53:20.264): SMPL
+Příjem dat: 4
+Recieved (53:20.334): TRIG
+Příjem dat: 16
+Recieved (53:20.347): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:20.347): S_OK
+Send (53:20.456): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:20.456): ACK
+Příjem dat: 4
+Recieved (53:20.466): SMPL
+Příjem dat: 4
+Recieved (53:20.536): TRIG
+Příjem dat: 232
+Recieved (53:20.550): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:20.565): S_OK
+Send (53:20.670): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:20.671): ACK
+Příjem dat: 4
+Recieved (53:20.682): SMPL
+Příjem dat: 4
+Recieved (53:20.751): TRIG
+Příjem dat: 16
+Recieved (53:20.792): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:20.800): S_OK
+Send (53:20.943): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:20.943): ACK
+Příjem dat: 4
+Recieved (53:20.954): SMPL
+Příjem dat: 4
+Recieved (53:21.24): TRIG
+Příjem dat: 16
+Recieved (53:21.34): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:21.35): S_OK
+Send (53:21.167): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:21.167): ACK
+Příjem dat: 4
+Recieved (53:21.177): SMPL
+Příjem dat: 4
+Recieved (53:21.247): TRIG
+Příjem dat: 16
+Recieved (53:21.261): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:21.263): S_OK
+Send (53:21.392): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:21.393): ACK
+Příjem dat: 4
+Recieved (53:21.403): SMPL
+Příjem dat: 4
+Recieved (53:21.461): TRIG
+Příjem dat: 16
+Recieved (53:21.484): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:21.485): S_OK
+Send (53:21.596): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:21.597): ACK
+Příjem dat: 4
+Recieved (53:21.607): SMPL
+Příjem dat: 4
+Recieved (53:21.676): TRIG
+Příjem dat: 16
+Recieved (53:21.689): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:21.690): S_OK
+Send (53:21.810): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:21.811): ACK
+Příjem dat: 4
+Recieved (53:21.820): SMPL
+Příjem dat: 4
+Recieved (53:21.891): TRIG
+Příjem dat: 16
+Recieved (53:21.904): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:21.905): S_OK
+Send (53:22.20): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:22.20): ACK
+Příjem dat: 4
+Recieved (53:22.30): SMPL
+Příjem dat: 4
+Recieved (53:22.100): TRIG
+Příjem dat: 436
+Recieved (53:22.131): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:22.131): S_OK
+Send (53:22.245): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:22.246): ACK
+Příjem dat: 4
+Recieved (53:22.256): SMPL
+Příjem dat: 4
+Recieved (53:22.322): TRIG
+Příjem dat: 16
+Recieved (53:22.322): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:22.338): S_OK
+Send (53:22.459): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:22.459): ACK
+Příjem dat: 4
+Recieved (53:22.470): SMPL
+Příjem dat: 4
+Recieved (53:22.540): TRIG
+Příjem dat: 232
+Recieved (53:22.564): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:22.568): S_OK
+Send (53:22.678): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:22.679): ACK
+Příjem dat: 4
+Recieved (53:22.689): SMPL
+Příjem dat: 4
+Recieved (53:22.759): TRIG
+Příjem dat: 436
+Recieved (53:22.771): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:22.774): S_OK
+Send (53:22.879): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:22.880): ACK
+Příjem dat: 4
+Recieved (53:22.890): SMPL
+Příjem dat: 4
+Recieved (53:22.959): TRIG
+Příjem dat: 436
+Recieved (53:22.973): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:22.974): S_OK
+Send (53:23.88): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:23.89): ACK
+Příjem dat: 4
+Recieved (53:23.91): SMPL
+Příjem dat: 4
+Recieved (53:23.168): TRIG
+Příjem dat: 16
+Recieved (53:23.186): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:23.187): S_OK
+Send (53:23.309): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:23.311): ACK
+Příjem dat: 4
+Recieved (53:23.320): SMPL
+Příjem dat: 4
+Recieved (53:23.390): TRIG
+Příjem dat: 16
+Recieved (53:23.403): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:23.404): S_OK
+Send (53:23.519): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:23.520): ACK
+Příjem dat: 4
+Recieved (53:23.522): SMPL
+Příjem dat: 4
+Recieved (53:23.600): TRIG
+Příjem dat: 436
+Recieved (53:23.616): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:23.617): S_OK
+Send (53:23.722): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:23.722): ACK
+Příjem dat: 4
+Recieved (53:23.722): SMPL
+Příjem dat: 4
+Recieved (53:23.801): TRIG
+Příjem dat: 16
+Recieved (53:23.801): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:23.801): S_OK
+Send (53:23.938): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:23.939): ACK
+Příjem dat: 4
+Recieved (53:23.949): SMPL
+Příjem dat: 4
+Recieved (53:24.18): TRIG
+Příjem dat: 16
+Recieved (53:24.30): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:24.31): S_OK
+Send (53:24.149): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:24.152): ACK
+Příjem dat: 4
+Recieved (53:24.160): SMPL
+Příjem dat: 4
+Recieved (53:24.230): TRIG
+Příjem dat: 232
+Recieved (53:24.232): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:24.249): S_OK
+Send (53:24.365): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:24.366): ACK
+Příjem dat: 4
+Recieved (53:24.376): SMPL
+Příjem dat: 4
+Recieved (53:24.446): TRIG
+Příjem dat: 16
+Recieved (53:24.461): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:24.462): S_OK
+Send (53:24.568): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:24.574): ACK
+Příjem dat: 4
+Recieved (53:24.579): SMPL
+Příjem dat: 4
+Recieved (53:24.649): TRIG
+Příjem dat: 436
+Recieved (53:24.662): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:24.663): S_OK
+Send (53:24.778): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:24.780): ACK
+Příjem dat: 4
+Recieved (53:24.789): SMPL
+Příjem dat: 4
+Recieved (53:24.858): TRIG
+Příjem dat: 16
+Recieved (53:24.871): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:24.873): S_OK
+Send (53:24.996): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:24.997): ACK
+Příjem dat: 4
+Recieved (53:25.7): SMPL
+Příjem dat: 4
+Recieved (53:25.77): TRIG
+Příjem dat: 16
+Recieved (53:25.91): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:25.93): S_OK
+Send (53:25.219): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:25.220): ACK
+Příjem dat: 4
+Recieved (53:25.230): SMPL
+Příjem dat: 4
+Recieved (53:25.292): TRIG
+Příjem dat: 436
+Recieved (53:25.334): SCOPE DATA RECIEVED: Leng 200, Res 12, Chan 2 of 2
+Recieved (53:25.335): S_OK
+Send (53:25.366): OSCP:LENG 500_;
+Příjem dat: 4
+Recieved (53:25.366): ACK
+Send (53:25.440): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:25.441): ACK
+Příjem dat: 4
+Recieved (53:25.491): SMPL
+Příjem dat: 4
+Recieved (53:25.841): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:25.894): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:25.895): S_OK
+Send (53:26.1): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:26.2): ACK
+Příjem dat: 4
+Recieved (53:26.52): SMPL
+Příjem dat: 4
+Recieved (53:26.417): TRIG
+Příjem dat: 16
+Recieved (53:26.456): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:26.457): S_OK
+Send (53:26.569): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:26.571): ACK
+Příjem dat: 4
+Recieved (53:26.620): SMPL
+Příjem dat: 4
+Recieved (53:26.970): TRIG
+Příjem dat: 16
+Recieved (53:27.23): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:27.24): S_OK
+Send (53:27.128): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:27.128): ACK
+Příjem dat: 4
+Recieved (53:27.178): SMPL
+Příjem dat: 4
+Recieved (53:27.528): TRIG
+Příjem dat: 16
+Recieved (53:27.581): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:27.582): S_OK
+Send (53:27.694): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:27.694): ACK
+Příjem dat: 4
+Recieved (53:27.731): SMPL
+Příjem dat: 4
+Recieved (53:28.95): TRIG
+Příjem dat: 16
+Recieved (53:28.142): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:28.142): S_OK
+Send (53:28.277): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:28.278): ACK
+Příjem dat: 4
+Recieved (53:28.327): SMPL
+Příjem dat: 4
+Recieved (53:28.677): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:28.730): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:28.730): S_OK
+Send (53:28.833): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:28.834): ACK
+Příjem dat: 4
+Recieved (53:28.872): SMPL
+Příjem dat: 4
+Recieved (53:29.233): TRIG
+Příjem dat: 16
+Recieved (53:29.287): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:29.288): S_OK
+Send (53:29.410): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:29.412): ACK
+Příjem dat: 4
+Recieved (53:29.461): SMPL
+Příjem dat: 4
+Recieved (53:29.811): TRIG
+Příjem dat: 16
+Recieved (53:29.864): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:29.865): S_OK
+Send (53:29.972): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:29.973): ACK
+Příjem dat: 4
+Recieved (53:30.22): SMPL
+Příjem dat: 4
+Recieved (53:30.372): TRIG
+Příjem dat: 16
+Recieved (53:30.425): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:30.426): S_OK
+Send (53:30.575): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:30.576): ACK
+Příjem dat: 4
+Recieved (53:30.612): SMPL
+Příjem dat: 4
+Recieved (53:30.975): TRIG
+Příjem dat: 16
+Recieved (53:31.28): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:31.29): S_OK
+Send (53:31.165): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:31.166): ACK
+Příjem dat: 4
+Recieved (53:31.215): SMPL
+Příjem dat: 4
+Recieved (53:31.566): TRIG
+Příjem dat: 16
+Recieved (53:31.619): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:31.619): S_OK
+Send (53:31.721): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:31.721): ACK
+Příjem dat: 4
+Recieved (53:31.773): SMPL
+Příjem dat: 4
+Recieved (53:32.121): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:32.174): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:32.174): S_OK
+Send (53:32.285): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:32.286): ACK
+Příjem dat: 4
+Recieved (53:32.336): SMPL
+Příjem dat: 4
+Recieved (53:32.686): TRIG
+Příjem dat: 16
+Recieved (53:32.739): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:32.739): S_OK
+Send (53:32.841): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:32.841): ACK
+Příjem dat: 4
+Recieved (53:32.892): SMPL
+Příjem dat: 4
+Recieved (53:33.243): TRIG
+Příjem dat: 90
+Recieved (53:33.295): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:33.296): S_OK
+Send (53:33.409): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:33.409): ACK
+Příjem dat: 4
+Recieved (53:33.459): SMPL
+Příjem dat: 4
+Recieved (53:33.810): TRIG
+Příjem dat: 16
+Recieved (53:33.862): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:33.862): S_OK
+Send (53:33.970): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:33.971): ACK
+Příjem dat: 4
+Recieved (53:34.20): SMPL
+Příjem dat: 4
+Recieved (53:34.371): TRIG
+Příjem dat: 16
+Recieved (53:34.423): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:34.424): S_OK
+Send (53:34.533): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:34.534): ACK
+Příjem dat: 4
+Recieved (53:34.584): SMPL
+Příjem dat: 4
+Recieved (53:34.934): TRIG
+Příjem dat: 16
+Recieved (53:34.986): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:34.987): S_OK
+Send (53:35.95): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:35.95): ACK
+Příjem dat: 4
+Recieved (53:35.146): SMPL
+Příjem dat: 4
+Recieved (53:35.497): TRIG
+Příjem dat: 16
+Recieved (53:35.542): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:35.542): S_OK
+Send (53:35.661): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:35.662): ACK
+Příjem dat: 4
+Recieved (53:35.715): SMPL
+Příjem dat: 4
+Recieved (53:36.61): TRIG
+Příjem dat: 16
+Recieved (53:36.114): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:36.115): S_OK
+Send (53:36.224): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:36.224): ACK
+Příjem dat: 4
+Recieved (53:36.274): SMPL
+Příjem dat: 4
+Recieved (53:36.650): TRIG
+Příjem dat: 16
+Recieved (53:36.677): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:36.677): S_OK
+Send (53:36.802): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:36.803): ACK
+Příjem dat: 4
+Recieved (53:36.841): SMPL
+Příjem dat: 4
+Recieved (53:37.202): TRIG
+Příjem dat: 2036
+Recieved (53:37.257): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:37.257): S_OK
+Send (53:37.364): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:37.365): ACK
+Příjem dat: 4
+Recieved (53:37.415): SMPL
+Příjem dat: 4
+Recieved (53:37.764): TRIG
+Příjem dat: 2036
+Recieved (53:37.821): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:37.822): S_OK
+Send (53:37.928): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:37.929): ACK
+Příjem dat: 4
+Recieved (53:37.978): SMPL
+Příjem dat: 4
+Recieved (53:38.328): TRIG
+Příjem dat: 16
+Recieved (53:38.382): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:38.382): S_OK
+Send (53:38.504): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:38.505): ACK
+Příjem dat: 4
+Recieved (53:38.555): SMPL
+Příjem dat: 4
+Recieved (53:38.905): TRIG
+Příjem dat: 16
+Recieved (53:38.959): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:38.959): S_OK
+Send (53:39.82): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:39.83): ACK
+Příjem dat: 4
+Recieved (53:39.134): SMPL
+Příjem dat: 4
+Recieved (53:39.472): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:39.536): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:39.536): S_OK
+Send (53:39.659): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:39.659): ACK
+Příjem dat: 4
+Recieved (53:39.710): SMPL
+Příjem dat: 4
+Recieved (53:40.59): TRIG
+Příjem dat: 16
+Recieved (53:40.112): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:40.112): S_OK
+Send (53:40.220): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:40.221): ACK
+Příjem dat: 4
+Recieved (53:40.271): SMPL
+Příjem dat: 4
+Recieved (53:40.621): TRIG
+Příjem dat: 16
+Recieved (53:40.674): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:40.675): S_OK
+Send (53:40.786): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:40.787): ACK
+Příjem dat: 4
+Recieved (53:40.822): SMPL
+Příjem dat: 4
+Recieved (53:41.191): TRIG
+Příjem dat: 16
+Recieved (53:41.241): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:41.244): S_OK
+Send (53:41.352): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:41.352): ACK
+Příjem dat: 4
+Recieved (53:41.403): SMPL
+Příjem dat: 4
+Recieved (53:41.752): TRIG
+Příjem dat: 2036
+Recieved (53:41.818): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:41.822): S_OK
+Send (53:41.927): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:41.928): ACK
+Příjem dat: 4
+Recieved (53:41.978): SMPL
+Příjem dat: 4
+Recieved (53:42.328): TRIG
+Příjem dat: 16
+Recieved (53:42.380): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:42.381): S_OK
+Send (53:42.502): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:42.503): ACK
+Příjem dat: 4
+Recieved (53:42.553): SMPL
+Příjem dat: 4
+Recieved (53:42.891): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:42.942): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:42.942): S_OK
+Send (53:43.59): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:43.60): ACK
+Příjem dat: 4
+Recieved (53:43.110): SMPL
+Příjem dat: 4
+Recieved (53:43.460): TRIG
+Příjem dat: 16
+Recieved (53:43.513): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:43.513): S_OK
+Send (53:43.626): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:43.627): ACK
+Příjem dat: 4
+Recieved (53:43.677): SMPL
+Příjem dat: 4
+Recieved (53:44.21): TRIG
+Příjem dat: 1032
+Recieved (53:44.81): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:44.81): S_OK
+Send (53:44.196): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:44.197): ACK
+Příjem dat: 4
+Recieved (53:44.242): SMPL
+Příjem dat: 4
+Recieved (53:44.591): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:44.649): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:44.650): S_OK
+Send (53:44.751): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:44.751): ACK
+Příjem dat: 4
+Recieved (53:44.802): SMPL
+Příjem dat: 4
+Recieved (53:45.156): TRIG
+Příjem dat: 16
+Recieved (53:45.205): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:45.205): S_OK
+Send (53:45.317): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:45.318): ACK
+Příjem dat: 4
+Recieved (53:45.367): SMPL
+Příjem dat: 4
+Recieved (53:45.718): TRIG
+Příjem dat: 16
+Recieved (53:45.762): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:45.762): S_OK
+Send (53:45.882): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:45.883): ACK
+Příjem dat: 4
+Recieved (53:45.942): SMPL
+Příjem dat: 4
+Recieved (53:46.272): TRIG
+Příjem dat: 44
+Recieved (53:46.338): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:46.341): S_OK
+Send (53:46.458): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:46.459): ACK
+Příjem dat: 4
+Recieved (53:46.515): SMPL
+Příjem dat: 4
+Recieved (53:46.859): TRIG
+Příjem dat: 2036
+Recieved (53:46.916): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:46.918): S_OK
+Send (53:47.56): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:47.57): ACK
+Příjem dat: 4
+Recieved (53:47.107): SMPL
+Příjem dat: 4
+Recieved (53:47.452): TRIG
+Příjem dat: 16
+Recieved (53:47.509): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:47.510): S_OK
+Send (53:47.618): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:47.619): ACK
+Příjem dat: 4
+Recieved (53:47.668): SMPL
+Příjem dat: 4
+Recieved (53:48.19): TRIG
+Příjem dat: 16
+Recieved (53:48.62): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:48.62): S_OK
+Send (53:48.191): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:48.192): ACK
+Příjem dat: 4
+Recieved (53:48.231): SMPL
+Příjem dat: 4
+Recieved (53:48.592): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:48.642): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:48.642): S_OK
+Send (53:48.769): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:48.770): ACK
+Příjem dat: 4
+Recieved (53:48.820): SMPL
+Příjem dat: 4
+Recieved (53:49.170): TRIG
+Příjem dat: 16
+Recieved (53:49.223): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:49.223): S_OK
+Send (53:49.347): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:49.347): ACK
+Příjem dat: 4
+Recieved (53:49.404): SMPL
+Příjem dat: 4
+Recieved (53:49.748): TRIG
+Příjem dat: 16
+Recieved (53:49.801): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:49.801): S_OK
+Send (53:49.922): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:49.922): ACK
+Příjem dat: 4
+Recieved (53:49.973): SMPL
+Příjem dat: 4
+Recieved (53:50.322): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:50.375): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:50.375): S_OK
+Send (53:50.488): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:50.498): ACK
+Příjem dat: 4
+Recieved (53:50.532): SMPL
+Příjem dat: 4
+Recieved (53:50.888): TRIG
+Příjem dat: 16
+Recieved (53:50.941): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:50.942): S_OK
+Send (53:51.61): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:51.62): ACK
+Příjem dat: 4
+Recieved (53:51.112): SMPL
+Příjem dat: 4
+Recieved (53:51.462): TRIG
+Příjem dat: 16
+Recieved (53:51.512): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:51.512): S_OK
+Send (53:51.632): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:51.645): ACK
+Příjem dat: 4
+Recieved (53:51.682): SMPL
+Příjem dat: 4
+Recieved (53:52.32): TRIG
+Příjem dat: 16
+Recieved (53:52.86): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:52.86): S_OK
+Send (53:52.189): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:52.189): ACK
+Příjem dat: 4
+Recieved (53:52.243): SMPL
+Příjem dat: 4
+Recieved (53:52.589): TRIG
+Příjem dat: 16
+Recieved (53:52.642): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:52.642): S_OK
+Send (53:52.752): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:52.753): ACK
+Příjem dat: 4
+Recieved (53:52.792): SMPL
+Příjem dat: 4
+Recieved (53:53.153): TRIG
+Příjem dat: 16
+Recieved (53:53.202): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:53.202): S_OK
+Send (53:53.320): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:53.320): ACK
+Příjem dat: 4
+Recieved (53:53.371): SMPL
+Příjem dat: 4
+Recieved (53:53.712): TRIG
+Příjem dat: 2036
+Recieved (53:53.776): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:53.780): S_OK
+Send (53:53.885): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:53.886): ACK
+Příjem dat: 4
+Recieved (53:53.935): SMPL
+Příjem dat: 4
+Recieved (53:54.286): TRIG
+Příjem dat: 16
+Recieved (53:54.338): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:54.343): S_OK
+Send (53:54.455): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:54.455): ACK
+Příjem dat: 4
+Recieved (53:54.505): SMPL
+Příjem dat: 4
+Recieved (53:54.852): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:54.908): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:54.908): S_OK
+Send (53:55.16): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:55.17): ACK
+Příjem dat: 4
+Recieved (53:55.52): SMPL
+Příjem dat: 4
+Recieved (53:55.417): TRIG
+Příjem dat: 16
+Recieved (53:55.470): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:55.470): S_OK
+Send (53:55.572): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:55.573): ACK
+Příjem dat: 4
+Recieved (53:55.622): SMPL
+Příjem dat: 4
+Recieved (53:55.971): TRIG
+Příjem dat: 16
+Recieved (53:56.25): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:56.25): S_OK
+Send (53:56.129): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:56.130): ACK
+Příjem dat: 4
+Recieved (53:56.179): SMPL
+Příjem dat: 4
+Recieved (53:56.522): TRIG
+Příjem dat: 16
+Recieved (53:56.582): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:56.582): S_OK
+Send (53:56.691): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:56.692): ACK
+Příjem dat: 4
+Recieved (53:56.742): SMPL
+Příjem dat: 4
+Recieved (53:57.92): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:57.145): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:57.145): S_OK
+Send (53:57.251): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:57.252): ACK
+Příjem dat: 4
+Recieved (53:57.302): SMPL
+Příjem dat: 4
+Recieved (53:57.651): TRIG
+Příjem dat: 16
+Recieved (53:57.702): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:57.702): S_OK
+Send (53:57.831): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:57.832): ACK
+Příjem dat: 4
+Recieved (53:57.881): SMPL
+Příjem dat: 4
+Recieved (53:58.231): TRIG
+Příjem dat: 16
+Recieved (53:58.284): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:58.284): S_OK
+Send (53:58.396): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:58.397): ACK
+Příjem dat: 4
+Recieved (53:58.446): SMPL
+Příjem dat: 4
+Recieved (53:58.796): TRIG
+Příjem dat: 16
+Recieved (53:58.841): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:58.841): S_OK
+Příjem dat: 4
+Send (53:58.876): OSCP:FREQ 2M__;
+Recieved (53:58.876): ACK
+Send (53:58.978): OSCP:NEXT;
+Příjem dat: 12
+Recieved (53:58.980): ACK
+Recieved (53:58.982): SMPL
+Recieved (53:58.982): TRIG
+Recieved (53:58.983): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:58.983): S_OK
+Send (53:59.128): OSCP:NEXT;
+Příjem dat: 28
+Recieved (53:59.129): ACK
+Recieved (53:59.129): SMPL
+Recieved (53:59.129): TRIG
+Příjem dat: 16
+Recieved (53:59.132): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (53:59.132): S_OK
+Send (53:59.250): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:59.251): ACK
+Recieved (53:59.251): SMPL
+Recieved (53:59.253): TRIG
+Recieved (53:59.254): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:59.254): S_OK
+Send (53:59.376): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:59.377): ACK
+Recieved (53:59.377): SMPL
+Příjem dat: 4
+Recieved (53:59.378): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (53:59.380): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:59.381): S_OK
+Send (53:59.538): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:59.539): ACK
+Recieved (53:59.539): SMPL
+Recieved (53:59.539): TRIG
+Recieved (53:59.542): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:59.542): S_OK
+Send (53:59.660): OSCP:NEXT;
+Příjem dat: 1044
+Recieved (53:59.664): ACK
+Recieved (53:59.665): SMPL
+Recieved (53:59.666): TRIG
+Recieved (53:59.667): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:59.668): S_OK
+Send (53:59.791): OSCP:NEXT;
+Příjem dat: 4
+Recieved (53:59.792): ACK
+Příjem dat: 4
+Recieved (53:59.792): SMPL
+Recieved (53:59.792): TRIG
+Příjem dat: 16
+Recieved (53:59.796): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:59.797): S_OK
+Send (53:59.909): OSCP:NEXT;
+Příjem dat: 28
+Recieved (53:59.911): ACK
+Recieved (53:59.912): SMPL
+Recieved (53:59.912): TRIG
+Recieved (53:59.914): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (53:59.915): S_OK
+Send (54:0.37): OSCP:NEXT;
+Příjem dat: 1044
+Recieved (54:0.40): ACK
+Recieved (54:0.42): SMPL
+Recieved (54:0.43): TRIG
+Recieved (54:0.44): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.44): S_OK
+Send (54:0.158): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:0.159): ACK
+Příjem dat: 4
+Recieved (54:0.159): SMPL
+Recieved (54:0.159): TRIG
+Příjem dat: 16
+Recieved (54:0.163): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.163): S_OK
+Send (54:0.285): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:0.287): ACK
+Recieved (54:0.287): SMPL
+Recieved (54:0.288): TRIG
+Recieved (54:0.290): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.290): S_OK
+Send (54:0.421): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:0.428): ACK
+Recieved (54:0.430): SMPL
+Recieved (54:0.433): TRIG
+Recieved (54:0.438): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.438): S_OK
+Send (54:0.553): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:0.554): ACK
+Recieved (54:0.554): SMPL
+Příjem dat: 4
+Recieved (54:0.554): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:0.558): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.563): S_OK
+Send (54:0.672): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:0.672): ACK
+Recieved (54:0.673): SMPL
+Recieved (54:0.674): TRIG
+Recieved (54:0.676): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.677): S_OK
+Send (54:0.802): OSCP:NEXT;
+Příjem dat: 12
+Recieved (54:0.804): ACK
+Recieved (54:0.806): SMPL
+Recieved (54:0.809): TRIG
+Recieved (54:0.811): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.812): S_OK
+Send (54:0.948): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:0.949): ACK
+Recieved (54:0.950): SMPL
+Recieved (54:0.950): TRIG
+Recieved (54:0.956): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:0.956): S_OK
+Send (54:1.83): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:1.83): ACK
+Recieved (54:1.84): SMPL
+Recieved (54:1.85): TRIG
+Recieved (54:1.89): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:1.90): S_OK
+Send (54:1.217): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:1.226): ACK
+Recieved (54:1.226): SMPL
+Recieved (54:1.226): TRIG
+Recieved (54:1.229): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:1.230): S_OK
+Send (54:1.365): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:1.366): ACK
+Recieved (54:1.366): SMPL
+Příjem dat: 4
+Recieved (54:1.366): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:1.369): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:1.369): S_OK
+Send (54:1.499): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:1.501): ACK
+Recieved (54:1.501): SMPL
+Recieved (54:1.501): TRIG
+Recieved (54:1.504): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:1.505): S_OK
+Send (54:1.637): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:1.639): ACK
+Příjem dat: 4
+Recieved (54:1.639): SMPL
+Recieved (54:1.639): TRIG
+Příjem dat: 16
+Recieved (54:1.642): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:1.642): S_OK
+Send (54:1.777): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:1.778): ACK
+Příjem dat: 4
+Recieved (54:1.778): SMPL
+Příjem dat: 4
+Recieved (54:1.779): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:1.781): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:1.782): S_OK
+Send (54:1.918): OSCP:NEXT;
+Příjem dat: 12
+Recieved (54:1.919): ACK
+Recieved (54:1.920): SMPL
+Recieved (54:1.920): TRIG
+Recieved (54:1.923): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:1.923): S_OK
+Send (54:2.60): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:2.60): ACK
+Recieved (54:2.61): SMPL
+Recieved (54:2.62): TRIG
+Recieved (54:2.64): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:2.65): S_OK
+Send (54:2.191): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:2.192): ACK
+Příjem dat: 4
+Recieved (54:2.192): SMPL
+Příjem dat: 4
+Recieved (54:2.192): TRIG
+Recieved (54:2.192): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:2.192): S_OK
+Send (54:2.318): OSCP:NEXT;
+Příjem dat: 1044
+Recieved (54:2.321): ACK
+Recieved (54:2.321): SMPL
+Recieved (54:2.321): TRIG
+Recieved (54:2.322): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:2.322): S_OK
+Send (54:2.441): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:2.441): ACK
+Recieved (54:2.441): SMPL
+Recieved (54:2.441): TRIG
+Recieved (54:2.441): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:2.441): S_OK
+Send (54:2.569): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:2.570): ACK
+Příjem dat: 4
+Recieved (54:2.570): SMPL
+Příjem dat: 4
+Recieved (54:2.571): TRIG
+Příjem dat: 16
+Recieved (54:2.572): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:2.572): S_OK
+Send (54:2.706): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:2.708): ACK
+Příjem dat: 4
+Recieved (54:2.708): SMPL
+Příjem dat: 4
+Recieved (54:2.708): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:2.711): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:2.711): S_OK
+Send (54:2.829): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:2.829): ACK
+Recieved (54:2.830): SMPL
+Recieved (54:2.830): TRIG
+Recieved (54:2.834): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:2.834): S_OK
+Send (54:2.958): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:2.959): ACK
+Recieved (54:2.959): SMPL
+Příjem dat: 4
+Recieved (54:2.960): TRIG
+Recieved (54:2.968): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:2.969): S_OK
+Send (54:3.84): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:3.85): ACK
+Recieved (54:3.89): SMPL
+Recieved (54:3.90): TRIG
+Recieved (54:3.91): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:3.91): S_OK
+Send (54:3.239): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:3.240): ACK
+Recieved (54:3.240): SMPL
+Příjem dat: 4
+Recieved (54:3.240): TRIG
+Recieved (54:3.244): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:3.244): S_OK
+Send (54:3.371): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:3.372): ACK
+Příjem dat: 4
+Recieved (54:3.372): SMPL
+Příjem dat: 4
+Recieved (54:3.372): TRIG
+Příjem dat: 16
+Recieved (54:3.375): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:3.375): S_OK
+Send (54:3.505): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:3.506): ACK
+Příjem dat: 4
+Recieved (54:3.506): SMPL
+Příjem dat: 4
+Recieved (54:3.506): TRIG
+Příjem dat: 16
+Recieved (54:3.509): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:3.509): S_OK
+Send (54:3.627): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:3.628): ACK
+Recieved (54:3.629): SMPL
+Recieved (54:3.630): TRIG
+Recieved (54:3.631): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:3.632): S_OK
+Send (54:3.753): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:3.755): ACK
+Příjem dat: 4
+Recieved (54:3.755): SMPL
+Příjem dat: 4
+Recieved (54:3.755): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:3.758): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:3.758): S_OK
+Send (54:3.880): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:3.881): ACK
+Příjem dat: 4
+Recieved (54:3.881): SMPL
+Příjem dat: 4
+Recieved (54:3.881): TRIG
+Příjem dat: 16
+Recieved (54:3.884): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:3.885): S_OK
+Send (54:4.3): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:4.4): ACK
+Recieved (54:4.5): SMPL
+Recieved (54:4.5): TRIG
+Recieved (54:4.8): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:4.8): S_OK
+Send (54:4.133): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:4.134): ACK
+Příjem dat: 4
+Recieved (54:4.134): SMPL
+Příjem dat: 4
+Recieved (54:4.134): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:4.138): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:4.138): S_OK
+Send (54:4.221): OSCP:FREQ MAX_;
+Příjem dat: 4
+Recieved (54:4.221): ACK
+Send (54:4.258): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:4.259): ACK
+Recieved (54:4.259): SMPL
+Recieved (54:4.259): TRIG
+Příjem dat: 16
+Recieved (54:4.262): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:4.262): S_OK
+Send (54:4.388): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:4.389): ACK
+Recieved (54:4.394): SMPL
+Recieved (54:4.394): TRIG
+Recieved (54:4.395): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:4.395): S_OK
+Send (54:4.517): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:4.519): ACK
+Recieved (54:4.519): SMPL
+Recieved (54:4.519): TRIG
+Recieved (54:4.521): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:4.521): S_OK
+Send (54:4.644): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:4.645): ACK
+Recieved (54:4.645): SMPL
+Recieved (54:4.645): TRIG
+Recieved (54:4.648): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:4.649): S_OK
+Send (54:4.786): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:4.788): ACK
+Recieved (54:4.789): SMPL
+Recieved (54:4.808): TRIG
+Recieved (54:4.825): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:4.843): S_OK
+Send (54:4.969): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:4.970): ACK
+Recieved (54:4.970): SMPL
+Recieved (54:4.970): TRIG
+Recieved (54:4.973): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:4.973): S_OK
+Send (54:5.98): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:5.99): ACK
+Recieved (54:5.100): SMPL
+Recieved (54:5.100): TRIG
+Příjem dat: 16
+Recieved (54:5.102): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:5.102): S_OK
+Send (54:5.222): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:5.223): ACK
+Recieved (54:5.224): SMPL
+Recieved (54:5.225): TRIG
+Recieved (54:5.226): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:5.226): S_OK
+Send (54:5.348): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:5.348): ACK
+Recieved (54:5.349): SMPL
+Recieved (54:5.349): TRIG
+Recieved (54:5.352): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:5.352): S_OK
+Send (54:5.470): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:5.471): ACK
+Recieved (54:5.471): SMPL
+Recieved (54:5.472): TRIG
+Recieved (54:5.474): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:5.475): S_OK
+Send (54:5.601): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:5.602): ACK
+Recieved (54:5.609): SMPL
+Recieved (54:5.610): TRIG
+Recieved (54:5.611): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:5.611): S_OK
+Send (54:5.754): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:5.755): ACK
+Recieved (54:5.755): SMPL
+Recieved (54:5.755): TRIG
+Příjem dat: 16
+Recieved (54:5.758): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:5.758): S_OK
+Send (54:5.899): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:5.899): ACK
+Recieved (54:5.900): SMPL
+Recieved (54:5.901): TRIG
+Recieved (54:5.903): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:5.903): S_OK
+Send (54:6.35): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:6.35): ACK
+Příjem dat: 4
+Recieved (54:6.36): SMPL
+Recieved (54:6.36): TRIG
+Recieved (54:6.39): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:6.40): S_OK
+Send (54:6.168): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:6.169): ACK
+Recieved (54:6.172): SMPL
+Recieved (54:6.173): TRIG
+Recieved (54:6.174): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:6.174): S_OK
+Send (54:6.318): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:6.319): ACK
+Recieved (54:6.319): SMPL
+Recieved (54:6.319): TRIG
+Recieved (54:6.322): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:6.322): S_OK
+Send (54:6.441): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:6.442): ACK
+Recieved (54:6.442): SMPL
+Recieved (54:6.442): TRIG
+Příjem dat: 16
+Recieved (54:6.445): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:6.445): S_OK
+Send (54:6.567): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:6.568): ACK
+Recieved (54:6.568): SMPL
+Recieved (54:6.568): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:6.571): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:6.571): S_OK
+Send (54:6.718): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:6.718): ACK
+Recieved (54:6.719): SMPL
+Recieved (54:6.719): TRIG
+Příjem dat: 16
+Recieved (54:6.722): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:6.722): S_OK
+Send (54:6.846): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:6.847): ACK
+Recieved (54:6.847): SMPL
+Recieved (54:6.847): TRIG
+Příjem dat: 16
+Recieved (54:6.850): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:6.850): S_OK
+Send (54:6.972): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:6.973): ACK
+Recieved (54:6.976): SMPL
+Recieved (54:6.980): TRIG
+Recieved (54:7.5): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:7.8): S_OK
+Send (54:7.145): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:7.146): ACK
+Recieved (54:7.146): SMPL
+Recieved (54:7.146): TRIG
+Příjem dat: 16
+Recieved (54:7.149): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:7.149): S_OK
+Send (54:7.288): OSCP:NEXT;
+Příjem dat: 1388
+Recieved (54:7.291): ACK
+Recieved (54:7.291): SMPL
+Recieved (54:7.291): TRIG
+Recieved (54:7.292): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:7.292): S_OK
+Send (54:7.410): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:7.411): ACK
+Recieved (54:7.412): SMPL
+Recieved (54:7.412): TRIG
+Recieved (54:7.415): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:7.415): S_OK
+Send (54:7.533): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:7.534): ACK
+Recieved (54:7.534): SMPL
+Recieved (54:7.534): TRIG
+Recieved (54:7.537): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:7.537): S_OK
+Send (54:7.659): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:7.660): ACK
+Recieved (54:7.660): SMPL
+Recieved (54:7.660): TRIG
+Příjem dat: 16
+Recieved (54:7.663): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:7.663): S_OK
+Send (54:7.783): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:7.784): ACK
+Recieved (54:7.784): SMPL
+Recieved (54:7.785): TRIG
+Recieved (54:7.787): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:7.787): S_OK
+Send (54:7.908): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:7.909): ACK
+Recieved (54:7.909): SMPL
+Recieved (54:7.909): TRIG
+Příjem dat: 16
+Recieved (54:7.912): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:7.912): S_OK
+Send (54:8.49): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:8.50): ACK
+Recieved (54:8.51): SMPL
+Recieved (54:8.51): TRIG
+Recieved (54:8.53): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:8.54): S_OK
+Send (54:8.191): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:8.191): ACK
+Recieved (54:8.192): SMPL
+Recieved (54:8.192): TRIG
+Recieved (54:8.195): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:8.195): S_OK
+Send (54:8.321): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:8.322): ACK
+Recieved (54:8.323): SMPL
+Recieved (54:8.323): TRIG
+Recieved (54:8.326): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:8.326): S_OK
+Příjem dat: 4
+Recieved (54:8.462): ACK
+Send (54:8.462): OSCP:NEXT;
+Recieved (54:8.464): SMPL
+Recieved (54:8.464): TRIG
+Recieved (54:8.465): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:8.465): S_OK
+Send (54:8.583): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:8.583): ACK
+Recieved (54:8.583): SMPL
+Recieved (54:8.584): TRIG
+Recieved (54:8.586): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:8.588): S_OK
+Send (54:8.704): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:8.705): ACK
+Recieved (54:8.705): SMPL
+Recieved (54:8.705): TRIG
+Příjem dat: 16
+Recieved (54:8.708): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:8.708): S_OK
+Send (54:8.838): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:8.838): ACK
+Příjem dat: 4
+Recieved (54:8.838): SMPL
+Recieved (54:8.839): TRIG
+Příjem dat: 16
+Recieved (54:8.841): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:8.841): S_OK
+Send (54:8.972): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:8.973): ACK
+Recieved (54:8.976): SMPL
+Recieved (54:8.979): TRIG
+Recieved (54:8.982): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:8.984): S_OK
+Send (54:9.114): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:9.114): ACK
+Recieved (54:9.115): SMPL
+Recieved (54:9.115): TRIG
+Příjem dat: 16
+Recieved (54:9.118): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:9.118): S_OK
+Send (54:9.260): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:9.260): ACK
+Recieved (54:9.261): SMPL
+Recieved (54:9.261): TRIG
+Příjem dat: 16
+Recieved (54:9.264): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:9.264): S_OK
+Send (54:9.391): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:9.392): ACK
+Recieved (54:9.392): SMPL
+Recieved (54:9.393): TRIG
+Recieved (54:9.395): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:9.395): S_OK
+Send (54:9.519): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:9.519): ACK
+Recieved (54:9.519): SMPL
+Recieved (54:9.519): TRIG
+Příjem dat: 16
+Recieved (54:9.522): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:9.522): S_OK
+Send (54:9.657): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:9.658): ACK
+Recieved (54:9.658): SMPL
+Recieved (54:9.658): TRIG
+Recieved (54:9.661): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:9.661): S_OK
+Send (54:9.785): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:9.785): ACK
+Recieved (54:9.786): SMPL
+Recieved (54:9.786): TRIG
+Recieved (54:9.789): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:9.789): S_OK
+Send (54:9.908): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:9.909): ACK
+Recieved (54:9.910): SMPL
+Recieved (54:9.910): TRIG
+Příjem dat: 16
+Recieved (54:9.913): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:9.916): S_OK
+Send (54:10.34): OSCP:NEXT;
+Příjem dat: 1028
+Recieved (54:10.37): ACK
+Recieved (54:10.38): SMPL
+Recieved (54:10.38): TRIG
+Recieved (54:10.39): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:10.39): S_OK
+Send (54:10.158): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:10.159): ACK
+Recieved (54:10.159): SMPL
+Recieved (54:10.159): TRIG
+Příjem dat: 16
+Recieved (54:10.162): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:10.162): S_OK
+Send (54:10.282): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:10.282): ACK
+Recieved (54:10.282): SMPL
+Recieved (54:10.282): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:10.282): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:10.282): S_OK
+Send (54:10.412): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:10.412): ACK
+Recieved (54:10.412): SMPL
+Recieved (54:10.412): TRIG
+Příjem dat: 16
+Recieved (54:10.415): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:10.415): S_OK
+Send (54:10.539): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:10.540): ACK
+Recieved (54:10.548): SMPL
+Recieved (54:10.549): TRIG
+Recieved (54:10.549): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:10.550): S_OK
+Send (54:10.664): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:10.664): ACK
+Recieved (54:10.664): SMPL
+Recieved (54:10.664): TRIG
+Příjem dat: 16
+Recieved (54:10.667): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:10.668): S_OK
+Send (54:10.790): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:10.791): ACK
+Recieved (54:10.791): SMPL
+Recieved (54:10.792): TRIG
+Recieved (54:10.794): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:10.794): S_OK
+Send (54:10.936): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:10.945): ACK
+Recieved (54:10.963): SMPL
+Recieved (54:10.967): TRIG
+Recieved (54:10.971): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:10.972): S_OK
+Send (54:11.96): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:11.97): ACK
+Recieved (54:11.97): SMPL
+Recieved (54:11.97): TRIG
+Příjem dat: 16
+Recieved (54:11.100): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:11.100): S_OK
+Send (54:11.236): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:11.237): ACK
+Recieved (54:11.237): SMPL
+Recieved (54:11.237): TRIG
+Příjem dat: 16
+Recieved (54:11.240): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:11.240): S_OK
+Send (54:11.366): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:11.367): ACK
+Recieved (54:11.368): SMPL
+Recieved (54:11.369): TRIG
+Recieved (54:11.370): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:11.370): S_OK
+Send (54:11.490): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:11.491): ACK
+Recieved (54:11.492): SMPL
+Recieved (54:11.492): TRIG
+Recieved (54:11.494): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:11.494): S_OK
+Send (54:11.611): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:11.611): ACK
+Recieved (54:11.611): SMPL
+Příjem dat: 4
+Recieved (54:11.612): TRIG
+Příjem dat: 16
+Recieved (54:11.614): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:11.615): S_OK
+Send (54:11.737): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:11.742): ACK
+Recieved (54:11.747): SMPL
+Recieved (54:11.747): TRIG
+Recieved (54:11.748): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:11.748): S_OK
+Send (54:11.876): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:11.877): ACK
+Recieved (54:11.877): SMPL
+Recieved (54:11.877): TRIG
+Příjem dat: 16
+Recieved (54:11.880): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:11.880): S_OK
+Send (54:12.1): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:12.1): ACK
+Recieved (54:12.1): SMPL
+Recieved (54:12.1): TRIG
+Recieved (54:12.1): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:12.1): S_OK
+Send (54:12.133): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:12.133): ACK
+Recieved (54:12.134): SMPL
+Recieved (54:12.135): TRIG
+Recieved (54:12.141): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:12.142): S_OK
+Send (54:12.259): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:12.260): ACK
+Recieved (54:12.260): SMPL
+Recieved (54:12.260): TRIG
+Příjem dat: 16
+Recieved (54:12.263): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:12.263): S_OK
+Send (54:12.393): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:12.395): ACK
+Recieved (54:12.396): SMPL
+Recieved (54:12.396): TRIG
+Recieved (54:12.398): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:12.398): S_OK
+Send (54:12.519): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:12.521): ACK
+Recieved (54:12.521): SMPL
+Recieved (54:12.521): TRIG
+Recieved (54:12.527): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:12.528): S_OK
+Send (54:12.665): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:12.665): ACK
+Recieved (54:12.665): SMPL
+Příjem dat: 4
+Recieved (54:12.665): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:12.669): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:12.669): S_OK
+Send (54:12.782): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:12.783): ACK
+Recieved (54:12.784): SMPL
+Recieved (54:12.784): TRIG
+Recieved (54:12.786): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:12.787): S_OK
+Send (54:12.935): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:12.936): ACK
+Recieved (54:12.938): SMPL
+Recieved (54:12.939): TRIG
+Recieved (54:12.950): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:12.954): S_OK
+Send (54:13.80): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:13.81): ACK
+Recieved (54:13.81): SMPL
+Recieved (54:13.81): TRIG
+Recieved (54:13.85): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:13.85): S_OK
+Send (54:13.218): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:13.220): SMPL
+Recieved (54:13.221): ACK
+Recieved (54:13.222): TRIG
+Recieved (54:13.223): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:13.224): S_OK
+Send (54:13.360): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:13.361): ACK
+Recieved (54:13.362): SMPL
+Recieved (54:13.362): TRIG
+Recieved (54:13.364): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:13.365): S_OK
+Send (54:13.490): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:13.491): ACK
+Příjem dat: 4
+Recieved (54:13.491): SMPL
+Recieved (54:13.491): TRIG
+Příjem dat: 16
+Recieved (54:13.492): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:13.492): S_OK
+Send (54:13.614): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:13.615): ACK
+Recieved (54:13.615): SMPL
+Recieved (54:13.616): TRIG
+Recieved (54:13.618): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:13.619): S_OK
+Send (54:13.736): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:13.737): ACK
+Recieved (54:13.737): SMPL
+Recieved (54:13.738): TRIG
+Recieved (54:13.740): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:13.740): S_OK
+Send (54:13.865): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:13.865): ACK
+Recieved (54:13.866): SMPL
+Recieved (54:13.866): TRIG
+Příjem dat: 16
+Recieved (54:13.868): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:13.868): S_OK
+Send (54:13.986): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:13.987): ACK
+Recieved (54:13.988): SMPL
+Recieved (54:13.988): TRIG
+Recieved (54:13.991): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:13.991): S_OK
+Send (54:14.128): OSCP:NEXT;
+Příjem dat: 1044
+Recieved (54:14.131): ACK
+Recieved (54:14.134): SMPL
+Recieved (54:14.134): TRIG
+Recieved (54:14.135): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:14.136): S_OK
+Send (54:14.258): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:14.259): ACK
+Recieved (54:14.260): SMPL
+Recieved (54:14.260): TRIG
+Recieved (54:14.262): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:14.262): S_OK
+Send (54:14.393): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:14.394): ACK
+Recieved (54:14.394): SMPL
+Recieved (54:14.395): TRIG
+Recieved (54:14.397): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:14.397): S_OK
+Send (54:14.518): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:14.518): ACK
+Recieved (54:14.520): SMPL
+Recieved (54:14.521): TRIG
+Recieved (54:14.522): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:14.524): S_OK
+Send (54:14.642): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:14.642): ACK
+Příjem dat: 4
+Recieved (54:14.642): SMPL
+Příjem dat: 4
+Recieved (54:14.643): TRIG
+Příjem dat: 16
+Recieved (54:14.646): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:14.646): S_OK
+Send (54:14.766): OSCP:NEXT;
+Příjem dat: 218
+Recieved (54:14.767): ACK
+Recieved (54:14.767): SMPL
+Recieved (54:14.767): TRIG
+Recieved (54:14.770): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:14.770): S_OK
+Send (54:14.892): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:14.893): ACK
+Recieved (54:14.894): SMPL
+Recieved (54:14.894): TRIG
+Recieved (54:14.900): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:14.901): S_OK
+Send (54:15.19): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:15.20): ACK
+Recieved (54:15.20): SMPL
+Recieved (54:15.20): TRIG
+Příjem dat: 16
+Recieved (54:15.23): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:15.23): S_OK
+Send (54:15.144): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:15.150): ACK
+Recieved (54:15.150): SMPL
+Recieved (54:15.152): TRIG
+Recieved (54:15.153): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:15.154): S_OK
+Send (54:15.270): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:15.271): ACK
+Recieved (54:15.271): SMPL
+Recieved (54:15.271): TRIG
+Recieved (54:15.274): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:15.275): S_OK
+Send (54:15.396): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:15.397): ACK
+Recieved (54:15.397): SMPL
+Recieved (54:15.398): TRIG
+Recieved (54:15.402): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:15.402): S_OK
+Send (54:15.519): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:15.526): ACK
+Recieved (54:15.527): SMPL
+Recieved (54:15.528): TRIG
+Recieved (54:15.530): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:15.532): S_OK
+Send (54:15.665): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:15.666): ACK
+Recieved (54:15.666): SMPL
+Recieved (54:15.666): TRIG
+Recieved (54:15.669): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:15.669): S_OK
+Send (54:15.821): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:15.821): ACK
+Recieved (54:15.821): SMPL
+Recieved (54:15.821): TRIG
+Recieved (54:15.821): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:15.821): S_OK
+Send (54:15.958): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:15.959): ACK
+Recieved (54:15.959): SMPL
+Recieved (54:15.960): TRIG
+Recieved (54:15.962): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:15.963): S_OK
+Send (54:16.80): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:16.80): ACK
+Recieved (54:16.81): SMPL
+Recieved (54:16.81): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:16.84): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:16.84): S_OK
+Send (54:16.219): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:16.220): ACK
+Recieved (54:16.220): SMPL
+Recieved (54:16.220): TRIG
+Recieved (54:16.223): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:16.223): S_OK
+Send (54:16.347): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:16.350): ACK
+Recieved (54:16.350): SMPL
+Recieved (54:16.352): TRIG
+Recieved (54:16.352): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:16.353): S_OK
+Send (54:16.471): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:16.472): ACK
+Recieved (54:16.472): SMPL
+Recieved (54:16.473): TRIG
+Recieved (54:16.479): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:16.479): S_OK
+Send (54:16.608): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:16.609): ACK
+Recieved (54:16.609): SMPL
+Recieved (54:16.609): TRIG
+Příjem dat: 16
+Recieved (54:16.612): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:16.612): S_OK
+Send (54:16.736): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:16.737): ACK
+Recieved (54:16.737): SMPL
+Recieved (54:16.738): TRIG
+Recieved (54:16.742): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:16.742): S_OK
+Send (54:16.860): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:16.861): ACK
+Recieved (54:16.864): SMPL
+Recieved (54:16.865): TRIG
+Recieved (54:16.868): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:16.868): S_OK
+Send (54:17.12): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:17.13): ACK
+Recieved (54:17.13): SMPL
+Recieved (54:17.13): TRIG
+Recieved (54:17.16): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:17.16): S_OK
+Send (54:17.143): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:17.143): ACK
+Recieved (54:17.144): SMPL
+Recieved (54:17.144): TRIG
+Recieved (54:17.147): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:17.148): S_OK
+Send (54:17.278): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:17.280): ACK
+Recieved (54:17.281): SMPL
+Recieved (54:17.282): TRIG
+Recieved (54:17.284): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:17.285): S_OK
+Send (54:17.455): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:17.456): ACK
+Recieved (54:17.457): SMPL
+Recieved (54:17.458): TRIG
+Recieved (54:17.459): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:17.460): S_OK
+Send (54:17.584): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:17.584): ACK
+Recieved (54:17.584): SMPL
+Recieved (54:17.584): TRIG
+Příjem dat: 16
+Recieved (54:17.587): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:17.589): S_OK
+Send (54:17.719): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:17.720): ACK
+Příjem dat: 4
+Recieved (54:17.720): SMPL
+Recieved (54:17.721): TRIG
+Recieved (54:17.723): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:17.724): S_OK
+Send (54:17.860): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:17.861): ACK
+Recieved (54:17.861): SMPL
+Recieved (54:17.862): TRIG
+Recieved (54:17.864): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:17.866): S_OK
+Send (54:17.990): OSCP:NEXT;
+Příjem dat: 12
+Recieved (54:17.992): ACK
+Recieved (54:17.993): SMPL
+Recieved (54:17.996): TRIG
+Recieved (54:17.998): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:18.0): S_OK
+Send (54:18.120): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:18.121): ACK
+Recieved (54:18.122): SMPL
+Recieved (54:18.122): TRIG
+Recieved (54:18.124): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:18.124): S_OK
+Send (54:18.255): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:18.256): ACK
+Recieved (54:18.256): SMPL
+Recieved (54:18.257): TRIG
+Recieved (54:18.259): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:18.259): S_OK
+Send (54:18.390): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:18.391): ACK
+Recieved (54:18.391): SMPL
+Recieved (54:18.391): TRIG
+Příjem dat: 16
+Recieved (54:18.394): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:18.394): S_OK
+Send (54:18.528): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:18.529): ACK
+Recieved (54:18.529): SMPL
+Recieved (54:18.530): TRIG
+Příjem dat: 16
+Recieved (54:18.532): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:18.532): S_OK
+Send (54:18.657): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:18.658): ACK
+Recieved (54:18.659): SMPL
+Recieved (54:18.659): TRIG
+Recieved (54:18.661): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:18.662): S_OK
+Send (54:18.785): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:18.786): ACK
+Recieved (54:18.786): SMPL
+Recieved (54:18.786): TRIG
+Příjem dat: 16
+Recieved (54:18.789): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:18.789): S_OK
+Send (54:18.930): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:18.931): ACK
+Recieved (54:18.931): SMPL
+Recieved (54:18.931): TRIG
+Příjem dat: 16
+Recieved (54:18.934): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:18.935): S_OK
+Send (54:19.50): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:19.51): ACK
+Recieved (54:19.51): SMPL
+Recieved (54:19.51): TRIG
+Příjem dat: 16
+Recieved (54:19.54): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:19.54): S_OK
+Send (54:19.181): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:19.181): ACK
+Recieved (54:19.184): SMPL
+Recieved (54:19.185): TRIG
+Recieved (54:19.186): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:19.186): S_OK
+Send (54:19.328): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:19.328): ACK
+Příjem dat: 4
+Recieved (54:19.329): SMPL
+Příjem dat: 4
+Recieved (54:19.329): TRIG
+Příjem dat: 16
+Příjem dat: 16
+Recieved (54:19.332): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:19.333): S_OK
+Send (54:19.458): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:19.460): ACK
+Recieved (54:19.461): SMPL
+Recieved (54:19.461): TRIG
+Recieved (54:19.463): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:19.463): S_OK
+Send (54:19.583): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:19.584): ACK
+Recieved (54:19.585): SMPL
+Recieved (54:19.585): TRIG
+Recieved (54:19.590): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:19.597): S_OK
+Send (54:19.732): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:19.733): ACK
+Recieved (54:19.733): SMPL
+Recieved (54:19.733): TRIG
+Příjem dat: 16
+Recieved (54:19.736): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:19.736): S_OK
+Send (54:19.862): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:19.862): ACK
+Recieved (54:19.862): SMPL
+Recieved (54:19.862): TRIG
+Recieved (54:19.862): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:19.862): S_OK
+Send (54:20.3): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:20.4): ACK
+Recieved (54:20.9): SMPL
+Recieved (54:20.10): TRIG
+Recieved (54:20.14): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:20.15): S_OK
+Send (54:20.129): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:20.130): ACK
+Recieved (54:20.130): SMPL
+Recieved (54:20.130): TRIG
+Recieved (54:20.134): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:20.134): S_OK
+Send (54:20.253): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:20.254): ACK
+Recieved (54:20.254): SMPL
+Recieved (54:20.254): TRIG
+Recieved (54:20.257): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:20.258): S_OK
+Send (54:20.384): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:20.394): ACK
+Recieved (54:20.402): SMPL
+Recieved (54:20.405): TRIG
+Recieved (54:20.408): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:20.408): S_OK
+Send (54:20.524): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:20.524): ACK
+Příjem dat: 4
+Recieved (54:20.525): SMPL
+Příjem dat: 4
+Recieved (54:20.525): TRIG
+Příjem dat: 16
+Recieved (54:20.528): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:20.528): S_OK
+Send (54:20.642): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:20.643): ACK
+Recieved (54:20.643): SMPL
+Recieved (54:20.644): TRIG
+Recieved (54:20.646): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:20.646): S_OK
+Send (54:20.769): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:20.770): ACK
+Recieved (54:20.770): SMPL
+Recieved (54:20.770): TRIG
+Recieved (54:20.776): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:20.786): S_OK
+Send (54:20.919): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:20.920): ACK
+Recieved (54:20.920): SMPL
+Recieved (54:20.920): TRIG
+Příjem dat: 16
+Recieved (54:20.923): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:20.923): S_OK
+Send (54:21.58): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:21.63): ACK
+Recieved (54:21.66): SMPL
+Recieved (54:21.66): TRIG
+Recieved (54:21.67): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:21.67): S_OK
+Send (54:21.191): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:21.193): ACK
+Recieved (54:21.194): SMPL
+Recieved (54:21.195): TRIG
+Recieved (54:21.196): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:21.196): S_OK
+Send (54:21.314): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:21.315): ACK
+Recieved (54:21.315): SMPL
+Recieved (54:21.315): TRIG
+Příjem dat: 16
+Recieved (54:21.318): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:21.318): S_OK
+Send (54:21.447): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:21.449): ACK
+Recieved (54:21.449): SMPL
+Recieved (54:21.450): TRIG
+Recieved (54:21.451): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:21.452): S_OK
+Send (54:21.584): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:21.593): ACK
+Recieved (54:21.600): SMPL
+Recieved (54:21.602): TRIG
+Recieved (54:21.613): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:21.618): S_OK
+Send (54:21.722): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:21.722): ACK
+Recieved (54:21.722): SMPL
+Recieved (54:21.722): TRIG
+Příjem dat: 16
+Recieved (54:21.722): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:21.722): S_OK
+Send (54:21.847): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:21.848): ACK
+Recieved (54:21.848): SMPL
+Recieved (54:21.848): TRIG
+Recieved (54:21.851): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:21.851): S_OK
+Send (54:21.972): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:21.972): ACK
+Recieved (54:21.975): SMPL
+Recieved (54:21.977): TRIG
+Recieved (54:21.985): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:21.986): S_OK
+Send (54:22.100): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:22.101): ACK
+Recieved (54:22.102): SMPL
+Recieved (54:22.103): TRIG
+Recieved (54:22.104): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:22.104): S_OK
+Send (54:22.224): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:22.224): ACK
+Příjem dat: 4
+Recieved (54:22.225): SMPL
+Recieved (54:22.226): TRIG
+Recieved (54:22.228): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:22.229): S_OK
+Send (54:22.348): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:22.349): ACK
+Recieved (54:22.349): SMPL
+Příjem dat: 4
+Recieved (54:22.349): TRIG
+Příjem dat: 16
+Recieved (54:22.352): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:22.352): S_OK
+Send (54:22.488): OSCP:NEXT;
+Příjem dat: 1044
+Recieved (54:22.491): ACK
+Recieved (54:22.491): SMPL
+Recieved (54:22.491): TRIG
+Recieved (54:22.492): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:22.492): S_OK
+Send (54:22.627): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:22.628): ACK
+Recieved (54:22.628): SMPL
+Recieved (54:22.628): TRIG
+Příjem dat: 16
+Recieved (54:22.631): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:22.632): S_OK
+Send (54:22.751): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:22.752): ACK
+Recieved (54:22.752): SMPL
+Recieved (54:22.752): TRIG
+Recieved (54:22.752): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:22.752): S_OK
+Send (54:22.887): OSCP:NEXT;
+Příjem dat: 8
+Recieved (54:22.888): ACK
+Recieved (54:22.889): SMPL
+Recieved (54:22.889): TRIG
+Recieved (54:22.891): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:22.891): S_OK
+Send (54:23.19): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:23.19): ACK
+Recieved (54:23.20): SMPL
+Recieved (54:23.21): TRIG
+Recieved (54:23.22): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:23.23): S_OK
+Send (54:23.144): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:23.144): ACK
+Recieved (54:23.144): SMPL
+Recieved (54:23.144): TRIG
+Příjem dat: 16
+Recieved (54:23.147): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:23.148): S_OK
+Send (54:23.269): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:23.271): ACK
+Recieved (54:23.272): SMPL
+Recieved (54:23.272): TRIG
+Recieved (54:23.273): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:23.273): S_OK
+Send (54:23.392): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:23.393): ACK
+Recieved (54:23.394): SMPL
+Recieved (54:23.394): TRIG
+Recieved (54:23.397): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:23.398): S_OK
+Send (54:23.519): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:23.519): ACK
+Recieved (54:23.519): SMPL
+Recieved (54:23.519): TRIG
+Příjem dat: 16
+Recieved (54:23.522): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:23.523): S_OK
+Send (54:23.642): OSCP:NEXT;
+Příjem dat: 12
+Recieved (54:23.643): ACK
+Recieved (54:23.644): SMPL
+Recieved (54:23.644): TRIG
+Recieved (54:23.646): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:23.647): S_OK
+Send (54:23.779): OSCP:NEXT;
+Příjem dat: 2048
+Recieved (54:23.787): SMPL
+Recieved (54:23.789): ACK
+Recieved (54:23.790): TRIG
+Recieved (54:23.802): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:23.805): S_OK
+Send (54:23.938): OSCP:NEXT;
+Příjem dat: 12
+Recieved (54:23.939): ACK
+Recieved (54:23.940): SMPL
+Recieved (54:23.941): TRIG
+Recieved (54:23.943): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:23.943): S_OK
+Send (54:24.74): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:24.75): ACK
+Recieved (54:24.75): SMPL
+Recieved (54:24.75): TRIG
+Příjem dat: 16
+Recieved (54:24.78): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:24.78): S_OK
+Send (54:24.208): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:24.209): ACK
+Recieved (54:24.210): SMPL
+Recieved (54:24.211): TRIG
+Recieved (54:24.212): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:24.212): S_OK
+Send (54:24.338): OSCP:NEXT;
+Příjem dat: 28
+Recieved (54:24.340): ACK
+Recieved (54:24.341): SMPL
+Recieved (54:24.341): TRIG
+Recieved (54:24.342): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:24.342): S_OK
+Send (54:24.479): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:24.479): ACK
+Recieved (54:24.480): SMPL
+Recieved (54:24.480): TRIG
+Recieved (54:24.483): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:24.483): S_OK
+Send (54:24.613): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:24.613): ACK
+Recieved (54:24.614): SMPL
+Recieved (54:24.614): TRIG
+Recieved (54:24.617): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:24.617): S_OK
+Send (54:24.737): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:24.737): ACK
+Recieved (54:24.737): SMPL
+Recieved (54:24.738): TRIG
+Příjem dat: 16
+Recieved (54:24.741): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:24.741): S_OK
+Send (54:24.871): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:24.871): ACK
+Recieved (54:24.872): SMPL
+Recieved (54:24.872): TRIG
+Příjem dat: 16
+Recieved (54:24.874): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:24.875): S_OK
+Send (54:25.4): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:25.5): ACK
+Recieved (54:25.5): SMPL
+Recieved (54:25.5): TRIG
+Recieved (54:25.10): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:25.11): S_OK
+Send (54:25.138): OSCP:NEXT;
+Příjem dat: 12
+Recieved (54:25.138): ACK
+Recieved (54:25.139): SMPL
+Recieved (54:25.139): TRIG
+Příjem dat: 16
+Recieved (54:25.141): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Příjem dat: 4
+Recieved (54:25.141): S_OK
+Send (54:25.298): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:25.299): ACK
+Recieved (54:25.299): SMPL
+Recieved (54:25.300): TRIG
+Recieved (54:25.302): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:25.302): S_OK
+Send (54:25.438): OSCP:NEXT;
+Příjem dat: 1044
+Recieved (54:25.441): ACK
+Recieved (54:25.442): SMPL
+Recieved (54:25.442): TRIG
+Recieved (54:25.443): SCOPE DATA RECIEVED: Leng 1000, Res 12, Chan 2 of 2
+Recieved (54:25.443): S_OK
+Send (54:25.482): OSCP:STOP;
+Příjem dat: 4
+Recieved (54:25.482): ACK
+Send (54:25.565): OSCP:NEXT;
+Příjem dat: 4
+Recieved (54:25.568): ACK
+Send (54:25.576): GEN_:STOP;
+Recieved (54:25.604): ACK
+PORT zavřen: COM5

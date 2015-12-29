@@ -61,8 +61,8 @@
   /* USER CODE BEGIN 1 */
 /* Define size for the receive and transmit buffer over CDC */
 /* It's up to user to redefine and/or remove those define */
-#define APP_RX_DATA_SIZE  512
-#define APP_TX_DATA_SIZE  512
+#define APP_RX_DATA_SIZE  64
+#define APP_TX_DATA_SIZE  64
   /* USER CODE END 1 */  
 /**
   * @}
@@ -246,6 +246,7 @@ static int8_t CDC_Receive_FS (uint8_t* Buf, uint32_t *Len)
 			commsRecieveUSB(*(Buf++));
      //   buff_TX[i] = *(Buf++);
 		}
+		USBD_CDC_ReceivePacket(&hUsbDeviceFS);
   return (USBD_OK);
   /* USER CODE END 7 */ 
 }
@@ -261,13 +262,13 @@ static int8_t CDC_Receive_FS (uint8_t* Buf, uint32_t *Len)
   * @param  Len: Number of data to be send (in bytes)
   * @retval Result of the opeartion: USBD_OK if all operations are OK else USBD_FAIL or USBD_BUSY
   */
-uint8_t CDC_Transmit_FS(uint8_t* UserTxBufferFS, uint16_t Len)
+uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
 {
   uint8_t result = USBD_OK;
-  /* USER CODE BEGIN 8 */ 
-  USBD_CDC_SetTxBuffer(hUsbDevice_0, UserTxBufferFS, Len);   
+  /* USER CODE BEGIN 7 */ 
+  USBD_CDC_SetTxBuffer(hUsbDevice_0, Buf, Len);   
   result = USBD_CDC_TransmitPacket(hUsbDevice_0);
-  /* USER CODE END 8 */ 
+  /* USER CODE END 7 */ 
   return result;
 }
 
