@@ -59,7 +59,7 @@
 
 #define MAX_GENERATING_FREQ 2000000 //smps
 #define MAX_DAC_CHANNELS 2
-#define MAX_GENERATOR_BUFF_SIZE 8000
+#define MAX_GENERATOR_BUFF_SIZE 10000
 #define	DAC_DATA_DEPTH 12
 
 #define GEN_VREF 3300
@@ -68,7 +68,7 @@
 #define GEN_CH2_PIN_STR "PA5_" //must be 4 chars
 
 
-// Definition of ADC and DMA for channel 1 
+/* Definition of ADC and DMA for channel 1 */
 #define ADC_CH_1_CLK_EN() __ADC1_CLK_ENABLE()
 #define ADC_CH_1_CLK_DIS() __ADC1_CLK_DISABLE()
 #define GPIO_ADC_CH_1_CLK_EN() __GPIOC_CLK_ENABLE()
@@ -79,7 +79,7 @@
 #define ADC_DMA_CHANNEL_CH_1  DMA_CHANNEL_0 //
 #define ADC_DMA_STREAM_CH_1  DMA2_Stream0 //
 
-// Definition of ADC and DMA for channel 2 
+/* Definition of ADC and DMA for channel 2 */
 #define ADC_CH_2_CLK_EN() __ADC2_CLK_ENABLE()
 #define ADC_CH_2_CLK_DIS() __ADC2_CLK_DISABLE()
 #define GPIO_ADC_CH_2_CLK_EN() __GPIOC_CLK_ENABLE()
@@ -90,7 +90,7 @@
 #define ADC_DMA_CHANNEL_CH_2  DMA_CHANNEL_1//
 #define ADC_DMA_STREAM_CH_2  DMA2_Stream2 //
 
-// Definition of ADC and DMA for channel 3 
+/* Definition of ADC and DMA for channel 3 */
 #define ADC_CH_3_CLK_EN() __ADC3_CLK_ENABLE()
 #define ADC_CH_3_CLK_DIS() __ADC3_CLK_DISABLE()
 #define GPIO_ADC_CH_3_CLK_EN() __GPIOC_CLK_ENABLE()
@@ -101,7 +101,7 @@
 #define ADC_DMA_CHANNEL_CH_3  DMA_CHANNEL_2//
 #define ADC_DMA_STREAM_CH_3  DMA2_Stream1//
 
-// Definition of ADC and DMA for channel 4 
+/* Definition of ADC and DMA for channel 4 */
 #define ADC_CH_4  0
 #define ADC_GPIO_CH_4  0
 #define ADC_PIN_CH_4  0
@@ -109,9 +109,6 @@
 #define ADC_DMA_CHANNEL_CH_4  0
 #define ADC_DMA_STREAM_CH_4  0 
 
-
-//Definition of assert to check length of strings
-#define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}
 
 
 

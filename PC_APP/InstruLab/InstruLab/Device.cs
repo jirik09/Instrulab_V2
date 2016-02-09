@@ -79,7 +79,7 @@ namespace InstruLab
 
 
         private StreamWriter logWriter;
-        private const bool writeLog = false;
+        private const bool writeLog = true;
 
         Scope Scope_form;
         Generator Gen_form;
@@ -128,11 +128,8 @@ namespace InstruLab
         public void close_port() {
             if (port.IsOpen)
             {
-                if (writeLog)
-                {
-                    logTextNL("PORT zavřen: " + this.portName);
-                    logWriter.Close();
-                }
+                logTextNL("PORT zavřen: " + this.portName);
+                logWriter.Close();
                 try
                 {
                     port.Close();
@@ -491,7 +488,7 @@ namespace InstruLab
                             }
                             else {
                                 if (writeLog) { logRecieved("Unknown message " + new string(inputMsg, 0, 4)); }
-                                   // MessageBox.Show("Unknow message recieved \r\n" + new string(inputMsg, 0, 4), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Unknow message recieved \r\n" + new string(inputMsg, 0, 4), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     //Console.WriteLine(new string(inputMsg, 0, 4));
                             }
                             break;
@@ -699,121 +696,90 @@ namespace InstruLab
 
         public void Log(string logMessage)
         {
-            if (writeLog)
+            try
             {
-                try
-                {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write("\r\nLog Entry : ");
+                logWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                DateTime.Now.ToLongDateString());
+                logWriter.WriteLine("  :{0}", logMessage);
+                logWriter.WriteLine("-------------------------------");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
 
-                    logSemaphore.WaitOne(1000);
-                    logWriter.Write("\r\nLog Entry : ");
-                    logWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                    DateTime.Now.ToLongDateString());
-                    logWriter.WriteLine("  :{0}", logMessage);
-                    logWriter.WriteLine("-------------------------------");
-                    logSemaphore.Release();
-
-                }
-                catch (Exception ex)
-                {
-
-                }
             }
         }
 
         public void LogEnd()
         {
-            if (writeLog)
+            try
             {
-                try
-                {
+                logSemaphore.WaitOne(1000);
+                logWriter.WriteLine("Konec logu");
+                logWriter.WriteLine("-------------------------------");
+                logWriter.WriteLine("\r\n\r\n\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
 
-                    logSemaphore.WaitOne(1000);
-                    logWriter.WriteLine("Konec logu");
-                    logWriter.WriteLine("-------------------------------");
-                    logWriter.WriteLine("\r\n\r\n\r\n");
-                    logSemaphore.Release();
-                }
-
-                catch (Exception ex)
-                {
-
-                }
             }
         }
 
         public void logSend(string s)
         {
-            if (writeLog)
+            try
             {
-                try
-                {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write("Send (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
 
-                    logSemaphore.WaitOne(1000);
-                    logWriter.Write("Send (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
-                    logSemaphore.Release();
-
-                }
-                catch (Exception ex)
-                {
-
-                }
             }
         }
 
         public void logRecieved(string s)
         {
-            if (writeLog)
+            try
             {
-                try
-                {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write("Recieved (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
 
-                    logSemaphore.WaitOne(1000);
-                    logWriter.Write("Recieved (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
-                    logSemaphore.Release();
-
-                }
-                catch (Exception ex)
-                {
-
-                }
             }
         }
 
         public void logTextNL(string s)
         {
-            if (writeLog)
+            try
             {
-                try
-                {
-
-                    logSemaphore.WaitOne(1000);
-                    logWriter.Write(s + "\r\n");
-                    logSemaphore.Release();
-
-                }
-                catch (Exception ex)
-                {
-
-                }
+                logSemaphore.WaitOne(1000);
+                logWriter.Write(s + "\r\n");
+                logSemaphore.Release();
+            }
+            catch (Exception ex) { 
+                
             }
         }
 
         public void logText(string s)
         {
-            if (writeLog)
+            try
             {
-                try
-                {
+                logSemaphore.WaitOne(1000);
+                logWriter.Write(s + ", ");
+                logSemaphore.Release();
+            }
+            catch (Exception ex)
+            {
 
-                    logSemaphore.WaitOne(1000);
-                    logWriter.Write(s + ", ");
-                    logSemaphore.Release();
-
-                }
-                catch (Exception ex)
-                {
-
-                }
             }
         }
 

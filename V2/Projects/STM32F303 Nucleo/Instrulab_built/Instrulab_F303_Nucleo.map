@@ -2683,75 +2683,75 @@ Image Symbol Table
     i.scopeInit                              0x08007be8   Section        0  scope.o(i.scopeInit)
     i.scopeRestart                           0x08007c3c   Section        0  scope.o(i.scopeRestart)
     i.scopeSetDataDepth                      0x08007c60   Section        0  scope.o(i.scopeSetDataDepth)
-    i.scopeSetDefault                        0x08007d74   Section        0  scope.o(i.scopeSetDefault)
-    i.scopeSetNumOfChannels                  0x08007e18   Section        0  scope.o(i.scopeSetNumOfChannels)
-    i.scopeSetNumOfSamples                   0x08007f18   Section        0  scope.o(i.scopeSetNumOfSamples)
-    i.scopeSetPretrigger                     0x08007f70   Section        0  scope.o(i.scopeSetPretrigger)
-    i.scopeSetSamplingFreq                   0x08007f98   Section        0  scope.o(i.scopeSetSamplingFreq)
-    i.scopeSetTrigChannel                    0x08007ffc   Section        0  scope.o(i.scopeSetTrigChannel)
-    i.scopeSetTrigLevel                      0x0800804c   Section        0  scope.o(i.scopeSetTrigLevel)
-    i.scopeSetTriggerEdge                    0x08008074   Section        0  scope.o(i.scopeSetTriggerEdge)
-    i.scopeSetTriggerMode                    0x080080b8   Section        0  scope.o(i.scopeSetTriggerMode)
-    i.scopeStart                             0x080080e0   Section        0  scope.o(i.scopeStart)
-    i.scopeStop                              0x08008100   Section        0  scope.o(i.scopeStop)
-    i.sendCommsConf                          0x08008120   Section        0  comms.o(i.sendCommsConf)
-    i.sendGenConf                            0x08008160   Section        0  comms.o(i.sendGenConf)
-    i.sendScopeConf                          0x080081d0   Section        0  comms.o(i.sendScopeConf)
-    i.sendSystConf                           0x08008280   Section        0  comms.o(i.sendSystConf)
-    i.sendSystemVersion                      0x080082b8   Section        0  comms.o(i.sendSystemVersion)
-    i.sqrt                                   0x08008374   Section        0  sqrt.o(i.sqrt)
-    i.updateTrigger                          0x080083e4   Section        0  scope.o(i.updateTrigger)
-    i.uxListRemove                           0x08008438   Section        0  list.o(i.uxListRemove)
-    i.vApplicationStackOverflowHook          0x08008460   Section        0  freertos.o(i.vApplicationStackOverflowHook)
-    i.vListInitialise                        0x08008462   Section        0  list.o(i.vListInitialise)
-    i.vListInitialiseItem                    0x0800847c   Section        0  list.o(i.vListInitialiseItem)
-    i.vListInsert                            0x08008482   Section        0  list.o(i.vListInsert)
-    i.vListInsertEnd                         0x080084b6   Section        0  list.o(i.vListInsertEnd)
-    i.vPortEnterCritical                     0x080084d0   Section        0  port.o(i.vPortEnterCritical)
-    i.vPortExitCritical                      0x080084f0   Section        0  port.o(i.vPortExitCritical)
-    i.vPortFree                              0x08008510   Section        0  heap_2.o(i.vPortFree)
-    i.vPortSetupTimerInterrupt               0x08008550   Section        0  port.o(i.vPortSetupTimerInterrupt)
-    i.vPortValidateInterruptPriority         0x08008570   Section        0  port.o(i.vPortValidateInterruptPriority)
-    i.vPortYield                             0x080085cc   Section        0  port.o(i.vPortYield)
-    i.vTaskDelay                             0x080085e4   Section        0  tasks.o(i.vTaskDelay)
-    i.vTaskMissedYield                       0x0800861c   Section        0  tasks.o(i.vTaskMissedYield)
-    i.vTaskPlaceOnEventList                  0x08008628   Section        0  tasks.o(i.vTaskPlaceOnEventList)
-    i.vTaskPriorityDisinherit                0x0800867c   Section        0  tasks.o(i.vTaskPriorityDisinherit)
-    i.vTaskPriorityInherit                   0x080086cc   Section        0  tasks.o(i.vTaskPriorityInherit)
-    i.vTaskSetTimeOutState                   0x08008750   Section        0  tasks.o(i.vTaskSetTimeOutState)
-    i.vTaskStartScheduler                    0x08008774   Section        0  tasks.o(i.vTaskStartScheduler)
-    i.vTaskSuspendAll                        0x080087c8   Section        0  tasks.o(i.vTaskSuspendAll)
-    i.vTaskSwitchContext                     0x080087d8   Section        0  tasks.o(i.vTaskSwitchContext)
-    i.validateBuffUsage                      0x08008884   Section        0  scope.o(i.validateBuffUsage)
-    i.xPortStartScheduler                    0x080088ac   Section        0  port.o(i.xPortStartScheduler)
-    i.xPortSysTickHandler                    0x08008960   Section        0  port.o(i.xPortSysTickHandler)
-    i.xQueueCreateMutex                      0x08008980   Section        0  queue.o(i.xQueueCreateMutex)
-    i.xQueueGenericCreate                    0x080089d6   Section        0  queue.o(i.xQueueGenericCreate)
-    i.xQueueGenericReceive                   0x08008a32   Section        0  queue.o(i.xQueueGenericReceive)
-    i.xQueueGenericReset                     0x08008b72   Section        0  queue.o(i.xQueueGenericReset)
-    i.xQueueGenericSend                      0x08008bea   Section        0  queue.o(i.xQueueGenericSend)
-    i.xQueueGenericSendFromISR               0x08008d04   Section        0  queue.o(i.xQueueGenericSendFromISR)
-    i.xQueueGiveMutexRecursive               0x08008db0   Section        0  queue.o(i.xQueueGiveMutexRecursive)
-    i.xQueueTakeMutexRecursive               0x08008dea   Section        0  queue.o(i.xQueueTakeMutexRecursive)
-    i.xTaskCheckForTimeOut                   0x08008e30   Section        0  tasks.o(i.xTaskCheckForTimeOut)
-    i.xTaskGenericCreate                     0x08008ea4   Section        0  tasks.o(i.xTaskGenericCreate)
-    i.xTaskGetCurrentTaskHandle              0x08008fdc   Section        0  tasks.o(i.xTaskGetCurrentTaskHandle)
-    i.xTaskGetSchedulerState                 0x08008fe8   Section        0  tasks.o(i.xTaskGetSchedulerState)
-    i.xTaskIncrementTick                     0x08009008   Section        0  tasks.o(i.xTaskIncrementTick)
-    i.xTaskRemoveFromEventList               0x08009168   Section        0  tasks.o(i.xTaskRemoveFromEventList)
-    i.xTaskResumeAll                         0x080091f0   Section        0  tasks.o(i.xTaskResumeAll)
-    .constdata                               0x080092d8   Section      120  main.o(.constdata)
-    .constdata                               0x08009350   Section       16  stm32f3xx_hal_rcc.o(.constdata)
-    .constdata                               0x08009360   Section       32  stm32f3xx_hal_rcc_ex.o(.constdata)
-    .constdata                               0x08009380   Section       16  scope.o(.constdata)
-    .constdata                               0x08009390   Section      136  pow.o(.constdata)
-    bp                                       0x08009390   Data          16  pow.o(.constdata)
-    dp_h                                     0x080093a0   Data          16  pow.o(.constdata)
-    dp_l                                     0x080093b0   Data          16  pow.o(.constdata)
-    L                                        0x080093c0   Data          48  pow.o(.constdata)
-    P                                        0x080093f0   Data          40  pow.o(.constdata)
-    .constdata                               0x08009418   Section        8  qnan.o(.constdata)
-    .conststring                             0x08009420   Section       83  main.o(.conststring)
+    i.scopeSetDefault                        0x08007d1c   Section        0  scope.o(i.scopeSetDefault)
+    i.scopeSetNumOfChannels                  0x08007db8   Section        0  scope.o(i.scopeSetNumOfChannels)
+    i.scopeSetNumOfSamples                   0x08007e90   Section        0  scope.o(i.scopeSetNumOfSamples)
+    i.scopeSetPretrigger                     0x08007ee8   Section        0  scope.o(i.scopeSetPretrigger)
+    i.scopeSetSamplingFreq                   0x08007f10   Section        0  scope.o(i.scopeSetSamplingFreq)
+    i.scopeSetTrigChannel                    0x08007f74   Section        0  scope.o(i.scopeSetTrigChannel)
+    i.scopeSetTrigLevel                      0x08007fc4   Section        0  scope.o(i.scopeSetTrigLevel)
+    i.scopeSetTriggerEdge                    0x08007fec   Section        0  scope.o(i.scopeSetTriggerEdge)
+    i.scopeSetTriggerMode                    0x08008030   Section        0  scope.o(i.scopeSetTriggerMode)
+    i.scopeStart                             0x08008058   Section        0  scope.o(i.scopeStart)
+    i.scopeStop                              0x08008078   Section        0  scope.o(i.scopeStop)
+    i.sendCommsConf                          0x08008098   Section        0  comms.o(i.sendCommsConf)
+    i.sendGenConf                            0x080080d8   Section        0  comms.o(i.sendGenConf)
+    i.sendScopeConf                          0x08008148   Section        0  comms.o(i.sendScopeConf)
+    i.sendSystConf                           0x080081f8   Section        0  comms.o(i.sendSystConf)
+    i.sendSystemVersion                      0x08008230   Section        0  comms.o(i.sendSystemVersion)
+    i.sqrt                                   0x080082ec   Section        0  sqrt.o(i.sqrt)
+    i.updateTrigger                          0x0800835c   Section        0  scope.o(i.updateTrigger)
+    i.uxListRemove                           0x080083b0   Section        0  list.o(i.uxListRemove)
+    i.vApplicationStackOverflowHook          0x080083d8   Section        0  freertos.o(i.vApplicationStackOverflowHook)
+    i.vListInitialise                        0x080083da   Section        0  list.o(i.vListInitialise)
+    i.vListInitialiseItem                    0x080083f4   Section        0  list.o(i.vListInitialiseItem)
+    i.vListInsert                            0x080083fa   Section        0  list.o(i.vListInsert)
+    i.vListInsertEnd                         0x0800842e   Section        0  list.o(i.vListInsertEnd)
+    i.vPortEnterCritical                     0x08008448   Section        0  port.o(i.vPortEnterCritical)
+    i.vPortExitCritical                      0x08008468   Section        0  port.o(i.vPortExitCritical)
+    i.vPortFree                              0x08008488   Section        0  heap_2.o(i.vPortFree)
+    i.vPortSetupTimerInterrupt               0x080084c8   Section        0  port.o(i.vPortSetupTimerInterrupt)
+    i.vPortValidateInterruptPriority         0x080084e8   Section        0  port.o(i.vPortValidateInterruptPriority)
+    i.vPortYield                             0x08008544   Section        0  port.o(i.vPortYield)
+    i.vTaskDelay                             0x0800855c   Section        0  tasks.o(i.vTaskDelay)
+    i.vTaskMissedYield                       0x08008594   Section        0  tasks.o(i.vTaskMissedYield)
+    i.vTaskPlaceOnEventList                  0x080085a0   Section        0  tasks.o(i.vTaskPlaceOnEventList)
+    i.vTaskPriorityDisinherit                0x080085f4   Section        0  tasks.o(i.vTaskPriorityDisinherit)
+    i.vTaskPriorityInherit                   0x08008644   Section        0  tasks.o(i.vTaskPriorityInherit)
+    i.vTaskSetTimeOutState                   0x080086c8   Section        0  tasks.o(i.vTaskSetTimeOutState)
+    i.vTaskStartScheduler                    0x080086ec   Section        0  tasks.o(i.vTaskStartScheduler)
+    i.vTaskSuspendAll                        0x08008740   Section        0  tasks.o(i.vTaskSuspendAll)
+    i.vTaskSwitchContext                     0x08008750   Section        0  tasks.o(i.vTaskSwitchContext)
+    i.validateBuffUsage                      0x080087fc   Section        0  scope.o(i.validateBuffUsage)
+    i.xPortStartScheduler                    0x08008824   Section        0  port.o(i.xPortStartScheduler)
+    i.xPortSysTickHandler                    0x080088d8   Section        0  port.o(i.xPortSysTickHandler)
+    i.xQueueCreateMutex                      0x080088f8   Section        0  queue.o(i.xQueueCreateMutex)
+    i.xQueueGenericCreate                    0x0800894e   Section        0  queue.o(i.xQueueGenericCreate)
+    i.xQueueGenericReceive                   0x080089aa   Section        0  queue.o(i.xQueueGenericReceive)
+    i.xQueueGenericReset                     0x08008aea   Section        0  queue.o(i.xQueueGenericReset)
+    i.xQueueGenericSend                      0x08008b62   Section        0  queue.o(i.xQueueGenericSend)
+    i.xQueueGenericSendFromISR               0x08008c7c   Section        0  queue.o(i.xQueueGenericSendFromISR)
+    i.xQueueGiveMutexRecursive               0x08008d28   Section        0  queue.o(i.xQueueGiveMutexRecursive)
+    i.xQueueTakeMutexRecursive               0x08008d62   Section        0  queue.o(i.xQueueTakeMutexRecursive)
+    i.xTaskCheckForTimeOut                   0x08008da8   Section        0  tasks.o(i.xTaskCheckForTimeOut)
+    i.xTaskGenericCreate                     0x08008e1c   Section        0  tasks.o(i.xTaskGenericCreate)
+    i.xTaskGetCurrentTaskHandle              0x08008f54   Section        0  tasks.o(i.xTaskGetCurrentTaskHandle)
+    i.xTaskGetSchedulerState                 0x08008f60   Section        0  tasks.o(i.xTaskGetSchedulerState)
+    i.xTaskIncrementTick                     0x08008f80   Section        0  tasks.o(i.xTaskIncrementTick)
+    i.xTaskRemoveFromEventList               0x080090e0   Section        0  tasks.o(i.xTaskRemoveFromEventList)
+    i.xTaskResumeAll                         0x08009168   Section        0  tasks.o(i.xTaskResumeAll)
+    .constdata                               0x08009250   Section      120  main.o(.constdata)
+    .constdata                               0x080092c8   Section       16  stm32f3xx_hal_rcc.o(.constdata)
+    .constdata                               0x080092d8   Section       32  stm32f3xx_hal_rcc_ex.o(.constdata)
+    .constdata                               0x080092f8   Section       16  scope.o(.constdata)
+    .constdata                               0x08009308   Section      136  pow.o(.constdata)
+    bp                                       0x08009308   Data          16  pow.o(.constdata)
+    dp_h                                     0x08009318   Data          16  pow.o(.constdata)
+    dp_l                                     0x08009328   Data          16  pow.o(.constdata)
+    L                                        0x08009338   Data          48  pow.o(.constdata)
+    P                                        0x08009368   Data          40  pow.o(.constdata)
+    .constdata                               0x08009390   Section        8  qnan.o(.constdata)
+    .conststring                             0x08009398   Section       83  main.o(.conststring)
     .data                                    0x20000000   Section        4  dac.o(.data)
     .data                                    0x20000004   Section       16  adc.o(.data)
     ADC12_CLK_ENABLED                        0x20000004   Data           4  adc.o(.data)
@@ -3134,71 +3134,71 @@ Image Symbol Table
     scopeGetRealSmplFreq                     0x08007bdd   Thumb Code     6  scope.o(i.scopeGetRealSmplFreq)
     scopeInit                                0x08007be9   Thumb Code    76  scope.o(i.scopeInit)
     scopeRestart                             0x08007c3d   Thumb Code    18  scope.o(i.scopeRestart)
-    scopeSetDataDepth                        0x08007c61   Thumb Code   240  scope.o(i.scopeSetDataDepth)
-    scopeSetDefault                          0x08007d75   Thumb Code   138  scope.o(i.scopeSetDefault)
-    scopeSetNumOfChannels                    0x08007e19   Thumb Code   222  scope.o(i.scopeSetNumOfChannels)
-    scopeSetNumOfSamples                     0x08007f19   Thumb Code    62  scope.o(i.scopeSetNumOfSamples)
-    scopeSetPretrigger                       0x08007f71   Thumb Code    30  scope.o(i.scopeSetPretrigger)
-    scopeSetSamplingFreq                     0x08007f99   Thumb Code    72  scope.o(i.scopeSetSamplingFreq)
-    scopeSetTrigChannel                      0x08007ffd   Thumb Code    56  scope.o(i.scopeSetTrigChannel)
-    scopeSetTrigLevel                        0x0800804d   Thumb Code    30  scope.o(i.scopeSetTrigLevel)
-    scopeSetTriggerEdge                      0x08008075   Thumb Code    44  scope.o(i.scopeSetTriggerEdge)
-    scopeSetTriggerMode                      0x080080b9   Thumb Code    30  scope.o(i.scopeSetTriggerMode)
-    scopeStart                               0x080080e1   Thumb Code    18  scope.o(i.scopeStart)
-    scopeStop                                0x08008101   Thumb Code    18  scope.o(i.scopeStop)
-    sendCommsConf                            0x08008121   Thumb Code    38  comms.o(i.sendCommsConf)
-    sendGenConf                              0x08008161   Thumb Code    82  comms.o(i.sendGenConf)
-    sendScopeConf                            0x080081d1   Thumb Code   132  comms.o(i.sendScopeConf)
-    sendSystConf                             0x08008281   Thumb Code    36  comms.o(i.sendSystConf)
-    sendSystemVersion                        0x080082b9   Thumb Code   118  comms.o(i.sendSystemVersion)
-    sqrt                                     0x08008375   Thumb Code   110  sqrt.o(i.sqrt)
-    updateTrigger                            0x080083e5   Thumb Code    66  scope.o(i.updateTrigger)
-    uxListRemove                             0x08008439   Thumb Code    40  list.o(i.uxListRemove)
-    vApplicationStackOverflowHook            0x08008461   Thumb Code     2  freertos.o(i.vApplicationStackOverflowHook)
-    vListInitialise                          0x08008463   Thumb Code    26  list.o(i.vListInitialise)
-    vListInitialiseItem                      0x0800847d   Thumb Code     6  list.o(i.vListInitialiseItem)
-    vListInsert                              0x08008483   Thumb Code    52  list.o(i.vListInsert)
-    vListInsertEnd                           0x080084b7   Thumb Code    24  list.o(i.vListInsertEnd)
-    vPortEnterCritical                       0x080084d1   Thumb Code    26  port.o(i.vPortEnterCritical)
-    vPortExitCritical                        0x080084f1   Thumb Code    26  port.o(i.vPortExitCritical)
-    vPortFree                                0x08008511   Thumb Code    56  heap_2.o(i.vPortFree)
-    vPortSetupTimerInterrupt                 0x08008551   Thumb Code    26  port.o(i.vPortSetupTimerInterrupt)
-    vPortValidateInterruptPriority           0x08008571   Thumb Code    78  port.o(i.vPortValidateInterruptPriority)
-    vPortYield                               0x080085cd   Thumb Code    18  port.o(i.vPortYield)
-    vTaskDelay                               0x080085e5   Thumb Code    48  tasks.o(i.vTaskDelay)
-    vTaskMissedYield                         0x0800861d   Thumb Code     8  tasks.o(i.vTaskMissedYield)
-    vTaskPlaceOnEventList                    0x08008629   Thumb Code    70  tasks.o(i.vTaskPlaceOnEventList)
-    vTaskPriorityDisinherit                  0x0800867d   Thumb Code    70  tasks.o(i.vTaskPriorityDisinherit)
-    vTaskPriorityInherit                     0x080086cd   Thumb Code   118  tasks.o(i.vTaskPriorityInherit)
-    vTaskSetTimeOutState                     0x08008751   Thumb Code    28  tasks.o(i.vTaskSetTimeOutState)
-    vTaskStartScheduler                      0x08008775   Thumb Code    64  tasks.o(i.vTaskStartScheduler)
-    vTaskSuspendAll                          0x080087c9   Thumb Code    12  tasks.o(i.vTaskSuspendAll)
-    vTaskSwitchContext                       0x080087d9   Thumb Code   150  tasks.o(i.vTaskSwitchContext)
-    validateBuffUsage                        0x08008885   Thumb Code    34  scope.o(i.validateBuffUsage)
-    xPortStartScheduler                      0x080088ad   Thumb Code   156  port.o(i.xPortStartScheduler)
-    xPortSysTickHandler                      0x08008961   Thumb Code    28  port.o(i.xPortSysTickHandler)
-    xQueueCreateMutex                        0x08008981   Thumb Code    86  queue.o(i.xQueueCreateMutex)
-    xQueueGenericCreate                      0x080089d7   Thumb Code    92  queue.o(i.xQueueGenericCreate)
-    xQueueGenericReceive                     0x08008a33   Thumb Code   320  queue.o(i.xQueueGenericReceive)
-    xQueueGenericReset                       0x08008b73   Thumb Code   120  queue.o(i.xQueueGenericReset)
-    xQueueGenericSend                        0x08008beb   Thumb Code   282  queue.o(i.xQueueGenericSend)
-    xQueueGenericSendFromISR                 0x08008d05   Thumb Code   172  queue.o(i.xQueueGenericSendFromISR)
-    xQueueGiveMutexRecursive                 0x08008db1   Thumb Code    58  queue.o(i.xQueueGiveMutexRecursive)
-    xQueueTakeMutexRecursive                 0x08008deb   Thumb Code    70  queue.o(i.xQueueTakeMutexRecursive)
-    xTaskCheckForTimeOut                     0x08008e31   Thumb Code   108  tasks.o(i.xTaskCheckForTimeOut)
-    xTaskGenericCreate                       0x08008ea5   Thumb Code   286  tasks.o(i.xTaskGenericCreate)
-    xTaskGetCurrentTaskHandle                0x08008fdd   Thumb Code     6  tasks.o(i.xTaskGetCurrentTaskHandle)
-    xTaskGetSchedulerState                   0x08008fe9   Thumb Code    24  tasks.o(i.xTaskGetSchedulerState)
-    xTaskIncrementTick                       0x08009009   Thumb Code   306  tasks.o(i.xTaskIncrementTick)
-    xTaskRemoveFromEventList                 0x08009169   Thumb Code   112  tasks.o(i.xTaskRemoveFromEventList)
-    xTaskResumeAll                           0x080091f1   Thumb Code   198  tasks.o(i.xTaskResumeAll)
-    APBAHBPrescTable                         0x08009350   Data          16  stm32f3xx_hal_rcc.o(.constdata)
-    PLLMULFactorTable                        0x08009360   Data          16  stm32f3xx_hal_rcc_ex.o(.constdata)
-    PredivFactorTable                        0x08009370   Data          16  stm32f3xx_hal_rcc_ex.o(.constdata)
-    RANGES                                   0x08009380   Data          16  scope.o(.constdata)
-    __mathlib_zero                           0x08009418   Data           8  qnan.o(.constdata)
-    Region$$Table$$Base                      0x08009474   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08009494   Number         0  anon$$obj.o(Region$$Table)
+    scopeSetDataDepth                        0x08007c61   Thumb Code   154  scope.o(i.scopeSetDataDepth)
+    scopeSetDefault                          0x08007d1d   Thumb Code   132  scope.o(i.scopeSetDefault)
+    scopeSetNumOfChannels                    0x08007db9   Thumb Code   188  scope.o(i.scopeSetNumOfChannels)
+    scopeSetNumOfSamples                     0x08007e91   Thumb Code    62  scope.o(i.scopeSetNumOfSamples)
+    scopeSetPretrigger                       0x08007ee9   Thumb Code    30  scope.o(i.scopeSetPretrigger)
+    scopeSetSamplingFreq                     0x08007f11   Thumb Code    72  scope.o(i.scopeSetSamplingFreq)
+    scopeSetTrigChannel                      0x08007f75   Thumb Code    56  scope.o(i.scopeSetTrigChannel)
+    scopeSetTrigLevel                        0x08007fc5   Thumb Code    30  scope.o(i.scopeSetTrigLevel)
+    scopeSetTriggerEdge                      0x08007fed   Thumb Code    44  scope.o(i.scopeSetTriggerEdge)
+    scopeSetTriggerMode                      0x08008031   Thumb Code    30  scope.o(i.scopeSetTriggerMode)
+    scopeStart                               0x08008059   Thumb Code    18  scope.o(i.scopeStart)
+    scopeStop                                0x08008079   Thumb Code    18  scope.o(i.scopeStop)
+    sendCommsConf                            0x08008099   Thumb Code    38  comms.o(i.sendCommsConf)
+    sendGenConf                              0x080080d9   Thumb Code    82  comms.o(i.sendGenConf)
+    sendScopeConf                            0x08008149   Thumb Code   132  comms.o(i.sendScopeConf)
+    sendSystConf                             0x080081f9   Thumb Code    36  comms.o(i.sendSystConf)
+    sendSystemVersion                        0x08008231   Thumb Code   118  comms.o(i.sendSystemVersion)
+    sqrt                                     0x080082ed   Thumb Code   110  sqrt.o(i.sqrt)
+    updateTrigger                            0x0800835d   Thumb Code    66  scope.o(i.updateTrigger)
+    uxListRemove                             0x080083b1   Thumb Code    40  list.o(i.uxListRemove)
+    vApplicationStackOverflowHook            0x080083d9   Thumb Code     2  freertos.o(i.vApplicationStackOverflowHook)
+    vListInitialise                          0x080083db   Thumb Code    26  list.o(i.vListInitialise)
+    vListInitialiseItem                      0x080083f5   Thumb Code     6  list.o(i.vListInitialiseItem)
+    vListInsert                              0x080083fb   Thumb Code    52  list.o(i.vListInsert)
+    vListInsertEnd                           0x0800842f   Thumb Code    24  list.o(i.vListInsertEnd)
+    vPortEnterCritical                       0x08008449   Thumb Code    26  port.o(i.vPortEnterCritical)
+    vPortExitCritical                        0x08008469   Thumb Code    26  port.o(i.vPortExitCritical)
+    vPortFree                                0x08008489   Thumb Code    56  heap_2.o(i.vPortFree)
+    vPortSetupTimerInterrupt                 0x080084c9   Thumb Code    26  port.o(i.vPortSetupTimerInterrupt)
+    vPortValidateInterruptPriority           0x080084e9   Thumb Code    78  port.o(i.vPortValidateInterruptPriority)
+    vPortYield                               0x08008545   Thumb Code    18  port.o(i.vPortYield)
+    vTaskDelay                               0x0800855d   Thumb Code    48  tasks.o(i.vTaskDelay)
+    vTaskMissedYield                         0x08008595   Thumb Code     8  tasks.o(i.vTaskMissedYield)
+    vTaskPlaceOnEventList                    0x080085a1   Thumb Code    70  tasks.o(i.vTaskPlaceOnEventList)
+    vTaskPriorityDisinherit                  0x080085f5   Thumb Code    70  tasks.o(i.vTaskPriorityDisinherit)
+    vTaskPriorityInherit                     0x08008645   Thumb Code   118  tasks.o(i.vTaskPriorityInherit)
+    vTaskSetTimeOutState                     0x080086c9   Thumb Code    28  tasks.o(i.vTaskSetTimeOutState)
+    vTaskStartScheduler                      0x080086ed   Thumb Code    64  tasks.o(i.vTaskStartScheduler)
+    vTaskSuspendAll                          0x08008741   Thumb Code    12  tasks.o(i.vTaskSuspendAll)
+    vTaskSwitchContext                       0x08008751   Thumb Code   150  tasks.o(i.vTaskSwitchContext)
+    validateBuffUsage                        0x080087fd   Thumb Code    34  scope.o(i.validateBuffUsage)
+    xPortStartScheduler                      0x08008825   Thumb Code   156  port.o(i.xPortStartScheduler)
+    xPortSysTickHandler                      0x080088d9   Thumb Code    28  port.o(i.xPortSysTickHandler)
+    xQueueCreateMutex                        0x080088f9   Thumb Code    86  queue.o(i.xQueueCreateMutex)
+    xQueueGenericCreate                      0x0800894f   Thumb Code    92  queue.o(i.xQueueGenericCreate)
+    xQueueGenericReceive                     0x080089ab   Thumb Code   320  queue.o(i.xQueueGenericReceive)
+    xQueueGenericReset                       0x08008aeb   Thumb Code   120  queue.o(i.xQueueGenericReset)
+    xQueueGenericSend                        0x08008b63   Thumb Code   282  queue.o(i.xQueueGenericSend)
+    xQueueGenericSendFromISR                 0x08008c7d   Thumb Code   172  queue.o(i.xQueueGenericSendFromISR)
+    xQueueGiveMutexRecursive                 0x08008d29   Thumb Code    58  queue.o(i.xQueueGiveMutexRecursive)
+    xQueueTakeMutexRecursive                 0x08008d63   Thumb Code    70  queue.o(i.xQueueTakeMutexRecursive)
+    xTaskCheckForTimeOut                     0x08008da9   Thumb Code   108  tasks.o(i.xTaskCheckForTimeOut)
+    xTaskGenericCreate                       0x08008e1d   Thumb Code   286  tasks.o(i.xTaskGenericCreate)
+    xTaskGetCurrentTaskHandle                0x08008f55   Thumb Code     6  tasks.o(i.xTaskGetCurrentTaskHandle)
+    xTaskGetSchedulerState                   0x08008f61   Thumb Code    24  tasks.o(i.xTaskGetSchedulerState)
+    xTaskIncrementTick                       0x08008f81   Thumb Code   306  tasks.o(i.xTaskIncrementTick)
+    xTaskRemoveFromEventList                 0x080090e1   Thumb Code   112  tasks.o(i.xTaskRemoveFromEventList)
+    xTaskResumeAll                           0x08009169   Thumb Code   198  tasks.o(i.xTaskResumeAll)
+    APBAHBPrescTable                         0x080092c8   Data          16  stm32f3xx_hal_rcc.o(.constdata)
+    PLLMULFactorTable                        0x080092d8   Data          16  stm32f3xx_hal_rcc_ex.o(.constdata)
+    PredivFactorTable                        0x080092e8   Data          16  stm32f3xx_hal_rcc_ex.o(.constdata)
+    RANGES                                   0x080092f8   Data          16  scope.o(.constdata)
+    __mathlib_zero                           0x08009390   Data           8  qnan.o(.constdata)
+    Region$$Table$$Base                      0x080093ec   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0800940c   Number         0  anon$$obj.o(Region$$Table)
     outputBuffEn                             0x20000000   Data           4  dac.o(.data)
     ADCResolution                            0x2000000c   Data           4  adc.o(.data)
     ADCSamplingTime                          0x20000010   Data           4  adc.o(.data)
@@ -3244,9 +3244,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000195
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00009570, Max: 0x00080000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000094e8, Max: 0x00080000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00009494, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x0000940c, Max: 0x00080000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -3508,75 +3508,75 @@ Memory Map of the image
     0x08007bdc   0x0000000c   Code   RO         5690    i.scopeGetRealSmplFreq  scope.o
     0x08007be8   0x00000054   Code   RO         5691    i.scopeInit         scope.o
     0x08007c3c   0x00000024   Code   RO         5692    i.scopeRestart      scope.o
-    0x08007c60   0x00000114   Code   RO         5693    i.scopeSetDataDepth  scope.o
-    0x08007d74   0x000000a4   Code   RO         5694    i.scopeSetDefault   scope.o
-    0x08007e18   0x00000100   Code   RO         5695    i.scopeSetNumOfChannels  scope.o
-    0x08007f18   0x00000058   Code   RO         5696    i.scopeSetNumOfSamples  scope.o
-    0x08007f70   0x00000028   Code   RO         5697    i.scopeSetPretrigger  scope.o
-    0x08007f98   0x00000064   Code   RO         5698    i.scopeSetSamplingFreq  scope.o
-    0x08007ffc   0x00000050   Code   RO         5699    i.scopeSetTrigChannel  scope.o
-    0x0800804c   0x00000028   Code   RO         5700    i.scopeSetTrigLevel  scope.o
-    0x08008074   0x00000044   Code   RO         5701    i.scopeSetTriggerEdge  scope.o
-    0x080080b8   0x00000028   Code   RO         5702    i.scopeSetTriggerMode  scope.o
-    0x080080e0   0x00000020   Code   RO         5703    i.scopeStart        scope.o
-    0x08008100   0x00000020   Code   RO         5704    i.scopeStop         scope.o
-    0x08008120   0x00000040   Code   RO         5581    i.sendCommsConf     comms.o
-    0x08008160   0x00000070   Code   RO         5582    i.sendGenConf       comms.o
-    0x080081d0   0x000000b0   Code   RO         5583    i.sendScopeConf     comms.o
-    0x08008280   0x00000038   Code   RO         5584    i.sendSystConf      comms.o
-    0x080082b8   0x000000bc   Code   RO         5585    i.sendSystemVersion  comms.o
-    0x08008374   0x0000006e   Code   RO         6051    i.sqrt              m_wm.l(sqrt.o)
-    0x080083e2   0x00000002   PAD
-    0x080083e4   0x00000054   Code   RO         5705    i.updateTrigger     scope.o
-    0x08008438   0x00000028   Code   RO         5431    i.uxListRemove      list.o
-    0x08008460   0x00000002   Code   RO          694    i.vApplicationStackOverflowHook  freertos.o
-    0x08008462   0x0000001a   Code   RO         5432    i.vListInitialise   list.o
-    0x0800847c   0x00000006   Code   RO         5433    i.vListInitialiseItem  list.o
-    0x08008482   0x00000034   Code   RO         5434    i.vListInsert       list.o
-    0x080084b6   0x00000018   Code   RO         5435    i.vListInsertEnd    list.o
-    0x080084ce   0x00000002   PAD
-    0x080084d0   0x00000020   Code   RO         5364    i.vPortEnterCritical  port.o
-    0x080084f0   0x00000020   Code   RO         5365    i.vPortExitCritical  port.o
-    0x08008510   0x00000040   Code   RO         5469    i.vPortFree         heap_2.o
-    0x08008550   0x00000020   Code   RO         5366    i.vPortSetupTimerInterrupt  port.o
-    0x08008570   0x0000005c   Code   RO         5367    i.vPortValidateInterruptPriority  port.o
-    0x080085cc   0x00000018   Code   RO         5368    i.vPortYield        port.o
-    0x080085e4   0x00000038   Code   RO         4598    i.vTaskDelay        tasks.o
-    0x0800861c   0x0000000c   Code   RO         4602    i.vTaskMissedYield  tasks.o
-    0x08008628   0x00000054   Code   RO         4603    i.vTaskPlaceOnEventList  tasks.o
-    0x0800867c   0x00000050   Code   RO         4604    i.vTaskPriorityDisinherit  tasks.o
-    0x080086cc   0x00000084   Code   RO         4605    i.vTaskPriorityInherit  tasks.o
-    0x08008750   0x00000024   Code   RO         4609    i.vTaskSetTimeOutState  tasks.o
-    0x08008774   0x00000054   Code   RO         4610    i.vTaskStartScheduler  tasks.o
-    0x080087c8   0x00000010   Code   RO         4612    i.vTaskSuspendAll   tasks.o
-    0x080087d8   0x000000ac   Code   RO         4613    i.vTaskSwitchContext  tasks.o
-    0x08008884   0x00000028   Code   RO         5706    i.validateBuffUsage  scope.o
-    0x080088ac   0x000000b4   Code   RO         5369    i.xPortStartScheduler  port.o
-    0x08008960   0x00000020   Code   RO         5370    i.xPortSysTickHandler  port.o
-    0x08008980   0x00000056   Code   RO         4859    i.xQueueCreateMutex  queue.o
-    0x080089d6   0x0000005c   Code   RO         4860    i.xQueueGenericCreate  queue.o
-    0x08008a32   0x00000140   Code   RO         4861    i.xQueueGenericReceive  queue.o
-    0x08008b72   0x00000078   Code   RO         4862    i.xQueueGenericReset  queue.o
-    0x08008bea   0x0000011a   Code   RO         4863    i.xQueueGenericSend  queue.o
-    0x08008d04   0x000000ac   Code   RO         4864    i.xQueueGenericSendFromISR  queue.o
-    0x08008db0   0x0000003a   Code   RO         4865    i.xQueueGiveMutexRecursive  queue.o
-    0x08008dea   0x00000046   Code   RO         4870    i.xQueueTakeMutexRecursive  queue.o
-    0x08008e30   0x00000074   Code   RO         4614    i.xTaskCheckForTimeOut  tasks.o
-    0x08008ea4   0x00000138   Code   RO         4615    i.xTaskGenericCreate  tasks.o
-    0x08008fdc   0x0000000c   Code   RO         4616    i.xTaskGetCurrentTaskHandle  tasks.o
-    0x08008fe8   0x00000020   Code   RO         4617    i.xTaskGetSchedulerState  tasks.o
-    0x08009008   0x00000160   Code   RO         4620    i.xTaskIncrementTick  tasks.o
-    0x08009168   0x00000088   Code   RO         4622    i.xTaskRemoveFromEventList  tasks.o
-    0x080091f0   0x000000e8   Code   RO         4623    i.xTaskResumeAll    tasks.o
-    0x080092d8   0x00000078   Data   RO          219    .constdata          main.o
-    0x08009350   0x00000010   Data   RO         2817    .constdata          stm32f3xx_hal_rcc.o
-    0x08009360   0x00000020   Data   RO         2909    .constdata          stm32f3xx_hal_rcc_ex.o
-    0x08009380   0x00000010   Data   RO         5708    .constdata          scope.o
-    0x08009390   0x00000088   Data   RO         6000    .constdata          m_wm.l(pow.o)
-    0x08009418   0x00000008   Data   RO         6048    .constdata          m_wm.l(qnan.o)
-    0x08009420   0x00000053   Data   RO          220    .conststring        main.o
-    0x08009473   0x00000001   PAD
-    0x08009474   0x00000020   Data   RO         6111    Region$$Table       anon$$obj.o
+    0x08007c60   0x000000bc   Code   RO         5693    i.scopeSetDataDepth  scope.o
+    0x08007d1c   0x0000009c   Code   RO         5694    i.scopeSetDefault   scope.o
+    0x08007db8   0x000000d8   Code   RO         5695    i.scopeSetNumOfChannels  scope.o
+    0x08007e90   0x00000058   Code   RO         5696    i.scopeSetNumOfSamples  scope.o
+    0x08007ee8   0x00000028   Code   RO         5697    i.scopeSetPretrigger  scope.o
+    0x08007f10   0x00000064   Code   RO         5698    i.scopeSetSamplingFreq  scope.o
+    0x08007f74   0x00000050   Code   RO         5699    i.scopeSetTrigChannel  scope.o
+    0x08007fc4   0x00000028   Code   RO         5700    i.scopeSetTrigLevel  scope.o
+    0x08007fec   0x00000044   Code   RO         5701    i.scopeSetTriggerEdge  scope.o
+    0x08008030   0x00000028   Code   RO         5702    i.scopeSetTriggerMode  scope.o
+    0x08008058   0x00000020   Code   RO         5703    i.scopeStart        scope.o
+    0x08008078   0x00000020   Code   RO         5704    i.scopeStop         scope.o
+    0x08008098   0x00000040   Code   RO         5581    i.sendCommsConf     comms.o
+    0x080080d8   0x00000070   Code   RO         5582    i.sendGenConf       comms.o
+    0x08008148   0x000000b0   Code   RO         5583    i.sendScopeConf     comms.o
+    0x080081f8   0x00000038   Code   RO         5584    i.sendSystConf      comms.o
+    0x08008230   0x000000bc   Code   RO         5585    i.sendSystemVersion  comms.o
+    0x080082ec   0x0000006e   Code   RO         6051    i.sqrt              m_wm.l(sqrt.o)
+    0x0800835a   0x00000002   PAD
+    0x0800835c   0x00000054   Code   RO         5705    i.updateTrigger     scope.o
+    0x080083b0   0x00000028   Code   RO         5431    i.uxListRemove      list.o
+    0x080083d8   0x00000002   Code   RO          694    i.vApplicationStackOverflowHook  freertos.o
+    0x080083da   0x0000001a   Code   RO         5432    i.vListInitialise   list.o
+    0x080083f4   0x00000006   Code   RO         5433    i.vListInitialiseItem  list.o
+    0x080083fa   0x00000034   Code   RO         5434    i.vListInsert       list.o
+    0x0800842e   0x00000018   Code   RO         5435    i.vListInsertEnd    list.o
+    0x08008446   0x00000002   PAD
+    0x08008448   0x00000020   Code   RO         5364    i.vPortEnterCritical  port.o
+    0x08008468   0x00000020   Code   RO         5365    i.vPortExitCritical  port.o
+    0x08008488   0x00000040   Code   RO         5469    i.vPortFree         heap_2.o
+    0x080084c8   0x00000020   Code   RO         5366    i.vPortSetupTimerInterrupt  port.o
+    0x080084e8   0x0000005c   Code   RO         5367    i.vPortValidateInterruptPriority  port.o
+    0x08008544   0x00000018   Code   RO         5368    i.vPortYield        port.o
+    0x0800855c   0x00000038   Code   RO         4598    i.vTaskDelay        tasks.o
+    0x08008594   0x0000000c   Code   RO         4602    i.vTaskMissedYield  tasks.o
+    0x080085a0   0x00000054   Code   RO         4603    i.vTaskPlaceOnEventList  tasks.o
+    0x080085f4   0x00000050   Code   RO         4604    i.vTaskPriorityDisinherit  tasks.o
+    0x08008644   0x00000084   Code   RO         4605    i.vTaskPriorityInherit  tasks.o
+    0x080086c8   0x00000024   Code   RO         4609    i.vTaskSetTimeOutState  tasks.o
+    0x080086ec   0x00000054   Code   RO         4610    i.vTaskStartScheduler  tasks.o
+    0x08008740   0x00000010   Code   RO         4612    i.vTaskSuspendAll   tasks.o
+    0x08008750   0x000000ac   Code   RO         4613    i.vTaskSwitchContext  tasks.o
+    0x080087fc   0x00000028   Code   RO         5706    i.validateBuffUsage  scope.o
+    0x08008824   0x000000b4   Code   RO         5369    i.xPortStartScheduler  port.o
+    0x080088d8   0x00000020   Code   RO         5370    i.xPortSysTickHandler  port.o
+    0x080088f8   0x00000056   Code   RO         4859    i.xQueueCreateMutex  queue.o
+    0x0800894e   0x0000005c   Code   RO         4860    i.xQueueGenericCreate  queue.o
+    0x080089aa   0x00000140   Code   RO         4861    i.xQueueGenericReceive  queue.o
+    0x08008aea   0x00000078   Code   RO         4862    i.xQueueGenericReset  queue.o
+    0x08008b62   0x0000011a   Code   RO         4863    i.xQueueGenericSend  queue.o
+    0x08008c7c   0x000000ac   Code   RO         4864    i.xQueueGenericSendFromISR  queue.o
+    0x08008d28   0x0000003a   Code   RO         4865    i.xQueueGiveMutexRecursive  queue.o
+    0x08008d62   0x00000046   Code   RO         4870    i.xQueueTakeMutexRecursive  queue.o
+    0x08008da8   0x00000074   Code   RO         4614    i.xTaskCheckForTimeOut  tasks.o
+    0x08008e1c   0x00000138   Code   RO         4615    i.xTaskGenericCreate  tasks.o
+    0x08008f54   0x0000000c   Code   RO         4616    i.xTaskGetCurrentTaskHandle  tasks.o
+    0x08008f60   0x00000020   Code   RO         4617    i.xTaskGetSchedulerState  tasks.o
+    0x08008f80   0x00000160   Code   RO         4620    i.xTaskIncrementTick  tasks.o
+    0x080090e0   0x00000088   Code   RO         4622    i.xTaskRemoveFromEventList  tasks.o
+    0x08009168   0x000000e8   Code   RO         4623    i.xTaskResumeAll    tasks.o
+    0x08009250   0x00000078   Data   RO          219    .constdata          main.o
+    0x080092c8   0x00000010   Data   RO         2817    .constdata          stm32f3xx_hal_rcc.o
+    0x080092d8   0x00000020   Data   RO         2909    .constdata          stm32f3xx_hal_rcc_ex.o
+    0x080092f8   0x00000010   Data   RO         5708    .constdata          scope.o
+    0x08009308   0x00000088   Data   RO         6000    .constdata          m_wm.l(pow.o)
+    0x08009390   0x00000008   Data   RO         6048    .constdata          m_wm.l(qnan.o)
+    0x08009398   0x00000053   Data   RO          220    .conststring        main.o
+    0x080093eb   0x00000001   PAD
+    0x080093ec   0x00000020   Data   RO         6111    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x0000f8a8, Max: 0x00010000, ABSOLUTE)
@@ -3631,7 +3631,7 @@ Image component sizes
        222          4        203          0          0       1863   main.o
        674         92          0         12          0       7138   port.o
       1542          0          0          0          0      12399   queue.o
-      2948        490         16         60      50464      18823   scope.o
+      2812        480         16         60      50464      18699   scope.o
         36          8        404          0       1024        924   startup_stm32f303xe.o
        112         20          0          4          0       3702   stm32f3xx_hal.o
          6          0          0          0          0       2114   stm32f3xx_hal_adc.o
@@ -3654,7 +3654,7 @@ Image component sizes
        198         22          0          0        108       2696   usart.o
 
     ----------------------------------------------------------------------
-     31824       2892        704        216      63436     650039   Object Totals
+     31688       2882        704        216      63436     649915   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         38          0          1          2          0          0   (incl. Padding)
 
@@ -3719,15 +3719,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     37188       3254        848        220      63436     626947   Grand Totals
-     37188       3254        848        220      63436     626947   ELF Image Totals
-     37188       3254        848        220          0          0   ROM Totals
+     37052       3244        848        220      63436     626823   Grand Totals
+     37052       3244        848        220      63436     626823   ELF Image Totals
+     37052       3244        848        220          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                38036 (  37.14kB)
+    Total RO  Size (Code + RO Data)                37900 (  37.01kB)
     Total RW  Size (RW Data + ZI Data)             63656 (  62.16kB)
-    Total ROM Size (Code + RO Data + RW Data)      38256 (  37.36kB)
+    Total ROM Size (Code + RO Data + RW Data)      38120 (  37.23kB)
 
 ==============================================================================
 

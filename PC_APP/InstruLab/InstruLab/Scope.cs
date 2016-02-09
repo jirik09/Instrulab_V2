@@ -2041,13 +2041,13 @@ namespace InstruLab
             } if (ScopeDevice.maxBufferLength < 20000)
             {
                 this.ToolStripMenuItem_20ksmp.Dispose();
-            } //if (ScopeDevice.maxBufferLength < 50000)
-            //{
+            } if (ScopeDevice.maxBufferLength < 50000)
+            {
                 this.ToolStripMenuItem_50ksmp.Dispose();
-            //} if (ScopeDevice.maxBufferLength < 100000)
-            //{
+            } if (ScopeDevice.maxBufferLength < 100000)
+            {
                 this.ToolStripMenuItem_100ksmp.Dispose();
-            //}
+            }
            
             this.radioButton_1k.Enabled = ScopeDevice.maxSamplingFrequency >= 1000 ? true : false;
             this.radioButton_2k.Enabled = ScopeDevice.maxSamplingFrequency >= 2000 ? true : false;
