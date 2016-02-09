@@ -11,6 +11,12 @@
 #IDE files
 *.suo
 *.uvg*
+*.uvopt*
+*.uvproj*
+*.axf
+*.lst
+*.map
+*.hex
 
 desktop.ini
 logfile*.txt
@@ -18,3 +24,8 @@ logfile*.txt
 
 #runable files
 *.exe
+
+
+# C# build
+*.manifest
+*.pdb
