@@ -313,10 +313,20 @@ void scopeSetDefault(void){
 	scope.settings.adcLevels=pow(2,SCOPE_DEFAULT_ADC_RES);
 	scope.settings.samplesToSend = SCOPE_DEFAULT_DATA_LEN;
 	scope.pChanMem[0] = (uint16_t*)scopeBuffer;
-	scope.oneChanMemSize = MAX_SCOPE_BUFF_SIZE+SCOPE_BUFFER_MARGIN;
+	
 	if(scope.settings.adcRes>8){
+		if(MAX_SCOPE_BUFF_SIZE+SCOPE_BUFFER_MARGIN>130000){
+			scope.oneChanMemSize = 130000;
+		}else{
+			scope.oneChanMemSize = MAX_SCOPE_BUFF_SIZE+SCOPE_BUFFER_MARGIN;
+		}
 		scope.oneChanSamples = scope.oneChanMemSize/2;
 	}else{
+		if(MAX_SCOPE_BUFF_SIZE+SCOPE_BUFFER_MARGIN>65000){
+			scope.oneChanMemSize = 65000;
+		}else{
+			scope.oneChanMemSize = MAX_SCOPE_BUFF_SIZE+SCOPE_BUFFER_MARGIN;
+		}
 		scope.oneChanSamples = scope.oneChanMemSize;
 	}
 	scope.numOfChannles = 1;
@@ -435,17 +445,36 @@ void scopeSetTriggerEdge(scopeTriggerEdge edge){
 uint8_t scopeSetDataDepth(uint16_t res){
 	uint8_t result=BUFFER_SIZE_ERR;
 	uint8_t resTmp=res;
+	uint32_t tmpSize;
 	xSemaphoreTakeRecursive(scopeMutex, portMAX_DELAY);
 	scope.settings.adcRes = res;
 	if(validateBuffUsage()){
 		scope.settings.adcRes = resTmp;
 	}else{
 		scope.settings.adcLevels=pow(2,scope.settings.adcRes);
-		if(scope.settings.adcRes>8){
+		/*if(scope.settings.adcRes>8){
 			scope.oneChanSamples=scope.oneChanMemSize/2;
 		}else{
 			scope.oneChanSamples=scope.oneChanMemSize;
-		}
+		}*/
+		tmpSize=MAX_SCOPE_BUFF_SIZE/scope.numOfChannles+SCOPE_BUFFER_MARGIN-(MAX_SCOPE_BUFF_SIZE/scope.numOfChannles+SCOPE_BUFFER_MARGIN)%2;
+				if(scope.settings.adcRes>8){
+					if(tmpSize>130000){
+						scope.oneChanMemSize=130000;
+					}else{
+						scope.oneChanMemSize=tmpSize;
+					}
+					scope.oneChanSamples=scope.oneChanMemSize/2;
+				}else{
+					if(tmpSize>65000){
+						scope.oneChanMemSize=65000;
+					}else{
+						scope.oneChanMemSize=tmpSize;
+					}
+					scope.oneChanSamples=scope.oneChanMemSize;
+				}
+		
+		
 		adcSetResolution(res);
 		result=0;
 	}
@@ -525,16 +554,27 @@ uint8_t scopeSetNumOfSamples(uint32_t smp){
 uint8_t scopeSetNumOfChannels(uint8_t chan){
 	uint8_t result=BUFFER_SIZE_ERR;
 	uint8_t chanTmp=scope.numOfChannles;
+	uint32_t tmpSize;
 	xSemaphoreTakeRecursive(scopeMutex, portMAX_DELAY);
 	if(chan<=MAX_ADC_CHANNELS){
 		scope.numOfChannles=chan;
 		if(validateBuffUsage()){
 			scope.numOfChannles = chanTmp;
 		}else{
-				scope.oneChanMemSize=MAX_SCOPE_BUFF_SIZE/chan+SCOPE_BUFFER_MARGIN-(MAX_SCOPE_BUFF_SIZE/chan+SCOPE_BUFFER_MARGIN)%2;
+				tmpSize=MAX_SCOPE_BUFF_SIZE/chan+SCOPE_BUFFER_MARGIN-(MAX_SCOPE_BUFF_SIZE/chan+SCOPE_BUFFER_MARGIN)%2;
 				if(scope.settings.adcRes>8){
+					if(tmpSize>130000){
+						scope.oneChanMemSize=130000;
+					}else{
+						scope.oneChanMemSize=tmpSize;
+					}
 					scope.oneChanSamples=scope.oneChanMemSize/2;
 				}else{
+					if(tmpSize>65000){
+						scope.oneChanMemSize=65000;
+					}else{
+						scope.oneChanMemSize=tmpSize;
+					}
 					scope.oneChanSamples=scope.oneChanMemSize;
 				}
 				for(uint8_t i=0;i<chan;i++){

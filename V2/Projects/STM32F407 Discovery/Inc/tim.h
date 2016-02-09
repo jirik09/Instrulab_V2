@@ -57,6 +57,7 @@ uint8_t TIM_Reconfig_gen(uint32_t samplingFreq,uint8_t chan,uint32_t* realFreq);
 void TIMScopeEnable(void);
 void TIMScopeDisable(void);
 void TIMScopeInit(void);	
+uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes);
 void MX_TIM3_Init(void);
 #endif //USE_SCOPE
 
