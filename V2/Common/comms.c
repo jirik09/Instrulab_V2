@@ -68,6 +68,7 @@ void CommTask(void const *argument){
 	uint32_t dataLenFirst;
 	uint32_t dataLenSecond;
 	uint16_t adcRes;
+	uint16_t channels;
 	uint32_t oneChanMemSize;
 	#endif //USE_SCOPE
 
@@ -90,6 +91,7 @@ void CommTask(void const *argument){
 				oneChanMemSize=getOneChanMemSize();
 				dataLength = getSamples();
 				adcRes = getADCRes();
+				channels=GetNumOfChannels();
 				
 				j=scopeGetRealSmplFreq();
 				header[4]=(uint8_t)(j>>24);
@@ -109,7 +111,7 @@ void CommTask(void const *argument){
 				header[9]=(uint8_t)(dataLength >> 16);
 				header[10]=(uint8_t)(dataLength >> 8);
 				header[11]=(uint8_t)dataLength;
-				header[15]=GetNumOfChannels();
+				header[15]=channels;
 				
 				if(j+dataLength>oneChanMemSize){
 					dataLenFirst=oneChanMemSize-j;
@@ -119,7 +121,7 @@ void CommTask(void const *argument){
 					dataLenSecond=0;
 				}
 				
-				for(i=0;i<GetNumOfChannels();i++){
+				for(i=0;i<channels;i++){
 				
 					pointer = (uint8_t*)getDataPointer(i);
 				

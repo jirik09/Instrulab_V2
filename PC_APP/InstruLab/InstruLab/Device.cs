@@ -494,7 +494,7 @@ namespace InstruLab
                             break;
                     }
                 }
-                catch (Exception ex)
+                catch (System.ArgumentException  ex)
                 {
                     if (port.IsOpen)
                     {

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Generator));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -125,9 +126,6 @@
             this.typeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.logarithmicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label_status_gen = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -1226,8 +1224,7 @@
             this.fileToolStripMenuItem,
             this.lengthToolStripMenuItem,
             this.signalToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.helpToolStripMenuItem});
+            this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -1246,7 +1243,7 @@
             // exitGeneratorToolStripMenuItem
             // 
             this.exitGeneratorToolStripMenuItem.Name = "exitGeneratorToolStripMenuItem";
-            this.exitGeneratorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.exitGeneratorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitGeneratorToolStripMenuItem.Text = "Exit Generator";
             this.exitGeneratorToolStripMenuItem.Click += new System.EventHandler(this.exitGeneratorToolStripMenuItem_Click);
             // 
@@ -1312,7 +1309,7 @@
             this.outputBufferToolStripMenuItem.Checked = true;
             this.outputBufferToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.outputBufferToolStripMenuItem.Name = "outputBufferToolStripMenuItem";
-            this.outputBufferToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.outputBufferToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.outputBufferToolStripMenuItem.Text = "Output Buffer";
             this.outputBufferToolStripMenuItem.Click += new System.EventHandler(this.outputBufferToolStripMenuItem_Click);
             // 
@@ -1331,7 +1328,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(129, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem2.Text = "Channel 1";
             // 
             // rangeToolStripMenuItem
@@ -1339,7 +1336,7 @@
             this.rangeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox2});
             this.rangeToolStripMenuItem.Name = "rangeToolStripMenuItem";
-            this.rangeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.rangeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rangeToolStripMenuItem.Text = "Range (%)";
             // 
             // toolStripTextBox2
@@ -1353,7 +1350,7 @@
             this.timesecToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox3});
             this.timesecToolStripMenuItem.Name = "timesecToolStripMenuItem";
-            this.timesecToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.timesecToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.timesecToolStripMenuItem.Text = "Time (sec)";
             // 
             // toolStripTextBox3
@@ -1368,7 +1365,7 @@
             this.toolStripMenuItem3,
             this.logarithmicToolStripMenuItem});
             this.typeToolStripMenuItem.Name = "typeToolStripMenuItem";
-            this.typeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.typeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.typeToolStripMenuItem.Text = "Type";
             // 
             // toolStripMenuItem3
@@ -1382,28 +1379,6 @@
             this.logarithmicToolStripMenuItem.Name = "logarithmicToolStripMenuItem";
             this.logarithmicToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.logarithmicToolStripMenuItem.Text = "Logarithmic";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.helpToolStripMenuItem1,
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Enabled = false;
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // helpToolStripMenuItem1
-            // 
-            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.helpToolStripMenuItem1.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem.Text = "About";
             // 
             // label_status_gen
             // 
@@ -1426,6 +1401,7 @@
             this.Controls.Add(this.label_status);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(739, 267);
@@ -1575,9 +1551,6 @@
         private System.Windows.Forms.RadioButton radioButton_sine_ch2;
         private System.Windows.Forms.RadioButton radioButton_square_ch2;
         private System.Windows.Forms.RadioButton radioButton_saw_ch2;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitGeneratorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;

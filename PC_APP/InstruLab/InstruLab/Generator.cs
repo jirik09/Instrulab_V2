@@ -618,21 +618,50 @@ namespace InstruLab
             if (generating)
             {
                 label_real_freq_ch1_title.Text = "Real frequency";
-                label_real_freq_ch1.Text = Math.Round((double)realFreq_ch1, 2).ToString() + " Hz";
+                if (realFreq_ch1 < 1000)
+                {
+                    label_real_freq_ch1.Text = Math.Round((double)realFreq_ch1, 2).ToString() + " Hz";
+                }
+                else {
+                    label_real_freq_ch1.Text = Math.Round((double)realFreq_ch1/1000, 3).ToString() + " kHz";
+                }
                 if (actual_channels == 2)
                 {
-                    label_real_freq_ch2.Text = Math.Round((double)realFreq_ch2, 2).ToString() + " Hz";
+                    label_real_freq_ch2_title.Text = "Real frequency";
+                    if (realFreq_ch2 < 1000)
+                    {
+                        label_real_freq_ch2.Text = Math.Round((double)realFreq_ch2, 2).ToString() + " Hz";
+                    }
+                    else
+                    {
+                        label_real_freq_ch2.Text = Math.Round((double)realFreq_ch2 / 1000, 3).ToString() + " kHz";
+                    }
                 }
             }
             else
             {
                 label_real_freq_ch1_title.Text = "Estimate freq.";
-                label_real_freq_ch1.Text = Math.Round((double)(device.systemCfg.PeriphClock) / signal_leng_ch1 / divider_ch1, 2).ToString() + " Hz";
+                if ((double)(device.systemCfg.PeriphClock) / signal_leng_ch1 / divider_ch1 < 1000)
+                {
+                    label_real_freq_ch1.Text = Math.Round((double)(device.systemCfg.PeriphClock) / signal_leng_ch1 / divider_ch1, 2).ToString() + " Hz";
+                }
+                else
+                {
+                    label_real_freq_ch1.Text = Math.Round((double)(device.systemCfg.PeriphClock) / signal_leng_ch1 / divider_ch1 / 1000, 3).ToString() + " kHz";
+                }
                 label_sig_leng_ch1.Text = signal_leng_ch1.ToString();// +" " + divider_ch1.ToString();
                 if (actual_channels == 2)
                 {
+                    label_real_freq_ch2_title.Text = "Estimate freq.";
                     label_sig_leng_ch2.Text = signal_leng_ch2.ToString();// +" " + divider_ch2.ToString();
-                    label_real_freq_ch2.Text = Math.Round((double)(device.systemCfg.PeriphClock) / signal_leng_ch2 / divider_ch2, 2).ToString() + "Hz";
+                    if ((double)(device.systemCfg.PeriphClock) / signal_leng_ch2 / divider_ch2 < 1000)
+                    {
+                        label_real_freq_ch2.Text = Math.Round((double)(device.systemCfg.PeriphClock) / signal_leng_ch2 / divider_ch2, 2).ToString() + " Hz";
+                    }
+                    else
+                    {
+                        label_real_freq_ch2.Text = Math.Round((double)(device.systemCfg.PeriphClock) / signal_leng_ch2 / divider_ch2/1000, 3).ToString() + " kHz";
+                    }
                 }
             }
 

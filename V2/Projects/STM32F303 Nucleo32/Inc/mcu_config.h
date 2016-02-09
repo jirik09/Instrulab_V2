@@ -61,8 +61,8 @@
 
 #define GEN_VREF 3300
 
-#define GEN_CH1_PIN_STR "A4__" //must be 4 chars
-#define GEN_CH2_PIN_STR "A5__" //must be 4 chars
+#define GEN_CH1_PIN_STR "A5__" //must be 4 chars
+#define GEN_CH2_PIN_STR "A4__" //must be 4 chars
 
 
 //Definition of assert to check length of strings

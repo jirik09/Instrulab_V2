@@ -289,5 +289,11 @@ namespace InstruLab
         
         
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox box = new AboutBox();
+            box.ShowDialog();
+        }
     }
 }

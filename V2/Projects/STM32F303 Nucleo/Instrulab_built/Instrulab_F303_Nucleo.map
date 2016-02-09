@@ -1276,10 +1276,10 @@ Section Cross References
     comms.o(i.CommTask) refers to scope.o(i.getOneChanMemSize) for getOneChanMemSize
     comms.o(i.CommTask) refers to scope.o(i.getSamples) for getSamples
     comms.o(i.CommTask) refers to scope.o(i.getADCRes) for getADCRes
+    comms.o(i.CommTask) refers to scope.o(i.GetNumOfChannels) for GetNumOfChannels
     comms.o(i.CommTask) refers to scope.o(i.scopeGetRealSmplFreq) for scopeGetRealSmplFreq
     comms.o(i.CommTask) refers to scope.o(i.getTriggerIndex) for getTriggerIndex
     comms.o(i.CommTask) refers to scope.o(i.getPretrigger) for getPretrigger
-    comms.o(i.CommTask) refers to scope.o(i.GetNumOfChannels) for GetNumOfChannels
     comms.o(i.CommTask) refers to scope.o(i.getDataPointer) for getDataPointer
     comms.o(i.CommTask) refers to comms_hal.o(i.commsSendBuff) for commsSendBuff
     comms.o(i.CommTask) refers to comms_hal.o(i.commsSendString) for commsSendString
@@ -2460,7 +2460,7 @@ Image Symbol Table
     i.CmdParserTask                          0x08000d1c   Section        0  cmd_parser.o(i.CmdParserTask)
     i.CommTask                               0x08000eb4   Section        0  comms.o(i.CommTask)
     i.DACDisableOutput                       0x080011e0   Section        0  dac.o(i.DACDisableOutput)
-    i.DACEnableOutput                        0x080011fe   Section        0  dac.o(i.DACEnableOutput)
+    i.DACEnableOutput                        0x080011fc   Section        0  dac.o(i.DACEnableOutput)
     i.DACSetOutputBuffer                     0x0800121c   Section        0  dac.o(i.DACSetOutputBuffer)
     i.DACUnsetOutputBuffer                   0x08001228   Section        0  dac.o(i.DACUnsetOutputBuffer)
     i.DAC_DMAConvCpltCh1                     0x08001234   Section        0  stm32f3xx_hal_dac_ex.o(i.DAC_DMAConvCpltCh1)
@@ -2966,9 +2966,9 @@ Image Symbol Table
     ADC_set_sampling_time                    0x08000c31   Thumb Code   170  adc.o(i.ADC_set_sampling_time)
     CalibrateADC                             0x08000ce9   Thumb Code    36  adc.o(i.CalibrateADC)
     CmdParserTask                            0x08000d1d   Thumb Code   320  cmd_parser.o(i.CmdParserTask)
-    CommTask                                 0x08000eb5   Thumb Code   734  comms.o(i.CommTask)
-    DACDisableOutput                         0x080011e1   Thumb Code    30  dac.o(i.DACDisableOutput)
-    DACEnableOutput                          0x080011ff   Thumb Code    30  dac.o(i.DACEnableOutput)
+    CommTask                                 0x08000eb5   Thumb Code   736  comms.o(i.CommTask)
+    DACDisableOutput                         0x080011e1   Thumb Code    28  dac.o(i.DACDisableOutput)
+    DACEnableOutput                          0x080011fd   Thumb Code    30  dac.o(i.DACEnableOutput)
     DACSetOutputBuffer                       0x0800121d   Thumb Code     8  dac.o(i.DACSetOutputBuffer)
     DACUnsetOutputBuffer                     0x08001229   Thumb Code     8  dac.o(i.DACUnsetOutputBuffer)
     DAC_DMA_Reconfig                         0x080012a9   Thumb Code    54  dac.o(i.DAC_DMA_Reconfig)
@@ -3294,8 +3294,9 @@ Memory Map of the image
     0x08000ce8   0x00000034   Code   RO          559    i.CalibrateADC      adc.o
     0x08000d1c   0x00000198   Code   RO         5507    i.CmdParserTask     cmd_parser.o
     0x08000eb4   0x0000032c   Code   RO         5572    i.CommTask          comms.o
-    0x080011e0   0x0000001e   Code   RO          478    i.DACDisableOutput  dac.o
-    0x080011fe   0x0000001e   Code   RO          479    i.DACEnableOutput   dac.o
+    0x080011e0   0x0000001c   Code   RO          478    i.DACDisableOutput  dac.o
+    0x080011fc   0x0000001e   Code   RO          479    i.DACEnableOutput   dac.o
+    0x0800121a   0x00000002   PAD
     0x0800121c   0x0000000c   Code   RO          480    i.DACSetOutputBuffer  dac.o
     0x08001228   0x0000000c   Code   RO          481    i.DACUnsetOutputBuffer  dac.o
     0x08001234   0x00000012   Code   RO         1784    i.DAC_DMAConvCpltCh1  stm32f3xx_hal_dac_ex.o
@@ -3618,9 +3619,9 @@ Image component sizes
        126          0          0          0          0        653   clock.o
       2984        476          0          4          0       9322   cmd_parser.o
        112          0          0          0          0       7015   cmsis_os.o
-      1798        312          0          8        524       8785   comms.o
+      1798        310          0          8        524       8829   comms.o
        108          0          0          0          0       3143   comms_hal.o
-       468         58          0          4        132       5247   dac.o
+       466         58          0          4        132       5243   dac.o
         28          4          0          0          0        422   dma.o
          2          0          0          0          0        556   freertos.o
        956        184          0          6       2044       9938   generator.o
@@ -3653,9 +3654,9 @@ Image component sizes
        198         22          0          0        108       2696   usart.o
 
     ----------------------------------------------------------------------
-     31688       2884        704        216      63436     649875   Object Totals
+     31688       2882        704        216      63436     649915   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        36          0          1          2          0          0   (incl. Padding)
+        38          0          1          2          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -3718,9 +3719,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     37052       3246        848        220      63436     626783   Grand Totals
-     37052       3246        848        220      63436     626783   ELF Image Totals
-     37052       3246        848        220          0          0   ROM Totals
+     37052       3244        848        220      63436     626823   Grand Totals
+     37052       3244        848        220      63436     626823   ELF Image Totals
+     37052       3244        848        220          0          0   ROM Totals
 
 ==============================================================================
 

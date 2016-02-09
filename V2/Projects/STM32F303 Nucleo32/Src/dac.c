@@ -235,7 +235,7 @@ void DACDisableOutput(void){
 	GPIO_InitTypeDef GPIO_InitStruct;
   GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
@@ -248,11 +248,11 @@ void DACEnableOutput(void){
 }
 
 void DACSetOutputBuffer(void){
-//	outputBuffEn=DAC_OUTPUTBUFFER_DISABLE; //Swaped in F303K8 why?
+	outputBuffEn=DAC_OUTPUTBUFFER_DISABLE; //Swaped in F303K8 why?
 }
 
 void DACUnsetOutputBuffer(void){
-//	outputBuffEn=DAC_OUTPUTBUFFER_ENABLE; //swaped in F303K8 why?
+	outputBuffEn=DAC_OUTPUTBUFFER_ENABLE; //swaped in F303K8 why?
 }
 
 

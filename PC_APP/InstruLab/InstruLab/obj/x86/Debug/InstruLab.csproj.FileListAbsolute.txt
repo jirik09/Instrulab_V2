@@ -20,3 +20,10 @@ E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Generator
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Properties.Resources.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.Scope.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csproj.GenerateResource.Cache
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.AboutBox.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\InstruLab.exe.config
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\InstruLab.exe.manifest
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\InstruLab.application
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.TrustInfo.xml
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.exe.manifest
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.application

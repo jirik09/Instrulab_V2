@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Scope));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,9 +103,6 @@
             this.minToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox_voltage = new System.Windows.Forms.GroupBox();
@@ -203,6 +201,10 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label_cur_u_a = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_color_ch4 = new System.Windows.Forms.Label();
+            this.label_color_ch3 = new System.Windows.Forms.Label();
+            this.label_color_ch2 = new System.Windows.Forms.Label();
+            this.label_color_ch1 = new System.Windows.Forms.Label();
             this.label_meas5 = new System.Windows.Forms.Label();
             this.label_meas4 = new System.Windows.Forms.Label();
             this.label_meas3 = new System.Windows.Forms.Label();
@@ -245,8 +247,7 @@
             this.toolStripMenuItem7,
             this.toolStripMenuItem3,
             this.otherToolStripMenuItem,
-            this.toolStripMenuItem8,
-            this.helpToolStripMenuItem});
+            this.toolStripMenuItem8});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -855,28 +856,6 @@
             this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.clearAllToolStripMenuItem.Text = "Clear all";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.helpToolStripMenuItem1,
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Enabled = false;
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // helpToolStripMenuItem1
-            // 
-            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.helpToolStripMenuItem1.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem.Text = "About";
             // 
             // panel2
             // 
@@ -2213,6 +2192,10 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label_color_ch4);
+            this.panel1.Controls.Add(this.label_color_ch3);
+            this.panel1.Controls.Add(this.label_color_ch2);
+            this.panel1.Controls.Add(this.label_color_ch1);
             this.panel1.Controls.Add(this.label_meas5);
             this.panel1.Controls.Add(this.label_meas4);
             this.panel1.Controls.Add(this.label_meas3);
@@ -2225,6 +2208,54 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(549, 313);
             this.panel1.TabIndex = 3;
+            // 
+            // label_color_ch4
+            // 
+            this.label_color_ch4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_color_ch4.AutoSize = true;
+            this.label_color_ch4.BackColor = System.Drawing.Color.White;
+            this.label_color_ch4.ForeColor = System.Drawing.Color.Magenta;
+            this.label_color_ch4.Location = new System.Drawing.Point(486, 54);
+            this.label_color_ch4.Name = "label_color_ch4";
+            this.label_color_ch4.Size = new System.Drawing.Size(29, 13);
+            this.label_color_ch4.TabIndex = 6;
+            this.label_color_ch4.Text = "Ch 4";
+            // 
+            // label_color_ch3
+            // 
+            this.label_color_ch3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_color_ch3.AutoSize = true;
+            this.label_color_ch3.BackColor = System.Drawing.Color.White;
+            this.label_color_ch3.ForeColor = System.Drawing.Color.Green;
+            this.label_color_ch3.Location = new System.Drawing.Point(486, 42);
+            this.label_color_ch3.Name = "label_color_ch3";
+            this.label_color_ch3.Size = new System.Drawing.Size(29, 13);
+            this.label_color_ch3.TabIndex = 5;
+            this.label_color_ch3.Text = "Ch 3";
+            // 
+            // label_color_ch2
+            // 
+            this.label_color_ch2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_color_ch2.AutoSize = true;
+            this.label_color_ch2.BackColor = System.Drawing.Color.White;
+            this.label_color_ch2.ForeColor = System.Drawing.Color.Blue;
+            this.label_color_ch2.Location = new System.Drawing.Point(486, 29);
+            this.label_color_ch2.Name = "label_color_ch2";
+            this.label_color_ch2.Size = new System.Drawing.Size(29, 13);
+            this.label_color_ch2.TabIndex = 4;
+            this.label_color_ch2.Text = "Ch 2";
+            // 
+            // label_color_ch1
+            // 
+            this.label_color_ch1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_color_ch1.AutoSize = true;
+            this.label_color_ch1.BackColor = System.Drawing.Color.White;
+            this.label_color_ch1.ForeColor = System.Drawing.Color.Red;
+            this.label_color_ch1.Location = new System.Drawing.Point(486, 16);
+            this.label_color_ch1.Name = "label_color_ch1";
+            this.label_color_ch1.Size = new System.Drawing.Size(29, 13);
+            this.label_color_ch1.TabIndex = 3;
+            this.label_color_ch1.Text = "Ch 1";
             // 
             // label_meas5
             // 
@@ -2325,6 +2356,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(751, 472);
             this.Controls.Add(this.panel5);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(679, 511);
@@ -2406,9 +2438,6 @@
         private System.Windows.Forms.ToolStripMenuItem uARTToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sPIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fourierTransformToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox_voltage;
@@ -2553,6 +2582,10 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
+        private System.Windows.Forms.Label label_color_ch1;
+        private System.Windows.Forms.Label label_color_ch4;
+        private System.Windows.Forms.Label label_color_ch3;
+        private System.Windows.Forms.Label label_color_ch2;
 
 
     }

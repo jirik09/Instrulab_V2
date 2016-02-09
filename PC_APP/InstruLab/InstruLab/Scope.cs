@@ -134,6 +134,7 @@ namespace InstruLab
 
         double scale=1;
         double horPosition=0.5;
+        double LastHorPosition = 0.5;
 
         
     
@@ -164,6 +165,7 @@ namespace InstruLab
 
             this.Text = "Scope - (" + device.get_port() + ") " + device.get_name(); 
 
+            validate_channel_colors();
             validate_radio_btns();
             validate_menu();
 
@@ -231,7 +233,7 @@ namespace InstruLab
                 }
                 catch (Exception ex) { }
             }
-            if (maxY != last_maxY || minY != last_minY)
+            if (maxY != last_maxY || minY != last_minY || horPosition!=LastHorPosition)
             {
 
                 scopePane.YAxis.Scale.MaxAuto = false;
@@ -243,6 +245,7 @@ namespace InstruLab
 
                 last_maxY = maxY;
                 last_minY = minY;
+                LastHorPosition = horPosition;
                 update = true;
                 process_signals();
                 scopePane.CurveList.Clear();
@@ -339,6 +342,10 @@ namespace InstruLab
             if (last_trigger_level != triggerLevel) {
                 set_trigger_level(triggerLevel);
                 last_trigger_level = triggerLevel;
+                scopePane.CurveList.Clear();
+                paint_signals();
+                paint_markers();
+                update = true;
             }
 
 
@@ -425,9 +432,12 @@ namespace InstruLab
                     {
                         this.timeDif = "dt " + (Math.Round(td, 3)).ToString() + " s";
                     }
-                    else
+                    else if (td >= 0.001 || td <= -0.001)
                     {
                         this.timeDif = "dt " + (Math.Round(td * 1000, 3)).ToString() + " ms";
+                    }else
+                    {
+                        this.timeDif = "dt " + (Math.Round(td * 1000000, 3)).ToString() + " us";
                     }
 
                     if (tA >= 1 || tA <= -1)
@@ -611,6 +621,7 @@ namespace InstruLab
                         paint_markers();
                         vertical_cursor_update();
                         paint_cursors();
+                        
                         this.Invalidate();
 
                         if (device.scopeCfg.mode == Scope.mode_def.AUTO || device.scopeCfg.mode == Scope.mode_def.NORMAL)
@@ -686,14 +697,14 @@ namespace InstruLab
             }
             this.label_scope_status.Text = status_text;
             if (device.scopeCfg.realSmplFreq >= 1000000) {
-                this.label_samplingfreq.Text = Math.Round((double)device.scopeCfg.realSmplFreq / 1000000, 3).ToString() + "MSPS";
+                this.label_samplingfreq.Text = Math.Round((double)device.scopeCfg.realSmplFreq / 1000000, 3).ToString() + " MSPS";
             }
             else if (device.scopeCfg.realSmplFreq >= 1000)
             {
-                this.label_samplingfreq.Text = Math.Round((double)device.scopeCfg.realSmplFreq / 1000, 3).ToString() + "kSPS";
+                this.label_samplingfreq.Text = Math.Round((double)device.scopeCfg.realSmplFreq / 1000, 3).ToString() + " kSPS";
             }
             else {
-                this.label_samplingfreq.Text = Math.Round((double)device.scopeCfg.realSmplFreq, 3).ToString() + "SPS";
+                this.label_samplingfreq.Text = Math.Round((double)device.scopeCfg.realSmplFreq, 3).ToString() + " SPS";
             }
             
             base.OnPaint(e);
@@ -1256,6 +1267,7 @@ namespace InstruLab
                     show_buffer_err_message();
                 }
             }
+            validate_channel_colors();
             update_channels_menu();
         }
 
@@ -1282,6 +1294,7 @@ namespace InstruLab
                     show_buffer_err_message();
                 }
             }
+            validate_channel_colors();
             update_channels_menu();
         }
 
@@ -1308,6 +1321,7 @@ namespace InstruLab
                     show_buffer_err_message();
                 }
             }
+            validate_channel_colors();
             update_channels_menu();
         }
 
@@ -1334,6 +1348,7 @@ namespace InstruLab
                     show_buffer_err_message();
                 }
             }
+            validate_channel_colors();
             update_channels_menu();
         }
 
@@ -1938,7 +1953,14 @@ namespace InstruLab
             this.radioButton_trig_ch4.Enabled = actualCahnnels >= 4 ? true : false;
             this.radioButton_ver_cur_ch4.Enabled = actualCahnnels >= 4 ? true : false;
             this.radioButton_volt_ch4.Enabled = actualCahnnels >= 4 ? true : false;
-            this.radioButton_hor_cur_ch4.Enabled = actualCahnnels >= 4 ? true : false;    
+            this.radioButton_hor_cur_ch4.Enabled = actualCahnnels >= 4 ? true : false;
+        }
+
+        public void validate_channel_colors() {
+            this.label_color_ch1.Visible = actualCahnnels >= 1 ? true : false;
+            this.label_color_ch2.Visible = actualCahnnels >= 2 ? true : false;
+            this.label_color_ch3.Visible = actualCahnnels >= 3 ? true : false;
+            this.label_color_ch4.Visible = actualCahnnels >= 4 ? true : false;
         }
 
         public void update_data_len_menu()
@@ -2669,6 +2691,7 @@ namespace InstruLab
         {
             reset_volt_set();
         }
+
 
 
 
