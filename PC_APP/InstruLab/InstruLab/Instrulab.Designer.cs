@@ -92,6 +92,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
+            this.sendUsFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.groupBox_device_info.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
@@ -729,7 +730,8 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.sendUsFeedbackToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -737,7 +739,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -750,6 +752,13 @@
             this.label1.Size = new System.Drawing.Size(138, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "CTU FEE 2016 - Jiří Hladík";
+            // 
+            // sendUsFeedbackToolStripMenuItem
+            // 
+            this.sendUsFeedbackToolStripMenuItem.Name = "sendUsFeedbackToolStripMenuItem";
+            this.sendUsFeedbackToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.sendUsFeedbackToolStripMenuItem.Text = "Send us feedback";
+            this.sendUsFeedbackToolStripMenuItem.Click += new System.EventHandler(this.sendUsFeedbackToolStripMenuItem_Click);
             // 
             // Instrulab
             // 
@@ -850,6 +859,7 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripMenuItem sendUsFeedbackToolStripMenuItem;
 
 
     }

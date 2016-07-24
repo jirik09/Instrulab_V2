@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ZedGraph;
 using System.Threading;
 using System.Timers;
+using LEO;
 
 namespace InstruLab
 {
@@ -294,6 +295,12 @@ namespace InstruLab
         {
             AboutBox box = new AboutBox();
             box.ShowDialog();
+        }
+
+        private void sendUsFeedbackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            feedback fdbck = new feedback();
+            fdbck.Show();
         }
     }
 }

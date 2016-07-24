@@ -8,6 +8,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
+using LEO;
 
 namespace InstruLab
 {
@@ -84,6 +85,7 @@ namespace InstruLab
         Scope Scope_form;
         Generator Gen_form;
         SynchronizationContext syncContext;
+        Reporting report = new Reporting();
 
         static Semaphore commsSemaphore = new Semaphore(1,1);  // Dostupná kapacita=1; Celková=1
         static Semaphore logSemaphore = new Semaphore(1, 1);  // Dostupná kapacita=1; Celková=1
@@ -164,7 +166,7 @@ namespace InstruLab
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fatal error during connecting to device \r\n" + ex, "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             //   report.Sendreport("Fatal error during connecting to device",ex,this);
             }
 
             if(writeLog)
@@ -189,8 +191,7 @@ namespace InstruLab
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Fatal error during opening log file\r\n" + ex, "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    
+                    report.Sendreport("Fatal error during opening log file", ex,this);
                     return false;
                 }
             }
@@ -499,7 +500,7 @@ namespace InstruLab
                     if (port.IsOpen)
                     {
                         port.DiscardInBuffer();
-                        MessageBox.Show("Error recieved \r\n" + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        report.Sendreport("Mismatch communication Error recieved", ex,this);
                     }
                 }
                 Thread.Yield();
@@ -509,6 +510,7 @@ namespace InstruLab
         private void serialPort_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
             if (writeLog) { logTextNL("Serial port error recieved:\r\n"); }
+            report.Sendreport("Serial port error recieved", new Exception("Communication error handler"), this);
         }
 
 
