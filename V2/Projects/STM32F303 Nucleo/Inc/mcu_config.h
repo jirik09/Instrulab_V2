@@ -36,7 +36,7 @@
 #define MAX_SAMPLING_FREQ 4000000 //smps
 #define MAX_ADC_CHANNELS 4
 
-#define MAX_SCOPE_BUFF_SIZE 50000 //in bytes
+#define MAX_SCOPE_BUFF_SIZE 50000//50000 //in bytes
 #define SCOPE_BUFFER_MARGIN 100
 
 #define SCOPE_CH1_PIN_STR "A5__" //must be 4 chars
@@ -59,7 +59,7 @@
 
 #define MAX_GENERATING_FREQ 2000000 //smps
 #define MAX_DAC_CHANNELS 2
-#define MAX_GENERATOR_BUFF_SIZE 2000
+#define MAX_GENERATOR_BUFF_SIZE 2000//2000
 #define	DAC_DATA_DEPTH 12
 
 #define GEN_VREF 3300

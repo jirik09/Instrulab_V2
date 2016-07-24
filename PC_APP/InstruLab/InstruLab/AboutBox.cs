@@ -18,7 +18,7 @@ namespace InstruLab
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;*/
-            this.textBoxDescription.Text = "Instumentation laboratory shortly Instrulab was developed to help sudents with their laboratory excersises. Instrulab is focused on discovery and Nucleo boards from ST Microelectronics and is able to convert each of them into set of laboratory instrumentation. Nowadays it contains just oscilloscope and generator but other features can be easilly added. Sampling frequency, number of channels, number of samples and over all capability depends on used MCU.";
+            this.textBoxDescription.Text = "Little Embedded Oscilloscope shortly LEO was developed to help sudents with their laboratory excersises. LEO is focused on discovery and Nucleo boards from ST Microelectronics and is able to convert each of them into set of laboratory instrumentation. Nowadays it contains just oscilloscope and generator but other features can be easilly added. Sampling frequency, number of channels, number of samples and overall capability depends on used MCU.";
         }
 
         #region Assembly Attribute Accessors

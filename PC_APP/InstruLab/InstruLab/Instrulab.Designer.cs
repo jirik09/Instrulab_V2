@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Instrulab));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox_device_info = new System.Windows.Forms.GroupBox();
             this.label_device = new System.Windows.Forms.Label();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
@@ -81,6 +82,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_color = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitInstrulabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,7 +91,6 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox_device_info.SuspendLayout();
@@ -107,6 +108,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.groupBox_device_info);
             this.panel1.Controls.Add(this.btn_connect);
             this.panel1.Controls.Add(this.btn_scan);
@@ -116,6 +118,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(595, 340);
             this.panel1.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
+            this.panel2.Location = new System.Drawing.Point(430, 200);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(161, 109);
+            this.panel2.TabIndex = 4;
             // 
             // groupBox_device_info
             // 
@@ -628,7 +639,7 @@
             this.listBox_devices.Location = new System.Drawing.Point(430, 8);
             this.listBox_devices.Margin = new System.Windows.Forms.Padding(2);
             this.listBox_devices.Name = "listBox_devices";
-            this.listBox_devices.Size = new System.Drawing.Size(161, 303);
+            this.listBox_devices.Size = new System.Drawing.Size(161, 186);
             this.listBox_devices.TabIndex = 0;
             // 
             // statusStrip1
@@ -658,6 +669,12 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(240, 20);
             this.toolStripStatusLabel.Text = "Click scan to find available devices";
             this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripProgressBar
+            // 
+            this.toolStripProgressBar.Name = "toolStripProgressBar";
+            this.toolStripProgressBar.Size = new System.Drawing.Size(75, 19);
+            this.toolStripProgressBar.Step = 1;
             // 
             // menuStrip1
             // 
@@ -724,12 +741,6 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // toolStripProgressBar
-            // 
-            this.toolStripProgressBar.Name = "toolStripProgressBar";
-            this.toolStripProgressBar.Size = new System.Drawing.Size(75, 19);
-            this.toolStripProgressBar.Step = 1;
-            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -754,7 +765,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(619, 426);
             this.Name = "Instrulab";
-            this.Text = "Instrulab";
+            this.Text = "Little Embedded Oscilloscope";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Instrulab_FormClosing);
             this.panel1.ResumeLayout(false);
             this.groupBox_device_info.ResumeLayout(false);
@@ -838,6 +849,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel2;
 
 
     }

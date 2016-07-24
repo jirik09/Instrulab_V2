@@ -79,7 +79,7 @@ namespace InstruLab
 
 
         private StreamWriter logWriter;
-        private const bool writeLog = true;
+        private const bool writeLog = false;
 
         Scope Scope_form;
         Generator Gen_form;
@@ -128,8 +128,8 @@ namespace InstruLab
         public void close_port() {
             if (port.IsOpen)
             {
-                logTextNL("PORT zavřen: " + this.portName);
-                logWriter.Close();
+                if (writeLog) { logTextNL("PORT zavřen: " + this.portName); }
+                if (writeLog) { logWriter.Close(); }
                 try
                 {
                     port.Close();
@@ -602,7 +602,7 @@ namespace InstruLab
                     port.Write(s);
 
                     //   if (!s.Equals("OSCP:SRAT")) {
-                    logSend(s);
+                    if (writeLog) { logSend(s); }
                 
                 // }
                 //  Console.WriteLine(s);
@@ -634,7 +634,7 @@ namespace InstruLab
                 byte[] se = new byte[2];
                 se[0] = bt[0];
                 se[1] = bt[1];
-                logText(l.ToString("D4") + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
+                if (writeLog) { logText(l.ToString("D4") + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")"); }
                 port.Write(bt, 0, 2);
                 return true;
             }
@@ -659,7 +659,7 @@ namespace InstruLab
                 se[1] = 0;
                 se[2] = bt[0];
                 se[3] = bt[1];
-                logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
+                if (writeLog) { logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")"); }
                 port.Write(bt, 0, 4);
             }
             catch (Exception ex)
@@ -682,7 +682,7 @@ namespace InstruLab
                 se[1] = bt[1];
                 se[2] = bt[2];
                 se[3] = bt[3];
-                logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")");
+                if (writeLog) { logTextNL(l.ToString() + "(0x" + BitConverter.ToString(se, 0).Replace("-", "") + ")"); }
                 port.Write(se, 0, 4);
             }
             catch (Exception ex)

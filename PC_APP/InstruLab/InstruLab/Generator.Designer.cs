@@ -1243,7 +1243,7 @@
             // exitGeneratorToolStripMenuItem
             // 
             this.exitGeneratorToolStripMenuItem.Name = "exitGeneratorToolStripMenuItem";
-            this.exitGeneratorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitGeneratorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.exitGeneratorToolStripMenuItem.Text = "Exit Generator";
             this.exitGeneratorToolStripMenuItem.Click += new System.EventHandler(this.exitGeneratorToolStripMenuItem_Click);
             // 
@@ -1309,7 +1309,7 @@
             this.outputBufferToolStripMenuItem.Checked = true;
             this.outputBufferToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.outputBufferToolStripMenuItem.Name = "outputBufferToolStripMenuItem";
-            this.outputBufferToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outputBufferToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.outputBufferToolStripMenuItem.Text = "Output Buffer";
             this.outputBufferToolStripMenuItem.Click += new System.EventHandler(this.outputBufferToolStripMenuItem_Click);
             // 
@@ -1328,7 +1328,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(129, 22);
             this.toolStripMenuItem2.Text = "Channel 1";
             // 
             // rangeToolStripMenuItem
@@ -1336,7 +1336,7 @@
             this.rangeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox2});
             this.rangeToolStripMenuItem.Name = "rangeToolStripMenuItem";
-            this.rangeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rangeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.rangeToolStripMenuItem.Text = "Range (%)";
             // 
             // toolStripTextBox2
@@ -1350,7 +1350,7 @@
             this.timesecToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox3});
             this.timesecToolStripMenuItem.Name = "timesecToolStripMenuItem";
-            this.timesecToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.timesecToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.timesecToolStripMenuItem.Text = "Time (sec)";
             // 
             // toolStripTextBox3
@@ -1365,7 +1365,7 @@
             this.toolStripMenuItem3,
             this.logarithmicToolStripMenuItem});
             this.typeToolStripMenuItem.Name = "typeToolStripMenuItem";
-            this.typeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.typeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.typeToolStripMenuItem.Text = "Type";
             // 
             // toolStripMenuItem3
