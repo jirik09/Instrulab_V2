@@ -67,6 +67,10 @@ namespace InstruLab
             public int VRef;
         }
 
+        enum FormOpened { NONE,SCOPE, VOLTMETER}
+
+        FormOpened formOpened = FormOpened.NONE;
+
         private SerialPort port;
         private string portName;
         private string name;
@@ -84,6 +88,7 @@ namespace InstruLab
 
         Scope Scope_form;
         Generator Gen_form;
+        Voltmeter Volt_form;
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
 
@@ -364,7 +369,7 @@ namespace InstruLab
                                 wait_for_data(watchDog--);
                             }
                             port.Read(inputData, 0, 4);
-                            scopeCfg.realSmplFreq=inputData[0] * 256 * 256 * 256 + inputData[1] * 256 * 256 + inputData[2] * 256 + inputData[3];
+                            scopeCfg.realSmplFreq = inputData[0] * 256 * 256 * 256 + inputData[1] * 256 * 256 + inputData[2] * 256 + inputData[3];
                             res = port.ReadByte();
                             leng = port.ReadByte() * 65536 + port.ReadByte() * 256 + port.ReadByte();
                             port.Read(inputData, 0, 2);
@@ -376,14 +381,14 @@ namespace InstruLab
 
                             while (toRead > 0)
                             {
-                               ///// if (port.BytesToRead <= leng + wasRead)
-                               /// {
-                                    wasRead += port.Read(scopeCfg.buffer, wasRead, Math.Min(port.BytesToRead,toRead));
+                                ///// if (port.BytesToRead <= leng + wasRead)
+                                /// {
+                                wasRead += port.Read(scopeCfg.buffer, wasRead, Math.Min(port.BytesToRead, toRead));
                                 ///}
                                 ///else {
-                                 ///   wasRead += port.Read(scopeCfg.buffer, wasRead, toRead);
-                               /// }
-                                
+                                ///   wasRead += port.Read(scopeCfg.buffer, wasRead, toRead);
+                                /// }
+
                                 toRead = (leng - wasRead) > partsLen ? partsLen : (leng - wasRead);
                             }
 
@@ -427,7 +432,16 @@ namespace InstruLab
                                 scopeCfg.actualChannels = numChan;
                                 scopeCfg.actualRes = res;
                                 if (writeLog) { logRecieved("SCOPE DATA RECIEVED: Leng " + leng + ", Res " + res + ", Chan " + currChan + " of " + numChan); }
-                                Scope_form.add_message(new Message(Message.MsgRequest.SCOPE_NEW_DATA));
+                                switch (formOpened)
+                                {
+                                    case FormOpened.SCOPE:
+                                        Scope_form.add_message(new Message(Message.MsgRequest.SCOPE_NEW_DATA));
+                                        break;
+                                    case FormOpened.VOLTMETER:
+                                        Volt_form.add_message(new Message(Message.MsgRequest.VOLT_NEW_DATA));
+                                        break;
+                                }
+
                             }
                             //Console.WriteLine("SCOPE DATA RECIEVED: Leng "+leng+", Res "+res+", Chan "+currChan+" of "+numChan);
                             break;
@@ -447,8 +461,10 @@ namespace InstruLab
                         case Commands.TRIGGERED:
                             //Console.WriteLine(Commands.TRIGGERED);
                             if (writeLog) { logRecieved("TRIG"); }
-                            Scope_form.add_message(new Message(Message.MsgRequest.SCOPE_TRIGGERED));
-                            break;
+                            if (formOpened == FormOpened.SCOPE)
+                            {
+                                Scope_form.add_message(new Message(Message.MsgRequest.SCOPE_TRIGGERED));
+                            } break;
                         case Commands.GEN_OK:
                             //Console.WriteLine(Commands.TRIGGERED);
                             if (writeLog) { logRecieved("OK"); }
@@ -466,7 +482,7 @@ namespace InstruLab
                             }
                             port.Read(inputMsg, 0, 4);
                             port.Read(inputData, 0, 4);
-                            Gen_form.add_message(new Message(Message.MsgRequest.GEN_FRQ,new string(inputMsg,0,4),inputData[1]*256*256+inputData[2]*256+inputData[3]));
+                            Gen_form.add_message(new Message(Message.MsgRequest.GEN_FRQ, new string(inputMsg, 0, 4), inputData[1] * 256 * 256 + inputData[2] * 256 + inputData[3]));
                             //Console.WriteLine(Commands.TRIGGERED);
                             if (writeLog) { logRecieved("GEN_FRQ?" + new string(inputMsg, 1, 3) + " CH" + inputData[3].ToString()); }
                             break;
@@ -487,10 +503,11 @@ namespace InstruLab
                                     //Console.WriteLine(new string(inputMsg, 0, 4));
                                 }
                             }
-                            else {
+                            else
+                            {
                                 if (writeLog) { logRecieved("Unknown message " + new string(inputMsg, 0, 4)); }
-                                    MessageBox.Show("Unknow message recieved \r\n" + new string(inputMsg, 0, 4), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    //Console.WriteLine(new string(inputMsg, 0, 4));
+                                MessageBox.Show("Unknow message recieved \r\n" + new string(inputMsg, 0, 4), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                //Console.WriteLine(new string(inputMsg, 0, 4));
                             }
                             break;
                     }
@@ -524,24 +541,39 @@ namespace InstruLab
             scopeCfg.maxTime = (double)(lenght) / sampling;
         }
 
-        public void open_scope() {
+        public void open_scope()
+        {
+            if (formOpened == FormOpened.VOLTMETER)
+            {
+                close_volt();
+            }
             if (Scope_form == null || Scope_form.IsDisposed)
             {
                 Scope_form = new Scope(this);
                 Scope_form.Show();
+                formOpened = FormOpened.SCOPE;
             }
             else
             {
                 Scope_form.BringToFront();
             }
         }
+            
+        
 
         public void close_scope() {
             if (Scope_form != null)
             {
                 Scope_form.Close();
+                formOpened = FormOpened.NONE;
             }
         }
+
+        public void scopeClosed() {
+            formOpened = FormOpened.NONE;
+        }
+
+
 
         public void open_gen()
         {
@@ -562,6 +594,38 @@ namespace InstruLab
             {
                 Gen_form.Close();
             }
+        }
+
+        public void open_volt()
+        {
+            if (formOpened == FormOpened.SCOPE )
+            {
+                close_scope();
+            }
+            if (Volt_form == null || Volt_form.IsDisposed)
+            {
+                Volt_form = new Voltmeter(this);
+                Volt_form.Show();
+                formOpened = FormOpened.VOLTMETER;
+            }
+            else
+            {
+                Volt_form.BringToFront();
+            }
+        }
+
+        public void close_volt()
+        {
+            if (Volt_form != null)
+            {
+                Volt_form.Close();
+                formOpened = FormOpened.NONE;
+            }
+        }
+
+        public void voltClosed()
+        {
+            formOpened = FormOpened.NONE;
         }
         
         public SystemConfig_def getSystemCfg() {

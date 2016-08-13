@@ -210,6 +210,7 @@ namespace InstruLab
 
             connectedDevice.close_gen();
             connectedDevice.close_scope();
+            connectedDevice.close_volt();
             connectedDevice.close_port();
             this.commState = CommsStates.DISCONNECTED;
         }

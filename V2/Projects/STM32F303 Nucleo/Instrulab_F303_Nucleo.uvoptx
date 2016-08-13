@@ -167,32 +167,27 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>generatorBuffer</ItemText>
+          <ItemText>scope</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>scope</ItemText>
+          <ItemText>*realfreq</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>scopeBuffer</ItemText>
+          <ItemText>header</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>*realfreq</ItemText>
+          <ItemText>MAX_SAMPLING_FREQ</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>header</ItemText>
-        </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>MAX_SAMPLING_FREQ</ItemText>
+          <ItemText>message</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

@@ -10,6 +10,8 @@ namespace InstruLab
     {
 
         public enum MeasurementTypes { FREQUENCY, PERIOD, DUTY, LOW, HIGH, RMS, MEAN, PKPK, MAX, MIN }
+        private int maxMeasCount;
+
         public class Measurement
         {
             public Measurement(MeasurementTypes meas, int chan)
@@ -21,27 +23,38 @@ namespace InstruLab
             public int measChann;
 
         }
-        public string[] measStrings = new string[5];
-        public Color[] measCol = new Color[5];
+        public string[] measStrings;
+        public Color[] measCol;
 
 
-        bool[] calcVolt = new bool[5] { false, false, false, false, false };
-        double[] RMS = new double[5]{0,0,0,0,0};
-        double[] Mean = new double[5]{0,0,0,0,0};
-        ushort[] Max = new ushort[5] { ushort.MinValue, ushort.MinValue, ushort.MinValue, ushort.MinValue, ushort.MinValue };
-        ushort[] Min = new ushort[5] { ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue };
+        bool[] calcVolt = new bool[4] { false,  false, false, false };
+        double[] RMS = new double[4] { 0, 0, 0, 0 };
+        
+        double[] Mean = new double[4] { 0, 0, 0, 0 };
+        ushort[] Max = new ushort[4] { ushort.MinValue, ushort.MinValue, ushort.MinValue, ushort.MinValue };
+        ushort[] Min = new ushort[4] { ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue };
 
-        bool[] calcTime = new bool[5] { false, false, false, false, false };
-        double[] Period = new double[5] { 0, 0, 0, 0, 0 };
-        double[] Freq = new double[5] { 0, 0, 0, 0, 0 };
-        double[] High = new double[5] { 0, 0, 0, 0, 0 };
+        bool[] calcTime = new bool[4] { false, false, false, false };
+        double[] Period = new double[4] { 0, 0, 0, 0};
+        double[] Freq = new double[4] { 0, 0, 0, 0 };
+        double[] High = new double[4] { 0, 0, 0, 0 };
 
         List<Measurement> measurements = new List<Measurement>();
+
+
+        public Measurements(int count) {
+            measStrings = new string[count];
+            measCol = new Color[count];
+            maxMeasCount = count;
+        }
+
+
+
 
         public void addMeasurement(int chann, MeasurementTypes type)
         {
             measurements.Add(new Measurement(type, chann));
-            if (measurements.Count > 5)
+            if (measurements.Count > maxMeasCount)
             {
                 measurements.RemoveRange(0, 1);
             }
@@ -61,6 +74,19 @@ namespace InstruLab
 
         public int getMeasCount() {
             return measurements.Count;
+        }
+
+        public double getMean(int chann)
+        {
+            return this.Mean[chann];
+        }
+        public double getFreq(int chann)
+        {
+            return this.Freq[chann];
+        }
+        public double getPkPk(int chann, int rangeMax, int rangeMin, int res)
+        {
+            return (Max[chann] - Min[chann]) * ((double)rangeMax - (double)rangeMin) / 1000 / Math.Pow(2, res);
         }
 
         public void setColor(int chann, int index) {
@@ -256,11 +282,11 @@ namespace InstruLab
 
         public void calculateMeasurements(ushort[,] samples, int rangeMax, int rangeMin, int numChann, int samplingFreq, int buffleng,int res)
         {
-            calcTime = new bool[5] { false, false, false, false, false };
-            calcVolt = new bool[5] { false, false, false, false, false };
-            Max = new ushort[5] { ushort.MinValue, ushort.MinValue, ushort.MinValue, ushort.MinValue, ushort.MinValue };
-            Min = new ushort[5] { ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue };
-            High = new double[5] { 0, 0, 0, 0, 0 };
+            calcTime = new bool[4] { false, false, false, false };
+            calcVolt = new bool[4] { false, false, false, false};
+            Max = new ushort[4] { ushort.MinValue, ushort.MinValue, ushort.MinValue, ushort.MinValue };
+            Min = new ushort[4] { ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue };
+            High = new double[4] { 0, 0, 0, 0 };
 
             int meascount = 0;
             foreach (var item in measurements)

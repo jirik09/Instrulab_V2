@@ -508,6 +508,8 @@ void ADC_DMA_Stop(void){
 	HAL_ADC_Stop_DMA(&hadc2);
 	HAL_ADC_Stop_DMA(&hadc3);
 	HAL_ADC_Stop_DMA(&hadc4);
+	
+	CalibrateADC();
 }
 
 /**

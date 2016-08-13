@@ -139,6 +139,12 @@
     <Compile Include="Scope.Designer.cs">
       <DependentUpon>Scope.cs</DependentUpon>
     </Compile>
+    <Compile Include="Voltmeter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Voltmeter.Designer.cs">
+      <DependentUpon>Voltmeter.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,6 +172,9 @@
     </Compile>
     <EmbeddedResource Include="Scope.resx">
       <DependentUpon>Scope.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Voltmeter.resx">
+      <DependentUpon>Voltmeter.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="InstruLab_TemporaryKey.pfx" />

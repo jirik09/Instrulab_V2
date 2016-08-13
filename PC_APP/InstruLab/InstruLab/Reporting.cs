@@ -31,7 +31,7 @@ namespace LEO
                 {
 
                     report_exception = ex;
-                    DialogResult res = MessageBox.Show("Something went wrong. \r\n\r\nPlease help us to fix this bug and send us the report. \r\nThere are no personal data inside. Sending takes some time \r\n\r\n Send report?", capt, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult res = MessageBox.Show("Something went wrong. \r\n"+ex+"\r\nPlease help us to fix this bug and send us the report. \r\nThere are no personal data inside. Sending takes some time \r\n\r\n Send report?", capt, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (res == DialogResult.Yes)
                     {
@@ -122,6 +122,8 @@ namespace LEO
                 body_list.Add("Win version: " + get_os() + "\r\n");
                 body_list.Add("Win version: " + Environment.OSVersion + "\r\n");
                 body_list.Add("MCU: " + get_mcu() + "\r\n");
+                body_list.Add("\r\n");
+                body_list.Add("SW version: " + SWVersion + "\r\n");
                 body_list.Add("\r\n");
                 body_list.Add(mail);
 

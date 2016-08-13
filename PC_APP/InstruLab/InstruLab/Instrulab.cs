@@ -76,6 +76,7 @@ namespace InstruLab
                     this.Text = "Instrulab - (" + comms.get_connected_device_port()+") "+comms.get_connected_device().get_name(); 
 
                     this.btn_scope_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
+                    this.btn_voltmeter_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_connect.Text = "Disconnect";
                     this.btn_scan.Enabled = false;
@@ -193,6 +194,7 @@ namespace InstruLab
                     this.label_HAL.Text = "--";
 
                     this.btn_scope_open.Enabled = false;
+                    this.btn_voltmeter_open.Enabled = false;
                     this.btn_gen_open.Enabled = false;
                     this.btn_scan.Enabled = true;
 
@@ -217,6 +219,10 @@ namespace InstruLab
             comms.get_connected_device().open_gen();
         }
 
+        private void btn_voltmeter_open_Click(object sender, EventArgs e)
+        {
+            comms.get_connected_device().open_volt();
+        }
         private void Instrulab_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (comms.get_connected_device() != null)
@@ -302,5 +308,7 @@ namespace InstruLab
             feedback fdbck = new feedback();
             fdbck.Show();
         }
+
+        
     }
 }

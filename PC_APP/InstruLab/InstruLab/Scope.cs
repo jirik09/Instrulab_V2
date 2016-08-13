@@ -27,7 +27,7 @@ namespace InstruLab
 
         private Queue<Message> scope_q = new Queue<Message>();
         Message messg;
-        Measurements meas = new Measurements();
+        Measurements meas = new Measurements(5);
 
         Thread processSignal_th;
         Thread calcSignal_th;
@@ -180,7 +180,7 @@ namespace InstruLab
             ZedTimer.Start();
 
             processSignal_th = new Thread(process_signals);
-            
+            meas.clearMeasurements();
             Thread.Sleep(10);
             scope_start();
 
@@ -605,6 +605,7 @@ namespace InstruLab
                         calcSignal_th.Start();
                         processSignal_th = new Thread(process_signals);
                         processSignal_th.Start();
+                        Thread.Sleep(1);
                         if (processSignal_th.IsAlive)
                         {
                             processSignal_th.Join();
@@ -714,6 +715,8 @@ namespace InstruLab
         {
             scope_stop();
             GUITimer.Stop();
+            device.scopeClosed();
+
         }
 
         public void add_message(Message msg)

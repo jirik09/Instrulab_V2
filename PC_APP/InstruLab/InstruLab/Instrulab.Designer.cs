@@ -91,8 +91,9 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
             this.sendUsFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btn_voltmeter_open = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox_device_info.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
@@ -339,6 +340,7 @@
             // 
             // groupBox_scope
             // 
+            this.groupBox_scope.Controls.Add(this.btn_voltmeter_open);
             this.groupBox_scope.Controls.Add(this.label17);
             this.groupBox_scope.Controls.Add(this.btn_scope_open);
             this.groupBox_scope.Controls.Add(this.label_scope_smpl);
@@ -701,7 +703,7 @@
             // exitInstrulabToolStripMenuItem
             // 
             this.exitInstrulabToolStripMenuItem.Name = "exitInstrulabToolStripMenuItem";
-            this.exitInstrulabToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.exitInstrulabToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitInstrulabToolStripMenuItem.Text = "Exit Instrulab";
             this.exitInstrulabToolStripMenuItem.Click += new System.EventHandler(this.exitInstrulabToolStripMenuItem_Click);
             // 
@@ -743,6 +745,13 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // sendUsFeedbackToolStripMenuItem
+            // 
+            this.sendUsFeedbackToolStripMenuItem.Name = "sendUsFeedbackToolStripMenuItem";
+            this.sendUsFeedbackToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.sendUsFeedbackToolStripMenuItem.Text = "Send us feedback";
+            this.sendUsFeedbackToolStripMenuItem.Click += new System.EventHandler(this.sendUsFeedbackToolStripMenuItem_Click);
+            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -753,12 +762,18 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "CTU FEE 2016 - Jiří Hladík";
             // 
-            // sendUsFeedbackToolStripMenuItem
+            // btn_voltmeter_open
             // 
-            this.sendUsFeedbackToolStripMenuItem.Name = "sendUsFeedbackToolStripMenuItem";
-            this.sendUsFeedbackToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.sendUsFeedbackToolStripMenuItem.Text = "Send us feedback";
-            this.sendUsFeedbackToolStripMenuItem.Click += new System.EventHandler(this.sendUsFeedbackToolStripMenuItem_Click);
+            this.btn_voltmeter_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_voltmeter_open.Enabled = false;
+            this.btn_voltmeter_open.Location = new System.Drawing.Point(5, 214);
+            this.btn_voltmeter_open.Name = "btn_voltmeter_open";
+            this.btn_voltmeter_open.Size = new System.Drawing.Size(122, 23);
+            this.btn_voltmeter_open.TabIndex = 2;
+            this.btn_voltmeter_open.Text = "Voltmeter";
+            this.btn_voltmeter_open.UseVisualStyleBackColor = true;
+            this.btn_voltmeter_open.Click += new System.EventHandler(this.btn_voltmeter_open_Click);
             // 
             // Instrulab
             // 
@@ -860,6 +875,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripMenuItem sendUsFeedbackToolStripMenuItem;
+        private System.Windows.Forms.Button btn_voltmeter_open;
 
 
     }
