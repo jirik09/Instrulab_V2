@@ -110,6 +110,7 @@
 #define ADC_DMA_CHANNEL_CH_4  0
 #define ADC_DMA_STREAM_CH_4  0
 
-
+//Definition of assert to check length of strings
+#define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}
 
 #endif /* STM32F4_CONFIG_H_ */

@@ -55,6 +55,7 @@ uint8_t TIM_Reconfig_gen(uint32_t samplingFreq,uint8_t chan,uint32_t* realFreq);
 #endif //USE_GEN
 
 #ifdef USE_SCOPE
+uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes);
 void TIMScopeEnable(void);
 void TIMScopeDisable(void);
 void TIMScopeInit(void);	

@@ -55,6 +55,7 @@ DMA_HandleTypeDef hdma_adc1;
 
 //uint16_t Data[3][32];
 uint32_t ADCResolution=ADC_RESOLUTION12b;
+uint32_t ADCSamplingTime=ADC_SAMPLETIME_3CYCLES;
 
 /* ADC1 init function */
 void MX_ADC1_Init(void)
@@ -81,7 +82,7 @@ void MX_ADC1_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_CH_1;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  sConfig.SamplingTime = ADCSamplingTime;
   HAL_ADC_ConfigChannel(&hadc1, &sConfig);
 	
 /////	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)&Data[0][0], 8);
@@ -371,6 +372,15 @@ void ADC_DMA_Reconfig(uint8_t chan, uint32_t *buff, uint32_t len){
 	HAL_ADC_Start_DMA(&adcHandler, buff, len);
 }
 
+void ADC_DMA_Stop(void){
+	HAL_ADC_Stop_DMA(&hadc1);
+	//HAL_ADC_Stop_DMA(&hadc2);
+	//HAL_ADC_Stop_DMA(&hadc3);
+	//HAL_ADC_Stop_DMA(&hadc4);
+	
+	//CalibrateADC();
+}
+
 /**
   * @brief  Returns the number of remaining data units in the current DMAy Streamx transfer.
   * @param  DMAy_Streamx: where y can be 1 or 2 to select the DMA and x can be 0
@@ -392,6 +402,58 @@ uint16_t DMA_GetCurrDataCounter(uint8_t channel){
 //		break;
 	}
   return adcHandler.DMA_Handle->Instance->NDTR;
+}
+
+/**
+  * @brief  This function will estimate maximum time to connect sampling capacitor to reduce equivalen current
+  * @param  None
+  * @retval None
+  */
+void ADC_set_sampling_time(uint32_t realfreq){
+	uint8_t ADCRes;
+	uint32_t cyclesForConversion;
+	switch(ADCResolution){
+		case ADC_RESOLUTION12b:
+			ADCRes=12;
+			break;
+		case ADC_RESOLUTION10b:
+			ADCRes=10;
+			break;
+		case ADC_RESOLUTION8b:
+			ADCRes=8;
+			break;
+		case ADC_RESOLUTION6b:
+			ADCRes=6;
+			break;
+	}
+	
+	cyclesForConversion=HAL_RCC_GetPCLK2Freq()/realfreq-ADCRes-1;
+	if(cyclesForConversion>=481){
+		ADCSamplingTime=ADC_SAMPLETIME_480CYCLES;
+	}else if(cyclesForConversion>=145){
+		ADCSamplingTime=ADC_SAMPLETIME_144CYCLES;
+	}else if(cyclesForConversion>=113){
+		ADCSamplingTime=ADC_SAMPLETIME_112CYCLES;
+	}else if(cyclesForConversion>=85){
+		ADCSamplingTime=ADC_SAMPLETIME_84CYCLES;
+	}else if(cyclesForConversion>=57){
+		ADCSamplingTime=ADC_SAMPLETIME_56CYCLES;
+	}else if(cyclesForConversion>=29){
+		ADCSamplingTime=ADC_SAMPLETIME_28CYCLES;
+	}else if(cyclesForConversion>=16){
+		ADCSamplingTime=ADC_SAMPLETIME_15CYCLES;
+	}else {
+		ADCSamplingTime=ADC_SAMPLETIME_3CYCLES;
+	}	
+	
+	HAL_ADC_Stop_DMA(&hadc1);
+	
+	MX_ADC1_Init();
+//  MX_ADC2_Init();
+//  MX_ADC3_Init();
+//	MX_ADC4_Init();
+	
+	
 }
 
 /**

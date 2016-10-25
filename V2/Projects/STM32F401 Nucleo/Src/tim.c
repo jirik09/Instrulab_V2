@@ -287,8 +287,16 @@ void TIMScopeDisable(){
 void TIMScopeInit(void){
 	MX_TIM3_Init();
 }
-#endif //USE_SCOPE
 
+uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes){
+	if(ADCRes==12){
+		return 2000000;
+	}else if(ADCRes==8){
+		return 2500000;
+	}
+	return HAL_RCC_GetPCLK2Freq()/(ADCRes+2);
+}
+#endif //USE_SCOPE
 
 	#ifdef USE_GEN
 void TIMGenEnable(void){

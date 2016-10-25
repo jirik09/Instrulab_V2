@@ -596,7 +596,7 @@ void ADC_set_sampling_time(uint32_t realfreq){
   * @retval None
   */
 void samplingEnable (void){
-  TIMScopeEnable();
+	TIMScopeEnable();
 }
 
 /**

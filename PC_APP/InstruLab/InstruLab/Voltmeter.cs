@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
-using ZedGraph;
 
 namespace LEO
 {
@@ -26,28 +25,15 @@ namespace LEO
         Measurements meas = new Measurements(12);
         Thread calcSignal_th;
 
-        public GraphPane VoltPane;
-
-        int rangeMin;
-        int rangeMax;
-
-
+        int rangeMin=0;
+        int rangeMax=1;
+        int channels=1;
 
         public Voltmeter(Device dev)
         {
             device = dev;
             
             InitializeComponent();
-            zedGraphControl_volt.MasterPane[0].IsFontsScaled = false;
-            zedGraphControl_volt.MasterPane[0].Title.IsVisible = false;
-            zedGraphControl_volt.MasterPane[0].XAxis.MajorGrid.IsVisible = true;
-            zedGraphControl_volt.MasterPane[0].XAxis.Title.IsVisible = false;
-
-            zedGraphControl_volt.IsEnableZoom = false;
-
-            zedGraphControl_volt.MasterPane[0].YAxis.MajorGrid.IsVisible = true;
-            zedGraphControl_volt.MasterPane[0].YAxis.Title.IsVisible = false;
-            VoltPane = zedGraphControl_volt.GraphPane;
 
 
 
@@ -196,13 +182,9 @@ namespace LEO
                             calcSignal_th.Join();
                         }
 
-
-                        VoltPane.CurveList.Clear();
-                        //process_signals();
-                        paint_voltages();
-
+                        channels = device.scopeCfg.actualChannels;
+                        
                         this.Invalidate();
-
 
                         Thread.Sleep(100);
                         device.takeCommsSemaphore(semaphoreTimeout * 2 + 108);
@@ -214,92 +196,34 @@ namespace LEO
             }
         }
 
-        public void paint_voltages() {
-            string[] labels = { "Ch 1", "Ch 2", "Ch 3", "Ch 4"};
-
-            double[] ch1 = { meas.getMean(0), 0, 0, 0 };
-            double[] ch2 = { 0, meas.getMean(1), 0, 0 };
-            double[] ch3 = { 0, 0, meas.getMean(2), 0 };
-            double[] ch4 = { 0, 0, 0, meas.getMean(3) };
-            
-            // Generate a red bar with "Curve 1" in the legend
-            BarItem myBar = VoltPane.AddBar("Curve 1", null, ch1, Color.Red);
-            myBar.Bar.Fill = new Fill(Color.DarkRed, Color.Red, Color.DarkRed);
-
-            // Generate a blue bar with "Curve 2" in the legend
-            myBar = VoltPane.AddBar("Curve 2", null, ch2, Color.Blue);
-            myBar.Bar.Fill = new Fill(Color.DarkBlue, Color.Blue,Color.DarkBlue);
-
-            // Generate a green bar with "Curve 3" in the legend
-            myBar = VoltPane.AddBar("Curve 3", null, ch3, Color.DarkGreen);
-            myBar.Bar.Fill = new Fill(Color.DarkGreen, Color.LightGreen, Color.DarkGreen);
-            // Generate a green bar with "Curve 3" in the legend
-            myBar = VoltPane.AddBar("Curve 4", null, ch4, Color.Magenta);
-            myBar.Bar.Fill = new Fill(Color.Purple, Color.Magenta, Color.Purple);
-
-            VoltPane.GraphObjList.Clear();
-            for (int i = 0; i < 4; i++)
-            {
-                double pkpk = meas.getPkPk(i, rangeMax, rangeMin, device.scopeCfg.actualRes);
-                // format the label string to have 1 decimal place
-                // create the text item (assumes the x axis is ordinal or text)
-                // for negative bars, the label appears just above the zero value
-                //TextObj text = new TextObj(lab, (float)(i + 1), (float)(ch4[i] < 0 ? 0.0 : ch4[i]) + shift);
-                TextObj text;
-                if (pkpk > 0.05 * meas.getMean(i))
-                {
-                    text = new TextObj("(" + Math.Round(pkpk * 1000, 2) + "mV pkpk)\r\n(" + meas.getMeas(i * 3) + ")\r\n"+Math.Round(meas.getMean(i) * 1000, 2) + "mV", i + 1, meas.getMean(i) + (double)rangeMax / 8000);
-                }
-                else {
-                    text = new TextObj(Math.Round(meas.getMean(i)*1000,2)+"mV", i + 1, meas.getMean(i) + (double)rangeMax / 30000);
-                }
-                // tell Zedgraph to use user scale units for locating the TextItem
-                text.Location.CoordinateFrame = CoordType.AxisXYScale;
-                // AlignH the left-center of the text to the specified point
-                text.Location.AlignH = AlignH.Center;
-                text.Location.AlignV = AlignV.Center;
-                text.FontSpec.Border.IsVisible = false;
-                text.FontSpec.Fill.IsVisible = false;
-                text.FontSpec.Size = 17;
-                text.FontSpec.FontColor = meas.getColor(i * 3);
-                // rotate the text 90 degrees
-                text.FontSpec.Angle = 0;
-                // add the TextItem to the list
-                VoltPane.GraphObjList.Add(text);
-                
-            }
-            VoltPane.Chart.Fill = new Fill(Color.White, Color.White, 45.0F);
-
-            VoltPane.BarSettings.Type=BarType.Overlay;
-            VoltPane.Legend.IsVisible = false;
-
-
-            VoltPane.YAxis.Scale.MaxAuto = false;
-            VoltPane.YAxis.Scale.MinAuto = false;
-
-            VoltPane.YAxis.Scale.Max = (double)rangeMax/1000*1.1;
-            VoltPane.YAxis.Scale.Min = rangeMin;
-
-            VoltPane.XAxis.Scale.MaxAuto = false;
-            VoltPane.XAxis.Scale.MinAuto = false;
-
-            VoltPane.XAxis.Scale.Min=0.5;
-            VoltPane.XAxis.Scale.Max = device.scopeCfg.maxNumChannels+0.5;
-
-            // Set the XAxis labels
-            VoltPane.XAxis.Scale.TextLabels = labels;
-            // Set the XAxis to Text type
-            VoltPane.XAxis.Type = AxisType.Text;
-
-
-            // Tell ZedGraph to refigure the
-            // axes since the data have changed
-            zedGraphControl_volt.AxisChange();
-        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            zedGraphControl_volt.Refresh();
+            this.groupBox_1.Enabled = channels >= 1 ? true : false;
+            this.groupBox_2.Enabled = channels >= 2 ? true : false;
+            this.groupBox_3.Enabled = channels >= 3 ? true : false;
+            this.groupBox_4.Enabled = channels >= 4 ? true : false;
+
+            this.label_volt_1.Text = Math.Round(meas.getMean(0) * 1000, 2) + " mV";
+            this.label_volt_2.Text = Math.Round(meas.getMean(1) * 1000, 2) + " mV";
+            this.label_volt_3.Text = Math.Round(meas.getMean(2) * 1000, 2) + " mV";
+            this.label_volt_4.Text = Math.Round(meas.getMean(3) * 1000, 2) + " mV";
+
+            this.progressBar_volt_1.Value = channels >= 1 ? (int)((meas.getMean(0) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+            this.progressBar_volt_2.Value = channels >= 2 ? (int)((meas.getMean(1) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+            this.progressBar_volt_3.Value = channels >= 3 ? (int)((meas.getMean(2) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+            this.progressBar_volt_4.Value = channels >= 4 ? (int)((meas.getMean(3) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+
+            this.label_ripp_1.Text = channels >= 1 ? "ripple: " + Math.Round(meas.getPkPk(0, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+            this.label_ripp_2.Text = channels >= 2 ? "ripple: " + Math.Round(meas.getPkPk(1, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+            this.label_ripp_3.Text = channels >= 3 ? "ripple: " + Math.Round(meas.getPkPk(2, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+            this.label_ripp_4.Text = channels >= 4 ? "ripple: " + Math.Round(meas.getPkPk(3, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+
+            this.label_freq_1.Text = channels >= 1 ? meas.getMeas(0 * 3) : "";
+            this.label_freq_2.Text = channels >= 2 ? meas.getMeas(1 * 3) : "";
+            this.label_freq_3.Text = channels >= 3 ? meas.getMeas(2 * 3) : "";
+            this.label_freq_4.Text = channels >= 4 ? meas.getMeas(3 * 3) : "";
+
             base.OnPaint(e);
         }
 
@@ -348,5 +272,9 @@ namespace LEO
             }
 
         }
+
+
+
+
     }
 }

@@ -57,8 +57,9 @@
 void MX_ADC1_Init(void);
 //void MX_ADC2_Init(void);
 //void MX_ADC3_Init(void);
-
+void ADC_DMA_Stop(void);
 uint16_t DMA_GetCurrDataCounter(uint8_t channel);
+void ADC_set_sampling_time(uint32_t realfreq);
 void ADC_DMA_Reconfig(uint8_t chan, uint32_t *buff, uint32_t len);	
 void samplingEnable(void);
 void samplingDisable(void);

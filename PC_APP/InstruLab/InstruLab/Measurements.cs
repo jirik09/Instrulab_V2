@@ -80,6 +80,7 @@ namespace InstruLab
         {
             return this.Mean[chann];
         }
+
         public double getFreq(int chann)
         {
             return this.Freq[chann];
