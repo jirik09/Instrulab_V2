@@ -44,6 +44,7 @@ namespace InstruLab
             public int maxNumChannels;
             public string[] pins;
             public int VRef;
+            public int VRefInt;
             public int munRanges;
             public int[,] ranges;
             public byte[] buffer;
@@ -65,6 +66,7 @@ namespace InstruLab
             public int numChannels;
             public string[] pins;
             public int VRef;
+            public int VRefInt;
         }
 
         enum FormOpened { NONE,SCOPE, VOLTMETER}
@@ -282,13 +284,14 @@ namespace InstruLab
                         scopeCfg.pins[i] = new string(msg_char, 16+4*i, 4);
                     }
                     scopeCfg.VRef = BitConverter.ToInt32(msg_byte, 16 + 4 * scopeCfg.maxNumChannels);
+                    scopeCfg.VRefInt = BitConverter.ToInt32(msg_byte, 20 + 4 * scopeCfg.maxNumChannels);
 
-                    scopeCfg.munRanges = (toRead - 24 - 4 * scopeCfg.maxNumChannels) / 4;
+                    scopeCfg.munRanges = (toRead - 28 - 4 * scopeCfg.maxNumChannels) / 4;
                     scopeCfg.ranges= new int[2,scopeCfg.munRanges];
                     for (int i = 0; i < this.scopeCfg.munRanges; i++)
                     {
-                        scopeCfg.ranges[0, i] = BitConverter.ToInt16(msg_byte, 20 + 4 * scopeCfg.maxNumChannels + 4 * i);
-                        scopeCfg.ranges[1, i] = BitConverter.ToInt16(msg_byte, 22 + 4 * scopeCfg.maxNumChannels + 4 * i);
+                        scopeCfg.ranges[0, i] = BitConverter.ToInt16(msg_byte, 24 + 4 * scopeCfg.maxNumChannels + 4 * i);
+                        scopeCfg.ranges[1, i] = BitConverter.ToInt16(msg_byte, 26 + 4 * scopeCfg.maxNumChannels + 4 * i);
                     }
                     
 
@@ -315,6 +318,7 @@ namespace InstruLab
                         genCfg.pins[i] = new string(msg_char, 20 + 4 * i, 4);
                     }
                     genCfg.VRef = BitConverter.ToInt32(msg_byte, 20 + 4 * genCfg.numChannels);
+                    genCfg.VRefInt = BitConverter.ToInt32(msg_byte, 24 + 4 * genCfg.numChannels);
                 }else{
                     genCfg.isGen=false;
                 }
@@ -874,6 +878,9 @@ namespace InstruLab
                     break;
                 case 58:
                     result = "Scope - Buffer size error";
+                    break;
+                case 61:
+                    result = "Scope - Invalid ADC input channel setting";
                     break;
                 case 100:
                     result = "Gen - Invalid feature";

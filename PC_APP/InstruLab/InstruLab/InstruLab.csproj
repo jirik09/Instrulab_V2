@@ -139,6 +139,12 @@
     <Compile Include="Scope.Designer.cs">
       <DependentUpon>Scope.cs</DependentUpon>
     </Compile>
+    <Compile Include="VoltageSource.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VoltageSource.Designer.cs">
+      <DependentUpon>VoltageSource.cs</DependentUpon>
+    </Compile>
     <Compile Include="Voltmeter.cs">
       <SubType>Form</SubType>
     </Compile>

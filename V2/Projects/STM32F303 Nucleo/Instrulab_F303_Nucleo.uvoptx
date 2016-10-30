@@ -189,6 +189,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>message</ItemText>
         </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ADCChannel</ItemText>
+        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>

@@ -65,6 +65,8 @@ void ADC_DMA_Stop(void);
 void ADC_set_sampling_time(uint32_t realfreq);
 void samplingEnable(void);
 void samplingDisable(void);
+void adcSetInputChannel(uint8_t adc, uint8_t chann);
+void adcSetDefaultInputs(void);
 void adcSetResolution (uint8_t res);
 void CalibrateADC (void);
 

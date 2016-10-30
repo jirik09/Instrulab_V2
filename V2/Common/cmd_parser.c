@@ -243,6 +243,20 @@ command parseScopeCmd(void){
 				}
 			break;
 				
+			case CMD_SCOPE_ADC_CHANNEL_SET:
+			cmdIn = giveNextCmd();
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				error=scopeSetADCInputChannel((uint8_t)(cmdIn>>8),(uint8_t)(cmdIn));
+				if(error!=0){
+					cmdIn = CMD_ERR;
+				}
+			}else{
+					cmdIn = CMD_ERR;
+					error = SCOPE_INVALID_FEATURE_PARAM;
+			}
+			break;
+				
+				
 			case CMD_SCOPE_DATA_DEPTH: //set data bit depth
 				cmdIn = giveNextCmd();
 				if(isScopeDataDepth(cmdIn)){

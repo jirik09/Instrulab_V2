@@ -419,6 +419,7 @@ void sendScopeConf(){
 		}
 	}
 	commsSendUint32(SCOPE_VREF);
+	commsSendUint32(SCOPE_VREF_INT);
 	commsSendBuff((uint8_t*)scopeGetRanges(&i),i);
 }
 #endif //USE_SCOPE
@@ -443,6 +444,7 @@ void sendGenConf(){
 		}
 	}
 	commsSendUint32(GEN_VREF);
+	commsSendUint32(GEN_VREF_INT);
 }
 	#endif //USE_GEN
 

@@ -134,6 +134,26 @@ namespace LEO
             device.send(Commands.SCOPE + ":" + Commands.DATA_LENGTH + " " + Commands.SAMPLES_200 + ";");
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_AUTO + ";");
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_DATA_DEPTH + " " + Commands.DATA_DEPTH_12B + ";");
+          /*  int tmp=0;
+            tmp = 0x00000008;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+
+            tmp = 0x00000109;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+
+            tmp = 0x00000203;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+
+            tmp = 0x00000303;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");*/
 
             switch (device.scopeCfg.maxNumChannels)
             {

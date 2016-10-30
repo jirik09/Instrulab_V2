@@ -66,6 +66,7 @@ typedef struct{
 	scopeState state;	
 	uint8_t numOfChannles;
 	uint16_t *pChanMem[MAX_ADC_CHANNELS];
+	uint8_t adcChannel[MAX_ADC_CHANNELS];
 	uint32_t oneChanMemSize;
 	uint32_t oneChanSamples;
 	uint8_t triggerChannel;
@@ -113,6 +114,8 @@ uint8_t scopeSetTrigChannel(uint8_t chan);
 uint32_t scopeGetRealSmplFreq(void);
 uint8_t scopeSetNumOfChannels(uint8_t chan);
 uint8_t scopeSetTrigChannel(uint8_t chan);
+uint8_t scopeSetADCInputChannel(uint8_t adc, uint8_t chann);
+
 const int16_t* scopeGetRanges(uint8_t * len);
 void scopeRestart(void);
 void scopeStart(void);

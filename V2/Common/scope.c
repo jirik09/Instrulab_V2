@@ -570,6 +570,24 @@ uint32_t scopeGetRealSmplFreq(){
 }
 
 
+/**
+  * @brief  sets ADC channel to sample
+  * @param  ADC number, Channel number
+  * @retval error
+  */
+uint8_t scopeSetADCInputChannel(uint8_t adc, uint8_t chann){
+	uint8_t result = SCOPE_INVALID_ADC_CHANNEL;
+	if(adc < MAX_ADC_CHANNELS && chann < NUM_OF_ANALOG_INPUTS[adc]){
+		xSemaphoreTakeRecursive(scopeMutex, portMAX_DELAY);
+		scope.adcChannel[adc] = chann;
+		adcSetInputChannel(adc, chann);
+		result = 0;
+		xSemaphoreGiveRecursive(scopeMutex);
+		xQueueSendToBack(scopeMessageQueue, "3Invalidate", portMAX_DELAY);
+	}
+	return result;
+}
+
 
 /**
   * @brief  return pointer to dafinition of ranges
