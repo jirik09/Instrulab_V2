@@ -27,7 +27,13 @@ namespace LEO
 
         int rangeMin=0;
         int rangeMax=1;
-        int channels=1;
+        int channels=0;
+
+        int averages = 4;
+        int avgPointer = 0;
+
+        double[] meanAvgSum = new double[4] { 0, 0, 0, 0 };
+        double[] meanAvg = new double[4] { 0, 0, 0, 0 };
 
         public Voltmeter(Device dev)
         {
@@ -134,7 +140,7 @@ namespace LEO
             device.send(Commands.SCOPE + ":" + Commands.DATA_LENGTH + " " + Commands.SAMPLES_200 + ";");
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_AUTO + ";");
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_DATA_DEPTH + " " + Commands.DATA_DEPTH_12B + ";");
-          /*  int tmp=0;
+           /* int tmp=0;
             tmp = 0x00000008;
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
             device.send_int((int)(tmp));
@@ -203,10 +209,25 @@ namespace LEO
                         }
 
                         channels = device.scopeCfg.actualChannels;
-                        
-                        this.Invalidate();
 
-                        Thread.Sleep(100);
+                        avgPointer++;
+                        meanAvgSum[0] += meas.getMean(0) ;
+                        meanAvgSum[1] += meas.getMean(1) ;
+                        meanAvgSum[2] += meas.getMean(2) ;
+                        meanAvgSum[3] += meas.getMean(3) ;
+
+                        if (avgPointer >= averages)
+                        {
+                            meanAvg[0] = meanAvgSum[0] / avgPointer;
+                            meanAvg[1] = meanAvgSum[1] / avgPointer;
+                            meanAvg[2] = meanAvgSum[2] / avgPointer;
+                            meanAvg[3] = meanAvgSum[3] / avgPointer;
+                            avgPointer = 0;
+                            meanAvgSum = new double[4] { 0, 0, 0, 0 };
+                            this.Invalidate();
+                        }
+
+                        Thread.Sleep(10);
                         device.takeCommsSemaphore(semaphoreTimeout * 2 + 108);
                         device.send(Commands.SCOPE + ":" + Commands.SCOPE_NEXT + ";");
                         device.giveCommsSemaphore();
@@ -224,10 +245,10 @@ namespace LEO
             this.groupBox_3.Enabled = channels >= 3 ? true : false;
             this.groupBox_4.Enabled = channels >= 4 ? true : false;
 
-            this.label_volt_1.Text = Math.Round(meas.getMean(0) * 1000, 2) + " mV";
-            this.label_volt_2.Text = Math.Round(meas.getMean(1) * 1000, 2) + " mV";
-            this.label_volt_3.Text = Math.Round(meas.getMean(2) * 1000, 2) + " mV";
-            this.label_volt_4.Text = Math.Round(meas.getMean(3) * 1000, 2) + " mV";
+            this.label_volt_1.Text = Math.Round(meanAvg[0] * 1000, 2) + " mV";
+            this.label_volt_2.Text = Math.Round(meanAvg[1] * 1000, 2) + " mV";
+            this.label_volt_3.Text = Math.Round(meanAvg[2] * 1000, 2) + " mV";
+            this.label_volt_4.Text = Math.Round(meanAvg[3] * 1000, 2) + " mV";
 
             this.progressBar_volt_1.Value = channels >= 1 ? (int)((meas.getMean(0) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
             this.progressBar_volt_2.Value = channels >= 2 ? (int)((meas.getMean(1) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
@@ -291,6 +312,56 @@ namespace LEO
 
             }
 
+        }
+
+        private void toolStripMenuItem_avg1_Click(object sender, EventArgs e)
+        {
+            averages = 1;
+            this.toolStripMenuItem_avg1.Checked = true;
+            this.toolStripMenuItem_avg2.Checked = false;
+            this.toolStripMenuItem_avg4.Checked = false;
+            this.toolStripMenuItem_avg8.Checked = false;
+            this.toolStripMenuItem_avg16.Checked = false;
+        }
+
+        private void toolStripMenuItem_avg2_Click(object sender, EventArgs e)
+        {
+            averages = 2;
+            this.toolStripMenuItem_avg1.Checked = false;
+            this.toolStripMenuItem_avg2.Checked = true;
+            this.toolStripMenuItem_avg4.Checked = false;
+            this.toolStripMenuItem_avg8.Checked = false;
+            this.toolStripMenuItem_avg16.Checked = false;
+        }
+
+        private void toolStripMenuItem_avg4_Click(object sender, EventArgs e)
+        {
+            averages = 4;
+            this.toolStripMenuItem_avg1.Checked = false;
+            this.toolStripMenuItem_avg2.Checked = false;
+            this.toolStripMenuItem_avg4.Checked = true;
+            this.toolStripMenuItem_avg8.Checked = false;
+            this.toolStripMenuItem_avg16.Checked = false;
+        }
+
+        private void toolStripMenuItem_avg8_Click(object sender, EventArgs e)
+        {
+            averages = 8;
+            this.toolStripMenuItem_avg1.Checked = false;
+            this.toolStripMenuItem_avg2.Checked = false;
+            this.toolStripMenuItem_avg4.Checked = false;
+            this.toolStripMenuItem_avg8.Checked = true;
+            this.toolStripMenuItem_avg16.Checked = false;
+        }
+
+        private void toolStripMenuItem_avg16_Click(object sender, EventArgs e)
+        {
+            averages = 16;
+            this.toolStripMenuItem_avg1.Checked = false;
+            this.toolStripMenuItem_avg2.Checked = false;
+            this.toolStripMenuItem_avg4.Checked = false;
+            this.toolStripMenuItem_avg8.Checked = false;
+            this.toolStripMenuItem_avg16.Checked = true;
         }
 
 

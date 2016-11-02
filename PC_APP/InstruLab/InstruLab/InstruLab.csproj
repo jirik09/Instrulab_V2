@@ -179,6 +179,9 @@
     <EmbeddedResource Include="Scope.resx">
       <DependentUpon>Scope.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VoltageSource.resx">
+      <DependentUpon>VoltageSource.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Voltmeter.resx">
       <DependentUpon>Voltmeter.cs</DependentUpon>
     </EmbeddedResource>

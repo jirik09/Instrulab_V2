@@ -36,6 +36,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.maximumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox_max = new System.Windows.Forms.ToolStripTextBox();
+            this.averagingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_avg1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_avg2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_avg4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_avg8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_avg16 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox_4 = new System.Windows.Forms.GroupBox();
             this.progressBar_volt_4 = new System.Windows.Forms.ProgressBar();
@@ -73,7 +79,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.rangeToolStripMenuItem});
+            this.rangeToolStripMenuItem,
+            this.averagingToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(324, 24);
@@ -127,6 +134,55 @@
             this.toolStripTextBox_max.Name = "toolStripTextBox_max";
             this.toolStripTextBox_max.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBox_max.TextChanged += new System.EventHandler(this.toolStripTextBox_max_TextChanged);
+            // 
+            // averagingToolStripMenuItem
+            // 
+            this.averagingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_avg1,
+            this.toolStripMenuItem_avg2,
+            this.toolStripMenuItem_avg4,
+            this.toolStripMenuItem_avg8,
+            this.toolStripMenuItem_avg16});
+            this.averagingToolStripMenuItem.Name = "averagingToolStripMenuItem";
+            this.averagingToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.averagingToolStripMenuItem.Text = "Averaging";
+            // 
+            // toolStripMenuItem_avg1
+            // 
+            this.toolStripMenuItem_avg1.Name = "toolStripMenuItem_avg1";
+            this.toolStripMenuItem_avg1.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem_avg1.Text = "1";
+            this.toolStripMenuItem_avg1.Click += new System.EventHandler(this.toolStripMenuItem_avg1_Click);
+            // 
+            // toolStripMenuItem_avg2
+            // 
+            this.toolStripMenuItem_avg2.Name = "toolStripMenuItem_avg2";
+            this.toolStripMenuItem_avg2.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem_avg2.Text = "2";
+            this.toolStripMenuItem_avg2.Click += new System.EventHandler(this.toolStripMenuItem_avg2_Click);
+            // 
+            // toolStripMenuItem_avg4
+            // 
+            this.toolStripMenuItem_avg4.Checked = true;
+            this.toolStripMenuItem_avg4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripMenuItem_avg4.Name = "toolStripMenuItem_avg4";
+            this.toolStripMenuItem_avg4.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem_avg4.Text = "4";
+            this.toolStripMenuItem_avg4.Click += new System.EventHandler(this.toolStripMenuItem_avg4_Click);
+            // 
+            // toolStripMenuItem_avg8
+            // 
+            this.toolStripMenuItem_avg8.Name = "toolStripMenuItem_avg8";
+            this.toolStripMenuItem_avg8.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem_avg8.Text = "8";
+            this.toolStripMenuItem_avg8.Click += new System.EventHandler(this.toolStripMenuItem_avg8_Click);
+            // 
+            // toolStripMenuItem_avg16
+            // 
+            this.toolStripMenuItem_avg16.Name = "toolStripMenuItem_avg16";
+            this.toolStripMenuItem_avg16.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem_avg16.Text = "16";
+            this.toolStripMenuItem_avg16.Click += new System.EventHandler(this.toolStripMenuItem_avg16_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -223,6 +279,7 @@
             this.groupBox_1.Controls.Add(this.label_freq_1);
             this.groupBox_1.Controls.Add(this.label_volt_1);
             this.groupBox_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox_1.Enabled = false;
             this.groupBox_1.Location = new System.Drawing.Point(0, 0);
             this.groupBox_1.Name = "groupBox_1";
             this.groupBox_1.Size = new System.Drawing.Size(318, 80);
@@ -365,7 +422,7 @@
             // 
             this.label_ripp_3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_ripp_3.AutoSize = true;
-            this.label_ripp_3.Location = new System.Drawing.Point(200, 11);
+            this.label_ripp_3.Location = new System.Drawing.Point(200, 16);
             this.label_ripp_3.Name = "label_ripp_3";
             this.label_ripp_3.Size = new System.Drawing.Size(106, 13);
             this.label_ripp_3.TabIndex = 8;
@@ -385,7 +442,7 @@
             // 
             this.label_freq_3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_freq_3.AutoSize = true;
-            this.label_freq_3.Location = new System.Drawing.Point(200, 29);
+            this.label_freq_3.Location = new System.Drawing.Point(200, 34);
             this.label_freq_3.Name = "label_freq_3";
             this.label_freq_3.Size = new System.Drawing.Size(91, 13);
             this.label_freq_3.TabIndex = 8;
@@ -478,5 +535,11 @@
         private System.Windows.Forms.Label label_volt_4;
         private System.Windows.Forms.Label label_ripp_3;
         private System.Windows.Forms.Label label_freq_3;
+        private System.Windows.Forms.ToolStripMenuItem averagingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_avg1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_avg2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_avg4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_avg8;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_avg16;
     }
 }

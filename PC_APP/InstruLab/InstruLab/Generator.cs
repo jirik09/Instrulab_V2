@@ -1359,7 +1359,7 @@ namespace InstruLab
                 }
                 toolStripTextBox_signal_leng.Text = val.ToString();
 
-                if (signal_leng < 10)
+                if (signal_leng < 2)
                 {
                     signal_leng = 100;
                 }

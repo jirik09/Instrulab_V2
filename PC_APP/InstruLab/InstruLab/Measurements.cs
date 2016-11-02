@@ -285,8 +285,14 @@ namespace InstruLab
         {
             calcTime = new bool[4] { false, false, false, false };
             calcVolt = new bool[4] { false, false, false, false};
+            RMS = new double[4] { 0, 0, 0, 0 };
+
+            Mean = new double[4] { 0, 0, 0, 0 };
             Max = new ushort[4] { ushort.MinValue, ushort.MinValue, ushort.MinValue, ushort.MinValue };
             Min = new ushort[4] { ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue };
+
+            Period = new double[4] { 0, 0, 0, 0 };
+            Freq = new double[4] { 0, 0, 0, 0 };
             High = new double[4] { 0, 0, 0, 0 };
 
             int meascount = 0;
@@ -300,8 +306,8 @@ namespace InstruLab
                         {
                             for (int i = 0; i < buffleng; i++)
                             {
-                                RMS[ch] += Math.Pow(samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / Math.Pow(2, res), 2);
-                                Mean[ch] += samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / Math.Pow(2, res);
+                                RMS[ch] += Math.Pow(samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res)-1), 2);
+                                Mean[ch] += samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res)-1);
                                 if (samples[ch, i] > Max[ch])
                                 {
                                     Max[ch] = samples[ch, i];

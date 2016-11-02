@@ -69,9 +69,10 @@ namespace InstruLab
             public int VRefInt;
         }
 
-        enum FormOpened { NONE,SCOPE, VOLTMETER}
+        enum FormOpened { NONE,SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE}
 
-        FormOpened formOpened = FormOpened.NONE;
+        FormOpened ADCFormOpened = FormOpened.NONE;
+        FormOpened DACFormOpened = FormOpened.NONE;
 
         private SerialPort port;
         private string portName;
@@ -86,11 +87,12 @@ namespace InstruLab
 
 
         private StreamWriter logWriter;
-        private const bool writeLog = false;
+        private const bool writeLog = true;
 
         Scope Scope_form;
         Generator Gen_form;
         Voltmeter Volt_form;
+        VoltageSource Source_form;
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
 
@@ -436,7 +438,7 @@ namespace InstruLab
                                 scopeCfg.actualChannels = numChan;
                                 scopeCfg.actualRes = res;
                                 if (writeLog) { logRecieved("SCOPE DATA RECIEVED: Leng " + leng + ", Res " + res + ", Chan " + currChan + " of " + numChan); }
-                                switch (formOpened)
+                                switch (ADCFormOpened)
                                 {
                                     case FormOpened.SCOPE:
                                         Scope_form.add_message(new Message(Message.MsgRequest.SCOPE_NEW_DATA));
@@ -465,19 +467,25 @@ namespace InstruLab
                         case Commands.TRIGGERED:
                             //Console.WriteLine(Commands.TRIGGERED);
                             if (writeLog) { logRecieved("TRIG"); }
-                            if (formOpened == FormOpened.SCOPE)
+                            if (ADCFormOpened == FormOpened.SCOPE)
                             {
                                 Scope_form.add_message(new Message(Message.MsgRequest.SCOPE_TRIGGERED));
                             } break;
                         case Commands.GEN_OK:
                             //Console.WriteLine(Commands.TRIGGERED);
                             if (writeLog) { logRecieved("OK"); }
-                            Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));
+                            if (DACFormOpened == FormOpened.GENERATOR)
+                            {
+                                Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));
+                            }
                             break;
                         case Commands.GEN_NEXT:
                             //Console.WriteLine(Commands.TRIGGERED);
                             if (writeLog) { logRecieved("NEXT"); }
-                            Gen_form.add_message(new Message(Message.MsgRequest.GEN_NEXT));
+                            if (DACFormOpened == FormOpened.GENERATOR)
+                            {
+                                Gen_form.add_message(new Message(Message.MsgRequest.GEN_NEXT));
+                            }
                             break;
                         case Commands.GENERATOR:
                             while (port.BytesToRead < 8)
@@ -547,7 +555,7 @@ namespace InstruLab
 
         public void open_scope()
         {
-            if (formOpened == FormOpened.VOLTMETER)
+            if (ADCFormOpened == FormOpened.VOLTMETER)
             {
                 close_volt();
             }
@@ -555,7 +563,7 @@ namespace InstruLab
             {
                 Scope_form = new Scope(this);
                 Scope_form.Show();
-                formOpened = FormOpened.SCOPE;
+                ADCFormOpened = FormOpened.SCOPE;
             }
             else
             {
@@ -569,22 +577,27 @@ namespace InstruLab
             if (Scope_form != null)
             {
                 Scope_form.Close();
-                formOpened = FormOpened.NONE;
+                ADCFormOpened = FormOpened.NONE;
             }
         }
 
         public void scopeClosed() {
-            formOpened = FormOpened.NONE;
+            ADCFormOpened = FormOpened.NONE;
         }
 
 
 
         public void open_gen()
         {
+            if (DACFormOpened == FormOpened.VOLT_SOURCE)
+            {
+                close_source();
+            }
             if (Gen_form == null || Gen_form.IsDisposed)
             {
                 Gen_form = new Generator(this);
                 Gen_form.Show();
+                DACFormOpened = FormOpened.GENERATOR;
             }
             else
             {
@@ -602,7 +615,7 @@ namespace InstruLab
 
         public void open_volt()
         {
-            if (formOpened == FormOpened.SCOPE )
+            if (ADCFormOpened == FormOpened.SCOPE )
             {
                 close_scope();
             }
@@ -610,7 +623,7 @@ namespace InstruLab
             {
                 Volt_form = new Voltmeter(this);
                 Volt_form.Show();
-                formOpened = FormOpened.VOLTMETER;
+                ADCFormOpened = FormOpened.VOLTMETER;
             }
             else
             {
@@ -623,13 +636,45 @@ namespace InstruLab
             if (Volt_form != null)
             {
                 Volt_form.Close();
-                formOpened = FormOpened.NONE;
+                ADCFormOpened = FormOpened.NONE;
+            }
+        }
+
+        public void open_source()
+        {
+            if (DACFormOpened == FormOpened.GENERATOR)
+            {
+                close_gen();
+            }
+            if (Source_form == null || Source_form.IsDisposed)
+            {
+                Source_form = new VoltageSource(this);
+                Source_form.Show();
+                DACFormOpened = FormOpened.VOLT_SOURCE;
+            }
+            else
+            {
+                Source_form.BringToFront();
+            }
+        }
+
+        public void close_source()
+        {
+            if (Source_form != null)
+            {
+                Source_form.Close();
+                DACFormOpened = FormOpened.NONE;
             }
         }
 
         public void voltClosed()
         {
-            formOpened = FormOpened.NONE;
+            ADCFormOpened = FormOpened.NONE;
+        }
+
+        public void sourceClosed()
+        {
+            DACFormOpened = FormOpened.NONE;
         }
         
         public SystemConfig_def getSystemCfg() {

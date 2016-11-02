@@ -51,6 +51,7 @@
             this.label35 = new System.Windows.Forms.Label();
             this.label_Freq = new System.Windows.Forms.Label();
             this.groupBox_scope = new System.Windows.Forms.GroupBox();
+            this.btn_voltmeter_open = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.btn_scope_open = new System.Windows.Forms.Button();
             this.label_scope_smpl = new System.Windows.Forms.Label();
@@ -63,6 +64,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.groupBox_generator = new System.Windows.Forms.GroupBox();
+            this.btn_voltage_source_open = new System.Windows.Forms.Button();
             this.label52 = new System.Windows.Forms.Label();
             this.btn_gen_open = new System.Windows.Forms.Button();
             this.label_gen_smpl = new System.Windows.Forms.Label();
@@ -93,7 +95,6 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sendUsFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.btn_voltmeter_open = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox_device_info.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
@@ -358,7 +359,20 @@
             this.groupBox_scope.Size = new System.Drawing.Size(132, 268);
             this.groupBox_scope.TabIndex = 3;
             this.groupBox_scope.TabStop = false;
-            this.groupBox_scope.Text = "Oscilloscope";
+            this.groupBox_scope.Text = "Analog to Digital";
+            // 
+            // btn_voltmeter_open
+            // 
+            this.btn_voltmeter_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_voltmeter_open.Enabled = false;
+            this.btn_voltmeter_open.Location = new System.Drawing.Point(5, 214);
+            this.btn_voltmeter_open.Name = "btn_voltmeter_open";
+            this.btn_voltmeter_open.Size = new System.Drawing.Size(122, 23);
+            this.btn_voltmeter_open.TabIndex = 2;
+            this.btn_voltmeter_open.Text = "Voltmeter";
+            this.btn_voltmeter_open.UseVisualStyleBackColor = true;
+            this.btn_voltmeter_open.Click += new System.EventHandler(this.btn_voltmeter_open_Click);
             // 
             // label17
             // 
@@ -379,7 +393,7 @@
             this.btn_scope_open.Name = "btn_scope_open";
             this.btn_scope_open.Size = new System.Drawing.Size(122, 20);
             this.btn_scope_open.TabIndex = 1;
-            this.btn_scope_open.Text = "Open";
+            this.btn_scope_open.Text = "Oscilloscope";
             this.btn_scope_open.UseVisualStyleBackColor = true;
             this.btn_scope_open.Click += new System.EventHandler(this.btn_scope_open_Click);
             // 
@@ -466,6 +480,7 @@
             // 
             // groupBox_generator
             // 
+            this.groupBox_generator.Controls.Add(this.btn_voltage_source_open);
             this.groupBox_generator.Controls.Add(this.label52);
             this.groupBox_generator.Controls.Add(this.btn_gen_open);
             this.groupBox_generator.Controls.Add(this.label_gen_smpl);
@@ -485,7 +500,20 @@
             this.groupBox_generator.Size = new System.Drawing.Size(130, 268);
             this.groupBox_generator.TabIndex = 2;
             this.groupBox_generator.TabStop = false;
-            this.groupBox_generator.Text = "Generator";
+            this.groupBox_generator.Text = "Digital to analog";
+            // 
+            // btn_voltage_source_open
+            // 
+            this.btn_voltage_source_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_voltage_source_open.Enabled = false;
+            this.btn_voltage_source_open.Location = new System.Drawing.Point(9, 214);
+            this.btn_voltage_source_open.Name = "btn_voltage_source_open";
+            this.btn_voltage_source_open.Size = new System.Drawing.Size(115, 23);
+            this.btn_voltage_source_open.TabIndex = 2;
+            this.btn_voltage_source_open.Text = "Voltage source";
+            this.btn_voltage_source_open.UseVisualStyleBackColor = true;
+            this.btn_voltage_source_open.Click += new System.EventHandler(this.btn_voltage_source_open_Click);
             // 
             // label52
             // 
@@ -506,7 +534,7 @@
             this.btn_gen_open.Name = "btn_gen_open";
             this.btn_gen_open.Size = new System.Drawing.Size(117, 20);
             this.btn_gen_open.TabIndex = 1;
-            this.btn_gen_open.Text = "Open";
+            this.btn_gen_open.Text = "Generator";
             this.btn_gen_open.UseVisualStyleBackColor = true;
             this.btn_gen_open.Click += new System.EventHandler(this.btn_gen_open_Click);
             // 
@@ -703,7 +731,7 @@
             // exitInstrulabToolStripMenuItem
             // 
             this.exitInstrulabToolStripMenuItem.Name = "exitInstrulabToolStripMenuItem";
-            this.exitInstrulabToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitInstrulabToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.exitInstrulabToolStripMenuItem.Text = "Exit Instrulab";
             this.exitInstrulabToolStripMenuItem.Click += new System.EventHandler(this.exitInstrulabToolStripMenuItem_Click);
             // 
@@ -761,19 +789,6 @@
             this.label1.Size = new System.Drawing.Size(138, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "CTU FEE 2016 - Jiří Hladík";
-            // 
-            // btn_voltmeter_open
-            // 
-            this.btn_voltmeter_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_voltmeter_open.Enabled = false;
-            this.btn_voltmeter_open.Location = new System.Drawing.Point(5, 214);
-            this.btn_voltmeter_open.Name = "btn_voltmeter_open";
-            this.btn_voltmeter_open.Size = new System.Drawing.Size(122, 23);
-            this.btn_voltmeter_open.TabIndex = 2;
-            this.btn_voltmeter_open.Text = "Voltmeter";
-            this.btn_voltmeter_open.UseVisualStyleBackColor = true;
-            this.btn_voltmeter_open.Click += new System.EventHandler(this.btn_voltmeter_open_Click);
             // 
             // Instrulab
             // 
@@ -876,6 +891,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripMenuItem sendUsFeedbackToolStripMenuItem;
         private System.Windows.Forms.Button btn_voltmeter_open;
+        private System.Windows.Forms.Button btn_voltage_source_open;
 
 
     }
