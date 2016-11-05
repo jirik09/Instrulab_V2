@@ -679,6 +679,7 @@ void CalibrateADC (void){
 	HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
 }
 
+
 /* USER CODE END 1 */
 
 /**

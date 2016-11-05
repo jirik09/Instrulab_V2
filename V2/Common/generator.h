@@ -42,6 +42,7 @@ void genStatusOK(void);
 uint32_t genGetRealSmplFreq(uint8_t chan);
 uint8_t genSetLength(uint32_t length,uint8_t chan);
 uint8_t genSetNumOfChannels(uint8_t chan);
+uint8_t genSetDAC(uint16_t chann1,uint16_t chann2);
 void genSetOutputBuffer(void);
 void genUnsetOutputBuffer(void);
 void genStart(void);

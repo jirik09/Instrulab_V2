@@ -45,7 +45,7 @@
 #define SCOPE_CH4_PIN_STR "PB14" //must be 4 chars
 
 #define SCOPE_VREF 3300
-#define SCOPE_VREF_INT 1200
+#define SCOPE_VREF_INT (uint16_t)*((uint16_t *)0x1FFFF7BA)
 
 #define RANGE_1_LOW 0
 #define RANGE_1_HI SCOPE_VREF
@@ -97,7 +97,7 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define GEN_VREF_INT 1200
 
 #define GEN_CH1_PIN_STR "A2__" //must be 4 chars
-#define GEN_CH2_PIN_STR "D12_" //must be 4 chars
+#define GEN_CH2_PIN_STR "D13_" //must be 4 chars
 
 
 

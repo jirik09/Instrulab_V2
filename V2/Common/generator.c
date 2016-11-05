@@ -19,8 +19,9 @@
 
 // External variables definitions =============================================
 xQueueHandle generatorMessageQueue;
-uint8_t validateGenBuffUsage(void);
+//uint8_t validateGenBuffUsage(void);
 void clearGenBuffer(void);
+
 static volatile generatorTypeDef generator;
 uint16_t blindValue=0;
 
@@ -195,18 +196,18 @@ uint8_t genSetNumOfChannels(uint8_t chan){
   * @param  None
   * @retval err/ok
   */
-uint8_t validateGenBuffUsage(){
-	uint8_t result=1;
-	uint32_t data_len=generator.maxOneChanSamples;
-	if(generator.DAC_res>8){
-		data_len=data_len*2;
-	}
-	data_len=data_len*generator.numOfChannles;
-	if(data_len<=MAX_GENERATOR_BUFF_SIZE){
-		result=0;
-	}
-	return result;
-}
+//uint8_t validateGenBuffUsage(){
+//	uint8_t result=1;
+//	uint32_t data_len=generator.maxOneChanSamples;
+//	if(generator.DAC_res>8){
+//		data_len=data_len*2;
+//	}
+//	data_len=data_len*generator.numOfChannles;
+//	if(data_len<=MAX_GENERATOR_BUFF_SIZE){
+//		result=0;
+//	}
+//	return result;
+//}
 
 /**
   * @brief 	Clears generator buffer
@@ -220,7 +221,6 @@ void clearGenBuffer(void){
 }
 
 
-
 void genSetOutputBuffer(void){
 	DACSetOutputBuffer();
 }
@@ -229,7 +229,26 @@ void genUnsetOutputBuffer(void){
 	DACUnsetOutputBuffer();
 }
 
+uint8_t genSetDAC(uint16_t chann1,uint16_t chann2){
+	uint8_t result=GEN_INVALID_STATE;
+	genSetNumOfChannels(MAX_DAC_CHANNELS);
+	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
+		genSetLength(1,i+1);
+	}
+	
+	if(MAX_ADC_CHANNELS>0){
+		*generator.pChanMem[0]=chann1;
+		genSetFrequency(1,1);
+	}
+	if(MAX_ADC_CHANNELS>1){
+		*generator.pChanMem[1]=chann2;
+		genSetFrequency(1,2);
+	}
+	genStart();	
 
+	
+	return 0;
+}
 /**
   * @brief  Start scope sampling
   * @param  None

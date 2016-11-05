@@ -60,6 +60,8 @@ namespace InstruLab
         public const string GEN_BUFF_ON = "B_ON";
         public const string GEN_BUFF_OFF = "B_OF";
 
+        public const string GEN_DAC_VAL = "DAC_";
+
 
         //scope modes
         public const string MODE_NORMAL = "NORM";

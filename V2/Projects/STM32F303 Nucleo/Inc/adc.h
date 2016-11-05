@@ -70,6 +70,7 @@ void adcSetDefaultInputs(void);
 void adcSetResolution (uint8_t res);
 void CalibrateADC (void);
 
+
 #ifdef __cplusplus
 }
 #endif

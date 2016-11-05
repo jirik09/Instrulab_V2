@@ -62,7 +62,14 @@ namespace LEO
                 if (voltActual1 != voltChann1 || voltActual2 != voltChann2) {
                     
                     device.takeCommsSemaphore(semaphoreTimeout + 103);
-                    
+                    device.send(Commands.GENERATOR + ":" + Commands.GEN_DAC_VAL + " ");
+                    tmpData = 0;
+                    tmpData += (int)Math.Round(voltChann1 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1));
+                    tmpData += (int)Math.Round(voltChann2 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1))*(int)(Math.Pow(2,16));
+                    device.send_int((int)(tmpData));
+                    device.send(";");
+
+                    /*
                     if (!initialized) {
                         if (numChannels >= 2)
                         {
@@ -123,7 +130,7 @@ namespace LEO
 
                     Thread.Sleep(50);
                     device.send(Commands.GENERATOR + ":" + Commands.START + ";");
-
+                    */
                     device.giveCommsSemaphore();
 
                     voltActual1 = voltChann1;

@@ -494,6 +494,11 @@ command parseGeneratorCmd(void){
 			case CMD_GEN_OUTBUFF_OFF: //buffer off
 				genUnsetOutputBuffer();
 			break;	
+			
+			case CMD_GEN_DAC_VAL:
+				cmdIn = giveNextCmd();
+				error=genSetDAC((uint16_t)(cmdIn>>16),(uint16_t)(cmdIn));
+			break;
 				
 			case CMD_GEN_START: //start sampling
 				genStart();

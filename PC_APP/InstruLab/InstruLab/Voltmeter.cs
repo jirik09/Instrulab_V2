@@ -34,6 +34,12 @@ namespace LEO
 
         double[] meanAvgSum = new double[4] { 0, 0, 0, 0 };
         double[] meanAvg = new double[4] { 0, 0, 0, 0 };
+        double[] vdda = new double[4] { 0, 0, 0, 0 };
+
+        bool sampleVDDA = true;
+        bool samplingFinished = false;
+        bool hold = false;
+    
 
         public Voltmeter(Device dev)
         {
@@ -128,38 +134,19 @@ namespace LEO
             meas.addMeasurement(3, Measurements.MeasurementTypes.FREQUENCY);
             meas.addMeasurement(3, Measurements.MeasurementTypes.MEAN);
             meas.addMeasurement(3, Measurements.MeasurementTypes.PKPK);
-            
 
 
+
+            SetVDDASampling();
 
             device.takeCommsSemaphore(semaphoreTimeout + 109);
-
-            device.send(Commands.SCOPE + ":" + Commands.START + ";");
-
+            //device.send(Commands.SCOPE + ":" + Commands.START + ";");
+            
             device.send(Commands.SCOPE + ":" + Commands.SAMPLING_FREQ + " " + Commands.FREQ_5K + ";");
             device.send(Commands.SCOPE + ":" + Commands.DATA_LENGTH + " " + Commands.SAMPLES_200 + ";");
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_AUTO + ";");
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_DATA_DEPTH + " " + Commands.DATA_DEPTH_12B + ";");
-           /* int tmp=0;
-            tmp = 0x00000008;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
 
-            tmp = 0x00000109;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000203;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000303;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");*/
 
             switch (device.scopeCfg.maxNumChannels)
             {
@@ -176,6 +163,7 @@ namespace LEO
                     device.send(Commands.SCOPE + ":" + Commands.CHANNELS + " " + Commands.CHANNELS_4 + ";");
                     break;
             }
+
 
             Thread.Sleep(100);
             device.send(Commands.SCOPE + ":" + Commands.START + ";");
@@ -200,32 +188,64 @@ namespace LEO
                         {
                             calcSignal_th.Join();
                         }
-                        calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, rangeMax, rangeMin, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
-                        calcSignal_th.Start();
-                        Thread.Sleep(1);
-                        if (calcSignal_th.IsAlive)
+
+                        if (sampleVDDA)
                         {
-                            calcSignal_th.Join();
+                            samplingFinished = false;
+                            SetNormalSampling();
+                            sampleVDDA = false;
+                            //calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, rangeMax, rangeMin, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
+                            calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, (int)(Math.Pow(2,device.scopeCfg.actualRes)), 0, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
+
+                            calcSignal_th.Start();
+                            Thread.Sleep(1);
+                            if (calcSignal_th.IsAlive)
+                            {
+                                calcSignal_th.Join();
+                            }
+
+                            channels = device.scopeCfg.actualChannels;
+
+                            vdda[0] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(0) / 1000;
+                            vdda[1] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(1) / 1000;
+                            vdda[2] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(2) / 1000;
+                            vdda[3] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(3) / 1000;
+
                         }
+                        else {
+                            calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, rangeMax, rangeMin, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
+                            //calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, 4096, 0, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
 
-                        channels = device.scopeCfg.actualChannels;
+                            calcSignal_th.Start();
+                            Thread.Sleep(1);
+                            if (calcSignal_th.IsAlive)
+                            {
+                                calcSignal_th.Join();
+                            }
 
-                        avgPointer++;
-                        meanAvgSum[0] += meas.getMean(0) ;
-                        meanAvgSum[1] += meas.getMean(1) ;
-                        meanAvgSum[2] += meas.getMean(2) ;
-                        meanAvgSum[3] += meas.getMean(3) ;
+                            channels = device.scopeCfg.actualChannels;
 
-                        if (avgPointer >= averages)
-                        {
-                            meanAvg[0] = meanAvgSum[0] / avgPointer;
-                            meanAvg[1] = meanAvgSum[1] / avgPointer;
-                            meanAvg[2] = meanAvgSum[2] / avgPointer;
-                            meanAvg[3] = meanAvgSum[3] / avgPointer;
-                            avgPointer = 0;
-                            meanAvgSum = new double[4] { 0, 0, 0, 0 };
-                            this.Invalidate();
+                            avgPointer++;
+                            meanAvgSum[0] += meas.getMean(0) * vdda[0] / (device.scopeCfg.VRef / 1000);
+                            meanAvgSum[1] += meas.getMean(1) * vdda[1] / (device.scopeCfg.VRef / 1000);
+                            meanAvgSum[2] += meas.getMean(2) * vdda[2] / (device.scopeCfg.VRef / 1000);
+                            meanAvgSum[3] += meas.getMean(3) * vdda[3] / (device.scopeCfg.VRef / 1000);
+
+                            if (avgPointer >= averages)
+                            {
+                                sampleVDDA = true;
+                                SetVDDASampling();
+                                meanAvg[0] = meanAvgSum[0] / avgPointer;
+                                meanAvg[1] = meanAvgSum[1] / avgPointer;
+                                meanAvg[2] = meanAvgSum[2] / avgPointer;
+                                meanAvg[3] = meanAvgSum[3] / avgPointer;
+                                avgPointer = 0;
+                                meanAvgSum = new double[4] { 0, 0, 0, 0 };
+                                samplingFinished = true;
+                                
+                            }
                         }
+                        this.Invalidate();
 
                         Thread.Sleep(10);
                         device.takeCommsSemaphore(semaphoreTimeout * 2 + 108);
@@ -240,31 +260,49 @@ namespace LEO
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.groupBox_1.Enabled = channels >= 1 ? true : false;
-            this.groupBox_2.Enabled = channels >= 2 ? true : false;
-            this.groupBox_3.Enabled = channels >= 3 ? true : false;
-            this.groupBox_4.Enabled = channels >= 4 ? true : false;
+            if (!hold)
+            {
+                if (samplingFinished)
+                {
+                    this.groupBox_1.Enabled = channels >= 1 ? true : false;
+                    this.groupBox_2.Enabled = channels >= 2 ? true : false;
+                    this.groupBox_3.Enabled = channels >= 3 ? true : false;
+                    this.groupBox_4.Enabled = channels >= 4 ? true : false;
 
-            this.label_volt_1.Text = Math.Round(meanAvg[0] * 1000, 2) + " mV";
-            this.label_volt_2.Text = Math.Round(meanAvg[1] * 1000, 2) + " mV";
-            this.label_volt_3.Text = Math.Round(meanAvg[2] * 1000, 2) + " mV";
-            this.label_volt_4.Text = Math.Round(meanAvg[3] * 1000, 2) + " mV";
+                    this.label_volt_1.Text = Math.Round(meanAvg[0] * 1000, 2) + " mV";
+                    this.label_volt_2.Text = Math.Round(meanAvg[1] * 1000, 2) + " mV";
+                    this.label_volt_3.Text = Math.Round(meanAvg[2] * 1000, 2) + " mV";
+                    this.label_volt_4.Text = Math.Round(meanAvg[3] * 1000, 2) + " mV";
 
-            this.progressBar_volt_1.Value = channels >= 1 ? (int)((meas.getMean(0) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
-            this.progressBar_volt_2.Value = channels >= 2 ? (int)((meas.getMean(1) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
-            this.progressBar_volt_3.Value = channels >= 3 ? (int)((meas.getMean(2) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
-            this.progressBar_volt_4.Value = channels >= 4 ? (int)((meas.getMean(3) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+                    this.progressBar_volt_1.Value = channels >= 1 ? (int)((meas.getMean(0) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+                    this.progressBar_volt_2.Value = channels >= 2 ? (int)((meas.getMean(1) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+                    this.progressBar_volt_3.Value = channels >= 3 ? (int)((meas.getMean(2) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+                    this.progressBar_volt_4.Value = channels >= 4 ? (int)((meas.getMean(3) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
 
-            this.label_ripp_1.Text = channels >= 1 ? "ripple: " + Math.Round(meas.getPkPk(0, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
-            this.label_ripp_2.Text = channels >= 2 ? "ripple: " + Math.Round(meas.getPkPk(1, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
-            this.label_ripp_3.Text = channels >= 3 ? "ripple: " + Math.Round(meas.getPkPk(2, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
-            this.label_ripp_4.Text = channels >= 4 ? "ripple: " + Math.Round(meas.getPkPk(3, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                    this.label_ripp_1.Text = channels >= 1 ? "ripple: " + Math.Round(meas.getPkPk(0, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                    this.label_ripp_2.Text = channels >= 2 ? "ripple: " + Math.Round(meas.getPkPk(1, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                    this.label_ripp_3.Text = channels >= 3 ? "ripple: " + Math.Round(meas.getPkPk(2, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                    this.label_ripp_4.Text = channels >= 4 ? "ripple: " + Math.Round(meas.getPkPk(3, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
 
-            this.label_freq_1.Text = channels >= 1 ? meas.getMeas(0 * 3) : "";
-            this.label_freq_2.Text = channels >= 2 ? meas.getMeas(1 * 3) : "";
-            this.label_freq_3.Text = channels >= 3 ? meas.getMeas(2 * 3) : "";
-            this.label_freq_4.Text = channels >= 4 ? meas.getMeas(3 * 3) : "";
+                    this.label_freq_1.Text = channels >= 1 ? meas.getMeas(0 * 3) : "";
+                    this.label_freq_2.Text = channels >= 2 ? meas.getMeas(1 * 3) : "";
+                    this.label_freq_3.Text = channels >= 3 ? meas.getMeas(2 * 3) : "";
+                    this.label_freq_4.Text = channels >= 4 ? meas.getMeas(3 * 3) : "";
 
+                    this.label_vdda.Text = Math.Round(vdda[0] * 1000, 2) + " mV";
+                }
+                this.label_sampling.Text = "Sampling " + (int)(avgPointer + 1) + "/" + averages;
+            }else{
+                this.label_ripp_1.Text = channels >= 1 ? "" : "";
+                this.label_ripp_2.Text = channels >= 2 ? "" : "";
+                this.label_ripp_3.Text = channels >= 3 ? "" : "";
+                this.label_ripp_4.Text = channels >= 4 ? "" : "";
+               
+                this.label_freq_1.Text = channels >= 1 ? "Hold" : "";
+                this.label_freq_2.Text = channels >= 2 ? "Hold" : "";
+                this.label_freq_3.Text = channels >= 3 ? "Hold" : "";
+                this.label_freq_4.Text = channels >= 4 ? "Hold" : "";
+            }
             base.OnPaint(e);
         }
 
@@ -365,7 +403,69 @@ namespace LEO
         }
 
 
+        private void SetVDDASampling(){
+            int tmp=0;
+            device.takeCommsSemaphore(semaphoreTimeout + 113);
+            tmp = 0x00000008;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
 
+            tmp = 0x00000109;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
 
+            tmp = 0x00000203;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+
+            tmp = 0x00000303;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+            device.giveCommsSemaphore();
+        }
+
+        private void SetNormalSampling()
+        {
+            int tmp = 0;
+            device.takeCommsSemaphore(semaphoreTimeout + 112);
+            tmp = 0x00000002;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+
+            tmp = 0x00000104;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+
+            tmp = 0x00000202;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+
+            tmp = 0x00000301;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp));
+            device.send(";");
+            device.giveCommsSemaphore();
+        }
+
+        private void button_hold_Click(object sender, EventArgs e)
+        {
+            if (this.button_hold.Text.Equals("Hold"))
+            {
+                hold = true;
+                this.button_hold.Text = "Measure";
+            }
+            else {
+                hold = false;
+                this.button_hold.Text = "Hold";
+            }
+            this.Invalidate();
+        }
     }
 }
