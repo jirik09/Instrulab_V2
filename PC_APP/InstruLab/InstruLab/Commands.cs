@@ -67,6 +67,7 @@ namespace InstruLab
         public const string MODE_NORMAL = "NORM";
         public const string MODE_AUTO = "AUTO";
         public const string MODE_SINGLE = "SING";
+        public const string MODE_AUTO_FAST = "F_A_";
 
         //Scope trigger edges
 

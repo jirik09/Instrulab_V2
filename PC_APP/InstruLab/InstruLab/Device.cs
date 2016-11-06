@@ -45,6 +45,7 @@ namespace InstruLab
             public string[] pins;
             public int VRef;
             public int VRefInt;
+            public int VDDA;
             public int munRanges;
             public int[,] ranges;
             public byte[] buffer;
@@ -67,6 +68,7 @@ namespace InstruLab
             public string[] pins;
             public int VRef;
             public int VRefInt;
+            public int VDDA;
         }
 
         enum FormOpened { NONE,SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE}
@@ -286,6 +288,7 @@ namespace InstruLab
                         scopeCfg.pins[i] = new string(msg_char, 16+4*i, 4);
                     }
                     scopeCfg.VRef = BitConverter.ToInt32(msg_byte, 16 + 4 * scopeCfg.maxNumChannels);
+                    scopeCfg.VDDA = scopeCfg.VRef;
                     scopeCfg.VRefInt = BitConverter.ToInt32(msg_byte, 20 + 4 * scopeCfg.maxNumChannels);
 
                     scopeCfg.munRanges = (toRead - 28 - 4 * scopeCfg.maxNumChannels) / 4;
@@ -320,6 +323,7 @@ namespace InstruLab
                         genCfg.pins[i] = new string(msg_char, 20 + 4 * i, 4);
                     }
                     genCfg.VRef = BitConverter.ToInt32(msg_byte, 20 + 4 * genCfg.numChannels);
+                    genCfg.VDDA = genCfg.VRef;
                     genCfg.VRefInt = BitConverter.ToInt32(msg_byte, 24 + 4 * genCfg.numChannels);
                 }else{
                     genCfg.isGen=false;
@@ -477,6 +481,10 @@ namespace InstruLab
                             if (DACFormOpened == FormOpened.GENERATOR)
                             {
                                 Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));
+                            }
+                            if (DACFormOpened == FormOpened.VOLT_SOURCE)
+                            {
+                                Source_form.add_message(new Message(Message.MsgRequest.GEN_OK));
                             }
                             break;
                         case Commands.GEN_NEXT:

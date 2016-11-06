@@ -230,24 +230,25 @@ void genUnsetOutputBuffer(void){
 }
 
 uint8_t genSetDAC(uint16_t chann1,uint16_t chann2){
-	uint8_t result=GEN_INVALID_STATE;
-	genSetNumOfChannels(MAX_DAC_CHANNELS);
-	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
-		genSetLength(1,i+1);
+	uint8_t result=0;
+	if(generator.state==GENERATOR_IDLE){
+		for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
+			result+=genSetLength(1,i+1);
+		}
+		result+=genSetNumOfChannels(MAX_DAC_CHANNELS);
 	}
-	
-	if(MAX_ADC_CHANNELS>0){
+	if(MAX_DAC_CHANNELS>0){
 		*generator.pChanMem[0]=chann1;
-		genSetFrequency(1,1);
+		result+=genSetFrequency(100,1);
 	}
-	if(MAX_ADC_CHANNELS>1){
+	if(MAX_DAC_CHANNELS>1){
 		*generator.pChanMem[1]=chann2;
-		genSetFrequency(1,2);
+		result+=genSetFrequency(100,2);
 	}
 	genStart();	
 
 	
-	return 0;
+	return result;
 }
 /**
   * @brief  Start scope sampling

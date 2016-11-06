@@ -149,7 +149,8 @@ void ScopeTriggerTask(void const *argument) {
 				if (samplesTaken > samplesToStart)    
 					if((scope.settings.triggerEdge == EDGE_RISING && data + NOISE_REDUCTION < triggerLevel) 
 					|| (scope.settings.triggerEdge == EDGE_FALLING && data - NOISE_REDUCTION > triggerLevel)
-					|| (scope.settings.triggerMode == TRIG_AUTO && samplesTaken > (scope.settings.samplesToSend * AUTO_TRIG_MAX_WAIT) )){ //skip waiting for trigger in case of TRIG_AUTO
+					|| (scope.settings.triggerMode == TRIG_AUTO && samplesTaken > (scope.settings.samplesToSend * AUTO_TRIG_WAIT_NORMAL))
+					|| (scope.settings.triggerMode == TRIG_AUTO_FAST && samplesTaken > (scope.settings.samplesToSend * AUTO_TRIG_WAIT_FAST))  ){ //skip waiting for trigger in case of TRIG_AUTO
 						scope.state = SCOPE_SAMPLING_TRIGGER_WAIT;
 						xQueueSendToBack(messageQueue, "SMPL", portMAX_DELAY);
 					}
@@ -167,7 +168,8 @@ void ScopeTriggerTask(void const *argument) {
 				updateTrigger();
 				if((scope.settings.triggerEdge == EDGE_RISING && data > triggerLevel) 
 				|| (scope.settings.triggerEdge == EDGE_FALLING && data < triggerLevel)
-				|| (scope.settings.triggerMode == TRIG_AUTO && samplesTaken > (scope.settings.samplesToSend * AUTO_TRIG_MAX_WAIT) )){
+				|| (scope.settings.triggerMode == TRIG_AUTO && samplesTaken > (scope.settings.samplesToSend * AUTO_TRIG_WAIT_NORMAL))
+				|| (scope.settings.triggerMode == TRIG_AUTO_FAST && samplesTaken > (scope.settings.samplesToSend * AUTO_TRIG_WAIT_FAST))  ){
 					totalSmpTaken = samplesTaken;
 					samplesTaken = 0;
 					scope.state = SCOPE_SAMPLING;
@@ -185,7 +187,7 @@ void ScopeTriggerTask(void const *argument) {
 					samplingDisable();
 					
 					//finding exact trigger
-					if (scope.settings.triggerMode != TRIG_AUTO){	
+					if (scope.settings.triggerMode != TRIG_AUTO && scope.settings.triggerMode != TRIG_AUTO_FAST){	
 						if(scope.settings.adcRes>8){
 							if(scope.settings.triggerEdge == EDGE_RISING){
 								while(*(scope.pChanMem[scope.triggerChannel-1]+triggerIndex) > triggerLevel){

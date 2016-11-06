@@ -144,7 +144,7 @@ namespace LEO
             
             device.send(Commands.SCOPE + ":" + Commands.SAMPLING_FREQ + " " + Commands.FREQ_5K + ";");
             device.send(Commands.SCOPE + ":" + Commands.DATA_LENGTH + " " + Commands.SAMPLES_200 + ";");
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_AUTO + ";");
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_AUTO_FAST + ";");
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_DATA_DEPTH + " " + Commands.DATA_DEPTH_12B + ";");
 
 
@@ -206,10 +206,13 @@ namespace LEO
 
                             channels = device.scopeCfg.actualChannels;
 
-                            vdda[0] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(0) / 1000;
-                            vdda[1] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(1) / 1000;
-                            vdda[2] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(2) / 1000;
-                            vdda[3] = device.scopeCfg.VRef / 1000 * device.scopeCfg.VRefInt / meas.getMean(3) / 1000;
+                            vdda[0] = device.scopeCfg.VRefInt / (meas.getMean(0) * 1000) * device.scopeCfg.VRef / 1000;
+                            vdda[1] = device.scopeCfg.VRefInt / (meas.getMean(1) * 1000) * device.scopeCfg.VRef / 1000;
+                            vdda[2] = device.scopeCfg.VRefInt / (meas.getMean(2) * 1000) * device.scopeCfg.VRef / 1000;
+                            vdda[3] = device.scopeCfg.VRefInt / (meas.getMean(3) * 1000) * device.scopeCfg.VRef / 1000;
+
+                            device.scopeCfg.VDDA = (int)(vdda[0] * 1000);
+                            device.genCfg.VDDA = (int)(vdda[0] * 1000);
 
                         }
                         else {
@@ -226,10 +229,10 @@ namespace LEO
                             channels = device.scopeCfg.actualChannels;
 
                             avgPointer++;
-                            meanAvgSum[0] += meas.getMean(0) * vdda[0] / (device.scopeCfg.VRef / 1000);
-                            meanAvgSum[1] += meas.getMean(1) * vdda[1] / (device.scopeCfg.VRef / 1000);
-                            meanAvgSum[2] += meas.getMean(2) * vdda[2] / (device.scopeCfg.VRef / 1000);
-                            meanAvgSum[3] += meas.getMean(3) * vdda[3] / (device.scopeCfg.VRef / 1000);
+                            meanAvgSum[0] += meas.getMean(0) * vdda[0] / ((double)device.scopeCfg.VRef / 1000);
+                            meanAvgSum[1] += meas.getMean(1) * vdda[1] / ((double)device.scopeCfg.VRef / 1000);
+                            meanAvgSum[2] += meas.getMean(2) * vdda[2] / ((double)device.scopeCfg.VRef / 1000);
+                            meanAvgSum[3] += meas.getMean(3) * vdda[3] / ((double)device.scopeCfg.VRef / 1000);
 
                             if (avgPointer >= averages)
                             {
@@ -247,7 +250,7 @@ namespace LEO
                         }
                         this.Invalidate();
 
-                        Thread.Sleep(10);
+                       // Thread.Sleep(10);
                         device.takeCommsSemaphore(semaphoreTimeout * 2 + 108);
                         device.send(Commands.SCOPE + ":" + Commands.SCOPE_NEXT + ";");
                         device.giveCommsSemaphore();

@@ -12,7 +12,8 @@
 #define SCOPE_H_
 
 // Constant definitions =======================================================
-#define AUTO_TRIG_MAX_WAIT 4
+#define AUTO_TRIG_WAIT_NORMAL 4
+#define AUTO_TRIG_WAIT_FAST 1
 #define NOISE_REDUCTION 16
 
 #define SCOPE_DEFAULT_SAMPLING_FREQ 1000
@@ -28,6 +29,7 @@
 typedef enum{
 	TRIG_NORMAL = 0,
 	TRIG_AUTO,
+	TRIG_AUTO_FAST,
 	TRIG_SINGLE
 } scopeTriggerMode;
 

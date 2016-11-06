@@ -184,6 +184,8 @@ command parseScopeCmd(void){
 						scopeSetTriggerMode(TRIG_NORMAL);
 					}else if(cmdIn == CMD_MODE_AUTO){
 						scopeSetTriggerMode(TRIG_AUTO);
+					}else if(cmdIn == CMD_MODE_AUTO_FAST){
+						scopeSetTriggerMode(TRIG_AUTO_FAST);
 					}else if(cmdIn == CMD_MODE_SINGLE){
 						scopeSetTriggerMode(TRIG_SINGLE);
 					}
@@ -497,7 +499,8 @@ command parseGeneratorCmd(void){
 			
 			case CMD_GEN_DAC_VAL:
 				cmdIn = giveNextCmd();
-				error=genSetDAC((uint16_t)(cmdIn>>16),(uint16_t)(cmdIn));
+				error=genSetDAC((uint16_t)(cmdIn),(uint16_t)(cmdIn>>16));
+				genStatusOK();
 			break;
 				
 			case CMD_GEN_START: //start sampling

@@ -10,7 +10,7 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 
-namespace LEO
+namespace InstruLab
 {
     public partial class VoltageSource : Form
     {
@@ -27,16 +27,23 @@ namespace LEO
         double voltActual2 = 0;
 
         int numChannels = 0;
-        bool initialized = false;
         int tmpData;
+        int tmpData_ch1;
+        int tmpData_ch2;
+        int usedVdda = 0;
+
+        bool updated=false;
 
         System.Timers.Timer refreshTimer;
+
+        private Queue<Message> source_q = new Queue<Message>();
+        Message messg;
 
 
 
         public VoltageSource(Device dev)
         {
-            initialized = false;
+            //initialized = false;
             device = dev;
             InitializeComponent();
 
@@ -45,7 +52,7 @@ namespace LEO
             this.trackBar_chann_1.Value = 0;
             this.trackBar_chann_2.Value = 0;
 
-            refreshTimer = new System.Timers.Timer(100);
+            refreshTimer = new System.Timers.Timer(200);
             refreshTimer.Elapsed += new ElapsedEventHandler(RefreshDAC);
             refreshTimer.Start();
 
@@ -58,14 +65,38 @@ namespace LEO
 
         private void RefreshDAC(object sender, ElapsedEventArgs e)
         {
+            if (source_q.Count > 0)
+            {
+                messg = source_q.Dequeue();
+                if (messg == null)
+                {
+                    return;
+                }
+                switch (messg.GetRequest())
+                {
+                    case Message.MsgRequest.GEN_OK:
+                        updated = true;
+                        this.Invalidate();
+                        break;
+                }
+            }
             if (voltChann1_old == voltChann1 && voltChann2_old == voltChann2) {
                 if (voltActual1 != voltChann1 || voltActual2 != voltChann2) {
                     
                     device.takeCommsSemaphore(semaphoreTimeout + 103);
                     device.send(Commands.GENERATOR + ":" + Commands.GEN_DAC_VAL + " ");
-                    tmpData = 0;
-                    tmpData += (int)Math.Round(voltChann1 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1));
-                    tmpData += (int)Math.Round(voltChann2 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1))*(int)(Math.Pow(2,16));
+                    usedVdda = device.genCfg.VDDA;
+                    tmpData_ch1 = (int)Math.Round(voltChann1 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1) * device.genCfg.VRef / usedVdda);
+                    tmpData_ch2 = (int)Math.Round(voltChann2 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1) * device.genCfg.VRef / usedVdda);
+
+                    if (tmpData_ch1 > (Math.Pow(2, device.genCfg.dataDepth) - 1)) {
+                        tmpData_ch1 = (int)(Math.Pow(2, device.genCfg.dataDepth) - 1);
+                    }
+                    if (tmpData_ch2 > (Math.Pow(2, device.genCfg.dataDepth) - 1))
+                    {
+                        tmpData_ch2 = (int)(Math.Pow(2, device.genCfg.dataDepth) - 1);
+                    }
+                    tmpData = tmpData_ch1 + tmpData_ch2 * (int)(Math.Pow(2, 16));
                     device.send_int((int)(tmpData));
                     device.send(";");
 
@@ -135,12 +166,29 @@ namespace LEO
 
                     voltActual1 = voltChann1;
                     voltActual2 = voltChann2;
+                    this.Invalidate();
 
                 }
             }
 
             voltChann1_old = voltChann1;
             voltChann2_old = voltChann2;
+        }
+
+        public void add_message(Message msg)
+        {
+            this.source_q.Enqueue(msg);
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (updated)
+            {
+                this.panel_status.BackColor = Color.LightGreen;
+                this.label_used_vdda.Text = "Used Vdda " + usedVdda.ToString() + " mV";
+                this.label_ch1_volt.Text = voltActual1 + " mV";
+                this.label_ch2_volt.Text = voltActual2 + " mV";
+            }
+            base.OnPaint(e);
         }
 
         private void VoltageSource_FormClosing(object sender, FormClosingEventArgs e)
@@ -156,16 +204,22 @@ namespace LEO
 
             voltChann1 = ((double)(this.trackBar_chann_1.Value));
             this.textBox_volt_1.Text = voltChann1.ToString();
+            this.panel_status.BackColor = Color.Red;
+            updated = false;
         }
 
         private void textBox_volt_1_KeyPress(object sender, KeyPressEventArgs e)
         {
             validate_text_volt_ch1();
+            this.panel_status.BackColor = Color.Red;
+            updated = false;
         }
 
         private void textBox_volt_1_Leave(object sender, EventArgs e)
         {
             validate_text_volt_ch1();
+            this.panel_status.BackColor = Color.Red;
+            updated = false;
         }
 
         private void validate_text_volt_ch1()
@@ -191,11 +245,15 @@ namespace LEO
         private void textBox_volt_2_KeyPress(object sender, KeyPressEventArgs e)
         {
             validate_text_volt_ch2();
+            this.panel_status.BackColor = Color.Red;
+            updated = false;
         }
 
         private void textBox_volt_2_Leave(object sender, EventArgs e)
         {
             validate_text_volt_ch2();
+            this.panel_status.BackColor = Color.Red;
+            updated = false;
         }
 
         private void trackBar_chann_2_ValueChanged(object sender, EventArgs e)
@@ -203,6 +261,8 @@ namespace LEO
 
             voltChann2 = ((double)(this.trackBar_chann_2.Value));
             this.textBox_volt_2.Text = voltChann2.ToString();
+            this.panel_status.BackColor = Color.Red;
+            updated = false;
 
         }
 

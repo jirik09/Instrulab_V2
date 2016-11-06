@@ -19,4 +19,4 @@ E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded O
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.csprojResolveAssemblyReference.cache
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.feedback.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Voltmeter.resources
-E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.VoltageSource.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.VoltageSource.resources
