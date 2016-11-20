@@ -6,7 +6,7 @@ using System.IO.Ports;
 using System.Threading;
 
 
-namespace InstruLab
+namespace LEO
 {
     class Comms_thread
     {
@@ -18,7 +18,7 @@ namespace InstruLab
         private List<Device> devices = new List<Device>();
         private Queue<Message> comms_q = new Queue<Message>();
         Message messg;
-        private Device connectedDevice;
+        private Device connectedDevice=null;
         private bool newDevices = false;
         private bool run_th = true;
         SerialPort serialPort;

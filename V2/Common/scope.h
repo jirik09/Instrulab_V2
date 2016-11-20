@@ -117,6 +117,8 @@ uint32_t scopeGetRealSmplFreq(void);
 uint8_t scopeSetNumOfChannels(uint8_t chan);
 uint8_t scopeSetTrigChannel(uint8_t chan);
 uint8_t scopeSetADCInputChannel(uint8_t adc, uint8_t chann);
+uint8_t scopeSetADCInputChannelDefault(void);
+uint8_t scopeSetADCInputChannelVref(void);
 
 const int16_t* scopeGetRanges(uint8_t * len);
 void scopeRestart(void);

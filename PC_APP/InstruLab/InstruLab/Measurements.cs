@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace InstruLab
+namespace LEO
 {
     class Measurements
     {
@@ -306,8 +306,8 @@ namespace InstruLab
                         {
                             for (int i = 0; i < buffleng; i++)
                             {
-                                RMS[ch] += Math.Pow(samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res)-1), 2);
-                                Mean[ch] += samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res)-1);
+                                RMS[ch] += Math.Pow(samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res) - 1) + (double)rangeMin / 1000, 2) ;
+                                Mean[ch] += samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res) - 1) + (double)rangeMin / 1000;
                                 if (samples[ch, i] > Max[ch])
                                 {
                                     Max[ch] = samples[ch, i];
@@ -414,13 +414,13 @@ namespace InstruLab
                                 meascount++;
                                 break;
                             case MeasurementTypes.MAX:
-                                double Vmax = Max[ch] * ((double)rangeMax - (double)rangeMin) / 1000 / Math.Pow(2, res);
+                                double Vmax = Max[ch] * ((double)rangeMax - (double)rangeMin) / 1000 / Math.Pow(2, res) + (double)rangeMin / 1000;
                                 measStrings[meascount] = "Max: " + Math.Round(Vmax, 3) + "V";
                                 setColor(ch, meascount);
                                 meascount++;
                                 break;
                             case MeasurementTypes.MIN:
-                                double Vmin = Max[ch] * ((double)rangeMax - (double)rangeMin) / 1000 / Math.Pow(2, res);
+                                double Vmin = Min[ch] * ((double)rangeMax - (double)rangeMin) / 1000 / Math.Pow(2, res) + (double)rangeMin / 1000;
                                 measStrings[meascount] = "Min: " + Math.Round(Vmin, 3) + "V";
                                 setColor(ch, meascount);
                                 meascount++;

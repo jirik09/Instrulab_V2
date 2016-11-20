@@ -1,9 +1,4 @@
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\ZedGraph.dll
-E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.AboutBox.resources
-E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.ArbDialog.resources
-E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.Instrulab.resources
-E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.Generator.resources
-E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.Scope.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.csproj.GenerateResource.Cache
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.config
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Properties.Resources.resources
@@ -19,4 +14,9 @@ E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded O
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.csprojResolveAssemblyReference.cache
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.feedback.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Voltmeter.resources
-E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.VoltageSource.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.AboutBox.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.ArbDialog.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Instrulab.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Generator.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Scope.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.VoltageSource.resources

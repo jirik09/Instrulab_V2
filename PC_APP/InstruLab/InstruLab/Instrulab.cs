@@ -11,7 +11,7 @@ using System.Threading;
 using System.Timers;
 using LEO;
 
-namespace InstruLab
+namespace LEO
 {
     public partial class Instrulab : Form
     {
@@ -30,6 +30,10 @@ namespace InstruLab
             comm_th.Start();
             GUITimer = new System.Timers.Timer(100);
             GUITimer.Elapsed += new ElapsedEventHandler(Update_GUI);
+
+            comms.add_message(new Message(Message.MsgRequest.FIND_DEVICES));
+            this.btn_connect.Enabled = false;
+            GUITimer.Start();
             
         }
 
@@ -47,15 +51,18 @@ namespace InstruLab
                 case Comms_thread.CommsStates.FINDING:
                     this.toolStripProgressBar.Value = comms.get_progress();
                     this.toolStripStatusLabel.Text = "Searching in progress";
+                    this.toolStripStatusLabel_color.BackColor = Color.Yellow;
                     this.listBox_devices.Items.Clear();
                     break;
                 case Comms_thread.CommsStates.NO_DEV_FOUND:
                     this.toolStripProgressBar.Value = 0;
                     this.toolStripStatusLabel.Text = "No device was found";
+                    this.toolStripStatusLabel_color.BackColor = Color.Red;
                     break;
                 case Comms_thread.CommsStates.FOUND_DEVS:
                     this.toolStripProgressBar.Value = 0;
                     this.toolStripStatusLabel.Text = "Searching done";
+                    this.toolStripStatusLabel_color.BackColor = Color.Blue;
                     this.btn_connect.Enabled = true;
                     this.listBox_devices.Items.Clear();
 
@@ -64,14 +71,20 @@ namespace InstruLab
                         this.listBox_devices.Items.Add(comms.get_dev_names()[i]);
                     }
                     this.listBox_devices.SelectedIndex = 0;
+                    if (comms.get_num_of_devices()==1)
+                    {
+                        comms.add_message(new Message(Message.MsgRequest.CONNECT_DEVICE, comms.get_dev_names()[0].Substring(0,4)));
+                    }
                     break;
                 case Comms_thread.CommsStates.CONNECTING:
                     this.toolStripStatusLabel.Text = "Connecting";
+                    this.toolStripStatusLabel_color.BackColor = Color.Yellow;
                     this.toolStripProgressBar.Value = 80;
                     break;
                 case Comms_thread.CommsStates.CONNECTED:
                     this.toolStripProgressBar.Value = 0;
                     this.toolStripStatusLabel.Text = "Connected to "+ comms.get_connected_device_port();
+                    this.toolStripStatusLabel_color.BackColor = Color.LightGreen;
 
                     this.Text = "Instrulab - (" + comms.get_connected_device_port()+") "+comms.get_connected_device().get_name(); 
 
@@ -172,6 +185,7 @@ namespace InstruLab
                     this.Text = "Instrulab";
                     this.btn_connect.Text = "Connect";
                     this.toolStripStatusLabel.Text = "Device was disconnected";
+                    this.toolStripStatusLabel_color.BackColor = Color.Red;
                     this.label_device.Text = "No device connected";
                     this.label_MCU.Text = "--";
                     this.label_Freq.Text = "--";
@@ -318,6 +332,12 @@ namespace InstruLab
             feedback fdbck = new feedback();
             fdbck.Show();
         }
+
+        public Device getDevice() {
+            return comms.get_connected_device();
+        }
+
+
 
 
 

@@ -1,5 +1,4 @@
-﻿using InstruLab;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,8 +18,8 @@ namespace LEO
 
         System.Timers.Timer GUITimer;
 
-        private Queue<InstruLab.Message> volt_q = new Queue<InstruLab.Message>();
-        InstruLab.Message messg;
+        private Queue<Message> volt_q = new Queue<Message>();
+        Message messg;
 
         Measurements meas = new Measurements(12);
         Thread calcSignal_th;
@@ -39,6 +38,7 @@ namespace LEO
         bool sampleVDDA = true;
         bool samplingFinished = false;
         bool hold = false;
+        double voltage;
     
 
         public Voltmeter(Device dev)
@@ -183,7 +183,7 @@ namespace LEO
                 }
                 switch (messg.GetRequest())
                 {
-                    case InstruLab.Message.MsgRequest.VOLT_NEW_DATA:
+                    case Message.MsgRequest.VOLT_NEW_DATA:
                         if (calcSignal_th != null && calcSignal_th.IsAlive)
                         {
                             calcSignal_th.Join();
@@ -263,59 +263,82 @@ namespace LEO
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (!hold)
+            try
             {
-                if (samplingFinished)
+                if (!hold)
                 {
-                    this.groupBox_1.Enabled = channels >= 1 ? true : false;
-                    this.groupBox_2.Enabled = channels >= 2 ? true : false;
-                    this.groupBox_3.Enabled = channels >= 3 ? true : false;
-                    this.groupBox_4.Enabled = channels >= 4 ? true : false;
+                    if (samplingFinished)
+                    {
+                        this.groupBox_1.Enabled = channels >= 1 ? true : false;
+                        this.groupBox_2.Enabled = channels >= 2 ? true : false;
+                        this.groupBox_3.Enabled = channels >= 3 ? true : false;
+                        this.groupBox_4.Enabled = channels >= 4 ? true : false;
 
-                    this.label_volt_1.Text = Math.Round(meanAvg[0] * 1000, 2) + " mV";
-                    this.label_volt_2.Text = Math.Round(meanAvg[1] * 1000, 2) + " mV";
-                    this.label_volt_3.Text = Math.Round(meanAvg[2] * 1000, 2) + " mV";
-                    this.label_volt_4.Text = Math.Round(meanAvg[3] * 1000, 2) + " mV";
+                        this.label_volt_1.Text = Math.Round(meanAvg[0] * 1000, 2) + " mV";
+                        this.label_volt_2.Text = Math.Round(meanAvg[1] * 1000, 2) + " mV";
+                        this.label_volt_3.Text = Math.Round(meanAvg[2] * 1000, 2) + " mV";
+                        this.label_volt_4.Text = Math.Round(meanAvg[3] * 1000, 2) + " mV";
 
-                    this.progressBar_volt_1.Value = channels >= 1 ? (int)((meas.getMean(0) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
-                    this.progressBar_volt_2.Value = channels >= 2 ? (int)((meas.getMean(1) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
-                    this.progressBar_volt_3.Value = channels >= 3 ? (int)((meas.getMean(2) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
-                    this.progressBar_volt_4.Value = channels >= 4 ? (int)((meas.getMean(3) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100) : 0;
+                        voltage = (int)((meas.getMean(0) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100);
+                        voltage = voltage > 100 || voltage < 0 ? 0 : voltage;
+                        this.progressBar_volt_1.Value = channels >= 1 ? (int)voltage : 0;
 
-                    this.label_ripp_1.Text = channels >= 1 ? "ripple: " + Math.Round(meas.getPkPk(0, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
-                    this.label_ripp_2.Text = channels >= 2 ? "ripple: " + Math.Round(meas.getPkPk(1, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
-                    this.label_ripp_3.Text = channels >= 3 ? "ripple: " + Math.Round(meas.getPkPk(2, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
-                    this.label_ripp_4.Text = channels >= 4 ? "ripple: " + Math.Round(meas.getPkPk(3, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                        voltage = (int)((meas.getMean(1) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100);
+                        voltage = voltage > 100 || voltage < 0 ? 0 : voltage;
+                        this.progressBar_volt_2.Value = channels >= 1 ? (int)voltage : 0;
 
-                    this.label_freq_1.Text = channels >= 1 ? meas.getMeas(0 * 3) : "";
-                    this.label_freq_2.Text = channels >= 2 ? meas.getMeas(1 * 3) : "";
-                    this.label_freq_3.Text = channels >= 3 ? meas.getMeas(2 * 3) : "";
-                    this.label_freq_4.Text = channels >= 4 ? meas.getMeas(3 * 3) : "";
+                        voltage = (int)((meas.getMean(2) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100);
+                        voltage = voltage > 100 || voltage < 0 ? 0 : voltage;
+                        this.progressBar_volt_3.Value = channels >= 1 ? (int)voltage : 0;
 
-                    this.label_vdda.Text = Math.Round(vdda[0] * 1000, 2) + " mV";
+                        voltage = (int)((meas.getMean(3) * 1000 - rangeMin) / ((double)rangeMax - rangeMin) * 100);
+                        voltage = voltage > 100 || voltage < 0 ? 0 : voltage;
+                        this.progressBar_volt_4.Value = channels >= 1 ? (int)voltage : 0;
+
+
+                        this.label_ripp_1.Text = channels >= 1 ? "ripple: " + Math.Round(meas.getPkPk(0, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                        this.label_ripp_2.Text = channels >= 2 ? "ripple: " + Math.Round(meas.getPkPk(1, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                        this.label_ripp_3.Text = channels >= 3 ? "ripple: " + Math.Round(meas.getPkPk(2, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+                        this.label_ripp_4.Text = channels >= 4 ? "ripple: " + Math.Round(meas.getPkPk(3, rangeMax, rangeMin, device.scopeCfg.actualRes) * 1000, 2) + " mV pkpk" : "";
+
+                        this.label_freq_1.Text = channels >= 1 ? meas.getMeas(0 * 3) : "";
+                        this.label_freq_2.Text = channels >= 2 ? meas.getMeas(1 * 3) : "";
+                        this.label_freq_3.Text = channels >= 3 ? meas.getMeas(2 * 3) : "";
+                        this.label_freq_4.Text = channels >= 4 ? meas.getMeas(3 * 3) : "";
+
+                        this.label_vdda.Text = Math.Round(vdda[0] * 1000, 2) + " mV";
+                    }
+                    this.label_sampling.Text = "Sampling " + (int)(avgPointer + 1) + "/" + averages;
                 }
-                this.label_sampling.Text = "Sampling " + (int)(avgPointer + 1) + "/" + averages;
-            }else{
-                this.label_ripp_1.Text = channels >= 1 ? "" : "";
-                this.label_ripp_2.Text = channels >= 2 ? "" : "";
-                this.label_ripp_3.Text = channels >= 3 ? "" : "";
-                this.label_ripp_4.Text = channels >= 4 ? "" : "";
-               
-                this.label_freq_1.Text = channels >= 1 ? "Hold" : "";
-                this.label_freq_2.Text = channels >= 2 ? "Hold" : "";
-                this.label_freq_3.Text = channels >= 3 ? "Hold" : "";
-                this.label_freq_4.Text = channels >= 4 ? "Hold" : "";
-            }
-            base.OnPaint(e);
-        }
+                else
+                {
+                    this.label_ripp_1.Text = channels >= 1 ? "" : "";
+                    this.label_ripp_2.Text = channels >= 2 ? "" : "";
+                    this.label_ripp_3.Text = channels >= 3 ? "" : "";
+                    this.label_ripp_4.Text = channels >= 4 ? "" : "";
 
-        public void add_message(InstruLab.Message msg)
+                    this.label_freq_1.Text = channels >= 1 ? "Hold" : "";
+                    this.label_freq_2.Text = channels >= 2 ? "Hold" : "";
+                    this.label_freq_3.Text = channels >= 3 ? "Hold" : "";
+                    this.label_freq_4.Text = channels >= 4 ? "Hold" : "";
+                }
+                base.OnPaint(e);
+            }
+            catch (Exception ex)
+            {
+                this.Close();
+                throw new System.ArgumentException("Voltmeter painting went wrong");
+            }
+
+        }
+        public void add_message(Message msg)
         {
             this.volt_q.Enqueue(msg);
         }
 
         private void Voltmeter_FormClosing(object sender, FormClosingEventArgs e)
         {
+            
             device.takeCommsSemaphore(semaphoreTimeout + 110);
             device.send(Commands.SCOPE + ":" + Commands.STOP + ";");
             device.giveCommsSemaphore();
@@ -334,7 +357,6 @@ namespace LEO
             }
             catch (Exception ex)
             {
-
             }
         }
 
@@ -407,53 +429,15 @@ namespace LEO
 
 
         private void SetVDDASampling(){
-            int tmp=0;
             device.takeCommsSemaphore(semaphoreTimeout + 113);
-            tmp = 0x00000008;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000109;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000203;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000303;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL_VREF + ";");
             device.giveCommsSemaphore();
         }
 
         private void SetNormalSampling()
         {
-            int tmp = 0;
             device.takeCommsSemaphore(semaphoreTimeout + 112);
-            tmp = 0x00000002;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000104;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000202;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
-
-            tmp = 0x00000301;
-            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
-            device.send_int((int)(tmp));
-            device.send(";");
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL_DEAFULT + ";");
             device.giveCommsSemaphore();
         }
 

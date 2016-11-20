@@ -1,4 +1,4 @@
-﻿namespace InstruLab
+﻿namespace LEO
 {
     partial class VoltageSource
     {

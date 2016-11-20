@@ -11,7 +11,7 @@ using System.Timers;
 using ZedGraph;
 using System.IO;
 
-namespace InstruLab
+namespace LEO
 {
 
     public partial class Scope : Form
@@ -19,7 +19,7 @@ namespace InstruLab
         //Thread scope_th;
         //Scope_thread scope;
         Device device;
-        InstruLab.Device.ScopeConfig_def ScopeDevice;
+        Device.ScopeConfig_def ScopeDevice;
         System.Timers.Timer GUITimer;
         System.Timers.Timer ZedTimer;
 
@@ -181,10 +181,6 @@ namespace InstruLab
 
             processSignal_th = new Thread(process_signals);
             meas.clearMeasurements();
-            Thread.Sleep(10);
-            scope_start();
-
-      
         }
 
         private void Zed_update(object sender, ElapsedEventArgs e)
@@ -582,72 +578,80 @@ namespace InstruLab
 
         private void Update_GUI(object sender, ElapsedEventArgs e)
         {
-            if (scope_q.Count > 0)
+            try
             {
-                messg = scope_q.Dequeue();
-                if (messg == null) {
-                    return;
-                }
-                switch (messg.GetRequest())
+                if (scope_q.Count > 0)
                 {
-                    case Message.MsgRequest.SCOPE_NEW_DATA:
-                        status_text = "";
-                        //meas.calculateMeasurements(device.scopeCfg.samples, device.scopeCfg.ranges[1, selectedRange], device.scopeCfg.ranges[0, selectedRange], device.scopeCfg.actualChannels, device.scopeCfg.sampligFreq, device.scopeCfg.timeBase.Length,device.scopeCfg.actualRes);
-                        if (processSignal_th!=null && processSignal_th.IsAlive)
-                        {
-                            processSignal_th.Join();
-                        }
-                        if (calcSignal_th!=null && calcSignal_th.IsAlive)
-                        {
-                            calcSignal_th.Join();
-                        }
-                        calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, device.scopeCfg.ranges[1, selectedRange], device.scopeCfg.ranges[0, selectedRange], device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length,device.scopeCfg.actualRes));
-                        calcSignal_th.Start();
-                        processSignal_th = new Thread(process_signals);
-                        processSignal_th.Start();
-                        Thread.Sleep(1);
-                        if (processSignal_th.IsAlive)
-                        {
-                            processSignal_th.Join();
-                        }
-                        if (calcSignal_th.IsAlive)
-                        {
-                            calcSignal_th.Join();
-                        }
-                        scopePane.CurveList.Clear();
-                        //process_signals();
-                        paint_signals();
-                        update_Y_axe();
-                        update_X_axe();
-                        paint_markers();
-                        vertical_cursor_update();
-                        paint_cursors();
-                        
-                        this.Invalidate();
+                    messg = scope_q.Dequeue();
+                    if (messg == null)
+                    {
+                        return;
+                    }
+                    switch (messg.GetRequest())
+                    {
+                        case Message.MsgRequest.SCOPE_NEW_DATA:
+                            status_text = "";
+                            //meas.calculateMeasurements(device.scopeCfg.samples, device.scopeCfg.ranges[1, selectedRange], device.scopeCfg.ranges[0, selectedRange], device.scopeCfg.actualChannels, device.scopeCfg.sampligFreq, device.scopeCfg.timeBase.Length,device.scopeCfg.actualRes);
+                            if (processSignal_th != null && processSignal_th.IsAlive)
+                            {
+                                processSignal_th.Join();
+                            }
+                            if (calcSignal_th != null && calcSignal_th.IsAlive)
+                            {
+                                calcSignal_th.Join();
+                            }
+                            calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, device.scopeCfg.ranges[1, selectedRange], device.scopeCfg.ranges[0, selectedRange], device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
+                            calcSignal_th.Start();
+                            processSignal_th = new Thread(process_signals);
+                            processSignal_th.Start();
+                            Thread.Sleep(1);
+                            if (processSignal_th.IsAlive)
+                            {
+                                processSignal_th.Join();
+                            }
+                            if (calcSignal_th.IsAlive)
+                            {
+                                calcSignal_th.Join();
+                            }
+                            scopePane.CurveList.Clear();
+                            //process_signals();
+                            paint_signals();
+                            update_Y_axe();
+                            update_X_axe();
+                            paint_markers();
+                            vertical_cursor_update();
+                            paint_cursors();
 
-                        if (device.scopeCfg.mode == Scope.mode_def.AUTO || device.scopeCfg.mode == Scope.mode_def.NORMAL)
-                        {
-                            Thread.Sleep(100);
-                            device.takeCommsSemaphore(semaphoreTimeout*2 + 108);
-                            device.send(Commands.SCOPE + ":" + Commands.SCOPE_NEXT + ";");
-                            device.giveCommsSemaphore();
-                        }
-                        break;
+                            this.Invalidate();
+                            Thread.Sleep(10);
+                            if (device.scopeCfg.mode == Scope.mode_def.AUTO || device.scopeCfg.mode == Scope.mode_def.NORMAL)
+                            {
+                                device.takeCommsSemaphore(semaphoreTimeout * 2 + 108);
+                                device.send(Commands.SCOPE + ":" + Commands.SCOPE_NEXT + ";");
+                                device.giveCommsSemaphore();
+                            }
+                            break;
 
-                    case Message.MsgRequest.SCOPE_TRIGGERED:
-                        status_text = "Trig";
-                        this.Invalidate();
-                        break;
-                    case Message.MsgRequest.SCOPE_WAIT:
-                        scopePane.CurveList.Clear();
-                        status_text = "Wait";
-                        this.Invalidate();
-                        break;
-                    case Message.MsgRequest.SCOPE_FREQ:
-                        device.scopeCfg.realSmplFreq = messg.GetNum();
-                        break;
+                        case Message.MsgRequest.SCOPE_TRIGGERED:
+                            status_text = "Trig";
+                            this.Invalidate();
+                            break;
+                        case Message.MsgRequest.SCOPE_WAIT:
+                            scopePane.CurveList.Clear();
+                            status_text = "Wait";
+                            this.Invalidate();
+                            break;
+                        case Message.MsgRequest.SCOPE_FREQ:
+                            device.scopeCfg.realSmplFreq = messg.GetNum();
+                            break;
+                    }
+
                 }
-                
+            }
+            catch (Exception ex)
+            {
+                this.Close();
+                throw new System.ArgumentException("Scope painting went wrong");
             }
             
         }
@@ -952,6 +956,7 @@ namespace InstruLab
                 this.checkBox_trig_auto.Checked = false;
                 this.checkBox_trig_single.Checked = false;
                 this.checkBox_trig_single.Text = "Stop";
+
                 
             }
         }
@@ -2491,13 +2496,13 @@ namespace InstruLab
 
         private void minToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            meas.addMeasurement(measChann - 1, Measurements.MeasurementTypes.MIN);
+            meas.addMeasurement(measChann - 1, Measurements.MeasurementTypes.MAX);
             measValid = !measValid;
         }
 
         private void minToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            meas.addMeasurement(measChann - 1, Measurements.MeasurementTypes.MAX);
+            meas.addMeasurement(measChann - 1, Measurements.MeasurementTypes.MIN);
             measValid = !measValid;
         }
 

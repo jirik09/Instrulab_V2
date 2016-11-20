@@ -11,7 +11,7 @@ using System.Timers;
 using ZedGraph;
 using System.IO;
 
-namespace InstruLab
+namespace LEO
 {
     public partial class Generator : Form
     {
@@ -155,73 +155,78 @@ namespace InstruLab
 
         private void data_sending(object sender, ElapsedEventArgs e)
         {
-            if (gen_q.Count > 0)
+            try
             {
-                messg = gen_q.Dequeue();
-                if (messg == null)
+                if (gen_q.Count > 0)
                 {
-                    return;
-                }
-                switch (messg.GetRequest())
-                {
-                    case Message.MsgRequest.GEN_NEXT:
+                    messg = gen_q.Dequeue();
+                    if (messg == null)
+                    {
+                        return;
+                    }
+                    switch (messg.GetRequest())
+                    {
+                        case Message.MsgRequest.GEN_NEXT:
 
-                        if (toSend == 0)
-                        {
-                            if (sendingChannel == 1 && actual_channels == 2)
+                            if (toSend == 0)
                             {
-                                toSend = signal_ch2.Length;
-                                sent = 0;
-                                index = 0;
-                                actualSend = 0;
-                                sendingChannel = 2;
-                                send_next(signal_ch2, 2);
-                            }
-                            else if (sendingChannel == actual_channels)
-                            {
-                                gen_get_freq();
-                                Thread.Sleep(10);
-                                gen_start();
-                            }
-                        }
-                        else
-                        {
-                            if (sendingChannel == 2)
-                            {
-                                send_next(signal_ch2, 2);
+                                if (sendingChannel == 1 && actual_channels == 2)
+                                {
+                                    toSend = signal_ch2.Length;
+                                    sent = 0;
+                                    index = 0;
+                                    actualSend = 0;
+                                    sendingChannel = 2;
+                                    send_next(signal_ch2, 2);
+                                }
+                                else if (sendingChannel == actual_channels)
+                                {
+                                    gen_get_freq();
+                                    Thread.Sleep(10);
+                                    gen_start();
+                                }
                             }
                             else
                             {
-                                send_next(signal_ch1, 1);
+                                if (sendingChannel == 2)
+                                {
+                                    send_next(signal_ch2, 2);
+                                }
+                                else
+                                {
+                                    send_next(signal_ch1, 1);
+                                }
                             }
-                        }
-                        break;
-                    case Message.MsgRequest.GEN_OK:
-                        generating = true;
-                        sending = false;
-                        this.Invalidate();
-                        break;
-                    case Message.MsgRequest.GEN_FRQ:
-                        if (messg.GetMessage().Equals(Commands.CHANNELS_1))
-                        {
-                            this.realFreq_ch1 = (double)messg.GetNum() / signal_leng_ch1;
-                        }
-                        else if (messg.GetMessage().Equals(Commands.CHANNELS_2))
-                        {
-                            this.realFreq_ch2 = (double)messg.GetNum() / signal_leng_ch2;
-                        }
-                        this.Invalidate();
-                        break;
-                    case Message.MsgRequest.GEN_ERR:
-                        generating = false;
-                        sending = false;
-                        gen_stop();
-                        this.Invalidate();
-                        break;
-
-
-
+                            break;
+                        case Message.MsgRequest.GEN_OK:
+                            generating = true;
+                            sending = false;
+                            this.Invalidate();
+                            break;
+                        case Message.MsgRequest.GEN_FRQ:
+                            if (messg.GetMessage().Equals(Commands.CHANNELS_1))
+                            {
+                                this.realFreq_ch1 = (double)messg.GetNum() / signal_leng_ch1;
+                            }
+                            else if (messg.GetMessage().Equals(Commands.CHANNELS_2))
+                            {
+                                this.realFreq_ch2 = (double)messg.GetNum() / signal_leng_ch2;
+                            }
+                            this.Invalidate();
+                            break;
+                        case Message.MsgRequest.GEN_ERR:
+                            generating = false;
+                            sending = false;
+                            gen_stop();
+                            this.Invalidate();
+                            break;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                this.Close();
+                throw new System.ArgumentException("Error during data sending for generator");
             }
         }
 

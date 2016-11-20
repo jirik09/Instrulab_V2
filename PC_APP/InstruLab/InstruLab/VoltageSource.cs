@@ -1,5 +1,4 @@
-﻿using InstruLab;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +9,7 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 
-namespace InstruLab
+namespace LEO
 {
     public partial class VoltageSource : Form
     {

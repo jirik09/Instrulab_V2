@@ -590,6 +590,42 @@ uint8_t scopeSetADCInputChannel(uint8_t adc, uint8_t chann){
 	return result;
 }
 
+/**
+  * @brief  sets ADC channel to default
+  * @param  ADC number, Channel number
+  * @retval error
+  */
+uint8_t scopeSetADCInputChannelDefault(){
+	uint8_t result = SCOPE_INVALID_ADC_CHANNEL;
+	xSemaphoreTakeRecursive(scopeMutex, portMAX_DELAY);
+	for(uint8_t i = 0;i<MAX_ADC_CHANNELS;i++){
+		scope.adcChannel[i] = ANALOG_DEFAULT_INPUTS[i];
+		adcSetInputChannel(i, ANALOG_DEFAULT_INPUTS[i]);
+		result = 0;
+	}
+	xSemaphoreGiveRecursive(scopeMutex);
+	xQueueSendToBack(scopeMessageQueue, "3Invalidate", portMAX_DELAY);
+	return result;
+}
+
+/**
+  * @brief  sets ADC channel to default
+  * @param  ADC number, Channel number
+  * @retval error
+  */
+uint8_t scopeSetADCInputChannelVref(){
+	uint8_t result = SCOPE_INVALID_ADC_CHANNEL;
+	xSemaphoreTakeRecursive(scopeMutex, portMAX_DELAY);
+	for(uint8_t i = 0;i<MAX_ADC_CHANNELS;i++){
+		scope.adcChannel[i] = ANALOG_VREF_INPUTS[i];
+		adcSetInputChannel(i, ANALOG_VREF_INPUTS[i]);
+		result = 0;
+	}
+	xSemaphoreGiveRecursive(scopeMutex);
+	xQueueSendToBack(scopeMessageQueue, "3Invalidate", portMAX_DELAY);
+	return result;
+}
+
 
 /**
   * @brief  return pointer to dafinition of ranges

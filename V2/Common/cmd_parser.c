@@ -245,7 +245,7 @@ command parseScopeCmd(void){
 				}
 			break;
 				
-			case CMD_SCOPE_ADC_CHANNEL_SET:
+			case CMD_SCOPE_ADC_CHANNEL_SET: //set actual ADC channel
 			cmdIn = giveNextCmd();
 			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
 				error=scopeSetADCInputChannel((uint8_t)(cmdIn>>8),(uint8_t)(cmdIn));
@@ -255,6 +255,21 @@ command parseScopeCmd(void){
 			}else{
 					cmdIn = CMD_ERR;
 					error = SCOPE_INVALID_FEATURE_PARAM;
+			}
+			break;
+			
+			case CMD_SCOPE_ADC_CHANNEL_SET_DEFAULT: //set actual ADC channel for default
+			error=scopeSetADCInputChannelDefault();
+			if(error!=0){
+				cmdIn = CMD_ERR;
+			}
+
+			break;
+			
+			case CMD_SCOPE_ADC_CHANNEL_SET_VREF: //set actual ADC channel for Vref
+			error=scopeSetADCInputChannelVref();
+			if(error!=0){
+				cmdIn = CMD_ERR;
 			}
 			break;
 				

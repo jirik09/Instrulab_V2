@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace InstruLab
+namespace LEO
 {
     class Commands
     {
@@ -50,6 +50,8 @@ namespace InstruLab
         public const string SCOPE_NEXT = "NEXT";
         public const string SCOPE_FREQ = "OSCF";
         public const string SCOPE_ADC_CHANNEL = "A_CH";
+        public const string SCOPE_ADC_CHANNEL_DEAFULT = "ADEF";
+        public const string SCOPE_ADC_CHANNEL_VREF = "AREF";
         
 
         public const string GEN_DATA = "DATA";
