@@ -323,6 +323,7 @@ void scopeSetDefault(void){
 	}
 	scope.numOfChannles = 1;
 	scope.triggerChannel = 1;
+	scopeSetADCInputChannelDefault();
 }
 
 /**

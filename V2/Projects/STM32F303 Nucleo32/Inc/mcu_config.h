@@ -42,6 +42,7 @@
 #define SCOPE_CH4_PIN_STR "----" //must be 4 chars
 
 #define SCOPE_VREF 3300
+#define SCOPE_VREF_INT (uint16_t)*((uint16_t *)0x1FFFF7BA)
 
 #define RANGE_1_LOW 0
 #define RANGE_1_HI SCOPE_VREF
@@ -52,14 +53,34 @@
 #define RANGE_4_LOW 0
 #define RANGE_4_HI 0
 
+//scope channels inputs
+static const uint8_t ANALOG_DEFAULT_INPUTS[MAX_ADC_CHANNELS]={2,0};
+static const uint8_t ANALOG_VREF_INPUTS[MAX_ADC_CHANNELS]={6,2};
+
+#define ADC1_NUM_CHANNELS 7
+static const uint16_t ANALOG_PIN_ADC1[ADC1_NUM_CHANNELS] = {				GPIO_PIN_0,			GPIO_PIN_1,			GPIO_PIN_3,			GPIO_PIN_0,			GPIO_PIN_1,			0,							0};
+static GPIO_TypeDef * ANALOG_GPIO_ADC1[ADC1_NUM_CHANNELS] = {				GPIOA,					GPIOA,					GPIOA,					GPIOB,					GPIOB,					0,							0};
+static const uint32_t ANALOG_CHANNEL_ADC1[ADC1_NUM_CHANNELS] = {		ADC_CHANNEL_1,	ADC_CHANNEL_2,	ADC_CHANNEL_4,	ADC_CHANNEL_11,	ADC_CHANNEL_12,	ADC_CHANNEL_16, ADC_CHANNEL_18};
+static const char* ANALOG_CHANN_ADC1_NAME[ADC1_NUM_CHANNELS] = { 		"A0", 					"A1", 					"A2", 					"D3", 					"D6", 					"Temp", 				"Vref" };
+
+#define ADC2_NUM_CHANNELS 3
+static const uint16_t ANALOG_PIN_ADC2[ADC2_NUM_CHANNELS] = {				GPIO_PIN_4,			GPIO_PIN_7,			0};
+static GPIO_TypeDef * ANALOG_GPIO_ADC2[ADC2_NUM_CHANNELS] = {				GPIOA,					GPIOA,					0};
+static const uint32_t ANALOG_CHANNEL_ADC2[ADC2_NUM_CHANNELS] = {		ADC_CHANNEL_1,	ADC_CHANNEL_4,	ADC_CHANNEL_18};
+static const char* ANALOG_CHANN_ADC2_NAME[ADC2_NUM_CHANNELS] = { 		"A3", 					"A4", 					"Vref"};
+
+static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,ADC2_NUM_CHANNELS}; //number of ADC channels {ADC1,ADC2,ADC3,ADC4}
+
 
 
 #define MAX_GENERATING_FREQ 2000000 //smps
 #define MAX_DAC_CHANNELS 2
-#define MAX_GENERATOR_BUFF_SIZE 800
+#define MAX_GENERATOR_BUFF_SIZE 500
 #define	DAC_DATA_DEPTH 12
 
 #define GEN_VREF 3300
+#define GEN_VREF_INT 1200
+
 
 #define GEN_CH1_PIN_STR "A5__" //must be 4 chars
 #define GEN_CH2_PIN_STR "A4__" //must be 4 chars

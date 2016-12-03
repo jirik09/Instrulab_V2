@@ -30,10 +30,14 @@ namespace LEO
             comm_th.Start();
             GUITimer = new System.Timers.Timer(100);
             GUITimer.Elapsed += new ElapsedEventHandler(Update_GUI);
-
-            comms.add_message(new Message(Message.MsgRequest.FIND_DEVICES));
-            this.btn_connect.Enabled = false;
+            
             GUITimer.Start();
+
+            Thread.Sleep(500);
+            this.btn_connect.Enabled = false;
+            comms.add_message(new Message(Message.MsgRequest.FIND_DEVICES));
+            
+            
             
         }
 
@@ -73,7 +77,17 @@ namespace LEO
                     this.listBox_devices.SelectedIndex = 0;
                     if (comms.get_num_of_devices()==1)
                     {
-                        comms.add_message(new Message(Message.MsgRequest.CONNECT_DEVICE, comms.get_dev_names()[0].Substring(0,4)));
+                        Thread.Sleep(200);
+                        string dev_name = comms.get_dev_names()[0];
+                        if (dev_name[4] == ':')
+                        {
+                            dev_name = dev_name.Substring(0, 4);
+                        }
+                        else
+                        {
+                            dev_name = dev_name.Substring(0, 5);
+                        }
+                        comms.add_message(new Message(Message.MsgRequest.CONNECT_DEVICE, dev_name));
                     }
                     break;
                 case Comms_thread.CommsStates.CONNECTING:

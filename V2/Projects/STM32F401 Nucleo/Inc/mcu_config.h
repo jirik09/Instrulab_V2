@@ -39,12 +39,13 @@
 #define MAX_SCOPE_BUFF_SIZE 60000 //in bytes
 #define SCOPE_BUFFER_MARGIN 100
 
-#define SCOPE_CH1_PIN_STR "A4__" //must be 4 chars
+#define SCOPE_CH1_PIN_STR "A5__" //must be 4 chars
 #define SCOPE_CH2_PIN_STR "----" //must be 4 chars
 #define SCOPE_CH3_PIN_STR "----" //must be 4 chars
 #define SCOPE_CH4_PIN_STR "----" //must be 4 chars
 
 #define SCOPE_VREF 3300
+#define SCOPE_VREF_INT (uint16_t)*((uint16_t *)0x1FFF7A2A)
 
 #define RANGE_1_LOW 0
 #define RANGE_1_HI SCOPE_VREF
@@ -55,6 +56,20 @@
 #define RANGE_4_LOW 0
 #define RANGE_4_HI 0
 
+//scope channels inputs
+static const uint8_t ANALOG_DEFAULT_INPUTS[MAX_ADC_CHANNELS]={0};
+static const uint8_t ANALOG_VREF_INPUTS[MAX_ADC_CHANNELS]={6};
+
+#define ADC1_NUM_CHANNELS 7
+static const uint16_t ANALOG_PIN_ADC1[ADC1_NUM_CHANNELS] = {				GPIO_PIN_0,			GPIO_PIN_1,			GPIO_PIN_0,			GPIO_PIN_1,			GPIO_PIN_0,			 0,							0};
+static GPIO_TypeDef * ANALOG_GPIO_ADC1[ADC1_NUM_CHANNELS] = {				GPIOC,					GPIOC,					GPIOB,					GPIOA,					GPIOA,					 0,							0};
+static const uint32_t ANALOG_CHANNEL_ADC1[ADC1_NUM_CHANNELS] = {		ADC_CHANNEL_10,	ADC_CHANNEL_11,	ADC_CHANNEL_8,	ADC_CHANNEL_1,	ADC_CHANNEL_0,	 ADC_CHANNEL_16, ADC_CHANNEL_17};
+static const char* ANALOG_CHANN_ADC1_NAME[ADC1_NUM_CHANNELS] = { 		"A5", 					"A4", 					"A3", 					"A1", 					"A0", 					 "Temp", 				"Vref" };
+
+
+
+static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS}; //number of ADC channels {ADC1,ADC2,ADC3,ADC4}
+
 
 // Generator constatnts ===================================================
 
@@ -64,53 +79,24 @@
 #define	DAC_DATA_DEPTH 12
 
 #define GEN_VREF 3300
+#define GEN_VREF_INT 1200
 
 #define GEN_CH1_PIN_STR "----" //must be 4 chars
 #define GEN_CH2_PIN_STR "----" //must be 4 chars
 
-
-/* Definition of ADC and DMA for channel 1 */
-#define ADC_CH_1_CLK_EN() __ADC1_CLK_ENABLE()
-#define ADC_CH_1_CLK_DIS() __ADC1_CLK_DISABLE()
-#define GPIO_ADC_CH_1_CLK_EN() __GPIOC_CLK_ENABLE()
-#define ADC_CH_1  ADC1 //
-#define ADC_GPIO_CH_1  GPIOC
-#define ADC_PIN_CH_1  GPIO_PIN_1
-#define ADC_CHANNEL_CH_1  ADC_CHANNEL_11 //
-#define ADC_DMA_CHANNEL_CH_1  DMA_CHANNEL_0 //
-#define ADC_DMA_STREAM_CH_1  DMA2_Stream0 //
-
-/* Definition of ADC and DMA for channel 2 */
-#define ADC_CH_2_CLK_EN() 0
-#define ADC_CH_2_CLK_DIS() 0
-#define ADC_CH_2  0
-#define ADC_GPIO_CH_2  0
-#define ADC_PIN_CH_2  0
-#define ADC_CHANNEL_CH_2  0
-#define ADC_DMA_CHANNEL_CH_2  0
-#define ADC_DMA_STREAM_CH_2  0 
-
-/* Definition of ADC and DMA for channel 3 */
-#define ADC_CH_3_CLK_EN() 0
-#define ADC_CH_3_CLK_DIS() 0
-#define ADC_CH_3  0
-#define ADC_GPIO_CH_3  0
-#define ADC_PIN_CH_3  0
-#define ADC_CHANNEL_CH_3  0
-#define ADC_DMA_CHANNEL_CH_3  0
-#define ADC_DMA_STREAM_CH_3  0 
-
-/* Definition of ADC and DMA for channel 4 */
-#define ADC_CH_4_CLK_EN() 0
-#define ADC_CH_4_CLK_DIS() 0
-#define ADC_CH_4  0
-#define ADC_GPIO_CH_4  0
-#define ADC_PIN_CH_4  0
-#define ADC_CHANNEL_CH_4  0
-#define ADC_DMA_CHANNEL_CH_4  0
-#define ADC_DMA_STREAM_CH_4  0
-
 //Definition of assert to check length of strings
 #define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}
+
+
+/* Definition of ADC and DMA for channel 1 */
+//#define ADC_CH_1_CLK_EN() __ADC1_CLK_ENABLE()
+//#define ADC_CH_1_CLK_DIS() __ADC1_CLK_DISABLE()
+//#define GPIO_ADC_CH_1_CLK_EN() __GPIOC_CLK_ENABLE()
+//#define ADC_CH_1  ADC1 //
+//#define ADC_GPIO_CH_1  GPIOC
+//#define ADC_PIN_CH_1  GPIO_PIN_1
+//#define ADC_CHANNEL_CH_1  ADC_CHANNEL_11 //
+//#define ADC_DMA_CHANNEL_CH_1  DMA_CHANNEL_0 //
+//#define ADC_DMA_STREAM_CH_1  DMA2_Stream0 //
 
 #endif /* STM32F4_CONFIG_H_ */

@@ -56,6 +56,7 @@ DMA_HandleTypeDef hdma_adc1;
 //uint16_t Data[3][32];
 uint32_t ADCResolution=ADC_RESOLUTION12b;
 uint32_t ADCSamplingTime=ADC_SAMPLETIME_3CYCLES;
+uint8_t ADCChannel[MAX_ADC_CHANNELS]={0};
 
 /* ADC1 init function */
 void MX_ADC1_Init(void)
@@ -64,7 +65,7 @@ void MX_ADC1_Init(void)
 
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
     */
-  hadc1.Instance = ADC_CH_1;
+  hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV2;
   hadc1.Init.Resolution = ADCResolution;
   hadc1.Init.ScanConvMode = DISABLE;
@@ -80,7 +81,7 @@ void MX_ADC1_Init(void)
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
-  sConfig.Channel = ADC_CHANNEL_CH_1;
+  sConfig.Channel = ANALOG_CHANNEL_ADC1[ADCChannel[0]];
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADCSamplingTime;
   HAL_ADC_ConfigChannel(&hadc1, &sConfig);
@@ -155,27 +156,26 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(hadc->Instance==ADC_CH_1)
+  if(hadc->Instance==ADC1)
   {
   /* USER CODE BEGIN ADC1_MspInit 0 */
 
   /* USER CODE END ADC1_MspInit 0 */
     /* Peripheral clock enable */
-		GPIO_ADC_CH_1_CLK_EN();
-    ADC_CH_1_CLK_EN();
+    __ADC1_CLK_ENABLE();
   
     /**ADC1 GPIO Configuration    
     PC1     ------> ADC1_IN11 
     */
-    GPIO_InitStruct.Pin = ADC_PIN_CH_1;
+    GPIO_InitStruct.Pin = ANALOG_PIN_ADC1[ADCChannel[0]];
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     /* Peripheral DMA init*/
   
-    hdma_adc1.Instance = ADC_DMA_STREAM_CH_1;
-    hdma_adc1.Init.Channel = ADC_DMA_CHANNEL_CH_1;
+    hdma_adc1.Instance = DMA2_Stream0;
+    hdma_adc1.Init.Channel = DMA_CHANNEL_0;
     hdma_adc1.Init.Direction = DMA_PERIPH_TO_MEMORY;
     hdma_adc1.Init.PeriphInc = DMA_PINC_DISABLE;
     hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
@@ -295,18 +295,18 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 {
 
-  if(hadc->Instance==ADC_CH_1)
+  if(hadc->Instance==ADC1)
   {
   /* USER CODE BEGIN ADC1_MspDeInit 0 */
 
   /* USER CODE END ADC1_MspDeInit 0 */
     /* Peripheral clock disable */
-    ADC_CH_1_CLK_DIS();
+    __ADC1_CLK_DISABLE();
   
     /**ADC1 GPIO Configuration    
     PC1     ------> ADC1_IN11 
     */
-    HAL_GPIO_DeInit(ADC_GPIO_CH_1, ADC_PIN_CH_1);
+ //   HAL_GPIO_DeInit(ADC_GPIO_CH_1, ADC_PIN_CH_1);
 
     /* Peripheral DMA DeInit*/
     HAL_DMA_DeInit(hadc->DMA_Handle);
@@ -472,6 +472,18 @@ void samplingEnable (void){
   */
 void samplingDisable (void){
 	TIMScopeDisable();
+}
+
+void adcSetInputChannel(uint8_t adc, uint8_t chann){
+	ADCChannel[adc]=chann;
+	samplingDisable();
+	HAL_ADC_Stop_DMA(&hadc1);
+
+	HAL_ADC_DeInit(&hadc1);
+
+	HAL_DMA_DeInit(&hdma_adc1);
+
+	MX_ADC1_Init();
 }
 
 

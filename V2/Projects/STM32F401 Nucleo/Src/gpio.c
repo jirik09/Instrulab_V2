@@ -65,6 +65,10 @@
 void MX_GPIO_Init(void)
 {
 	BSP_LED_Init(LED2);
+	
+	__GPIOA_CLK_ENABLE();
+	__GPIOB_CLK_ENABLE();
+	__GPIOC_CLK_ENABLE();
 
 }
 
