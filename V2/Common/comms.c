@@ -31,6 +31,7 @@ static commBuffer comm;
 void sendSystConf(void);
 void sendCommsConf(void);
 void sendScopeConf(void);
+void sendScopeInputs(void);
 void sendGenConf(void);
 void sendSystemVersion(void);
 void assertPins(void);
@@ -84,8 +85,14 @@ void CommTask(void const *argument){
 		xQueueReceive (messageQueue, message, portMAX_DELAY);
 		///commsSendString("COMMS_Run\r\n");
 		xSemaphoreTakeRecursive(commsMutex, portMAX_DELAY);
+		
+		//send IDN string
+		if(message[0]=='0'){
+			commsSendString(STR_ACK);
+			commsSendString(IDN_STRING);
+			
 		//send data
-		if(message[0]=='1'){
+		}else if(message[0]=='1'){
 			#ifdef USE_SCOPE
 			if(getScopeState() == SCOPE_DATA_SENDING){
 				oneChanMemSize=getOneChanMemSize();
@@ -98,7 +105,6 @@ void CommTask(void const *argument){
 				header[5]=(uint8_t)(j>>16);
 				header[6]=(uint8_t)(j>>8);
 				header[7]=(uint8_t)(j);
-
 				
 				if(adcRes>8){
 					j = ((getTriggerIndex() - ((getSamples() * getPretrigger()) >> 16 ))*2+oneChanMemSize)%oneChanMemSize;
@@ -191,7 +197,12 @@ void CommTask(void const *argument){
 			#ifdef USE_SCOPE
 			sendScopeConf();
 			#endif //USE_SCOPE
-
+			
+		// send scope inputs
+		}else if(message[0]=='B'){
+			#ifdef USE_SCOPE
+			sendScopeInputs();
+			#endif //USE_SCOPE
 			
 		// send gen config
 		}else if(message[0]=='6'){
@@ -218,6 +229,10 @@ void CommTask(void const *argument){
 			xQueueReceive(messageQueue, message, portMAX_DELAY);
 			commsSendString(message);
 			/////commsSendString("\r\n");
+			
+		//send ACK_	
+		}else if (message[0]=='A'){
+			commsSendString(STR_ACK);
 			
 		// not known message -> send it
 		}else{
@@ -421,6 +436,52 @@ void sendScopeConf(){
 	commsSendUint32(SCOPE_VREF);
 	commsSendUint32(SCOPE_VREF_INT);
 	commsSendBuff((uint8_t*)scopeGetRanges(&i),i);
+}
+#endif //USE_SCOPE
+
+#ifdef USE_SCOPE
+void sendScopeInputs(){
+	uint8_t i,j;
+	commsSendString("INP_");
+	
+	if(MAX_ADC_CHANNELS>=1){
+		commsSend(ANALOG_DEFAULT_INPUTS[0]);
+	}
+	if(MAX_ADC_CHANNELS>=2){
+		commsSend(ANALOG_DEFAULT_INPUTS[1]);
+	}
+	if(MAX_ADC_CHANNELS>=3){
+		commsSend(ANALOG_DEFAULT_INPUTS[2]);
+	}
+	if(MAX_ADC_CHANNELS>=4){
+		commsSend(ANALOG_DEFAULT_INPUTS[3]);
+	}
+	
+	for (i=0;i<MAX_ADC_CHANNELS;i++){
+		commsSendString("/");
+		for (j=0;j<NUM_OF_ANALOG_INPUTS[i];j++){
+			if(j>0){
+				commsSendString(":");
+			}
+			switch(i){
+			case 0:
+				commsSendString((char *)ANALOG_CHANN_ADC1_NAME[j]);
+				break;
+			case 1:
+				commsSendString((char *)ANALOG_CHANN_ADC2_NAME[j]);
+				break;
+			case 2:
+				commsSendString((char *)ANALOG_CHANN_ADC3_NAME[j]);
+				break;
+			case 3:
+				commsSendString((char *)ANALOG_CHANN_ADC4_NAME[j]);
+				break;
+			}
+		}
+	}
+	commsSendString("/");
+	
+	commsSendString(";");
 }
 #endif //USE_SCOPE
 

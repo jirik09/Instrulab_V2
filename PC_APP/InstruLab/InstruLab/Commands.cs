@@ -15,6 +15,7 @@ namespace LEO
         public const string VersionRequest = "VER?";
         public const string CONFIGRequest = "CFG?";
         public const string GET_REAL_SMP_FREQ = "FRQ?";
+        public const string GET_SCOPE_INPUTS = "INP?";
 
         public const string GENERATOR = "GEN_";
         public const string SCOPE = "OSCP";

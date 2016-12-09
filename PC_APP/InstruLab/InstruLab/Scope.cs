@@ -66,6 +66,8 @@ namespace LEO
         private int selectedRange = 0;
         private int selectedChannelVolt = 0;
 
+        private int[] lastInputIndex = new int[4] { 0, 0, 0, 0 };
+
 
 
 
@@ -136,12 +138,18 @@ namespace LEO
         double horPosition=0.5;
         double LastHorPosition = 0.5;
 
+        private ToolStripMenuItem[] channel1InputsToolStripMenuItem;
+        private ToolStripMenuItem[] channel2InputsToolStripMenuItem;
+        private ToolStripMenuItem[] channel3InputsToolStripMenuItem;
+        private ToolStripMenuItem[] channel4InputsToolStripMenuItem;
         
     
 
         public Scope(Device dev)
         {
             InitializeComponent();
+            this.device = dev;
+            InitializeChannels();
             zedGraphControl_scope.MasterPane[0].IsFontsScaled = false;
             zedGraphControl_scope.MasterPane[0].Title.IsVisible = false;
             zedGraphControl_scope.MasterPane[0].XAxis.MajorGrid.IsVisible = true;
@@ -151,7 +159,7 @@ namespace LEO
 
             zedGraphControl_scope.MasterPane[0].YAxis.MajorGrid.IsVisible = true;
             zedGraphControl_scope.MasterPane[0].YAxis.Title.IsVisible = false;
-            this.device = dev;
+            
             ScopeDevice=device.scopeCfg;
             set_scope_default();
 
@@ -181,6 +189,111 @@ namespace LEO
 
             processSignal_th = new Thread(process_signals);
             meas.clearMeasurements();
+        }
+
+        private void InitializeChannels()
+        {
+
+            for (int t = 0; t < device.scopeCfg.maxNumChannels; t++)
+            {
+                for (int h = 0; h < device.scopeCfg.numOfInputs.Max(); h++)
+                {
+                    switch (t) { 
+                        case 0:
+                            if (h == 0)
+                            {
+                                this.channel1InputsToolStripMenuItem = new ToolStripMenuItem[this.device.scopeCfg.numOfInputs[0]];
+                            }
+
+                            if (h < device.scopeCfg.numOfInputs[0]) {
+                                this.channel1InputsToolStripMenuItem[h] = new ToolStripMenuItem();
+                                this.channel1InputsToolStripMenuItem[h].Name = this.device.scopeCfg.inputs[t][h] + "input_1";
+                                this.channel1InputsToolStripMenuItem[h].Size = new System.Drawing.Size(152, 22);
+                                this.channel1InputsToolStripMenuItem[h].Text = this.device.scopeCfg.inputs[t][h];
+                                this.channel1InputsToolStripMenuItem[h].Click += new System.EventHandler(this.default1ToolStripMenuItem_Click);
+                            }
+                            break;
+                        case 1:
+                            if (h == 0)
+                            {
+                                this.channel2InputsToolStripMenuItem = new ToolStripMenuItem[this.device.scopeCfg.numOfInputs[1]];
+                            }
+                            if (h < device.scopeCfg.numOfInputs[1])
+                            {
+                                this.channel2InputsToolStripMenuItem[h] = new ToolStripMenuItem();
+                                this.channel2InputsToolStripMenuItem[h].Name = this.device.scopeCfg.inputs[t][h] + "input_2";
+                                this.channel2InputsToolStripMenuItem[h].Size = new System.Drawing.Size(152, 22);
+                                this.channel2InputsToolStripMenuItem[h].Text = this.device.scopeCfg.inputs[t][h];
+                                this.channel2InputsToolStripMenuItem[h].Click += new System.EventHandler(this.default2ToolStripMenuItem_Click);
+                            }
+                            break;
+                        case 2:
+                            if (h == 0)
+                            {
+                                this.channel3InputsToolStripMenuItem = new ToolStripMenuItem[this.device.scopeCfg.numOfInputs[2]];
+                            }
+                            if (h < device.scopeCfg.numOfInputs[2])
+                            {
+                                this.channel3InputsToolStripMenuItem[h] = new ToolStripMenuItem();
+                                this.channel3InputsToolStripMenuItem[h].Name = this.device.scopeCfg.inputs[t][h] + "input_3";
+                                this.channel3InputsToolStripMenuItem[h].Size = new System.Drawing.Size(152, 22);
+                                this.channel3InputsToolStripMenuItem[h].Text = this.device.scopeCfg.inputs[t][h];
+                                this.channel3InputsToolStripMenuItem[h].Click += new System.EventHandler(this.default3ToolStripMenuItem_Click);                             
+                            }
+                            break;
+                        case 3:
+                            if (h == 0)
+                            {
+                                this.channel4InputsToolStripMenuItem = new ToolStripMenuItem[this.device.scopeCfg.numOfInputs[3]];
+                            }
+                            if (h < device.scopeCfg.numOfInputs[3])
+                            {
+                                this.channel4InputsToolStripMenuItem[h] = new ToolStripMenuItem();
+                                this.channel4InputsToolStripMenuItem[h].Name = this.device.scopeCfg.inputs[t][h] + "input_4";
+                                this.channel4InputsToolStripMenuItem[h].Size = new System.Drawing.Size(152, 22);
+                                this.channel4InputsToolStripMenuItem[h].Text = this.device.scopeCfg.inputs[t][h];
+                                this.channel4InputsToolStripMenuItem[h].Click += new System.EventHandler(this.default4ToolStripMenuItem_Click);
+                            }
+                            break;
+                    }
+                }
+            }
+
+            if (channel1InputsToolStripMenuItem != null)
+            {
+                this.channel1ToolStripMenuItem.DropDownItems.AddRange(this.channel1InputsToolStripMenuItem);
+                this.channel1InputsToolStripMenuItem[device.scopeCfg.defInputs[0]].Checked = true;
+                lastInputIndex[0] = device.scopeCfg.defInputs[0];
+                this.label_color_ch1.Text = "Ch 1 (" + device.scopeCfg.inputs[0][lastInputIndex[0]] + ")";
+            }
+
+            if (channel2InputsToolStripMenuItem != null)
+            {
+                this.channel2ToolStripMenuItem.DropDownItems.AddRange(this.channel2InputsToolStripMenuItem);
+                this.channel2InputsToolStripMenuItem[device.scopeCfg.defInputs[1]].Checked = true;
+                lastInputIndex[1] = device.scopeCfg.defInputs[1];
+                this.label_color_ch2.Text = "Ch 2 (" + device.scopeCfg.inputs[1][lastInputIndex[1]] + ")";
+            }
+
+            if (channel3InputsToolStripMenuItem != null)
+            {
+                this.channel3ToolStripMenuItem.DropDownItems.AddRange(this.channel3InputsToolStripMenuItem);
+                this.channel3InputsToolStripMenuItem[device.scopeCfg.defInputs[2]].Checked = true;
+                lastInputIndex[2] = device.scopeCfg.defInputs[2];
+                this.label_color_ch3.Text = "Ch 3 (" + device.scopeCfg.inputs[2][lastInputIndex[2]] + ")";
+            }
+
+            if (channel4InputsToolStripMenuItem != null)
+            {
+                this.channel4ToolStripMenuItem.DropDownItems.AddRange(this.channel4InputsToolStripMenuItem);
+                this.channel4InputsToolStripMenuItem[device.scopeCfg.defInputs[3]].Checked = true;
+                lastInputIndex[3] = device.scopeCfg.defInputs[3];
+                this.label_color_ch4.Text = "Ch 4 (" + device.scopeCfg.inputs[3][lastInputIndex[3]] + ")";
+            }
+
+
+
+
         }
 
         private void Zed_update(object sender, ElapsedEventArgs e)
@@ -711,6 +824,7 @@ namespace LEO
             else {
                 this.label_samplingfreq.Text = Math.Round((double)device.scopeCfg.realSmplFreq, 3).ToString() + " SPS";
             }
+
             
             base.OnPaint(e);
         }
@@ -2700,22 +2814,67 @@ namespace LEO
             reset_volt_set();
         }
 
+        private void default1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = Array.IndexOf(device.scopeCfg.inputs[0], sender.ToString());
+            //Console.WriteLine("index "+ index);
+            this.channel1InputsToolStripMenuItem[lastInputIndex[0]].Checked = false;
+            this.channel1InputsToolStripMenuItem[index].Checked = true;
+            lastInputIndex[0] = index;
 
+            int tmp = 0x00000000;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp+index));
+            device.send(";");
+            this.label_color_ch1.Text = "Ch 1 (" + device.scopeCfg.inputs[0][lastInputIndex[0]]+")";
+        }
 
+        private void default2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = Array.IndexOf(device.scopeCfg.inputs[1], sender.ToString());
+            //Console.WriteLine("index "+ index);
+            this.channel2InputsToolStripMenuItem[lastInputIndex[1]].Checked = false;
+            this.channel2InputsToolStripMenuItem[index].Checked = true;
+            lastInputIndex[1] = index;
 
+            int tmp = 0x00000100;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp + index));
+            device.send(";");
+            this.label_color_ch2.Text = "Ch 2 (" + device.scopeCfg.inputs[1][lastInputIndex[1]] + ")";
 
+        }
 
+        private void default3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = Array.IndexOf(device.scopeCfg.inputs[2], sender.ToString());
+            //Console.WriteLine("index "+ index);
+            this.channel3InputsToolStripMenuItem[lastInputIndex[2]].Checked = false;
+            this.channel3InputsToolStripMenuItem[index].Checked = true;
+            lastInputIndex[2] = index;
 
+            int tmp = 0x00000200;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp + index));
+            device.send(";");
+            this.label_color_ch3.Text = "Ch 3 (" + device.scopeCfg.inputs[2][lastInputIndex[2]] + ")";
+            
+        }
 
+        private void default4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = Array.IndexOf(device.scopeCfg.inputs[3], sender.ToString());
+            //Console.WriteLine("index "+ index);
+            this.channel4InputsToolStripMenuItem[lastInputIndex[3]].Checked = false;
+            this.channel4InputsToolStripMenuItem[index].Checked = true;
+            lastInputIndex[3] = index;
 
-
-
-
-
-
-
-
-
+            int tmp = 0x00000300;
+            device.send(Commands.SCOPE + ":" + Commands.SCOPE_ADC_CHANNEL + " ");
+            device.send_int((int)(tmp + index));
+            device.send(";");
+            this.label_color_ch4.Text = "Ch 4 (" + device.scopeCfg.inputs[3][lastInputIndex[3]] + ")";
+        }
 
 
 

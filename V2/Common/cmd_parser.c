@@ -60,8 +60,7 @@ void CmdParserTask(void const *argument){
 			if(byteRead==0){
 				switch (BUILD_CMD(cmdIn)){
 					case CMD_IDN: //send IDN
-						xQueueSendToBack(messageQueue, STR_ACK, portMAX_DELAY);
-						xQueueSendToBack (messageQueue, IDN_STRING, portMAX_DELAY);
+						xQueueSendToBack(messageQueue, "0_IDN", portMAX_DELAY);
 					break;
 					case CMD_VERSION:
 						xQueueSendToBack(messageQueue, "9SendSystVersion", portMAX_DELAY);
@@ -395,6 +394,9 @@ command parseScopeCmd(void){
 			break;	
 			case CMD_GET_CONFIG:
 				xQueueSendToBack(messageQueue, "5SendScopeConfig", portMAX_DELAY);
+			break;
+			case CMD_GET_INPUTS:
+				xQueueSendToBack(messageQueue, "BSendScopeInputs", portMAX_DELAY);
 			break;
 				
 			case CMD_END:break;

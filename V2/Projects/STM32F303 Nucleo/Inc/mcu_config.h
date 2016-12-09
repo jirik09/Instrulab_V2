@@ -71,7 +71,7 @@ static const char* ANALOG_CHANN_ADC1_NAME[ADC1_NUM_CHANNELS] = { 		"A0", 					"A
 static const uint16_t ANALOG_PIN_ADC2[ADC2_NUM_CHANNELS] = {				GPIO_PIN_6,			GPIO_PIN_7,			GPIO_PIN_4,			GPIO_PIN_0,			GPIO_PIN_1,			GPIO_PIN_2,			GPIO_PIN_3,			GPIO_PIN_5,			GPIO_PIN_2,			0};
 static GPIO_TypeDef * ANALOG_GPIO_ADC2[ADC2_NUM_CHANNELS] = {				GPIOA,					GPIOA,					GPIOC,					GPIOC,					GPIOC,					GPIOC,					GPIOC,					GPIOC,					GPIOB,					0};
 static const uint32_t ANALOG_CHANNEL_ADC2[ADC2_NUM_CHANNELS] = {		ADC_CHANNEL_3,	ADC_CHANNEL_4,	ADC_CHANNEL_5,	ADC_CHANNEL_6,	ADC_CHANNEL_7,	ADC_CHANNEL_8,	ADC_CHANNEL_9,	ADC_CHANNEL_11,	ADC_CHANNEL_12,	ADC_CHANNEL_18};
-static const char* ANALOG_CHANN_ADC2_NAME[ADC2_NUM_CHANNELS] = { 		"D12", 					"D11", 					"PC4", 					"A5", 					"A4", 					"PC2", 					"PC3", 					"PC5", 					"PB2" 					"Vref"};
+static const char* ANALOG_CHANN_ADC2_NAME[ADC2_NUM_CHANNELS] = { 		"D12", 					"D11", 					"PC4", 					"A5", 					"A4", 					"PC2", 					"PC3", 					"PC5", 					"PB2", 					"Vref"};
 
 #define ADC3_NUM_CHANNELS 4
 static const uint16_t ANALOG_PIN_ADC3[ADC3_NUM_CHANNELS] = {				GPIO_PIN_1,			GPIO_PIN_13,		GPIO_PIN_0,			0};

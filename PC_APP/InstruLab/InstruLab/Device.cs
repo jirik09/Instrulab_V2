@@ -48,6 +48,9 @@ namespace LEO
             public int[,] ranges;
             public byte[] buffer;
             public UInt16[,] samples;
+            public string[][] inputs;
+            public int[] numOfInputs;
+            public int[] defInputs;
             public double[] timeBase;
             public Scope.mode_def mode;
             public double maxTime;
@@ -305,6 +308,119 @@ namespace LEO
                     {
                         scopeCfg.isScope = false;
                     }
+
+                    port.Write(Commands.SCOPE + ":" + Commands.GET_SCOPE_INPUTS + ";");
+                    Thread.Sleep(2*wait);
+                    toRead = port.BytesToRead;
+                    port.Read(msg_byte, 0, toRead);
+                    msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
+
+                    if (new string(msg_char, 0, 4).Equals("INP_"))
+                    {
+                        scopeCfg.defInputs = new int[scopeCfg.maxNumChannels];
+
+                        string inp = new String(msg_char);
+                        string[] chanels = inp.Split('/');
+
+                        string[] ch1 = { " " };
+                        string[] ch2 = { " " };
+                        string[] ch3 = { " " };
+                        string[] ch4 = { " " };
+
+                        if (chanels.Length >= 3)
+                        {
+                            scopeCfg.defInputs[0] = msg_byte[4];
+                            ch1 = chanels[1].Split(':');
+                        }
+
+                        if (chanels.Length >= 4)
+                        {
+                            scopeCfg.defInputs[1] = msg_byte[5];
+                            ch2 = chanels[2].Split(':');
+                        }
+
+                        if (chanels.Length >= 5)
+                        {
+                            scopeCfg.defInputs[2] = msg_byte[6];
+                            ch3 = chanels[3].Split(':');
+                        }
+
+                        if (chanels.Length >= 6)
+                        {
+                            scopeCfg.defInputs[3] = msg_byte[7];
+                            ch4 = chanels[4].Split(':');
+                        }
+
+                        scopeCfg.numOfInputs=new int[4];
+
+
+                        int num_chan = chanels.Length - 2;
+                        int max_inp = Math.Max(Math.Max(ch1.Length, ch2.Length), Math.Max(ch3.Length, ch4.Length));
+                        scopeCfg.inputs = new string[num_chan][];
+                        scopeCfg.numOfInputs = new int[num_chan];
+
+                        for (int l = 0; l < num_chan; l++)
+                        {
+                            
+                            for (int n = 0; n < max_inp; n++)
+                            {
+                                switch (l)
+                                {
+                                    case 0:
+                                        if (n == 0) {
+                                            scopeCfg.inputs[0] = new string[ch1.Length];
+                                        }
+                                        if (n < ch1.Length)
+                                        {
+                                            scopeCfg.numOfInputs[l] = ch1.Length;
+                                            scopeCfg.inputs[l][n] = ch1[n];
+                                        }
+                                        break;
+                                    case 1:
+                                        if (n == 0)
+                                        {
+                                            scopeCfg.inputs[1] = new string[ch2.Length];
+                                        }
+                                        if (n < ch2.Length)
+                                        {
+                                            scopeCfg.numOfInputs[l] = ch2.Length;
+                                            scopeCfg.inputs[l][n] = ch2[n];
+                                        }
+                                        
+                                        break;
+                                    case 2:
+                                        if (n == 0)
+                                        {
+                                            scopeCfg.inputs[2] = new string[ch3.Length];
+                                        }
+                                        if (n < ch3.Length)
+                                        {
+                                            scopeCfg.numOfInputs[l] = ch3.Length;
+                                            scopeCfg.inputs[l][n] = ch3[n];
+                                        }
+                                        break;
+                                    case 3:
+                                        if (n == 0)
+                                        {
+                                            scopeCfg.inputs[3] = new string[ch4.Length];
+                                        }
+                                        if (n < ch4.Length)
+                                        {
+                                            scopeCfg.numOfInputs[l] = ch4.Length;
+                                            scopeCfg.inputs[l][n] = ch4[n];
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        scopeCfg.inputs = new string[1][];
+                        scopeCfg.inputs[0] = new string[1];
+                        scopeCfg.inputs[0][0] = "-";
+                    }
+                    
+
 
                     port.Write(Commands.GENERATOR + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
