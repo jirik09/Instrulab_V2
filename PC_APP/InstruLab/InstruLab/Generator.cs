@@ -24,7 +24,7 @@ namespace LEO
 
         int semaphoreTimeout = 5000;
 
-        private enum SIGNAL_TYPE { SINE, SQUARE, SAW, ARB };
+        public enum SIGNAL_TYPE { SINE, SQUARE, SAW, ARB };
 
 
         private bool bestFreqFit = true;
@@ -1847,9 +1847,29 @@ namespace LEO
 
 
 
+        ////interface to control generator from Frequency analysator
 
+        public void setParams(SIGNAL_TYPE sig, double amplitude, double offset, double freq) {
+            signalType_ch1 = sig;
+            freq_ch1 = freq;
+            ampl_ch1 = amplitude;
+            offset_ch1 = offset;
+            Update_signal(null,null);
+        }
 
+        public void updatefreq(double freq) {
+            freq_ch1 = freq;
+        }
 
+        public void run() {
+            button_gen_control_Click(null, null);
+            this.button_gen_control.Text = "Disable";
+        }
+
+        public void stop() {
+            button_gen_control_Click(null, null);
+            this.button_gen_control.Text = "Enable";
+        } 
 
 
 

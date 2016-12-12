@@ -17,6 +17,8 @@ namespace LEO
         public const string GET_REAL_SMP_FREQ = "FRQ?";
         public const string GET_SCOPE_INPUTS = "INP?";
 
+        public const string RESET_DEVICE = "RES!";
+
         public const string GENERATOR = "GEN_";
         public const string SCOPE = "OSCP";
         public const string SCOPE_INCOME = "OSC_";

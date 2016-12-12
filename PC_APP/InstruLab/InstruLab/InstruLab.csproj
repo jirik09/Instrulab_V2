@@ -107,6 +107,12 @@
     <Compile Include="ArbDialog.Designer.cs">
       <DependentUpon>ArbDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="BodePlot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BodePlot.Designer.cs">
+      <DependentUpon>BodePlot.cs</DependentUpon>
+    </Compile>
     <Compile Include="Commands.cs" />
     <Compile Include="Comms_thread.cs" />
     <Compile Include="Device.cs" />
@@ -157,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ArbDialog.resx">
       <DependentUpon>ArbDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BodePlot.resx">
+      <DependentUpon>BodePlot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="feedback.resx">
       <DependentUpon>feedback.cs</DependentUpon>

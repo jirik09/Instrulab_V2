@@ -136,6 +136,8 @@ int main(void)
 	osThreadCreate (osThread(GENERATOR_TASK), NULL);
 	#endif //USE_GEN
 	LED_Off();
+	
+	
   /* Start scheduler */
   osKernelStart(NULL, NULL);
 

@@ -33,7 +33,7 @@ namespace LEO
             
             GUITimer.Start();
 
-            Thread.Sleep(500);
+            Thread.Sleep(300);
             this.btn_connect.Enabled = false;
             comms.add_message(new Message(Message.MsgRequest.FIND_DEVICES));
             
@@ -77,7 +77,7 @@ namespace LEO
                     this.listBox_devices.SelectedIndex = 0;
                     if (comms.get_num_of_devices()==1)
                     {
-                        Thread.Sleep(200);
+                        Thread.Sleep(100);
                         string dev_name = comms.get_dev_names()[0];
                         if (dev_name[4] == ':')
                         {
@@ -106,6 +106,7 @@ namespace LEO
                     this.btn_voltmeter_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_voltage_source_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
+                    this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_connect.Text = "Disconnect";
                     this.btn_scan.Enabled = false;
                     //GUITimer.Stop();
@@ -227,6 +228,7 @@ namespace LEO
                     this.btn_gen_open.Enabled = false;
                     this.btn_scan.Enabled = true;
                     this.btn_voltage_source_open.Enabled = false;
+                    this.btn_freq_analysis_open.Enabled = false;
 
                     break;
                 case Comms_thread.CommsStates.ERROR:
@@ -258,6 +260,11 @@ namespace LEO
         {
             comms.get_connected_device().open_source();
         }
+        private void button_open_bode_Click(object sender, EventArgs e)
+        {
+            comms.get_connected_device().open_freq_analysis();
+        }
+
 
 
         private void Instrulab_FormClosing(object sender, FormClosingEventArgs e)
@@ -350,6 +357,10 @@ namespace LEO
         public Device getDevice() {
             return comms.get_connected_device();
         }
+
+
+
+
 
 
 

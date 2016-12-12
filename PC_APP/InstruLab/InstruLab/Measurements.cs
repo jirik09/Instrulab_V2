@@ -9,7 +9,7 @@ namespace LEO
     class Measurements
     {
 
-        public enum MeasurementTypes { FREQUENCY, PERIOD, DUTY, LOW, HIGH, RMS, MEAN, PKPK, MAX, MIN }
+        public enum MeasurementTypes { FREQUENCY, PERIOD, PHASE, DUTY, LOW, HIGH, RMS, MEAN, PKPK, MAX, MIN }
         private int maxMeasCount;
 
         public class Measurement
@@ -39,6 +39,11 @@ namespace LEO
         double[] Freq = new double[4] { 0, 0, 0, 0 };
         double[] High = new double[4] { 0, 0, 0, 0 };
 
+        const int MAX_ZERO_CROSS = 32;
+        int[,] ZeroCrossingTimes = new int[4,MAX_ZERO_CROSS];
+        bool calcAllTimes = false;
+
+
         List<Measurement> measurements = new List<Measurement>();
 
 
@@ -58,11 +63,15 @@ namespace LEO
             {
                 measurements.RemoveRange(0, 1);
             }
+            if (type == MeasurementTypes.PHASE) {
+                calcAllTimes = true;
+            }
         }
 
         public void clearMeasurements()
         {
             measurements.Clear();
+            calcAllTimes = false;
         }
 
         public string getMeas(int index) {
@@ -123,6 +132,8 @@ namespace LEO
                 double LP = samples[ch, 0];
                 int totalUp = 0;
                 int totalDown = 0;
+                int zerocrossindex = 0;
+
                 if (samples[ch, 0] < center) {
                     below = true;
                 }
@@ -136,6 +147,11 @@ namespace LEO
                         if ((below && LP >= center))
                         {
                             state = 1; ;
+                            if (zerocrossindex < MAX_ZERO_CROSS)
+                            {
+                                ZeroCrossingTimes[ch, zerocrossindex] = i;
+                                zerocrossindex++;
+                            }
                         }
                         else if ((!below && LP < center))
                         {
@@ -155,6 +171,11 @@ namespace LEO
                         if (LP > center)
                         {
                             state = 4;
+                            if (zerocrossindex<MAX_ZERO_CROSS)
+                            {
+                                ZeroCrossingTimes[ch,zerocrossindex] = i;
+                                zerocrossindex++;
+                            }
                         }
                         down++;
                     }
@@ -163,6 +184,11 @@ namespace LEO
                         if (LP > center)
                         {
                             state = 5;
+                            if (zerocrossindex<MAX_ZERO_CROSS)
+                            {
+                                ZeroCrossingTimes[ch,zerocrossindex] = i;
+                                zerocrossindex++;
+                            }
                         }
                         down++;
                     }
@@ -281,6 +307,17 @@ namespace LEO
             }
         }
 
+        public double getPhase(int ch1, int ch2) {
+            int i = 0;
+            double phase = 0;
+            while (ZeroCrossingTimes[ch1, i] > 0 && ZeroCrossingTimes[ch2, i] > 0)
+            {
+                phase += ZeroCrossingTimes[ch2, i] - ZeroCrossingTimes[ch1, i];
+                i++;
+            }
+            return phase/(i);
+        }
+
         public void calculateMeasurements(ushort[,] samples, int rangeMax, int rangeMin, int numChann, int samplingFreq, int buffleng,int res)
         {
             calcTime = new bool[4] { false, false, false, false };
@@ -294,19 +331,21 @@ namespace LEO
             Period = new double[4] { 0, 0, 0, 0 };
             Freq = new double[4] { 0, 0, 0, 0 };
             High = new double[4] { 0, 0, 0, 0 };
+            Array.Clear(ZeroCrossingTimes, 0, 4 * MAX_ZERO_CROSS);
 
             int meascount = 0;
+            bool calcAll = false;
             foreach (var item in measurements)
             {
                 for (int ch = 0; ch < numChann; ch++)
                 {
-                    if (item.measChann == ch)
+                    if (item.measChann == ch || calcAllTimes)
                     {
                         if (!calcVolt[ch])
                         {
                             for (int i = 0; i < buffleng; i++)
                             {
-                                RMS[ch] += Math.Pow(samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res) - 1) + (double)rangeMin / 1000, 2) ;
+                                RMS[ch] += Math.Pow(samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res) - 1) + (double)rangeMin / 1000, 2);
                                 Mean[ch] += samples[ch, i] * ((double)rangeMax - (double)rangeMin) / 1000 / (Math.Pow(2, res) - 1) + (double)rangeMin / 1000;
                                 if (samples[ch, i] > Max[ch])
                                 {
@@ -321,9 +360,16 @@ namespace LEO
                             Mean[ch] = (Mean[ch] / buffleng);
                             calcVolt[ch] = true;
                         }
+                    }
+                }
+            }
+            foreach (var item in measurements)
+            {
 
-
-
+                for (int ch = 0; ch < numChann; ch++)
+                {
+                    if (item.measChann == ch)
+                    {
                         switch (item.measType)
                         {
                             case MeasurementTypes.FREQUENCY:
@@ -369,6 +415,34 @@ namespace LEO
                                 }
                                 setColor(ch, meascount);
                                 meascount++;
+                                break;
+                            case MeasurementTypes.PHASE:
+                                if (numChann > ch+1)
+                                {
+                                    calculate_time(samples, samplingFreq, buffleng, ch);
+                                    calculate_time(samples, samplingFreq, buffleng, (ch + 1) % 4);
+                                    double phase = getPhase(ch, (ch + 1) % 4);
+                                    phase = phase / samplingFreq * Freq[ch] * 360;
+                                    if (phase > 180) {
+                                        phase = phase - 360;
+                                    }
+                                    if (phase < -180) {
+                                        phase = phase + 360;
+                                    }
+                                    if (phase > 180 || phase < -180) {
+                                        phase = 0;
+                                    }
+                                    if (Double.IsPositiveInfinity(phase) || Double.IsNegativeInfinity(phase) || double.IsNaN(phase))
+                                    {
+                                        measStrings[meascount] = "Phase: N/A";
+                                    }
+                                    else
+                                    {
+                                        measStrings[meascount] = "Phase: " + Math.Round(phase, 3) + "°";
+                                    }
+                                    setColor(ch, meascount);
+                                    meascount++;
+                                }
                                 break;
                             case MeasurementTypes.DUTY:
                                 calculate_time(samples, samplingFreq, buffleng, ch);

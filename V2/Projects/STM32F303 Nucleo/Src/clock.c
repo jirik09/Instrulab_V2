@@ -84,6 +84,13 @@ void SystemClock_Config(void)
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
+void resetDevice(void){
+	SCB->AIRCR = (0x5FA<<SCB_AIRCR_VECTKEY_Pos)|SCB_AIRCR_SYSRESETREQ_Msk;
+  for(;;) {
+		/* wait until reset */
+  }
+}
+
 /* USER CODE BEGIN 2 */
 
 /* USER CODE END 2 */

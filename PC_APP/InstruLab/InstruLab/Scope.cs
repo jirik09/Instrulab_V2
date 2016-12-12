@@ -33,7 +33,7 @@ namespace LEO
         Thread calcSignal_th;
         
         public enum triggerEdge_def { RISE, FALL };
-        public enum mode_def {IDLE, NORMAL, AUTO, SINGLE };
+        public enum TRIG_MODE {IDLE, NORMAL, AUTO, SINGLE };
 
         public enum math_def {NONE, SUM,DIFF_A,DIFF_B,MULT };
 
@@ -717,7 +717,7 @@ namespace LEO
                             calcSignal_th.Start();
                             processSignal_th = new Thread(process_signals);
                             processSignal_th.Start();
-                            Thread.Sleep(1);
+                            Thread.Sleep(10);
                             if (processSignal_th.IsAlive)
                             {
                                 processSignal_th.Join();
@@ -726,6 +726,7 @@ namespace LEO
                             {
                                 calcSignal_th.Join();
                             }
+                            Thread.Sleep(10);
                             scopePane.CurveList.Clear();
                             //process_signals();
                             paint_signals();
@@ -737,7 +738,7 @@ namespace LEO
 
                             this.Invalidate();
                             Thread.Sleep(10);
-                            if (device.scopeCfg.mode == Scope.mode_def.AUTO || device.scopeCfg.mode == Scope.mode_def.NORMAL)
+                            if (device.scopeCfg.mode == Scope.TRIG_MODE.AUTO || device.scopeCfg.mode == Scope.TRIG_MODE.NORMAL)
                             {
                                 device.takeCommsSemaphore(semaphoreTimeout * 2 + 108);
                                 device.send(Commands.SCOPE + ":" + Commands.SCOPE_NEXT + ";");
@@ -901,18 +902,18 @@ namespace LEO
             device.giveCommsSemaphore();
         }
 
-        public void set_trigger_mode(mode_def mod)
+        public void set_trigger_mode(TRIG_MODE mod)
         {
             device.takeCommsSemaphore(semaphoreTimeout + 116);
             switch (mod)
             {
-                case mode_def.AUTO:
+                case TRIG_MODE.AUTO:
                     device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_AUTO + ";");
                     break;
-                case mode_def.NORMAL:
+                case TRIG_MODE.NORMAL:
                     device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_NORMAL + ";");
                     break;
-                case mode_def.SINGLE:
+                case TRIG_MODE.SINGLE:
                     device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_MODE + " " + Commands.MODE_SINGLE + ";");
                     break;
             }
@@ -968,10 +969,10 @@ namespace LEO
         public void set_scope_default()
         {
             //must be same as in window designer!!!
-            set_trigger_mode(mode_def.AUTO);
+            set_trigger_mode(TRIG_MODE.AUTO);
 
-            set_sampling_freq(Commands.FREQ_1K);
-            device.scopeCfg.sampligFreq = 1000;
+            set_sampling_freq(Commands.FREQ_10K);
+            device.scopeCfg.sampligFreq = 10000;
 
             triggeredge = triggerEdge_def.RISE;
             set_trigger_edge_rise();
@@ -988,7 +989,7 @@ namespace LEO
             set_num_of_channels(Commands.CHANNELS_1);
 
             numSamples=100;
-            set_num_of_samples(Commands.SAMPLES_100);
+            set_num_of_samples(Commands.SAMPLES_1K);
 
             adcRes = 12;
             set_data_depth(Commands.DATA_DEPTH_12B);
@@ -1065,7 +1066,7 @@ namespace LEO
         {
             if (this.checkBox_trig_normal.Checked)
             {
-                set_trigger_mode(mode_def.NORMAL);
+                set_trigger_mode(TRIG_MODE.NORMAL);
                 scope_next();
                 this.checkBox_trig_auto.Checked = false;
                 this.checkBox_trig_single.Checked = false;
@@ -1079,7 +1080,7 @@ namespace LEO
         {
             if (this.checkBox_trig_auto.Checked)
             {
-                set_trigger_mode(mode_def.AUTO);
+                set_trigger_mode(TRIG_MODE.AUTO);
                 scope_next();
                 this.checkBox_trig_normal.Checked = false;
                 this.checkBox_trig_single.Checked = false;
@@ -1093,11 +1094,11 @@ namespace LEO
             if (this.checkBox_trig_single.Text.Equals("Stop"))
             {
                 this.checkBox_trig_single.Text = "Single";
-                device.set_scope_mode(mode_def.SINGLE);
+                device.set_scope_mode(TRIG_MODE.SINGLE);
             }
             else if (this.checkBox_trig_single.Text.Equals("Single"))
             {
-                set_trigger_mode(mode_def.SINGLE);
+                set_trigger_mode(TRIG_MODE.SINGLE);
                 scope_next();
                 add_message(new Message(Message.MsgRequest.SCOPE_WAIT));
             }          
@@ -2572,6 +2573,12 @@ namespace LEO
             measValid = !measValid;
         }
 
+        private void phaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            meas.addMeasurement(measChann - 1, Measurements.MeasurementTypes.PHASE);
+            measValid = !measValid;
+        }
+
         private void dutyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             meas.addMeasurement(measChann - 1, Measurements.MeasurementTypes.DUTY);
@@ -2879,6 +2886,34 @@ namespace LEO
 
 
 
+        ///interface to scope for control from freq analysis
+        public void setParams(int samplingFreq,string freq, int length, TRIG_MODE trig, int channels,string channelsString, int triggerChann)
+        {
+            adcRes=12;
+            numSamples=length;
+            set_sampling_freq(freq);
+            device.scopeCfg.sampligFreq = samplingFreq;
+            actualCahnnels = channels;
+            set_num_of_channels(channelsString);
+            triggerChannel = triggerChann;
+
+            meas = new Measurements(10);
+
+            meas.addMeasurement(0, Measurements.MeasurementTypes.FREQUENCY);
+            meas.addMeasurement(0, Measurements.MeasurementTypes.PKPK);
+            meas.addMeasurement(0, Measurements.MeasurementTypes.PHASE);
+            meas.addMeasurement(1, Measurements.MeasurementTypes.FREQUENCY);
+            meas.addMeasurement(1, Measurements.MeasurementTypes.PKPK);
+            //meas.addMeasurement(1, Measurements.MeasurementTypes.PHASE);
+            //meas.addMeasurement(2, Measurements.MeasurementTypes.FREQUENCY);
+            //meas.addMeasurement(2, Measurements.MeasurementTypes.PKPK);
+            //meas.addMeasurement(2, Measurements.MeasurementTypes.PHASE);
+        }
+
+
+        public double getMeasFreq(int chann) {
+            return meas.getFreq(chann);
+        }
 
 
 

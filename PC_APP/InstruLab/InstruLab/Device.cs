@@ -52,7 +52,7 @@ namespace LEO
             public int[] numOfInputs;
             public int[] defInputs;
             public double[] timeBase;
-            public Scope.mode_def mode;
+            public Scope.TRIG_MODE mode;
             public double maxTime;
             public int sampligFreq;
             public int actualChannels;
@@ -70,7 +70,7 @@ namespace LEO
             public int VRefInt;
             public int VDDA;
         }
-        enum FormOpened { NONE,SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE}
+        enum FormOpened { NONE,SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS}
         FormOpened ADCFormOpened = FormOpened.NONE;
         FormOpened DACFormOpened = FormOpened.NONE;
         private SerialPort port;
@@ -84,11 +84,13 @@ namespace LEO
         public GeneratorConfig_def genCfg;
         private StreamWriter logWriter;
         private List<String> logger = new List<String>();
-        private const bool writeLog = false;
+        private const bool writeLog = true;
         Scope Scope_form;
         Generator Gen_form;
         Voltmeter Volt_form;
         VoltageSource Source_form;
+        BodePlot FreqAnalysis_form;
+
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
         static Semaphore commsSemaphore = new Semaphore(1,1);  // Dostupná kapacita=1; Celková=1
@@ -154,6 +156,8 @@ namespace LEO
                 this.port.ReadBufferSize = 128 * 1024;
                 this.port.BaudRate = speed;
                 port.Open();
+                port.Write(Commands.RESET_DEVICE + ";");
+                Thread.Sleep(200);
                 load_config();
                 port.Close();
                 port.ReadTimeout = 10000;
@@ -579,8 +583,10 @@ namespace LEO
                                     case FormOpened.VOLTMETER:
                                         Volt_form.add_message(new Message(Message.MsgRequest.VOLT_NEW_DATA));
                                         break;
+                                    case FormOpened.FREQ_ANALYSIS:
+                                        FreqAnalysis_form.scopeMessage(new Message(Message.MsgRequest.SCOPE_NEW_DATA));
+                                        break;
                                 }
-
                             }
                             //Console.WriteLine("SCOPE DATA RECIEVED: Leng "+leng+", Res "+res+", Chan "+currChan+" of "+numChan);
                             break;
@@ -607,13 +613,17 @@ namespace LEO
                         case Commands.GEN_OK:
                             //Console.WriteLine(Commands.TRIGGERED);
                             logRecieved("OK");
-                            if (DACFormOpened == FormOpened.GENERATOR)
+                            switch (DACFormOpened)
                             {
-                                Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));
-                            }
-                            if (DACFormOpened == FormOpened.VOLT_SOURCE)
-                            {
-                                Source_form.add_message(new Message(Message.MsgRequest.GEN_OK));
+                                case FormOpened.GENERATOR:
+                                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));
+                                    break;
+                                case FormOpened.VOLT_SOURCE:
+                                    Source_form.add_message(new Message(Message.MsgRequest.GEN_OK));
+                                    break;
+                                case FormOpened.FREQ_ANALYSIS:
+                                    FreqAnalysis_form.genMessage(new Message(Message.MsgRequest.GEN_OK));
+                                    break;
                             }
                             break;
                         case Commands.GEN_NEXT:
@@ -622,6 +632,8 @@ namespace LEO
                             if (DACFormOpened == FormOpened.GENERATOR)
                             {
                                 Gen_form.add_message(new Message(Message.MsgRequest.GEN_NEXT));
+                            }else if (DACFormOpened == FormOpened.FREQ_ANALYSIS) {
+                                FreqAnalysis_form.genMessage(new Message(Message.MsgRequest.GEN_NEXT));
                             }
                             break;
                         case Commands.GENERATOR:
@@ -631,7 +643,14 @@ namespace LEO
                             }
                             port.Read(inputMsg, 0, 4);
                             port.Read(inputData, 0, 4);
-                            Gen_form.add_message(new Message(Message.MsgRequest.GEN_FRQ, new string(inputMsg, 0, 4), inputData[1] * 256 * 256 + inputData[2] * 256 + inputData[3]));
+                            if (DACFormOpened == FormOpened.GENERATOR)
+                            {
+                                Gen_form.add_message(new Message(Message.MsgRequest.GEN_FRQ, new string(inputMsg, 0, 4), inputData[1] * 256 * 256 + inputData[2] * 256 + inputData[3]));
+                            }
+                            else if (DACFormOpened == FormOpened.FREQ_ANALYSIS)
+                            {
+                                FreqAnalysis_form.genMessage(new Message(Message.MsgRequest.GEN_FRQ, new string(inputMsg, 0, 4), inputData[1] * 256 * 256 + inputData[2] * 256 + inputData[3]));
+                            }
                             //Console.WriteLine(Commands.TRIGGERED);
                             logRecieved("GEN_FRQ?" + new string(inputMsg, 1, 3) + " CH" + inputData[3].ToString());
                             break;
@@ -715,6 +734,11 @@ namespace LEO
             {
                 close_volt();
             }
+            if (DACFormOpened == FormOpened.FREQ_ANALYSIS)
+            {
+                close_freq_analysis();
+            }
+
             if (Scope_form == null || Scope_form.IsDisposed)
             {
                 Scope_form = new Scope(this);
@@ -739,6 +763,14 @@ namespace LEO
             }
         }
 
+        public void close_freq_analysis() {
+            if (FreqAnalysis_form != null) {
+                FreqAnalysis_form.Close();
+                ADCFormOpened = FormOpened.NONE;
+                DACFormOpened= FormOpened.NONE;  
+            }
+        }
+
         public void scopeClosed() {
             ADCFormOpened = FormOpened.NONE;
         }
@@ -751,6 +783,11 @@ namespace LEO
             {
                 close_source();
             }
+            if (DACFormOpened == FormOpened.FREQ_ANALYSIS)
+            {
+                close_freq_analysis();
+            }
+
             if (Gen_form == null || Gen_form.IsDisposed)
             {
                 Gen_form = new Generator(this);
@@ -777,6 +814,11 @@ namespace LEO
             {
                 close_scope();
             }
+            if (DACFormOpened == FormOpened.FREQ_ANALYSIS)
+            {
+                close_freq_analysis();
+            }
+
             if (Volt_form == null || Volt_form.IsDisposed)
             {
                 Volt_form = new Voltmeter(this);
@@ -804,6 +846,10 @@ namespace LEO
             {
                 close_gen();
             }
+            if (DACFormOpened == FormOpened.FREQ_ANALYSIS) {
+                close_freq_analysis();
+            }
+
             if (Source_form == null || Source_form.IsDisposed)
             {
                 Source_form = new VoltageSource(this);
@@ -816,6 +862,41 @@ namespace LEO
             }
         }
 
+        public void open_freq_analysis() {
+            if (DACFormOpened == FormOpened.GENERATOR)
+            {
+                close_gen();
+            }
+            else if (DACFormOpened == FormOpened.VOLT_SOURCE)
+            {
+                close_source();
+            }
+
+            if (ADCFormOpened == FormOpened.SCOPE)
+            {
+                close_scope();
+            }
+            else if (ADCFormOpened == FormOpened.VOLTMETER)
+            {
+                close_volt();
+            }
+
+            if (FreqAnalysis_form == null || FreqAnalysis_form.IsDisposed)
+            {
+                FreqAnalysis_form = new BodePlot(this);
+                FreqAnalysis_form.Show();
+                DACFormOpened = FormOpened.FREQ_ANALYSIS;
+                ADCFormOpened = FormOpened.FREQ_ANALYSIS;
+            }
+            else
+            {
+                FreqAnalysis_form.BringToFront();
+            }
+
+
+        
+        }
+
         public void close_source()
         {
             if (Source_form != null)
@@ -824,6 +905,7 @@ namespace LEO
                 DACFormOpened = FormOpened.NONE;
             }
         }
+
 
         public void voltClosed()
         {
@@ -844,11 +926,11 @@ namespace LEO
         }
 
 
-        public void set_scope_mode(Scope.mode_def mod) {
+        public void set_scope_mode(Scope.TRIG_MODE mod) {
             this.scopeCfg.mode = mod;
         }
 
-        public Scope.mode_def get_scope_mode() {
+        public Scope.TRIG_MODE get_scope_mode() {
             return scopeCfg.mode;
         }
 

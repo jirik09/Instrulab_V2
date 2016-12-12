@@ -20,3 +20,4 @@ E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Instrulab.res
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Generator.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Scope.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.VoltageSource.resources
+E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.BodePlot.resources

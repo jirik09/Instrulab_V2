@@ -16,6 +16,7 @@
 #include "scope.h"
 #include "generator.h"
 #include "adc.h"
+#include "clock.h"
 
 // External variables definitions =============================================
 xQueueHandle cmdParserMessageQueue;
@@ -61,6 +62,9 @@ void CmdParserTask(void const *argument){
 				switch (BUILD_CMD(cmdIn)){
 					case CMD_IDN: //send IDN
 						xQueueSendToBack(messageQueue, "0_IDN", portMAX_DELAY);
+					break;
+					case CMD_RESET_DEVICE:
+						resetDevice();
 					break;
 					case CMD_VERSION:
 						xQueueSendToBack(messageQueue, "9SendSystVersion", portMAX_DELAY);
