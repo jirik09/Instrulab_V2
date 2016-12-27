@@ -7,7 +7,7 @@ namespace LEO
 {
     public class Message
     {
-        public enum MsgRequest { FIND_DEVICES, CONNECT_DEVICE, DISCONNECT,SCOPE_NEW_DATA, SCOPE_TRIGGERED, SCOPE_WAIT,SCOPE_FREQ,GEN_OK,GEN_NEXT,GEN_FRQ,GEN_ERR,VOLT_NEW_DATA}
+        public enum MsgRequest { FIND_DEVICES, CONNECT_DEVICE, DISCONNECT, SCOPE_NEW_DATA, SCOPE_TRIGGERED, SCOPE_WAIT, SCOPE_FREQ, GEN_OK, GEN_NEXT, GEN_FRQ, GEN_ERR, VOLT_NEW_DATA, BODE_NEW_DATA, BODE_START_MEAS }
         private MsgRequest type;
         private int num;
         private string msg;

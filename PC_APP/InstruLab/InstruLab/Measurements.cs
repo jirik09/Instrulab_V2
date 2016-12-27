@@ -39,7 +39,7 @@ namespace LEO
         double[] Freq = new double[4] { 0, 0, 0, 0 };
         double[] High = new double[4] { 0, 0, 0, 0 };
 
-        const int MAX_ZERO_CROSS = 32;
+        const int MAX_ZERO_CROSS = 64;
         int[,] ZeroCrossingTimes = new int[4,MAX_ZERO_CROSS];
         bool calcAllTimes = false;
 
@@ -310,12 +310,30 @@ namespace LEO
         public double getPhase(int ch1, int ch2) {
             int i = 0;
             double phase = 0;
-            while (ZeroCrossingTimes[ch1, i] > 0 && ZeroCrossingTimes[ch2, i] > 0)
+            while (i < MAX_ZERO_CROSS && ZeroCrossingTimes[ch1, i] > 0 && ZeroCrossingTimes[ch2, i] > 0)
             {
                 phase += ZeroCrossingTimes[ch2, i] - ZeroCrossingTimes[ch1, i];
                 i++;
             }
             return phase/(i);
+        }
+
+        public double getPhaseDeg(int ch1, int ch2, int smpl, double freq) {
+            double phase = getPhase(ch1, ch2);
+            phase = phase / smpl * freq * 360;
+            if (phase > 180)
+            {
+                phase = phase - 360;
+            }
+            if (phase < -180)
+            {
+                phase = phase + 360;
+            }
+            if (phase > 180 || phase < -180)
+            {
+                phase = 0;
+            }
+            return phase;
         }
 
         public void calculateMeasurements(ushort[,] samples, int rangeMax, int rangeMin, int numChann, int samplingFreq, int buffleng,int res)

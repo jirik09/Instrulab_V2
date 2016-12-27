@@ -584,7 +584,7 @@ namespace LEO
                                         Volt_form.add_message(new Message(Message.MsgRequest.VOLT_NEW_DATA));
                                         break;
                                     case FormOpened.FREQ_ANALYSIS:
-                                        FreqAnalysis_form.scopeMessage(new Message(Message.MsgRequest.SCOPE_NEW_DATA));
+                                        FreqAnalysis_form.add_message(new Message(Message.MsgRequest.BODE_NEW_DATA));
                                         break;
                                 }
                             }
@@ -660,7 +660,11 @@ namespace LEO
                                 try
                                 {
                                     int err = int.Parse(new string(inputMsg, 1, 3));
-                                    logRecieved("ERROR " + err);           
+                                    
+                                    logRecieved("ERROR " + err);
+                                    if (err == 107) {
+                                        break;
+                                    }           
                                     if (lastError != err)
                                     {    
                                         MessageBox.Show("Error recieved \r\n" + new string(inputMsg, 0, 4) + "\r\n" + getErrReason(err), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

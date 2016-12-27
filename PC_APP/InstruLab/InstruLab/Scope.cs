@@ -76,8 +76,8 @@ namespace LEO
         private int last_ver_cur_src=0;
         private double VerticalCursorA = 0;
         private double VerticalCursorB = 0;
-        double tA = 0;
-        double tB = 0;
+        double time_cur_A = 0;
+        double time_cur_B = 0;
         double last_tA = 0;
         double last_tB = 0;
 
@@ -397,7 +397,7 @@ namespace LEO
                 last_antialiasing = antialiasing;
             }
 
-            if (last_tA != tA || last_tB != tB || last_ver_cur_src != VerticalCursorSrc)
+            if (last_tA != time_cur_A || last_tB != time_cur_B || last_ver_cur_src != VerticalCursorSrc)
             {
                 update = true;
                 scopePane.CurveList.Clear();
@@ -405,8 +405,8 @@ namespace LEO
                 paint_markers();
                 vertical_cursor_update();
                 paint_cursors();
-                last_tA = tA;
-                last_tB = tB;
+                last_tA = time_cur_A;
+                last_tB = time_cur_B;
                 last_ver_cur_src = VerticalCursorSrc;
             }
 
@@ -496,10 +496,10 @@ namespace LEO
                     double off = (double)device.scopeCfg.ranges[0, selectedRange] / 1000;
 
                     //vypocet casu
-                    tA = VerticalCursorA * maxX + (1 - VerticalCursorA) * minX;
-                    tB = VerticalCursorB * maxX + (1 - VerticalCursorB) * minX;
-                    int indexUA = (int)(tA / device.scopeCfg.maxTime * signal_ch1.Length);
-                    int indexUB = (int)(tB / device.scopeCfg.maxTime * signal_ch1.Length);
+                    time_cur_A = VerticalCursorA * maxX + (1 - VerticalCursorA) * minX;
+                    time_cur_B = VerticalCursorB * maxX + (1 - VerticalCursorB) * minX;
+                    int indexUA = (int)(time_cur_A / device.scopeCfg.maxTime * signal_ch1.Length);
+                    int indexUB = (int)(time_cur_B / device.scopeCfg.maxTime * signal_ch1.Length);
                     double VA = 0;
                     double VB = 0;
                     if (indexUA >= signal_ch1.Length)
@@ -516,7 +516,7 @@ namespace LEO
                         if (indexUA < signal_ch1.Length - 1)
                         {
 
-                            VA = (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUA] * scale + off) + (tA - device.scopeCfg.timeBase[indexUA]) / (device.scopeCfg.timeBase[indexUA + 1] - device.scopeCfg.timeBase[indexUA]) * ((device.scopeCfg.samples[VerticalCursorSrc - 1, indexUA + 1] * scale + off) - (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUA] * scale + off));
+                            VA = (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUA] * scale + off) + (time_cur_A - device.scopeCfg.timeBase[indexUA]) / (device.scopeCfg.timeBase[indexUA + 1] - device.scopeCfg.timeBase[indexUA]) * ((device.scopeCfg.samples[VerticalCursorSrc - 1, indexUA + 1] * scale + off) - (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUA] * scale + off));
                         }
                         else
                         {
@@ -525,14 +525,14 @@ namespace LEO
 
                         if (indexUB < signal_ch1.Length - 1)
                         {
-                            VB = (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUB] * scale + off) + (tB - device.scopeCfg.timeBase[indexUB]) / (device.scopeCfg.timeBase[indexUB + 1] - device.scopeCfg.timeBase[indexUB]) * ((device.scopeCfg.samples[VerticalCursorSrc - 1, indexUB + 1] * scale + off) - (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUB] * scale + off));
+                            VB = (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUB] * scale + off) + (time_cur_B - device.scopeCfg.timeBase[indexUB]) / (device.scopeCfg.timeBase[indexUB + 1] - device.scopeCfg.timeBase[indexUB]) * ((device.scopeCfg.samples[VerticalCursorSrc - 1, indexUB + 1] * scale + off) - (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUB] * scale + off));
                         }
                         else
                         {
                             VB = (device.scopeCfg.samples[VerticalCursorSrc - 1, indexUB - 1] * scale + off);
                         }
                     }
-                    double td = tA - tB;
+                    double td = time_cur_A - time_cur_B;
                     double ud = VA - VB;
                     double f = Math.Abs(1 / td);
 
@@ -549,21 +549,21 @@ namespace LEO
                         this.timeDif = "dt " + (Math.Round(td * 1000000, 3)).ToString() + " us";
                     }
 
-                    if (tA >= 1 || tA <= -1)
+                    if (time_cur_A >= 1 || time_cur_A <= -1)
                     {
-                        this.timeA = "t " + (Math.Round(tA, 3)).ToString() + " s";
+                        this.timeA = "t " + (Math.Round(time_cur_A, 3)).ToString() + " s";
                     }
                     else
                     {
-                        this.timeA = "t " + (Math.Round(tA * 1000, 3)).ToString() + " ms";
+                        this.timeA = "t " + (Math.Round(time_cur_A * 1000, 3)).ToString() + " ms";
                     }
-                    if (tB >= 1 || tB <= -1)
+                    if (time_cur_B >= 1 || time_cur_B <= -1)
                     {
-                        this.timeB = "t " + (Math.Round(tB, 3)).ToString() + " s";
+                        this.timeB = "t " + (Math.Round(time_cur_B, 3)).ToString() + " s";
                     }
                     else
                     {
-                        this.timeB = "t " + (Math.Round(tB * 1000, 3)).ToString() + " ms";
+                        this.timeB = "t " + (Math.Round(time_cur_B * 1000, 3)).ToString() + " ms";
                     }
                     if (Double.IsInfinity(f))
                     {
@@ -614,11 +614,11 @@ namespace LEO
 
                     double off = ((double)device.scopeCfg.ranges[1, selectedRange] - (double)device.scopeCfg.ranges[0, selectedRange]) / 1000 * (double)offset[VerticalCursorSrc - 1] / 1000 * gain[VerticalCursorSrc - 1] * 2;
 
-                    tA = ((VerticalCursorA * maxX + (1 - VerticalCursorA) * minX));
-                    tB = ((VerticalCursorB * maxX + (1 - VerticalCursorB) * minX));
-                    double ud = (tA - tB) / gain[VerticalCursorSrc - 1];
-                    double tmpA = (tA - off) / gain[VerticalCursorSrc - 1];
-                    double tmpB = (tB - off) / gain[VerticalCursorSrc - 1];
+                    time_cur_A = ((VerticalCursorA * maxX + (1 - VerticalCursorA) * minX));
+                    time_cur_B = ((VerticalCursorB * maxX + (1 - VerticalCursorB) * minX));
+                    double ud = (time_cur_A - time_cur_B) / gain[VerticalCursorSrc - 1];
+                    double tmpA = (time_cur_A - off) / gain[VerticalCursorSrc - 1];
+                    double tmpB = (time_cur_B - off) / gain[VerticalCursorSrc - 1];
                     if (ud >= 1 || ud <= -1)
                     {
                         this.DiffU = "dU " + (Math.Round(ud, 3)).ToString() + " V";
@@ -2247,8 +2247,8 @@ namespace LEO
             this.label5.Enabled = VerticalCursorSrc == 0 ? false : true;
             this.label6.Enabled = VerticalCursorSrc == 0 ? false : true;
             if (VerticalCursorSrc == 0) {
-                tA = 0;
-                tB = 0;
+                time_cur_A = 0;
+                time_cur_B = 0;
             }
         }
 
@@ -2478,16 +2478,16 @@ namespace LEO
                 PointPairList list1 = new PointPairList();
 
                 list1 = new PointPairList();
-                list1.Add(tA, minY);
-                list1.Add(tA, maxY);
+                list1.Add(time_cur_A, minY);
+                list1.Add(time_cur_A, maxY);
                 curve = scopePane.AddCurve("", list1, col, SymbolType.HDash);
                 curve.Symbol.Size = 0;
                 curve.Line.IsSmooth = true;
                 
 
                 list1 = new PointPairList();
-                list1.Add(tB, minY);
-                list1.Add(tB, maxY);
+                list1.Add(time_cur_B, minY);
+                list1.Add(time_cur_B, maxY);
                 curve = scopePane.AddCurve("", list1, col, SymbolType.HDash);
                 curve.Symbol.Size = 0;
                 curve.Line.IsSmooth = true;

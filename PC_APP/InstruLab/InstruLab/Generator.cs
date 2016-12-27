@@ -1859,7 +1859,14 @@ namespace LEO
 
         public void updatefreq(double freq) {
             freq_ch1 = freq;
+            Update_signal(null, null);
         }
+
+        public double getfrequency() {
+            return realFreq_ch1;
+        }
+
+
 
         public void run() {
             button_gen_control_Click(null, null);
@@ -1867,9 +1874,18 @@ namespace LEO
         }
 
         public void stop() {
+            this.button_gen_control.Text = "Disable";
             button_gen_control_Click(null, null);
             this.button_gen_control.Text = "Enable";
-        } 
+        }
+
+        public bool is_generating() {
+            return this.generating;
+        }
+
+        public int getsignallength() {
+            return signal_leng_ch1;
+        }
 
 
 
