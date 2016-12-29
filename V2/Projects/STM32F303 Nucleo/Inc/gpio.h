@@ -47,6 +47,11 @@ void LED_On(void);
 void LED_Off(void);
 void LED_Toggle(void);
 	 
+#ifdef USE_SHIELD
+void detectScopeShield(void);
+uint8_t isScopeShieldConnected(void);
+#endif
+	 
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
 #define USART_TX_Pin GPIO_PIN_2

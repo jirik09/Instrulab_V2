@@ -38,6 +38,10 @@
 #include "mcu_config.h"
 /* USER CODE BEGIN 0 */
 
+#ifdef USE_SHIELD
+uint8_t ScopeShieldConnected=0;
+#endif
+
 /* USER CODE END 0 */
 
 /*----------------------------------------------------------------------------*/
@@ -86,7 +90,21 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(USART_GPIO, &GPIO_InitStruct);
+	
+	
+	/*Configure GPIO pin : D7_Pin */
+  GPIO_InitStruct.Pin = D7_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(D7_GPIO, &GPIO_InitStruct);
+	
+	/*Configure GPIO pin : D7_Pin */
+  
+	GPIO_InitStruct.Pin = D8_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(D8_GPIO, &GPIO_InitStruct);
 
 //  /*Configure GPIO pin : LD2_Pin */
 //  GPIO_InitStruct.Pin = LD2_Pin;
@@ -110,7 +128,23 @@ void LED_Toggle(void)
 }
 
 /* USER CODE BEGIN 2 */
+#ifdef USE_SHIELD
+void detectScopeShield(void){
+ HAL_GPIO_WritePin(D8_GPIO,D8_PIN, GPIO_PIN_RESET);
+	HAL_Delay(1);
+	if(HAL_GPIO_ReadPin(D7_GPIO, D7_PIN) == GPIO_PIN_RESET){
+		HAL_GPIO_WritePin(D8_GPIO, D8_PIN, GPIO_PIN_SET);
+		HAL_Delay(5);
+		if(HAL_GPIO_ReadPin(D7_GPIO, D7_PIN) == GPIO_PIN_SET){
+			ScopeShieldConnected = 1;
+		}
+	}
+}
 
+uint8_t isScopeShieldConnected(void){ 
+	return ScopeShieldConnected;
+}
+#endif
 /* USER CODE END 2 */
 
 /**

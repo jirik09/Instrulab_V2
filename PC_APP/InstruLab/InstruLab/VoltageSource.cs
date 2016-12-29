@@ -46,8 +46,10 @@ namespace LEO
             device = dev;
             InitializeComponent();
 
-            this.trackBar_chann_1.Maximum = dev.genCfg.VRef;
-            this.trackBar_chann_2.Maximum = dev.genCfg.VRef;
+            this.trackBar_chann_1.Maximum = dev.genCfg.VRefMax;
+            this.trackBar_chann_2.Maximum = dev.genCfg.VRefMax;
+            this.trackBar_chann_1.Minimum = dev.genCfg.VRefMin;
+            this.trackBar_chann_2.Minimum = dev.genCfg.VRefMin;
             this.trackBar_chann_1.Value = 0;
             this.trackBar_chann_2.Value = 0;
 
@@ -84,9 +86,14 @@ namespace LEO
                     
                     device.takeCommsSemaphore(semaphoreTimeout + 103);
                     device.send(Commands.GENERATOR + ":" + Commands.GEN_DAC_VAL + " ");
-                    usedVdda = device.genCfg.VDDA;
-                    tmpData_ch1 = (int)Math.Round(voltChann1 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1) * device.genCfg.VRef / usedVdda);
-                    tmpData_ch2 = (int)Math.Round(voltChann2 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1) * device.genCfg.VRef / usedVdda);
+                    usedVdda = device.systemCfg.VDDA_actual;
+                    tmpData_ch1 = (int)Math.Round(voltChann1 / (device.genCfg.VRefMax - device.genCfg.VRefMin) * (Math.Pow(2, device.genCfg.dataDepth) - 1) * device.systemCfg.VDDA_target / device.systemCfg.VDDA_actual + (Math.Pow(2, device.genCfg.dataDepth - 1) - 1));
+                    tmpData_ch2 = (int)Math.Round(voltChann2 / (device.genCfg.VRefMax - device.genCfg.VRefMin) * (Math.Pow(2, device.genCfg.dataDepth) - 1) * device.systemCfg.VDDA_target / device.systemCfg.VDDA_actual + (Math.Pow(2, device.genCfg.dataDepth - 1) - 1));
+
+                    if (device.systemCfg.isShield) {
+                        tmpData_ch1 = (int)(Math.Pow(2, device.genCfg.dataDepth) - 1) - tmpData_ch1;
+                        tmpData_ch2 = (int)(Math.Pow(2, device.genCfg.dataDepth) - 1) - tmpData_ch2;
+                    }
 
                     if (tmpData_ch1 > (Math.Pow(2, device.genCfg.dataDepth) - 1)) {
                         tmpData_ch1 = (int)(Math.Pow(2, device.genCfg.dataDepth) - 1);
@@ -99,77 +106,13 @@ namespace LEO
                     device.send_int((int)(tmpData));
                     device.send(";");
 
-                    /*
-                    if (!initialized) {
-                        if (numChannels >= 2)
-                        {
-                            device.send(Commands.GENERATOR + ":" + Commands.STOP + ";");
-                            device.send(Commands.GENERATOR + ":" + Commands.DATA_LENGTH_CH1 + " ");
-                            device.send_short((int)(2));
-                            device.send(";");
-                            device.send(Commands.GENERATOR + ":" + Commands.CHANNELS + " " + Commands.CHANNELS_2 + ";");
-                            device.send(Commands.GENERATOR + ":" + Commands.DATA_LENGTH_CH2 + " ");
-                            device.send_short((int)(2));
-                            device.send(";");
-                        }
-                        else {
-                            device.send(Commands.GENERATOR + ":" + Commands.STOP + ";");
-                            device.send(Commands.GENERATOR + ":" + Commands.DATA_LENGTH_CH1 + " ");
-                            device.send_short((int)(2));
-                            device.send(";");
-                            device.send(Commands.GENERATOR + ":" + Commands.CHANNELS + " " + Commands.CHANNELS_1 + ";");
-                        }
-                        initialized = true;
-                    }
-                    else
-                    {
-                        device.send(Commands.GENERATOR + ":" + Commands.STOP + ";");
-                    }        
-
-                    device.send(Commands.GENERATOR + ":" + Commands.SAMPLING_FREQ + " ");
-                    device.send_int(10 * 256 + 1);
-                    device.send(";");
-
-                    device.send(Commands.GENERATOR + ":" + Commands.GEN_DATA + " ");
-                    
-                    device.send_int((0 / 256) + (0 % 256) * 256 + (2 * 256 * 256) + (1 * 256 * 256 * 256));
-                    device.send(":");
-                    
-                    tmpData = (int)Math.Round(voltChann1 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1));
-                    device.send_short_2byte(tmpData);
-                    device.send_short_2byte(tmpData);
-                    device.send(";");
-
-                    if (numChannels >= 2) {
-
-                        device.send(Commands.GENERATOR + ":" + Commands.SAMPLING_FREQ + " ");
-                        device.send_int(10 * 256 + 2);
-                        device.send(";");
-
-                        device.send(Commands.GENERATOR + ":" + Commands.GEN_DATA + " ");
-
-                        device.send_int((0 / 256) + (0 % 256) * 256 + (2 * 256 * 256) + (2 * 256 * 256 * 256));
-                        device.send(":");
-
-                        tmpData = (int)Math.Round(voltChann2 / device.genCfg.VRef * (Math.Pow(2, device.genCfg.dataDepth) - 1));
-                        device.send_short_2byte(tmpData);
-                        device.send_short_2byte(tmpData);
-                        device.send(";");
-                    
-                    }
-
-                    Thread.Sleep(50);
-                    device.send(Commands.GENERATOR + ":" + Commands.START + ";");
-                    */
                     device.giveCommsSemaphore();
 
                     voltActual1 = voltChann1;
                     voltActual2 = voltChann2;
                     this.Invalidate();
-
                 }
             }
-
             voltChann1_old = voltChann1;
             voltChann2_old = voltChann2;
         }

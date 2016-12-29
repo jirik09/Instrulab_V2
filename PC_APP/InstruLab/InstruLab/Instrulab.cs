@@ -155,7 +155,7 @@ namespace LEO
                         {
                             this.label_gen_buff_len.Text = (comms.get_connected_device().genCfg.BufferLength).ToString() + " bytes";
                         }
-                        this.label_gen_vref.Text = comms.get_connected_device().genCfg.VRef.ToString() + " mV";
+                        this.label_gen_vref.Text = comms.get_connected_device().genCfg.VRefMax.ToString() + " mV";
                         this.label_gen_channs.Text = comms.get_connected_device().genCfg.numChannels.ToString();
                         tmpStr = "";
                         for (int i = 0; i < comms.get_connected_device().genCfg.numChannels; i++)

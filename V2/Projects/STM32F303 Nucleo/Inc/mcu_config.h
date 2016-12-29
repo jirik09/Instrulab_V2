@@ -17,6 +17,7 @@
 #include "err_list.h"
 
 #define IDN_STRING "STM32F303-Nucleo" //max 30 chars
+#define SHIELD_STRING " + Shield LEO V0.1"
 #define MCU "STM32F303RE"
 
 // Communication constatnts ===================================================
@@ -31,6 +32,13 @@
 
 #define USB_DP_PIN_STR "PA12" //must be 4 chars
 #define USB_DM_PIN_STR "PA11" //must be 4 chars
+
+// Scope shield identification ================================================
+#define D7_GPIO GPIOA
+#define D7_PIN GPIO_PIN_8
+#define D8_GPIO GPIOA
+#define D8_PIN GPIO_PIN_9
+
 
 // Scope constatnts ===========================================================
 #define MAX_SAMPLING_FREQ 4000000 //smps
@@ -55,6 +63,21 @@
 #define RANGE_3_HI 0
 #define RANGE_4_LOW 0
 #define RANGE_4_HI 0
+
+#ifdef USE_SHIELD
+	#define HIGH_RANGE 16820 //without calibration 16666
+	#define MID_RANGE  3258  //without calibration 3300
+	#define LOW_RANGE  161   //without calibration 166
+
+	#define SHIELD_RANGE_1_LOW 0
+	#define SHIELD_RANGE_1_HI 2*MID_RANGE
+	#define SHIELD_RANGE_2_LOW -MID_RANGE
+	#define SHIELD_RANGE_2_HI MID_RANGE
+	#define SHIELD_RANGE_3_LOW -HIGH_RANGE+150
+	#define SHIELD_RANGE_3_HI HIGH_RANGE
+	#define SHIELD_RANGE_4_LOW -LOW_RANGE-9
+	#define SHIELD_RANGE_4_HI LOW_RANGE
+#endif
 
 
 //scope channels inputs
@@ -95,7 +118,13 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define	DAC_DATA_DEPTH 12
 
 #define GEN_VREF 3300
+#define GEN_VDDA 3300
 #define GEN_VREF_INT 1200
+
+#ifdef USE_SHIELD
+	#define SHIELD_GEN_HIGH   4898-5  //without calibration 5000
+	#define SHIELD_GEN_LOW   -4898-5  //without calibration -5000
+#endif
 
 #define GEN_CH1_PIN_STR "A2__" //must be 4 chars
 #define GEN_CH2_PIN_STR "D13_" //must be 4 chars

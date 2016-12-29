@@ -16,10 +16,13 @@
 #include "scope.h"
 #include "adc.h"
 #include "tim.h"
+#include "gpio.h"
 
 // External variables definitions =============================================
-const int16_t RANGES[8] = {RANGE_1_LOW,RANGE_1_HI,RANGE_2_LOW,RANGE_2_HI,RANGE_3_LOW,RANGE_3_HI,RANGE_4_LOW,RANGE_4_HI,};
-
+const int16_t RANGES[8] = {RANGE_1_LOW,RANGE_1_HI,RANGE_2_LOW,RANGE_2_HI,RANGE_3_LOW,RANGE_3_HI,RANGE_4_LOW,RANGE_4_HI};
+#ifdef USE_SHIELD
+const int16_t SHIELD_RANGES[8] = {SHIELD_RANGE_1_LOW,SHIELD_RANGE_1_HI,SHIELD_RANGE_2_LOW,SHIELD_RANGE_2_HI,SHIELD_RANGE_3_LOW,SHIELD_RANGE_3_HI,SHIELD_RANGE_4_LOW,SHIELD_RANGE_4_HI};
+#endif
 xQueueHandle scopeMessageQueue;
 
 uint8_t scopeBuffer[MAX_SCOPE_BUFF_SIZE+MAX_ADC_CHANNELS*SCOPE_BUFFER_MARGIN]; 
@@ -634,9 +637,21 @@ uint8_t scopeSetADCInputChannelVref(){
   * @retval None
   */
 const int16_t* scopeGetRanges(uint8_t * len){
-	*len=sizeof(RANGES);
-	return RANGES;
+#ifdef USE_SHIELD
+	if(isScopeShieldConnected()){
+		*len=sizeof(SHIELD_RANGES);
+		return SHIELD_RANGES;
+	}else{
+		*len=sizeof(RANGES);
+		return RANGES;
 	}
+#else
+	*len=sizeof(RANGES);
+	return RANGES;	
+#endif
+
+	
+}
 
 /**
   * @brief  Restart scope sampling

@@ -941,6 +941,10 @@ namespace LEO
         }
 
         public void set_trigger_level(double level) {
+            if (device.systemCfg.isShield)
+            {
+                level = 100 - level;
+            }
             device.takeCommsSemaphore(semaphoreTimeout + 120);
             device.send(Commands.SCOPE + ":" + Commands.SCOPE_TRIG_LEVEL + " ");
             device.send_short((int)(level * 65536));
@@ -975,7 +979,14 @@ namespace LEO
             device.scopeCfg.sampligFreq = 10000;
 
             triggeredge = triggerEdge_def.RISE;
-            set_trigger_edge_rise();
+            if (device.systemCfg.isShield)
+            {
+                set_trigger_edge_fall();
+            }
+            else
+            {
+                set_trigger_edge_rise();
+            }
 
             triggerLevel = 0.5;
             last_trigger_level = 0.5;
@@ -1111,7 +1122,14 @@ namespace LEO
             if (this.checkBox_trig_rise.Checked)
             {
                 this.checkBox_trig_fall.Checked = false;
-                set_trigger_edge_rise();
+                if (device.systemCfg.isShield)
+                {
+                    set_trigger_edge_fall();
+                }
+                else
+                {
+                    set_trigger_edge_rise();
+                }
             }
             this.checkBox_trig_rise.Checked = true;
         }
@@ -1120,7 +1138,13 @@ namespace LEO
             if (this.checkBox_trig_fall.Checked)
             {
                 this.checkBox_trig_rise.Checked = false;
-                set_trigger_edge_fall();
+                if (device.systemCfg.isShield)
+                {
+                    set_trigger_edge_rise();
+                }
+                else {
+                    set_trigger_edge_fall();
+                }
             }
             this.checkBox_trig_fall.Checked = true;
         }

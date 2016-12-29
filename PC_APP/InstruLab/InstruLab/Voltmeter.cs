@@ -130,8 +130,14 @@ namespace LEO
                             SetNormalSampling();
                             sampleVDDA = false;
                             //calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, rangeMax, rangeMin, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
-                            calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, (int)(Math.Pow(2,device.scopeCfg.actualRes)), 0, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
-
+                            if (device.systemCfg.isShield)
+                            {
+                                calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, 0, (int)(Math.Pow(2, device.scopeCfg.actualRes)), device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
+                            }
+                            else
+                            {
+                                calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, (int)(Math.Pow(2, device.scopeCfg.actualRes)), 0, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));
+                            }
                             calcSignal_th.Start();
                             Thread.Sleep(1);
                             if (calcSignal_th.IsAlive)
@@ -146,9 +152,7 @@ namespace LEO
                             vdda[2] = device.scopeCfg.VRefInt / (meas.getMean(2) * 1000) * device.scopeCfg.VRef / 1000;
                             vdda[3] = device.scopeCfg.VRefInt / (meas.getMean(3) * 1000) * device.scopeCfg.VRef / 1000;
 
-                            device.scopeCfg.VDDA = (int)(vdda[0] * 1000);
-                            device.genCfg.VDDA = (int)(vdda[0] * 1000);
-
+                            device.systemCfg.VDDA_actual = (int)(vdda[0] * 1000);
                         }
                         else {
                             calcSignal_th = new Thread(() => meas.calculateMeasurements(device.scopeCfg.samples, rangeMax, rangeMin, device.scopeCfg.actualChannels, device.scopeCfg.realSmplFreq, device.scopeCfg.timeBase.Length, device.scopeCfg.actualRes));

@@ -119,19 +119,29 @@ namespace LEO
             channel2Pane = zedGraphControl_gen_ch2.GraphPane;
 
             this.device = dev;
-            this.trackBar_ampl_ch1.Maximum = dev.genCfg.VRef;
-            this.trackBar_ampl_ch2.Maximum = dev.genCfg.VRef;
-            this.trackBar_ampl_ch1.Value = dev.genCfg.VRef / 2;
-            this.trackBar_ampl_ch2.Value = dev.genCfg.VRef / 2;
-            this.textBox_ampl_ch1.Text = (dev.genCfg.VRef / 2).ToString();
-            this.textBox_ampl_ch2.Text = (dev.genCfg.VRef / 2).ToString();
+            this.trackBar_ampl_ch1.Maximum = dev.genCfg.VRefMax;
+            this.trackBar_ampl_ch2.Maximum = dev.genCfg.VRefMax;
+            this.trackBar_ampl_ch1.Value = dev.genCfg.VRefMax / 2;
+            this.trackBar_ampl_ch2.Value = dev.genCfg.VRefMax / 2;
+            this.textBox_ampl_ch1.Text = (dev.genCfg.VRefMax / 2).ToString();
+            this.textBox_ampl_ch2.Text = (dev.genCfg.VRefMax / 2).ToString();
 
-            this.trackBar_offset_ch1.Maximum = dev.genCfg.VRef;
-            this.trackBar_offset_ch2.Maximum = dev.genCfg.VRef;
-            this.trackBar_offset_ch1.Value = dev.genCfg.VRef / 2;
-            this.trackBar_offset_ch2.Value = dev.genCfg.VRef / 2;
-            this.trackBar_offset_ch1.Text = (dev.genCfg.VRef / 2).ToString();
-            this.trackBar_offset_ch2.Text = (dev.genCfg.VRef / 2).ToString();
+            this.trackBar_offset_ch1.Maximum = dev.genCfg.VRefMax;
+            this.trackBar_offset_ch2.Maximum = dev.genCfg.VRefMax;
+            this.trackBar_offset_ch1.Minimum = dev.genCfg.VRefMin;
+            this.trackBar_offset_ch2.Minimum = dev.genCfg.VRefMin;
+
+            if(this.device.systemCfg.isShield){
+                this.trackBar_offset_ch1.Value = 0;
+                this.trackBar_offset_ch2.Value = 0;
+                this.trackBar_offset_ch1.Text = "0";
+                this.trackBar_offset_ch2.Text = "0";
+            }else{
+                this.trackBar_offset_ch1.Value = dev.genCfg.VRefMax / 2;
+                this.trackBar_offset_ch2.Value = dev.genCfg.VRefMax / 2;
+                this.trackBar_offset_ch1.Text = (dev.genCfg.VRefMax / 2).ToString();
+                this.trackBar_offset_ch2.Text = (dev.genCfg.VRefMax / 2).ToString();
+            }
 
             this.trackBar_phase_ch2.Value = 900;
 
@@ -303,8 +313,8 @@ namespace LEO
 
             channel1Pane.XAxis.Scale.Max = time_ch1[time_ch1.Length - 1] + time_ch1[1];
             channel1Pane.XAxis.Scale.Min = 0;
-            channel1Pane.YAxis.Scale.Max = (double)(device.genCfg.VRef) / 1000;
-            channel1Pane.YAxis.Scale.Min = 0;
+            channel1Pane.YAxis.Scale.Max = (double)(device.genCfg.VRefMax) / 1000;
+            channel1Pane.YAxis.Scale.Min = (double)(device.genCfg.VRefMin) / 1000; ;
 
             if (actual_channels == 2)
             {
@@ -323,8 +333,8 @@ namespace LEO
 
                 channel2Pane.XAxis.Scale.Max = time_ch2[time_ch2.Length - 1] + time_ch2[1];
                 channel2Pane.XAxis.Scale.Min = 0;
-                channel2Pane.YAxis.Scale.Max = (double)(device.genCfg.VRef) / 1000;
-                channel2Pane.YAxis.Scale.Min = 0;
+                channel2Pane.YAxis.Scale.Max = (double)(device.genCfg.VRefMax) / 1000;
+                channel2Pane.YAxis.Scale.Min = (double)(device.genCfg.VRefMin) / 1000;
             }
         }
 
@@ -754,7 +764,12 @@ namespace LEO
             device.send(":");
             for (int i = 0; i < actualSend; i++)
             {
-                tmpData = (int)Math.Round(data[sent + i] / device.genCfg.VRef * 1000 * (Math.Pow(2, device.genCfg.dataDepth) - 1));
+                tmpData = (int)Math.Round(data[sent + i] / (device.genCfg.VRefMax - device.genCfg.VRefMin) * 1000 * (Math.Pow(2, device.genCfg.dataDepth) - 1) + (Math.Pow(2, device.genCfg.dataDepth - 1) - 1));
+
+                if (device.systemCfg.isShield) {
+                    tmpData = (int)(Math.Pow(2, device.genCfg.dataDepth) - 1) - tmpData;
+                }
+                
                 if (tmpData > Math.Pow(2, device.genCfg.dataDepth) - 1)
                 {
                     tmpData = (int)Math.Pow(2, device.genCfg.dataDepth) - 1;
@@ -1028,7 +1043,7 @@ namespace LEO
             try
             {
                 Double val = Double.Parse(this.textBox_ampl_ch1.Text);
-                if (val > device.genCfg.VRef)
+                if (val > device.genCfg.VRefMax)
                 {
                     throw new System.ArgumentException("Parameter cannot be greather then ", "original");
                 }
@@ -1071,7 +1086,7 @@ namespace LEO
             try
             {
                 Double val = Double.Parse(this.textBox_ampl_ch2.Text);
-                if (val > device.genCfg.VRef)
+                if (val > device.genCfg.VRefMax)
                 {
                     throw new System.ArgumentException("Parameter cannot be greather then ", "original");
                 }
@@ -1287,7 +1302,7 @@ namespace LEO
             try
             {
                 Double val = Double.Parse(this.textBox_offset_ch1.Text);
-                if (val > device.genCfg.VRef)
+                if (val > device.genCfg.VRefMax)
                 {
                     throw new System.ArgumentException("Parameter cannot be greather then ", "original");
                 }
@@ -1329,7 +1344,7 @@ namespace LEO
             try
             {
                 Double val = Double.Parse(this.textBox_offset_ch2.Text);
-                if (val > device.genCfg.VRef)
+                if (val > device.genCfg.VRefMax)
                 {
                     throw new System.ArgumentException("Parameter cannot be greather then ", "original");
                 }
@@ -1603,7 +1618,7 @@ namespace LEO
         {
             // Create an instance of the open file dialog box.
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            ArbDialog ArbSignalDialog = new ArbDialog(device.genCfg.VRef, device.genCfg.dataDepth);
+            ArbDialog ArbSignalDialog = new ArbDialog(device.genCfg.VRefMax, device.genCfg.dataDepth);
 
             // Set filter options and filter index.
             openFileDialog.Filter = "CSV Files (.csv)|*.csv|Text Files (.txt)|*.txt|All Files (*.*)|*.*";
@@ -1728,7 +1743,7 @@ namespace LEO
                 int i = 0;
                 foreach (var item in ch1)
                 {
-                    arb_signal_ch1[i] = item * device.genCfg.VRef / 1000 / ArbSignalDialog.GetMaxValue();
+                    arb_signal_ch1[i] = item * device.genCfg.VRefMax / 1000 / ArbSignalDialog.GetMaxValue();
                     i++;
                 }
             }
@@ -1746,7 +1761,7 @@ namespace LEO
                 int i = 0;
                 foreach (var item in ch2)
                 {
-                    arb_signal_ch2[i] = item * device.genCfg.VRef / 1000 / ArbSignalDialog.GetMaxValue();
+                    arb_signal_ch2[i] = item * device.genCfg.VRefMax / 1000 / ArbSignalDialog.GetMaxValue();
                     i++;
                 }
             }

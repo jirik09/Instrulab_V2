@@ -40,6 +40,10 @@ void commsSend(uint8_t chr){
 	
 }
 
+void commsSendInt32(int32_t num){
+	commsSendUint32(num);
+}
+
 void commsSendUint32(uint32_t num){
 	uint8_t buff[4];
 	buff[0]=(uint8_t)(num);

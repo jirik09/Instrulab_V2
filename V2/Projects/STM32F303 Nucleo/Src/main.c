@@ -105,6 +105,10 @@ int main(void)
 	MX_TIM6_Init();
 	MX_TIM7_Init();
 	#endif //USE_GEN  
+	
+	#ifdef USE_SHIELD
+	detectScopeShield();
+	#endif
   
 
   /* USER CODE BEGIN 2 */

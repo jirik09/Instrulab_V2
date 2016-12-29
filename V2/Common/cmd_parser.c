@@ -69,6 +69,9 @@ void CmdParserTask(void const *argument){
 					case CMD_VERSION:
 						xQueueSendToBack(messageQueue, "9SendSystVersion", portMAX_DELAY);
 					break;
+					case CMD_IS_SHIELD:
+						xQueueSendToBack(messageQueue, "Cshield", portMAX_DELAY);
+					break;
 					case CMD_SYSTEM: 
 						tempCmd = parseSystemCmd();
 						printErrResponse(tempCmd);

@@ -19,6 +19,7 @@
 #include "commands.h"
 #include "usb_device.h"
 #include "usart.h"
+#include "gpio.h"
 
 
 
@@ -33,6 +34,7 @@ void sendCommsConf(void);
 void sendScopeConf(void);
 void sendScopeInputs(void);
 void sendGenConf(void);
+void sendShieldPresence(void);
 void sendSystemVersion(void);
 void assertPins(void);
 
@@ -90,6 +92,12 @@ void CommTask(void const *argument){
 		if(message[0]=='0'){
 			commsSendString(STR_ACK);
 			commsSendString(IDN_STRING);
+			#ifdef USE_SHIELD
+			if(isScopeShieldConnected()){
+				commsSendString(SHIELD_STRING);
+			}
+			#endif
+			
 			
 		//send data
 		}else if(message[0]=='1'){
@@ -203,6 +211,12 @@ void CommTask(void const *argument){
 			#ifdef USE_SCOPE
 			sendScopeInputs();
 			#endif //USE_SCOPE
+			
+		// send shield presence
+		}else if(message[0]=='C'){
+			#ifdef USE_SHIELD
+			sendShieldPresence();
+			#endif //USE_SHIELD
 			
 		// send gen config
 		}else if(message[0]=='6'){
@@ -480,13 +494,12 @@ void sendScopeInputs(){
 		}
 	}
 	commsSendString("/");
-	
 	commsSendString(";");
 }
 #endif //USE_SCOPE
 
 
-	#ifdef USE_GEN
+#ifdef USE_GEN
 void sendGenConf(){
 	uint8_t i;
 	commsSendString("GEN_");
@@ -504,10 +517,34 @@ void sendGenConf(){
 				break;
 		}
 	}
+#ifdef USE_SHIELD
+	if(isScopeShieldConnected()){
+		commsSendInt32(SHIELD_GEN_LOW);
+		commsSendUint32(SHIELD_GEN_HIGH); 
+	}else{
+		commsSendUint32(0);
+		commsSendUint32(GEN_VREF);
+	}
+#else
+	commsSendUint32(0);
 	commsSendUint32(GEN_VREF);
+#endif
+	commsSendUint32(GEN_VDDA);
 	commsSendUint32(GEN_VREF_INT);
 }
-	#endif //USE_GEN
+#endif //USE_GEN
+
+
+#ifdef USE_SHIELD
+void sendShieldPresence(void){
+	if(isScopeShieldConnected()){
+		commsSendString(STR_ACK);
+	}else{
+		commsSendString(STR_NACK);
+	}
+}
+
+#endif //USE_SHIELD
 
 	
 

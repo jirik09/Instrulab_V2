@@ -352,7 +352,6 @@ namespace LEO
             Array.Clear(ZeroCrossingTimes, 0, 4 * MAX_ZERO_CROSS);
 
             int meascount = 0;
-            bool calcAll = false;
             foreach (var item in measurements)
             {
                 for (int ch = 0; ch < numChann; ch++)

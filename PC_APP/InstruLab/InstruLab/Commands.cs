@@ -16,6 +16,7 @@ namespace LEO
         public const string CONFIGRequest = "CFG?";
         public const string GET_REAL_SMP_FREQ = "FRQ?";
         public const string GET_SCOPE_INPUTS = "INP?";
+        public const string IS_SHIELD_CONNECTED = "SH_?";
 
         public const string RESET_DEVICE = "RES!";
 

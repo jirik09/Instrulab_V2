@@ -190,7 +190,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(724, 316);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(798, 334);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel10
@@ -207,12 +207,12 @@
             this.tableLayoutPanel10.Controls.Add(this.groupBox11, 1, 0);
             this.tableLayoutPanel10.Controls.Add(this.groupBox12, 0, 0);
             this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(253, 160);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(327, 169);
             this.tableLayoutPanel10.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 1;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(364, 154);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(364, 163);
             this.tableLayoutPanel10.TabIndex = 13;
             // 
             // groupBox8
@@ -223,7 +223,7 @@
             this.groupBox8.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox8.Size = new System.Drawing.Size(72, 150);
+            this.groupBox8.Size = new System.Drawing.Size(72, 159);
             this.groupBox8.TabIndex = 29;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Offset (mV)";
@@ -242,17 +242,18 @@
             this.tableLayoutPanel11.RowCount = 2;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(68, 133);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(68, 142);
             this.tableLayoutPanel11.TabIndex = 0;
             // 
             // textBox_offset_ch2
             // 
             this.textBox_offset_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_offset_ch2.Location = new System.Drawing.Point(2, 115);
+            this.textBox_offset_ch2.Location = new System.Drawing.Point(2, 124);
             this.textBox_offset_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_offset_ch2.Name = "textBox_offset_ch2";
             this.textBox_offset_ch2.Size = new System.Drawing.Size(64, 20);
             this.textBox_offset_ch2.TabIndex = 10;
+            this.textBox_offset_ch2.Text = "0";
             this.textBox_offset_ch2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_offset_ch2_KeyPress);
             this.textBox_offset_ch2.Leave += new System.EventHandler(this.textBox_offset_ch2_Leave);
             // 
@@ -263,7 +264,7 @@
             this.trackBar_offset_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_offset_ch2.Name = "trackBar_offset_ch2";
             this.trackBar_offset_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_offset_ch2.Size = new System.Drawing.Size(64, 109);
+            this.trackBar_offset_ch2.Size = new System.Drawing.Size(64, 118);
             this.trackBar_offset_ch2.TabIndex = 20;
             this.trackBar_offset_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_offset_ch2.ValueChanged += new System.EventHandler(this.trackBar_offset_ch2_ValueChanged);
@@ -276,7 +277,7 @@
             this.groupBox9.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox9.Size = new System.Drawing.Size(68, 150);
+            this.groupBox9.Size = new System.Drawing.Size(68, 159);
             this.groupBox9.TabIndex = 28;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Duty (%)";
@@ -295,13 +296,13 @@
             this.tableLayoutPanel12.RowCount = 2;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel12.TabIndex = 0;
             // 
             // textBox_duty_ch2
             // 
             this.textBox_duty_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_duty_ch2.Location = new System.Drawing.Point(2, 115);
+            this.textBox_duty_ch2.Location = new System.Drawing.Point(2, 124);
             this.textBox_duty_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_duty_ch2.Name = "textBox_duty_ch2";
             this.textBox_duty_ch2.Size = new System.Drawing.Size(60, 20);
@@ -318,7 +319,7 @@
             this.trackBar_duty_ch2.Maximum = 1000;
             this.trackBar_duty_ch2.Name = "trackBar_duty_ch2";
             this.trackBar_duty_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_duty_ch2.Size = new System.Drawing.Size(60, 109);
+            this.trackBar_duty_ch2.Size = new System.Drawing.Size(60, 118);
             this.trackBar_duty_ch2.TabIndex = 20;
             this.trackBar_duty_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_duty_ch2.Value = 500;
@@ -332,7 +333,7 @@
             this.groupBox10.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox10.Size = new System.Drawing.Size(68, 150);
+            this.groupBox10.Size = new System.Drawing.Size(68, 159);
             this.groupBox10.TabIndex = 27;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Phase (°)";
@@ -351,13 +352,13 @@
             this.tableLayoutPanel13.RowCount = 2;
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel13.TabIndex = 0;
             // 
             // textBox_phase_ch2
             // 
             this.textBox_phase_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_phase_ch2.Location = new System.Drawing.Point(2, 115);
+            this.textBox_phase_ch2.Location = new System.Drawing.Point(2, 124);
             this.textBox_phase_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_phase_ch2.Name = "textBox_phase_ch2";
             this.textBox_phase_ch2.Size = new System.Drawing.Size(60, 20);
@@ -374,7 +375,7 @@
             this.trackBar_phase_ch2.Maximum = 3600;
             this.trackBar_phase_ch2.Name = "trackBar_phase_ch2";
             this.trackBar_phase_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_phase_ch2.Size = new System.Drawing.Size(60, 109);
+            this.trackBar_phase_ch2.Size = new System.Drawing.Size(60, 118);
             this.trackBar_phase_ch2.TabIndex = 20;
             this.trackBar_phase_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_phase_ch2.ValueChanged += new System.EventHandler(this.trackBar_phase_ch2_ValueChanged);
@@ -387,7 +388,7 @@
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(68, 150);
+            this.groupBox11.Size = new System.Drawing.Size(68, 159);
             this.groupBox11.TabIndex = 26;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Ampl (mV)";
@@ -406,17 +407,18 @@
             this.tableLayoutPanel14.RowCount = 2;
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel14.TabIndex = 0;
             // 
             // textBox_ampl_ch2
             // 
             this.textBox_ampl_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_ampl_ch2.Location = new System.Drawing.Point(2, 115);
+            this.textBox_ampl_ch2.Location = new System.Drawing.Point(2, 124);
             this.textBox_ampl_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ampl_ch2.Name = "textBox_ampl_ch2";
             this.textBox_ampl_ch2.Size = new System.Drawing.Size(60, 20);
             this.textBox_ampl_ch2.TabIndex = 10;
+            this.textBox_ampl_ch2.Text = "0";
             this.textBox_ampl_ch2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_ampl_ch2_KeyPress);
             this.textBox_ampl_ch2.Leave += new System.EventHandler(this.textBox_ampl_ch2_Leave);
             // 
@@ -427,7 +429,7 @@
             this.trackBar_ampl_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_ampl_ch2.Name = "trackBar_ampl_ch2";
             this.trackBar_ampl_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_ampl_ch2.Size = new System.Drawing.Size(60, 109);
+            this.trackBar_ampl_ch2.Size = new System.Drawing.Size(60, 118);
             this.trackBar_ampl_ch2.TabIndex = 20;
             this.trackBar_ampl_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_ampl_ch2.ValueChanged += new System.EventHandler(this.trackBar_ampl_ch2_ValueChanged);
@@ -440,7 +442,7 @@
             this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox12.Size = new System.Drawing.Size(68, 150);
+            this.groupBox12.Size = new System.Drawing.Size(68, 159);
             this.groupBox12.TabIndex = 25;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Freq (Hz)";
@@ -461,7 +463,7 @@
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
-            this.tableLayoutPanel15.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel15.TabIndex = 0;
             // 
             // checkBox_khz_ch2
@@ -480,7 +482,7 @@
             // textBox_freq_ch2
             // 
             this.textBox_freq_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_freq_ch2.Location = new System.Drawing.Point(2, 115);
+            this.textBox_freq_ch2.Location = new System.Drawing.Point(2, 124);
             this.textBox_freq_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_freq_ch2.Name = "textBox_freq_ch2";
             this.textBox_freq_ch2.Size = new System.Drawing.Size(60, 20);
@@ -498,7 +500,7 @@
             this.trackBar_freq_ch2.Minimum = 1;
             this.trackBar_freq_ch2.Name = "trackBar_freq_ch2";
             this.trackBar_freq_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_freq_ch2.Size = new System.Drawing.Size(60, 89);
+            this.trackBar_freq_ch2.Size = new System.Drawing.Size(60, 98);
             this.trackBar_freq_ch2.TabIndex = 20;
             this.trackBar_freq_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_freq_ch2.Value = 1000;
@@ -511,14 +513,14 @@
             this.tableLayoutPanel9.Controls.Add(this.zedGraphControl_gen_ch2, 0, 1);
             this.tableLayoutPanel9.Controls.Add(this.panel4, 0, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(2, 160);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(2, 169);
             this.tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 2;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(247, 154);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(321, 163);
             this.tableLayoutPanel9.TabIndex = 12;
             // 
             // zedGraphControl_gen_ch2
@@ -538,7 +540,7 @@
             this.zedGraphControl_gen_ch2.ScrollMinX = 0D;
             this.zedGraphControl_gen_ch2.ScrollMinY = 0D;
             this.zedGraphControl_gen_ch2.ScrollMinY2 = 0D;
-            this.zedGraphControl_gen_ch2.Size = new System.Drawing.Size(243, 126);
+            this.zedGraphControl_gen_ch2.Size = new System.Drawing.Size(317, 135);
             this.zedGraphControl_gen_ch2.TabIndex = 4;
             // 
             // panel4
@@ -551,7 +553,7 @@
             this.panel4.Location = new System.Drawing.Point(2, 2);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(243, 20);
+            this.panel4.Size = new System.Drawing.Size(317, 20);
             this.panel4.TabIndex = 3;
             // 
             // radioButton_sine_ch2
@@ -621,7 +623,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(247, 154);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(321, 163);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
             // zedGraphControl_gen_ch1
@@ -641,7 +643,7 @@
             this.zedGraphControl_gen_ch1.ScrollMinX = 0D;
             this.zedGraphControl_gen_ch1.ScrollMinY = 0D;
             this.zedGraphControl_gen_ch1.ScrollMinY2 = 0D;
-            this.zedGraphControl_gen_ch1.Size = new System.Drawing.Size(243, 126);
+            this.zedGraphControl_gen_ch1.Size = new System.Drawing.Size(317, 135);
             this.zedGraphControl_gen_ch1.TabIndex = 4;
             // 
             // panel2
@@ -655,7 +657,7 @@
             this.panel2.Location = new System.Drawing.Point(2, 2);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(243, 20);
+            this.panel2.Size = new System.Drawing.Size(317, 20);
             this.panel2.TabIndex = 3;
             // 
             // button_load_ch1
@@ -737,12 +739,12 @@
             this.tableLayoutPanel3.Controls.Add(this.groupBox3, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.groupBox2, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(253, 2);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(327, 2);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(364, 154);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(364, 163);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupBox6
@@ -753,7 +755,7 @@
             this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox6.Size = new System.Drawing.Size(72, 150);
+            this.groupBox6.Size = new System.Drawing.Size(72, 159);
             this.groupBox6.TabIndex = 29;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Offset (mV)";
@@ -772,17 +774,18 @@
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(68, 133);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(68, 142);
             this.tableLayoutPanel8.TabIndex = 0;
             // 
             // textBox_offset_ch1
             // 
             this.textBox_offset_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_offset_ch1.Location = new System.Drawing.Point(2, 115);
+            this.textBox_offset_ch1.Location = new System.Drawing.Point(2, 124);
             this.textBox_offset_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_offset_ch1.Name = "textBox_offset_ch1";
             this.textBox_offset_ch1.Size = new System.Drawing.Size(64, 20);
             this.textBox_offset_ch1.TabIndex = 10;
+            this.textBox_offset_ch1.Text = "0";
             this.textBox_offset_ch1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_offset_ch1_KeyPress);
             this.textBox_offset_ch1.Leave += new System.EventHandler(this.textBox_offset_ch1_Leave);
             // 
@@ -793,7 +796,7 @@
             this.trackBar_offset_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_offset_ch1.Name = "trackBar_offset_ch1";
             this.trackBar_offset_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_offset_ch1.Size = new System.Drawing.Size(64, 109);
+            this.trackBar_offset_ch1.Size = new System.Drawing.Size(64, 118);
             this.trackBar_offset_ch1.TabIndex = 20;
             this.trackBar_offset_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_offset_ch1.ValueChanged += new System.EventHandler(this.trackBar_offset_ch1_ValueChanged);
@@ -806,7 +809,7 @@
             this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox5.Size = new System.Drawing.Size(68, 150);
+            this.groupBox5.Size = new System.Drawing.Size(68, 159);
             this.groupBox5.TabIndex = 28;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Duty (%)";
@@ -825,13 +828,13 @@
             this.tableLayoutPanel7.RowCount = 2;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // textBox_duty_ch1
             // 
             this.textBox_duty_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_duty_ch1.Location = new System.Drawing.Point(2, 115);
+            this.textBox_duty_ch1.Location = new System.Drawing.Point(2, 124);
             this.textBox_duty_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_duty_ch1.Name = "textBox_duty_ch1";
             this.textBox_duty_ch1.Size = new System.Drawing.Size(60, 20);
@@ -848,7 +851,7 @@
             this.trackBar_duty_ch1.Maximum = 1000;
             this.trackBar_duty_ch1.Name = "trackBar_duty_ch1";
             this.trackBar_duty_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_duty_ch1.Size = new System.Drawing.Size(60, 109);
+            this.trackBar_duty_ch1.Size = new System.Drawing.Size(60, 118);
             this.trackBar_duty_ch1.TabIndex = 20;
             this.trackBar_duty_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_duty_ch1.Value = 500;
@@ -862,7 +865,7 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(68, 150);
+            this.groupBox4.Size = new System.Drawing.Size(68, 159);
             this.groupBox4.TabIndex = 27;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Phase (°)";
@@ -881,13 +884,13 @@
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // textBox_phase_ch1
             // 
             this.textBox_phase_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_phase_ch1.Location = new System.Drawing.Point(2, 115);
+            this.textBox_phase_ch1.Location = new System.Drawing.Point(2, 124);
             this.textBox_phase_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_phase_ch1.Name = "textBox_phase_ch1";
             this.textBox_phase_ch1.Size = new System.Drawing.Size(60, 20);
@@ -904,7 +907,7 @@
             this.trackBar_phase_ch1.Maximum = 3600;
             this.trackBar_phase_ch1.Name = "trackBar_phase_ch1";
             this.trackBar_phase_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_phase_ch1.Size = new System.Drawing.Size(60, 109);
+            this.trackBar_phase_ch1.Size = new System.Drawing.Size(60, 118);
             this.trackBar_phase_ch1.TabIndex = 20;
             this.trackBar_phase_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_phase_ch1.ValueChanged += new System.EventHandler(this.trackBar_phase_ch1_ValueChanged);
@@ -917,7 +920,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(68, 150);
+            this.groupBox3.Size = new System.Drawing.Size(68, 159);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ampl (mV)";
@@ -936,17 +939,18 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // textBox_ampl_ch1
             // 
             this.textBox_ampl_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_ampl_ch1.Location = new System.Drawing.Point(2, 115);
+            this.textBox_ampl_ch1.Location = new System.Drawing.Point(2, 124);
             this.textBox_ampl_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ampl_ch1.Name = "textBox_ampl_ch1";
             this.textBox_ampl_ch1.Size = new System.Drawing.Size(60, 20);
             this.textBox_ampl_ch1.TabIndex = 10;
+            this.textBox_ampl_ch1.Text = "0";
             this.textBox_ampl_ch1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_ampl_ch1_KeyPress);
             this.textBox_ampl_ch1.Leave += new System.EventHandler(this.textBox_ampl_ch1_Leave);
             // 
@@ -957,7 +961,7 @@
             this.trackBar_ampl_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_ampl_ch1.Name = "trackBar_ampl_ch1";
             this.trackBar_ampl_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_ampl_ch1.Size = new System.Drawing.Size(60, 109);
+            this.trackBar_ampl_ch1.Size = new System.Drawing.Size(60, 118);
             this.trackBar_ampl_ch1.TabIndex = 20;
             this.trackBar_ampl_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_ampl_ch1.ValueChanged += new System.EventHandler(this.trackBar_ampl_ch1_ValueChanged);
@@ -970,7 +974,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(68, 150);
+            this.groupBox2.Size = new System.Drawing.Size(68, 159);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Freq (Hz)";
@@ -990,13 +994,13 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(64, 133);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(64, 142);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // textBox_freq_ch1
             // 
             this.textBox_freq_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_freq_ch1.Location = new System.Drawing.Point(2, 115);
+            this.textBox_freq_ch1.Location = new System.Drawing.Point(2, 124);
             this.textBox_freq_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_freq_ch1.Name = "textBox_freq_ch1";
             this.textBox_freq_ch1.Size = new System.Drawing.Size(60, 20);
@@ -1014,7 +1018,7 @@
             this.trackBar_freq_ch1.Minimum = 1;
             this.trackBar_freq_ch1.Name = "trackBar_freq_ch1";
             this.trackBar_freq_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_freq_ch1.Size = new System.Drawing.Size(60, 89);
+            this.trackBar_freq_ch1.Size = new System.Drawing.Size(60, 98);
             this.trackBar_freq_ch1.TabIndex = 20;
             this.trackBar_freq_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_freq_ch1.Value = 1000;
@@ -1037,11 +1041,11 @@
             // 
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(621, 2);
+            this.groupBox1.Location = new System.Drawing.Point(695, 2);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(101, 154);
+            this.groupBox1.Size = new System.Drawing.Size(101, 163);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Params Ch 1";
@@ -1057,13 +1061,13 @@
             this.panel1.Location = new System.Drawing.Point(2, 15);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(97, 137);
+            this.panel1.Size = new System.Drawing.Size(97, 146);
             this.panel1.TabIndex = 7;
             // 
             // button_gen_control
             // 
             this.button_gen_control.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button_gen_control.Location = new System.Drawing.Point(0, 113);
+            this.button_gen_control.Location = new System.Drawing.Point(0, 122);
             this.button_gen_control.Margin = new System.Windows.Forms.Padding(2);
             this.button_gen_control.Name = "button_gen_control";
             this.button_gen_control.Size = new System.Drawing.Size(97, 24);
@@ -1116,11 +1120,11 @@
             // 
             this.groupBox7.Controls.Add(this.panel3);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox7.Location = new System.Drawing.Point(621, 160);
+            this.groupBox7.Location = new System.Drawing.Point(695, 169);
             this.groupBox7.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox7.Size = new System.Drawing.Size(101, 154);
+            this.groupBox7.Size = new System.Drawing.Size(101, 163);
             this.groupBox7.TabIndex = 11;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Params Ch 2";
@@ -1137,14 +1141,14 @@
             this.panel3.Location = new System.Drawing.Point(2, 15);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(97, 137);
+            this.panel3.Size = new System.Drawing.Size(97, 146);
             this.panel3.TabIndex = 7;
             // 
             // checkBox_join_frequencies
             // 
             this.checkBox_join_frequencies.AutoSize = true;
             this.checkBox_join_frequencies.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.checkBox_join_frequencies.Location = new System.Drawing.Point(0, 93);
+            this.checkBox_join_frequencies.Location = new System.Drawing.Point(0, 102);
             this.checkBox_join_frequencies.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_join_frequencies.Name = "checkBox_join_frequencies";
             this.checkBox_join_frequencies.Padding = new System.Windows.Forms.Padding(4, 4, 4, 1);
@@ -1178,7 +1182,7 @@
             // 
             this.checkBox_enable_ch2.AutoSize = true;
             this.checkBox_enable_ch2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.checkBox_enable_ch2.Location = new System.Drawing.Point(0, 115);
+            this.checkBox_enable_ch2.Location = new System.Drawing.Point(0, 124);
             this.checkBox_enable_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_enable_ch2.Name = "checkBox_enable_ch2";
             this.checkBox_enable_ch2.Padding = new System.Windows.Forms.Padding(4, 1, 4, 4);
@@ -1212,7 +1216,7 @@
             // 
             this.label_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label_status.BackColor = System.Drawing.Color.Red;
-            this.label_status.Location = new System.Drawing.Point(704, 0);
+            this.label_status.Location = new System.Drawing.Point(778, 0);
             this.label_status.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_status.Name = "label_status";
             this.label_status.Size = new System.Drawing.Size(21, 23);
@@ -1228,7 +1232,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(724, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(798, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1384,7 +1388,7 @@
             // 
             this.label_status_gen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label_status_gen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.label_status_gen.Location = new System.Drawing.Point(624, 2);
+            this.label_status_gen.Location = new System.Drawing.Point(698, 2);
             this.label_status_gen.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_status_gen.Name = "label_status_gen";
             this.label_status_gen.Size = new System.Drawing.Size(75, 19);
@@ -1396,7 +1400,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(724, 340);
+            this.ClientSize = new System.Drawing.Size(798, 358);
             this.Controls.Add(this.label_status_gen);
             this.Controls.Add(this.label_status);
             this.Controls.Add(this.tableLayoutPanel1);

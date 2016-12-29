@@ -22,6 +22,9 @@ namespace LEO
             public string FW_Version;
             public string FREE_RTOS_Version;
             public string HAL_Version;
+            public bool isShield;
+            public int VDDA_actual;
+            public int VDDA_target;
         }
         public struct CommsConfig_def
         {
@@ -43,7 +46,6 @@ namespace LEO
             public string[] pins;
             public int VRef;
             public int VRefInt;
-            public int VDDA;
             public int munRanges;
             public int[,] ranges;
             public byte[] buffer;
@@ -66,9 +68,10 @@ namespace LEO
             public int dataDepth;
             public int numChannels;
             public string[] pins;
-            public int VRef;
+            public int VRefMax;
+            public int VRefMin;
             public int VRefInt;
-            public int VDDA;
+
         }
         enum FormOpened { NONE,SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS}
         FormOpened ADCFormOpened = FormOpened.NONE;
@@ -148,6 +151,35 @@ namespace LEO
         public bool open_port()
         {
             bool result = false;
+
+            try
+            {
+                if (writeLog)
+                {
+                    bool logOpened = false;
+                    int index = 1;
+                    while (!logOpened)
+                    {
+                        try
+                        {
+                            logWriter = File.AppendText("logfile" + index + ".txt");
+                            logOpened = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            index++;
+                        }
+                    }
+                }
+                Log("PORT otevřen: " + portName + "  Baudrate:" + speed + "  Zařízení:" + name);
+            }
+            catch (Exception ex)
+            {
+                report.Sendreport("Fatal error during opening log file", ex, this, logger, 78641);
+                return false;
+            }
+            
+            
             try
             {
                 portError = false;
@@ -171,37 +203,6 @@ namespace LEO
             {
                    report.Sendreport("Fatal error during connecting to device 354135",ex,this,logger,318461);
             }
-
-
-            try
-            {
-                if (writeLog)
-                {
-                    bool logOpened = false;
-                    int index = 1;
-                    while (!logOpened)
-                    {
-                        try
-                        {
-                            logWriter = File.AppendText("logfile" + index + ".txt");
-                            logOpened = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            index++;
-                        }
-                    }
-
-                }
-                Log("PORT otevřen: " + portName + "  Baudrate:" + speed + "  Zařízení:" + name);
-
-            }
-            catch (Exception ex)
-            {
-                report.Sendreport("Fatal error during opening log file", ex, this,logger,78641);
-                return false;
-            }
-
 
             return result;
         }
@@ -253,6 +254,22 @@ namespace LEO
                     }
 
 
+
+                    port.Write(Commands.IS_SHIELD_CONNECTED + ";");
+                    Thread.Sleep(wait);
+                    toRead = port.BytesToRead;
+                    port.Read(msg_byte, 0, toRead);
+                    msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
+
+                    if (new string(msg_char, 0, 4).Equals("ACK_"))
+                    {
+                        this.systemCfg.isShield = true;
+                    }
+                    else {
+                        this.systemCfg.isShield = false;
+                    }
+
+
                     port.Write(Commands.COMMS + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -295,7 +312,6 @@ namespace LEO
                             scopeCfg.pins[i] = new string(msg_char, 16 + 4 * i, 4);
                         }
                         scopeCfg.VRef = BitConverter.ToInt32(msg_byte, 16 + 4 * scopeCfg.maxNumChannels);
-                        scopeCfg.VDDA = scopeCfg.VRef;
                         scopeCfg.VRefInt = BitConverter.ToInt32(msg_byte, 20 + 4 * scopeCfg.maxNumChannels);
 
                         scopeCfg.munRanges = (toRead - 28 - 4 * scopeCfg.maxNumChannels) / 4;
@@ -444,9 +460,11 @@ namespace LEO
                         {
                             genCfg.pins[i] = new string(msg_char, 20 + 4 * i, 4);
                         }
-                        genCfg.VRef = BitConverter.ToInt32(msg_byte, 20 + 4 * genCfg.numChannels);
-                        genCfg.VDDA = genCfg.VRef;
-                        genCfg.VRefInt = BitConverter.ToInt32(msg_byte, 24 + 4 * genCfg.numChannels);
+                        genCfg.VRefMin = BitConverter.ToInt32(msg_byte, 20 + 4 * genCfg.numChannels);
+                        genCfg.VRefMax = BitConverter.ToInt32(msg_byte, 24 + 4 * genCfg.numChannels);
+                        systemCfg.VDDA_target =    BitConverter.ToInt32(msg_byte, 28 + 4 * genCfg.numChannels);
+                        systemCfg.VDDA_actual = systemCfg.VDDA_target;
+                        genCfg.VRefInt = BitConverter.ToInt32(msg_byte, 32 + 4 * genCfg.numChannels);
                     }
                     else
                     {
@@ -541,9 +559,19 @@ namespace LEO
                                 {
                                     scopeCfg.samples = new UInt16[numChan, leng / 2];
                                 }
-                                for (i = 0; i < leng / 2; i++)
+                                if (systemCfg.isShield)
                                 {
-                                    scopeCfg.samples[currChan - 1, i] = BitConverter.ToUInt16(scopeCfg.buffer, i * 2);
+                                    ushort depth = (ushort)Math.Pow(2, res);
+                                    for (i = 0; i < leng / 2; i++)
+                                    {
+                                        scopeCfg.samples[currChan - 1, i] = (ushort)(depth-BitConverter.ToUInt16(scopeCfg.buffer, i * 2));
+                                    }
+                                }
+                                else {
+                                    for (i = 0; i < leng / 2; i++)
+                                    {
+                                        scopeCfg.samples[currChan - 1, i] = BitConverter.ToUInt16(scopeCfg.buffer, i * 2);
+                                    }
                                 }
                             }
                             else  //resolution <=8 bits
@@ -552,11 +580,25 @@ namespace LEO
                                 {
                                     scopeCfg.samples = new UInt16[numChan, leng];
                                 }
-                                for (i = 0; i < leng; i++)
+
+                                if (systemCfg.isShield)
                                 {
-                                    scopeCfg.samples[currChan - 1, i] = scopeCfg.buffer[i];
+                                    ushort depth = (ushort)Math.Pow(2, res);
+                                    for (i = 0; i < leng; i++)
+                                    {
+                                        scopeCfg.samples[currChan - 1, i] = (ushort)(depth - scopeCfg.buffer[i]);
+                                    }
+                                }
+                                else
+                                {
+                                    for (i = 0; i < leng; i++)
+                                    {
+                                        scopeCfg.samples[currChan - 1, i] = scopeCfg.buffer[i];
+                                    }
                                 }
                             }
+
+                            
 
 
                             if (currChan == numChan)
