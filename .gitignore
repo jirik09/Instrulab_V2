@@ -29,3 +29,7 @@ logfile*.txt
 # C# build
 *.manifest
 *.pdb
+
+
+# other
+.chm

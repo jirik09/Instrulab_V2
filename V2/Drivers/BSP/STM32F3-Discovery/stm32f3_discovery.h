@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f3_discovery.h
   * @author  MCD Application Team
-  * @version V2.1.1
-  * @date    30-December-2014
+  * @version V2.1.4
+  * @date    16-December-2016
   * @brief   This file contains definitions for STM32F3-Discovery's Leds, push-
   *          buttons hardware resources.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -44,22 +44,36 @@
  extern "C" {
 #endif
                                               
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-   
 /** @addtogroup BSP
   * @{
   */
-  
-/** @addtogroup STM32F3_DISCOVERY STM32F3_DISCOVERY
-  * @{
-  */
-      
-/** @addtogroup STM32F3_DISCOVERY_LOW_LEVEL STM32F3_DISCOVERY_LOW_LEVEL
+
+/** @defgroup STM32F3_DISCOVERY STM32F3-DISCOVERY
   * @{
   */ 
+ 
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f3xx_hal.h"
+   
+/** @defgroup STM32F3_DISCOVERY_Common STM32F3-DISCOVERY Common
+  * @{
+  */
+  
+/** @defgroup STM32F3_DISCOVERY_Private_Constants Private Constants
+  * @{
+  */
+/**
+* @}
+*/        
+      
+/** @defgroup STM32F3_DISCOVERY_Private_Variables Private Variables
+  * @{
+  */ 
+/**
+* @}
+  */ 
 
-/** @defgroup STM32F3_DISCOVERY_LOW_LEVEL_Exported_Types STM32F3_DISCOVERY_LOW_LEVEL_Exported_Types
+/** @defgroup STM32F3_DISCOVERY_Exported_Types Exported Types
   * @{
   */
 
@@ -102,74 +116,78 @@ typedef enum
   BUTTON_MODE_EXTI = 1
 
 }ButtonMode_TypeDef;
+
+
 /**
   * @}
   */ 
 
-/** @defgroup STM32F3_DISCOVERY_LOW_LEVEL_Exported_Constants STM32F3_DISCOVERY_LOW_LEVEL_Exported_Constants
+/** @defgroup STM32F3_DISCOVERY_Exported_Constants Exported Constants
   * @{
   */ 
 
 /** 
   * @brief  Define for STM32F3_DISCOVERY board  
   */ 
+
 #if !defined (USE_STM32F3_DISCO)
  #define USE_STM32F3_DISCO
 #endif
 
-/** @addtogroup STM32F3_DISCOVERY_LOW_LEVEL_LED STM32F3_DISCOVERY_LOW_LEVEL_LED
+
+/** @defgroup STM32F3_DISCOVERY_LED STM32F3-DISCOVERY LED
   * @{
   */
 #define LEDn                             8
 
 #define LED6_PIN                         GPIO_PIN_15
 #define LED6_GPIO_PORT                   GPIOE
-#define LED6_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE() 
-#define LED6_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED6_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE() 
+#define LED6_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
 
 #define LED8_PIN                         GPIO_PIN_14
 #define LED8_GPIO_PORT                   GPIOE
-#define LED8_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE() 
-#define LED8_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED8_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE() 
+#define LED8_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
   
 #define LED10_PIN                        GPIO_PIN_13
 #define LED10_GPIO_PORT                  GPIOE
-#define LED10_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE()
-#define LED10_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED10_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
+#define LED10_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
   
 #define LED9_PIN                         GPIO_PIN_12
 #define LED9_GPIO_PORT                   GPIOE
-#define LED9_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE()
-#define LED9_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED9_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
+#define LED9_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
   
 #define LED7_PIN                         GPIO_PIN_11
 #define LED7_GPIO_PORT                   GPIOE
-#define LED7_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE()
-#define LED7_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED7_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
+#define LED7_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
 
 #define LED5_PIN                         GPIO_PIN_10
 #define LED5_GPIO_PORT                   GPIOE
-#define LED5_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE()
-#define LED5_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED5_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
+#define LED5_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
 
 #define LED3_PIN                         GPIO_PIN_9
 #define LED3_GPIO_PORT                   GPIOE
-#define LED3_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE()
-#define LED3_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED3_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
+#define LED3_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
 
 #define LED4_PIN                         GPIO_PIN_8
 #define LED4_GPIO_PORT                   GPIOE
-#define LED4_GPIO_CLK_ENABLE()           __GPIOE_CLK_ENABLE()
-#define LED4_GPIO_CLK_DISABLE()          __GPIOE_CLK_DISABLE()
+#define LED4_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
+#define LED4_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
 
-#define LEDx_GPIO_CLK_ENABLE(__LED__)   (((__LED__) == LED3) ? LED3_GPIO_CLK_ENABLE() :\
-                                         ((__LED__) == LED4) ? LED4_GPIO_CLK_ENABLE() :\
-                                         ((__LED__) == LED5) ? LED5_GPIO_CLK_ENABLE() :\
-                                         ((__LED__) == LED6) ? LED6_GPIO_CLK_ENABLE() :\
-                                         ((__LED__) == LED7) ? LED7_GPIO_CLK_ENABLE() :\
-                                         ((__LED__) == LED8) ? LED8_GPIO_CLK_ENABLE() :\
-                                         ((__LED__) == LED9) ? LED9_GPIO_CLK_ENABLE() :\
-                                         ((__LED__) == LED10) ? LED10_GPIO_CLK_ENABLE() : 0 )
+#define LEDx_GPIO_CLK_ENABLE(__LED__)   do { if ((__LED__) == LED3) LED3_GPIO_CLK_ENABLE(); else\
+                                             if ((__LED__) == LED4) LED4_GPIO_CLK_ENABLE(); else\
+                                             if ((__LED__) == LED5) LED5_GPIO_CLK_ENABLE(); else\
+                                             if ((__LED__) == LED6) LED6_GPIO_CLK_ENABLE(); else\
+                                             if ((__LED__) == LED7) LED7_GPIO_CLK_ENABLE(); else\
+                                             if ((__LED__) == LED8) LED8_GPIO_CLK_ENABLE(); else\
+                                             if ((__LED__) == LED9) LED9_GPIO_CLK_ENABLE(); else\
+                                             if ((__LED__) == LED10) LED10_GPIO_CLK_ENABLE();} while(0)
 
 #define LEDx_GPIO_CLK_DISABLE(__LED__)  (((__LED__) == LED3) ? LED3_GPIO_CLK_DISABLE() :\
                                          ((__LED__) == LED4) ? LED4_GPIO_CLK_DISABLE() :\
@@ -179,11 +197,12 @@ typedef enum
                                          ((__LED__) == LED8) ? LED8_GPIO_CLK_DISABLE() :\
                                          ((__LED__) == LED9) ? LED9_GPIO_CLK_DISABLE() :\
                                          ((__LED__) == LED10) ? LED10_GPIO_CLK_DISABLE() : 0 )
+
 /**
   * @}
   */ 
   
-/** @addtogroup STM32F3_DISCOVERY_LOW_LEVEL_BUTTON STM32F3_DISCOVERY_LOW_LEVEL_BUTTON
+/** @defgroup STM32F3_DISCOVERY_BUTTON STM32F3-DISCOVERY BUTTON
   * @{
   */  
 #define BUTTONn                          1  
@@ -193,30 +212,32 @@ typedef enum
  */
 #define USER_BUTTON_PIN                  GPIO_PIN_0
 #define USER_BUTTON_GPIO_PORT            GPIOA
-#define USER_BUTTON_GPIO_CLK_ENABLE()    __GPIOA_CLK_ENABLE()
-#define USER_BUTTON_GPIO_CLK_DISABLE()   __GPIOA_CLK_DISABLE()
+#define USER_BUTTON_GPIO_CLK_ENABLE()    __HAL_RCC_GPIOA_CLK_ENABLE()
+#define USER_BUTTON_GPIO_CLK_DISABLE()   __HAL_RCC_GPIOA_CLK_DISABLE()
 #define USER_BUTTON_EXTI_IRQn            EXTI0_IRQn 
 
-#define BUTTONx_GPIO_CLK_ENABLE(__BUTTON__)  (((__BUTTON__) == BUTTON_USER) ? USER_BUTTON_GPIO_CLK_ENABLE() : 0 )
+#define BUTTONx_GPIO_CLK_ENABLE(__BUTTON__)  do { if ((__BUTTON__) == BUTTON_USER) USER_BUTTON_GPIO_CLK_ENABLE();} while(0)
 
 #define BUTTONx_GPIO_CLK_DISABLE(__BUTTON__) (((__BUTTON__) == BUTTON_USER) ? USER_BUTTON_GPIO_CLK_DISABLE() : 0 )
+
 /**
   * @}
   */ 
 
-/** @addtogroup STM32F3_DISCOVERY_LOW_LEVEL_BUS STM32F3_DISCOVERY_LOW_LEVEL_BUS
+/** @defgroup STM32F3_DISCOVERY_COM STM32F3-DISCOVERY COM
   * @{
   */  
+  
 /*##################### SPIx ###################################*/
 /**
   * @brief  Definition for SPI Interface pins (SPI1 used)
   */
 #define DISCOVERY_SPIx                        SPI1
-#define DISCOVERY_SPIx_CLK_ENABLE()           __SPI1_CLK_ENABLE()
+#define DISCOVERY_SPIx_CLK_ENABLE()           __HAL_RCC_SPI1_CLK_ENABLE()
 #define DISCOVERY_SPIx_GPIO_PORT              GPIOA                      /* GPIOA */
 #define DISCOVERY_SPIx_AF                     GPIO_AF5_SPI1
-#define DISCOVERY_SPIx_GPIO_CLK_ENABLE()      __GPIOA_CLK_ENABLE()
-#define DISCOVERY_SPIx_GPIO_CLK_DISABLE()     __GPIOA_CLK_DISABLE()
+#define DISCOVERY_SPIx_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+#define DISCOVERY_SPIx_GPIO_CLK_DISABLE()     __HAL_RCC_GPIOA_CLK_DISABLE()
 #define DISCOVERY_SPIx_SCK_PIN                GPIO_PIN_5                 /* PA.05 */
 #define DISCOVERY_SPIx_MISO_PIN               GPIO_PIN_6                 /* PA.06 */
 #define DISCOVERY_SPIx_MOSI_PIN               GPIO_PIN_7                 /* PA.07 */
@@ -232,17 +253,17 @@ typedef enum
   * @brief  Definition for I2C Interface pins (I2C1 used)
   */
 #define DISCOVERY_I2Cx                        I2C1
-#define DISCOVERY_I2Cx_CLK_ENABLE()           __I2C1_CLK_ENABLE()
-#define DISCOVERY_I2Cx_CLK_DISABLE()          __I2C1_CLK_DISABLE()
-#define DISCOVERY_I2Cx_FORCE_RESET()          __I2C1_FORCE_RESET()
-#define DISCOVERY_I2Cx_RELEASE_RESET()        __I2C1_RELEASE_RESET() 
+#define DISCOVERY_I2Cx_CLK_ENABLE()           __HAL_RCC_I2C1_CLK_ENABLE()
+#define DISCOVERY_I2Cx_CLK_DISABLE()          __HAL_RCC_I2C1_CLK_DISABLE()
+#define DISCOVERY_I2Cx_FORCE_RESET()          __HAL_RCC_I2C1_FORCE_RESET()
+#define DISCOVERY_I2Cx_RELEASE_RESET()        __HAL_RCC_I2C1_RELEASE_RESET() 
 
 #define DISCOVERY_I2Cx_SCL_PIN                GPIO_PIN_6                  /* PB.06 */
 #define DISCOVERY_I2Cx_SDA_PIN                GPIO_PIN_7                  /* PB.07 */
 
 #define DISCOVERY_I2Cx_GPIO_PORT              GPIOB                       /* GPIOB */
-#define DISCOVERY_I2Cx_GPIO_CLK_ENABLE()      __GPIOB_CLK_ENABLE() 
-#define DISCOVERY_I2Cx_GPIO_CLK_DISABLE()     __GPIOB_CLK_DISABLE()
+#define DISCOVERY_I2Cx_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define DISCOVERY_I2Cx_GPIO_CLK_DISABLE()     __HAL_RCC_GPIOB_CLK_DISABLE()
 #define DISCOVERY_I2Cx_AF                     GPIO_AF4_I2C1
 
 /* Maximum Timeout values for flags waiting loops. These timeouts are not based
@@ -252,7 +273,12 @@ typedef enum
    conditions (interrupts routines ...). */   
 #define I2Cx_TIMEOUT_MAX                      0x10000     
 
-/** @addtogroup STM32F072B_DISCOVERY_LOW_LEVEL_COMPONENT
+/**
+  * @}
+  */ 
+
+
+/** @defgroup STM32F3_DISCOVERY_COMPONENT STM32F3-DISCOVERY COMPONENT
   * @{
   */
 /*##################### GYRO ##########################*/
@@ -270,18 +296,18 @@ typedef enum
 /**
   * @brief  GYRO SPI Interface pins
   */
-#define GYRO_CS_GPIO_PORT          		GPIOE                       /* GPIOE */
-#define GYRO_CS_GPIO_CLK_ENABLE()		__GPIOE_CLK_ENABLE()
-#define GYRO_CS_GPIO_CLK_DISABLE()		__GPIOE_CLK_DISABLE()
-#define GYRO_CS_PIN                		GPIO_PIN_3                  /* PE.03 */
+#define GYRO_CS_GPIO_PORT            GPIOE                       /* GPIOE */
+#define GYRO_CS_GPIO_CLK_ENABLE()    __HAL_RCC_GPIOE_CLK_ENABLE()
+#define GYRO_CS_GPIO_CLK_DISABLE()   __HAL_RCC_GPIOE_CLK_DISABLE()
+#define GYRO_CS_PIN                  GPIO_PIN_3                  /* PE.03 */
 
-#define GYRO_INT_GPIO_PORT        		GPIOE                       /* GPIOE */
-#define GYRO_INT_GPIO_CLK_ENABLE()		__GPIOE_CLK_ENABLE()
-#define GYRO_INT_GPIO_CLK_DISABLE()		__GPIOE_CLK_DISABLE()
-#define GYRO_INT1_PIN              		GPIO_PIN_1                  /* PE.00 */
-#define GYRO_INT1_EXTI_IRQn        		EXTI1_IRQn 
-#define GYRO_INT2_PIN              		GPIO_PIN_2                  /* PE.01 */
-#define GYRO_INT2_EXTI_IRQn        		EXTI2_TS_IRQn 
+#define GYRO_INT_GPIO_PORT           GPIOE                       /* GPIOE */
+#define GYRO_INT_GPIO_CLK_ENABLE()   __HAL_RCC_GPIOE_CLK_ENABLE()
+#define GYRO_INT_GPIO_CLK_DISABLE()  __HAL_RCC_GPIOE_CLK_DISABLE()
+#define GYRO_INT1_PIN                GPIO_PIN_0                  /* PE.00 */
+#define GYRO_INT1_EXTI_IRQn          EXTI0_IRQn 
+#define GYRO_INT2_PIN                GPIO_PIN_1                  /* PE.01 */
+#define GYRO_INT2_EXTI_IRQn          EXTI1_IRQn 
 
 /*##################### ACCELEROMETER ##########################*/
 /**
@@ -291,13 +317,13 @@ typedef enum
 
 #define ACCELERO_DRDY_PIN                GPIO_PIN_2                  /* PE.02 */
 #define ACCELERO_DRDY_GPIO_PORT          GPIOE                       /* GPIOE */
-#define ACCELERO_DRDY_GPIO_CLK_ENABLE()  __GPIOE_CLK_ENABLE() 
-#define ACCELERO_DRDY_GPIO_CLK_DISABLE() __GPIOE_CLK_DISABLE() 
+#define ACCELERO_DRDY_GPIO_CLK_ENABLE()  __HAL_RCC_GPIOE_CLK_ENABLE() 
+#define ACCELERO_DRDY_GPIO_CLK_DISABLE() __HAL_RCC_GPIOE_CLK_DISABLE() 
 #define ACCELERO_DRDY_EXTI_IRQn          EXTI2_TSC_IRQn              /*TAMP_STAMP_IRQn*/
 
 #define ACCELERO_INT_GPIO_PORT           GPIOE                       /* GPIOE */
-#define ACCELERO_INT_GPIO_CLK_ENABLE()   __GPIOE_CLK_ENABLE()
-#define ACCELERO_INT_GPIO_CLK_DISABLE()  __GPIOE_CLK_DISABLE()
+#define ACCELERO_INT_GPIO_CLK_ENABLE()   __HAL_RCC_GPIOE_CLK_ENABLE()
+#define ACCELERO_INT_GPIO_CLK_DISABLE()  __HAL_RCC_GPIOE_CLK_DISABLE()
 #define ACCELERO_INT1_PIN                GPIO_PIN_4                  /* PE.04 */
 #define ACCELERO_INT1_EXTI_IRQn          EXTI4_IRQn 
 #define ACCELERO_INT2_PIN                GPIO_PIN_5                  /* PE.05 */
@@ -311,15 +337,7 @@ typedef enum
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_LOW_LEVEL_Exported_Macros STM32F3_DISCOVERY_LOW_LEVEL_Exported_Macros
-  * @{
-  */  
-/**
-  * @}
-  */ 
-
-
-/** @defgroup STM32F3_DISCOVERY_LOW_LEVEL_Exported_Functions STM32F3_DISCOVERY_LOW_LEVEL_Exported_Functions
+/** @defgroup STM32F3_DISCOVERY_Exported_Functions Exported Functions
   * @{
   */
 uint32_t  BSP_GetVersion(void);

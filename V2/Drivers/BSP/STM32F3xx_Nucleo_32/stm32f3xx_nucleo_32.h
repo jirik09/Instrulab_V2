@@ -2,15 +2,15 @@
   ******************************************************************************
   * @file    stm32f3xx_nucleo_32.h
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    04-September-2015
+  * @version V1.0.3
+  * @date    16-December-2016
   * @brief   This file contains definitions for:
   *          - LED available on STM32F3xx-Nucleo_32 Kit from STMicroelectronics
   *          - 7 segment display from Gravitech
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -45,23 +45,44 @@
  extern "C" {
 #endif
 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-   
 
 /** @addtogroup BSP
   * @{
   */
 
-/** @defgroup STM32F3XX_NUCLEO_32 NUCLEO 32
-  * @brief This section contains the exported types, contants and functions
-  *        required to use the Nucleo 32 board.
+/** @defgroup STM32F3XX_NUCLEO_32 STM32F3XX-NUCLEO_32
   * @{
   */
+ 
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f3xx_hal.h"
+   
+
+/** @defgroup STM32F3XX_NUCLEO_32_Common STM32F3XX_NUCLEO_32 Common
+  * @{
+  */ 
+
+/** @defgroup STM32F3XX_NUCLEO_32_Private_Constants Private Constants
+  * @{
+  */
+/**
+* @}
+*/        
+
+/** @defgroup STM32F3XX_NUCLEO_32_Private_Variables Private Variables
+  * @{
+  */
+/**
+* @}
+*/
 
 /** @defgroup STM32F3XX_NUCLEO_32_Exported_Types Exported Types
   * @{
   */ 
+   
+/**
+ * @brief LED Types Definition
+ */ 
    
 typedef enum 
 {
@@ -74,24 +95,26 @@ typedef enum
   */ 
 
 /** @defgroup STM32F3XX_NUCLEO_32_Exported_Constants Exported Constants 
-  * @brief Define for STM32F3XX_NUCLEO_32 board  
   * @{
+  */ 
+
+/** 
+  * @brief Define for STM32F3XX_NUCLEO_32 board  
   */ 
 
 #if !defined (USE_STM32F3XX_NUCLEO_32)
  #define USE_STM32F3XX_NUCLEO_32
 #endif
 
-/** @defgroup STM32F3XX_NUCLEO_LED LED Constants
+/** @defgroup STM32F3XX_NUCLEO_32_LED STM32F3XX-NUCLEO_32 LED
   * @{
   */
-
 #define LEDn                               1
 
 #define LED3_PIN                           GPIO_PIN_3
 #define LED3_GPIO_PORT                     GPIOB
-#define LED3_GPIO_CLK_ENABLE()             __GPIOB_CLK_ENABLE()  
-#define LED3_GPIO_CLK_DISABLE()            __GPIOB_CLK_DISABLE()  
+#define LED3_GPIO_CLK_ENABLE()             __HAL_RCC_GPIOB_CLK_ENABLE()  
+#define LED3_GPIO_CLK_DISABLE()            __HAL_RCC_GPIOB_CLK_DISABLE()  
 
 #define LEDx_GPIO_CLK_ENABLE(__INDEX__)    do {LED3_GPIO_CLK_ENABLE(); } while(0)
 #define LEDx_GPIO_CLK_DISABLE(__INDEX__)   LED3_GPIO_CLK_DISABLE())
@@ -100,7 +123,7 @@ typedef enum
   * @}
   */ 
   
-/** @defgroup STM32F3XX_NUCLEO_32_BUS BUS Constants
+/** @defgroup STM32F3XX_NUCLEO_32_COM STM32F3XX-NUCLEO_32 COM
   * @{
   */ 
 
@@ -109,17 +132,17 @@ typedef enum
 /* User can use this section to tailor I2Cx instance used and associated resources */
 /* Definition for I2C1 Pins */
 #define BSP_I2C1                        I2C1
-#define BSP_I2C1_CLK_ENABLE()           __I2C1_CLK_ENABLE()
-#define BSP_I2C1_CLK_DISABLE()          __I2C1_CLK_DISABLE()
-#define BSP_I2C1_FORCE_RESET()          __I2C1_FORCE_RESET()
-#define BSP_I2C1_RELEASE_RESET()        __I2C1_RELEASE_RESET()  
+#define BSP_I2C1_CLK_ENABLE()           __HAL_RCC_I2C1_CLK_ENABLE()
+#define BSP_I2C1_CLK_DISABLE()          __HAL_RCC_I2C1_CLK_DISABLE()
+#define BSP_I2C1_FORCE_RESET()          __HAL_RCC_I2C1_FORCE_RESET()
+#define BSP_I2C1_RELEASE_RESET()        __HAL_RCC_I2C1_RELEASE_RESET()  
 
 #define BSP_I2C1_SCL_PIN                GPIO_PIN_6    /* PB.6 add wire between D5 and A5 */
 #define BSP_I2C1_SDA_PIN                GPIO_PIN_7    /* PB.7 add wire between D4 and A4 */
 
 #define BSP_I2C1_GPIO_PORT              GPIOB      /* GPIOB */
-#define BSP_I2C1_GPIO_CLK_ENABLE()      __GPIOB_CLK_ENABLE()
-#define BSP_I2C1_GPIO_CLK_DISABLE()     __GPIOB_CLK_DISABLE() 
+#define BSP_I2C1_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
+#define BSP_I2C1_GPIO_CLK_DISABLE()     __HAL_RCC_GPIOB_CLK_DISABLE() 
 #define BSP_I2C1_SCL_SDA_AF             GPIO_AF4_I2C1
   
 /* Maximum Timeout values for flags waiting loops. These timeouts are not based
@@ -144,7 +167,7 @@ typedef enum
   * @}
   */ 
   
-/** @defgroup STM32F3XX_NUCLEO_32_Exported_Functions 
+/** @defgroup STM32F3XX_NUCLEO_32_Exported_Functions Exported Functions
   * @{
   */
   
@@ -161,7 +184,7 @@ void             BSP_LED_Toggle(Led_TypeDef Led);
 /**
   * @}
   */
-  
+   
 /** @defgroup STM32F3XX_NUCLEO_32_GRAVITECH_4DIGITS GRAVITECH 4 DIGITS
   * @brief This section contains the exported functions
   *        required to use Gravitech shield 7 Segment Display
@@ -196,6 +219,10 @@ HAL_StatusTypeDef BSP_DIGIT4_SEG7_Display(uint32_t Value);
   * @}
   */ 
     
+/**
+  * @}
+  */ 
+   
 #ifdef __cplusplus
 }
 #endif

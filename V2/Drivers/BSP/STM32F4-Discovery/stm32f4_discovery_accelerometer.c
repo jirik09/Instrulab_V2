@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f4_discovery_accelerometer.c
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    14-August-2015
+  * @version V2.1.1
+  * @date    12-January-2016
   * @brief   This file provides a set of functions needed to manage the
   *          MEMS accelerometers available on STM32F4-Discovery Kit.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4_discovery_accelerometer.h"
 
-/** @addtogroup BSP
+/** @addtogroup BSP 
   * @{
   */
 
@@ -47,34 +47,34 @@
   * @{
   */ 
 
-/** @addtogroup STM32F4_DISCOVERY_ACCELEROMETER
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER STM32F4 DISCOVERY ACCELEROMETER
   * @brief  This file includes the motion sensor driver for ACCELEROMETER motion sensor 
   *         devices.
   * @{
   */
 
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_TypesDefinitions
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_TypesDefinitions STM32F4 DISCOVERY ACCELEROMETER Private TypesDefinitions
   * @{
   */
 /**
   * @}
   */
 
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Defines
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Defines STM32F4 DISCOVERY ACCELEROMETER Private Defines
   * @{
   */
 /**
   * @}
   */
 
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Macros
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Macros STM32F4 DISCOVERY ACCELEROMETER Private Macros
   * @{
   */
 /**
   * @}
   */ 
   
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Variables
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Variables STM32F4 DISCOVERY ACCELEROMETER Private Variables
   * @{
   */ 
 static ACCELERO_DrvTypeDef *AcceleroDrv;
@@ -82,20 +82,19 @@ static ACCELERO_DrvTypeDef *AcceleroDrv;
   * @}
   */
 
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_FunctionPrototypes
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_FunctionPrototypes STM32F4 DISCOVERY ACCELEROMETER Private FunctionPrototypes
   * @{
   */
 /**
   * @}
   */
 
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Functions
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Private_Functions STM32F4 DISCOVERY ACCELEROMETER Private Functions
   * @{
   */
 
 /**
   * @brief  Setx Accelerometer Initialization.
-  * @param  None
   * @retval ACCELERO_OK if no problem during initialization
   */
 uint8_t BSP_ACCELERO_Init(void)
@@ -179,7 +178,6 @@ uint8_t BSP_ACCELERO_Init(void)
 
 /**
   * @brief  Read ID of Accelerometer component.
-  * @param  None
   * @retval ID
   */
 uint8_t BSP_ACCELERO_ReadID(void)
@@ -195,8 +193,6 @@ uint8_t BSP_ACCELERO_ReadID(void)
 
 /**
   * @brief  Reboot memory content of Accelerometer.
-  * @param  None
-  * @retval None
   */
 void BSP_ACCELERO_Reset(void)
 {
@@ -208,8 +204,6 @@ void BSP_ACCELERO_Reset(void)
 
 /**
   * @brief  Configure Accelerometer click IT. 
-  * @param  None
-  * @retval None
   */
 void BSP_ACCELERO_Click_ITConfig(void)
 {
@@ -221,8 +215,6 @@ void BSP_ACCELERO_Click_ITConfig(void)
 
 /**
   * @brief  Clear Accelerometer click IT.
-  * @param  None
-  * @retval None
   */
 void BSP_ACCELERO_Click_ITClear(void)
 {
@@ -236,7 +228,6 @@ void BSP_ACCELERO_Click_ITClear(void)
   * @brief  Get XYZ axes acceleration.
   * @param  pDataXYZ: Pointer to 3 angular acceleration axes.  
   *                   pDataXYZ[0] = X axis, pDataXYZ[1] = Y axis, pDataXYZ[2] = Z axis
-  * @retval None
   */
 void BSP_ACCELERO_GetXYZ(int16_t *pDataXYZ)
 {

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_nucleo_32.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    04-September-2015
+  * @version V1.0.3
+  * @date    16-December-2016
   * @brief   This file provides set of firmware functions to manage:
   *          - LED available on STM32F3XX-Nucleo Kit 
   *            from STMicroelectronics.
@@ -11,7 +11,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -45,28 +45,40 @@
   * @{
   */ 
   
-/** @addtogroup STM32F3XX_NUCLEO_32 NUCLEO 32
+/** @addtogroup STM32F3XX_NUCLEO_32
+  * @brief This file provides set of firmware functions to manage Leds and push-button
+  *        available on STM32F3XX-NUCLEO_32 Kit from STMicroelectronics.
+  * @{
+  */ 
+/** @addtogroup STM32F3XX_NUCLEO_32_Common
   * @{
   */
   
-/** @defgroup STM32F3XX_NUCLEO_32_Private_Constants Private Constants
+/** @addtogroup STM32F3XX_NUCLEO_32_Private_Constants
   * @{
   */ 
   
 /**
-  * @brief STM32F3XX NUCLEO BSP Driver version number V1.0.0
+  * @brief STM32F3XX NUCLEO BSP Driver version number V1.0.3
   */
 #define __STM32F3XX_NUCLEO_32_BSP_VERSION_MAIN   (0x01) /*!< [31:24] main version */
 #define __STM32F3XX_NUCLEO_32_BSP_VERSION_SUB1   (0x00) /*!< [23:16] sub1 version */
-#define __STM32F3XX_NUCLEO_32_BSP_VERSION_SUB2   (0x00) /*!< [15:8]  sub2 version */
+#define __STM32F3XX_NUCLEO_32_BSP_VERSION_SUB2   (0x03) /*!< [15:8]  sub2 version */
 #define __STM32F3XX_NUCLEO_32_BSP_VERSION_RC     (0x00) /*!< [7:0]  release candidate */
 #define __STM32F3XX_NUCLEO_32_BSP_VERSION         ((__STM32F3XX_NUCLEO_32_BSP_VERSION_MAIN << 24)\
                                              |(__STM32F3XX_NUCLEO_32_BSP_VERSION_SUB1 << 16)\
                                              |(__STM32F3XX_NUCLEO_32_BSP_VERSION_SUB2 << 8 )\
                                              |(__STM32F3XX_NUCLEO_32_BSP_VERSION_RC))
 
-/** @defgroup STM32F3XX_NUCLEO_32_Private_Variables Private Variables
+/**
+  * @}
+  */ 
+
+  /** @addtogroup STM32F3XX_NUCLEO_32_Private_Variables
   * @{
+  */ 
+/**
+ * @brief LED variables
   */ 
 GPIO_TypeDef* LED_PORT[LEDn] = {LED3_GPIO_PORT};
 const uint16_t LED_PIN[LEDn] = {LED3_PIN};
@@ -84,7 +96,7 @@ I2C_HandleTypeDef nucleo32_I2c1;
   * @}
   */ 
 
-/** @defgroup STM32F3XX_NUCLEO_32_Private_Function_Prototypes Private Function Prototypes
+/** @defgroup STM32F3XX_NUCLEO_32_BUS Bus Operation functions
   * @{
   */ 
 
@@ -105,15 +117,15 @@ HAL_StatusTypeDef  I2C1_IsDeviceReady(uint16_t DevAddress, uint32_t Trials);
   * @}
   */ 
 
-/** @defgroup STM32F3XX_NUCLEO_32_Private_Functions Private Functions
+/** @addtogroup STM32F3XX_NUCLEO_32_Exported_Functions
   * @{
   */ 
 
 /**
   * @brief  This method returns the STM32F3XX NUCLEO BSP Driver revision
-  * @param  None
   * @retval version : 0xXYZR (8bits for each decimal, R for RC)
   */
+
 uint32_t BSP_GetVersion(void)
 {
   return __STM32F3XX_NUCLEO_32_BSP_VERSION;
@@ -136,8 +148,8 @@ void BSP_LED_Init(Led_TypeDef Led)
   /* Configure the GPIO_LED pin */
   GPIO_InitStruct.Pin = LED_PIN[Led];
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   
   HAL_GPIO_Init(LED_PORT[Led], &GPIO_InitStruct);
   HAL_GPIO_WritePin(LED_PORT[Led], LED_PIN[Led], GPIO_PIN_RESET); 
@@ -179,6 +191,13 @@ void BSP_LED_Toggle(Led_TypeDef Led)
   HAL_GPIO_TogglePin(LED_PORT[Led], LED_PIN[Led]);
 }
 
+/**
+  * @}
+  */ 
+
+/** @addtogroup STM32F3XX_NUCLEO_32_BUS
+  * @{
+  */ 
 /******************************************************************************
                             BUS OPERATIONS
 *******************************************************************************/
@@ -187,7 +206,6 @@ void BSP_LED_Toggle(Led_TypeDef Led)
 
 /**
   * @brief I2C Bus initialization
-  * @param None
   * @retval None
   */
 void I2C1_Init(void)
@@ -198,11 +216,11 @@ void I2C1_Init(void)
     nucleo32_I2c1.Init.Timing           = I2C1_TIMING;
     nucleo32_I2c1.Init.OwnAddress1      = 0;
     nucleo32_I2c1.Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
-    nucleo32_I2c1.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLED;
+    nucleo32_I2c1.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
     nucleo32_I2c1.Init.OwnAddress2      = 0;
     nucleo32_I2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-    nucleo32_I2c1.Init.GeneralCallMode  = I2C_GENERALCALL_DISABLED;
-    nucleo32_I2c1.Init.NoStretchMode    = I2C_NOSTRETCH_DISABLED;  
+    nucleo32_I2c1.Init.GeneralCallMode  = I2C_GENERALCALL_DISABLE;
+    nucleo32_I2c1.Init.NoStretchMode    = I2C_NOSTRETCH_DISABLE;  
 
     /* Init the I2C */
     I2C1_MspInit(&nucleo32_I2c1);
@@ -315,7 +333,6 @@ HAL_StatusTypeDef I2C1_WriteBuffer(uint16_t Addr, uint8_t Reg, uint16_t RegSize,
 
 /**
   * @brief  Manages error callback by re-initializing I2C.
-  * @param  None
   * @retval None
   */
 void I2C1_Error(void)
@@ -351,7 +368,7 @@ void I2C1_MspInit(I2C_HandleTypeDef *hi2c)
   GPIO_InitStruct.Pin       = (BSP_I2C1_SCL_PIN| BSP_I2C1_SDA_PIN);
   GPIO_InitStruct.Mode      = GPIO_MODE_AF_OD;
   GPIO_InitStruct.Pull      = GPIO_PULLUP;
-  GPIO_InitStruct.Speed     = GPIO_SPEED_HIGH;
+  GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.Alternate = BSP_I2C1_SCL_SDA_AF;
   HAL_GPIO_Init(BSP_I2C1_GPIO_PORT, &GPIO_InitStruct);
 
@@ -376,10 +393,6 @@ void I2C1_MspInit(I2C_HandleTypeDef *hi2c)
   * @}
   */
 
-/**
-  * @}
-  */
-
 /** @addtogroup STM32F3XX_NUCLEO_32_GRAVITECH_4DIGITS
   * @{
   */
@@ -393,7 +406,6 @@ void I2C1_MspInit(I2C_HandleTypeDef *hi2c)
 /**
   * @brief  BSP of the 4 digits 7 Segment Display shield for Arduino Nano - Gravitech.
             init
-  * @param  None
   * @retval HAL_StatusTypeDef
   */
 HAL_StatusTypeDef BSP_DIGIT4_SEG7_Init(void)
@@ -463,5 +475,9 @@ HAL_StatusTypeDef BSP_DIGIT4_SEG7_Display(uint32_t Value)
 /**
   * @}
   */ 
+
+/**
+  * @}
+  */
     
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

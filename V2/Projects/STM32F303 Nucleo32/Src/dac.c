@@ -68,6 +68,7 @@ void MX_DAC1_Init(void)
   sConfig.DAC_OutputBuffer = outputBuffEn;
 
   HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2);
+	hdac1.Instance->CR |= DAC_CR_BOFF2;
 }
 
 /* DAC2 init function */
@@ -87,6 +88,7 @@ void MX_DAC2_Init(void)
   sConfig.DAC_OutputBuffer = outputBuffEn;
 
   HAL_DAC_ConfigChannel(&hdac2, &sConfig, DAC_CHANNEL_1);
+	hdac2.Instance->CR |= DAC_CR_BOFF1;
 
 }
 
@@ -123,8 +125,8 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
     HAL_DMA_Init(&hdma_dac1_ch2);
 
 		__HAL_REMAPDMA_CHANNEL_ENABLE(HAL_REMAPDMA_TIM7_DAC1_CH2_DMA1_CH4);
-		
-    __HAL_LINKDMA(hdac,DMA_Handle2,hdma_dac1_ch2);
+
+		__HAL_LINKDMA(hdac,DMA_Handle2,hdma_dac1_ch2);		
 
   /* USER CODE BEGIN DAC1_MspInit 1 */
 
@@ -160,7 +162,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
 
 		__HAL_REMAPDMA_CHANNEL_ENABLE(HAL_REMAPDMA_DAC2_CH1_DMA1_CH5);
 
-    __HAL_LINKDMA(hdac,DMA_Handle1,hdma_dac2_ch1);
+		__HAL_LINKDMA(hdac,DMA_Handle1,hdma_dac2_ch1);
 
   /* USER CODE BEGIN DAC2_MspInit 1 */
 

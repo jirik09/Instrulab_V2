@@ -43,6 +43,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 void SystemClock_Config(void);
+void resetDevice(void);
 
 #ifdef __cplusplus
 }

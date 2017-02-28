@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f4_discovery.c
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    14-August-2015
+  * @version V2.1.1
+  * @date    12-January-2016
   * @brief   This file provides set of firmware functions to manage Leds and
   *          push-button available on STM32F4-Discovery Kit from STMicroelectronics.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -38,37 +38,37 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4_discovery.h"
 
-/** @addtogroup BSP
+/** @defgroup BSP BSP
   * @{
   */ 
 
-/** @addtogroup STM32F4_DISCOVERY
+/** @defgroup STM32F4_DISCOVERY STM32F4 DISCOVERY
   * @{
   */   
     
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL 
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL STM32F4 DISCOVERY LOW LEVEL
   * @brief This file provides set of firmware functions to manage Leds and push-button
   *        available on STM32F4-Discovery Kit from STMicroelectronics.
   * @{
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_TypesDefinitions
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_TypesDefinitions STM32F4 DISCOVERY LOW LEVEL Private TypesDefinitions
   * @{
   */ 
 /**
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Defines
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Defines STM32F4 DISCOVERY LOW LEVEL Private Defines
   * @{
   */
   
   /**
-  * @brief STM32F4 DISCO BSP Driver version number V2.1.0
+  * @brief STM32F4 DISCO BSP Driver version number V2.1.1
   */
 #define __STM32F4_DISCO_BSP_VERSION_MAIN   (0x02) /*!< [31:24] main version */
 #define __STM32F4_DISCO_BSP_VERSION_SUB1   (0x01) /*!< [23:16] sub1 version */
-#define __STM32F4_DISCO_BSP_VERSION_SUB2   (0x00) /*!< [15:8]  sub2 version */
+#define __STM32F4_DISCO_BSP_VERSION_SUB2   (0x01) /*!< [15:8]  sub2 version */
 #define __STM32F4_DISCO_BSP_VERSION_RC     (0x00) /*!< [7:0]  release candidate */ 
 #define __STM32F4_DISCO_BSP_VERSION         ((__STM32F4_DISCO_BSP_VERSION_MAIN << 24)\
                                              |(__STM32F4_DISCO_BSP_VERSION_SUB1 << 16)\
@@ -79,14 +79,14 @@
   */ 
 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Macros
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Macros STM32F4 DISCOVERY LOW LEVEL Private Macros
   * @{
   */ 
 /**
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Variables
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Variables STM32F4 DISCOVERY LOW LEVEL Private Variables
   * @{
   */ 
 GPIO_TypeDef* GPIO_PORT[LEDn] = {LED4_GPIO_PORT, 
@@ -111,14 +111,14 @@ static I2C_HandleTypeDef    I2cHandle;
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_FunctionPrototypes
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_FunctionPrototypes STM32F4 DISCOVERY LOW LEVEL Private FunctionPrototypes
   * @{
   */ 
 /**
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Functions
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Private_Functions STM32F4 DISCOVERY LOW LEVEL Private Functions
   * @{
   */ 
 static void     I2Cx_Init(void);
@@ -147,13 +147,12 @@ uint8_t         AUDIO_IO_Read(uint8_t Addr, uint8_t Reg);
   * @}
   */
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_LED_Functions
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_LED_Functions STM32F4 DISCOVERY LOW LEVEL LED Functions
   * @{
   */ 
 
 /**
   * @brief  This method returns the STM32F4 DISCO BSP Driver revision
-  * @param  None
   * @retval version : 0xXYZR (8bits for each decimal, R for RC)
   */
 uint32_t BSP_GetVersion(void)
@@ -169,7 +168,6 @@ uint32_t BSP_GetVersion(void)
   *     @arg LED3
   *     @arg LED5
   *     @arg LED6
-  * @retval None
   */
 void BSP_LED_Init(Led_TypeDef Led)
 {
@@ -197,7 +195,6 @@ void BSP_LED_Init(Led_TypeDef Led)
   *     @arg LED3
   *     @arg LED5
   *     @arg LED6  
-  * @retval None
   */
 void BSP_LED_On(Led_TypeDef Led)
 {
@@ -212,7 +209,6 @@ void BSP_LED_On(Led_TypeDef Led)
   *     @arg LED3
   *     @arg LED5
   *     @arg LED6 
-  * @retval None
   */
 void BSP_LED_Off(Led_TypeDef Led)
 {
@@ -227,7 +223,6 @@ void BSP_LED_Off(Led_TypeDef Led)
   *     @arg LED3
   *     @arg LED5
   *     @arg LED6  
-  * @retval None
   */
 void BSP_LED_Toggle(Led_TypeDef Led)
 {
@@ -238,7 +233,7 @@ void BSP_LED_Toggle(Led_TypeDef Led)
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_BUTTON_Functions
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_BUTTON_Functions STM32F4 DISCOVERY LOW LEVEL BUTTON Functions
   * @{
   */ 
 
@@ -251,7 +246,6 @@ void BSP_LED_Toggle(Led_TypeDef Led)
   *     @arg BUTTON_MODE_GPIO: Button will be used as simple IO 
   *     @arg BUTTON_MODE_EXTI: Button will be connected to EXTI line with interrupt
   *                            generation capability  
-  * @retval None
   */
 void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Mode)
 {
@@ -301,7 +295,7 @@ uint32_t BSP_PB_GetState(Button_TypeDef Button)
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_BUS_Functions
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_BUS_Functions STM32F4 DISCOVERY LOW LEVEL BUS Functions
   * @{
   */ 
 
@@ -313,8 +307,6 @@ uint32_t BSP_PB_GetState(Button_TypeDef Button)
 
 /**
   * @brief  SPIx Bus initialization
-  * @param  None
-  * @retval None
   */
 static void SPIx_Init(void)
 {
@@ -361,8 +353,6 @@ static uint8_t SPIx_WriteRead(uint8_t Byte)
 
 /**
   * @brief  SPIx error treatment function.
-  * @param  None
-  * @retval None
   */
 static void SPIx_Error(void)
 {
@@ -375,8 +365,6 @@ static void SPIx_Error(void)
 
 /**
   * @brief  SPI MSP Init.
-  * @param  hspi: SPI handle
-  * @retval None
   */
 static void SPIx_MspInit(void)
 {
@@ -400,8 +388,6 @@ static void SPIx_MspInit(void)
 /******************************* I2C Routines**********************************/
 /**
   * @brief  Configures I2C interface.
-  * @param  None
-  * @retval None
   */
 static void I2Cx_Init(void)
 {
@@ -465,8 +451,7 @@ static uint8_t  I2Cx_ReadData(uint8_t Addr, uint8_t Reg)
 
 /**
   * @brief  Manages error callback by re-initializing I2C.
-  * @param  Addr: I2C Address
-  * @retval None
+  * @param  Addr: I2C Address 
   */
 static void I2Cx_Error(uint8_t Addr)
 {
@@ -479,8 +464,6 @@ static void I2Cx_Error(uint8_t Addr)
 
 /**
   * @brief I2C MSP Initialization
-  * @param None
-  * @retval None
   */
 static void I2Cx_MspInit(void)
 {
@@ -523,8 +506,6 @@ static void I2Cx_MspInit(void)
 
 /**
   * @brief  Configures the Accelerometer SPI interface.
-  * @param  None
-  * @retval None
   */
 void ACCELERO_IO_Init(void)
 {
@@ -550,8 +531,6 @@ void ACCELERO_IO_Init(void)
 /**
   * @brief  Configures the Accelerometer INT2.
   *         EXTI0 is already used by user button so INT1 is not configured here.
-  * @param  None
-  * @retval None
   */
 void ACCELERO_IO_ITConfig(void)
 {
@@ -577,7 +556,6 @@ void ACCELERO_IO_ITConfig(void)
   * @param  pBuffer: pointer to the buffer containing the data to be written to the Accelerometer.
   * @param  WriteAddr: Accelerometer's internal address to write to.
   * @param  NumByteToWrite: Number of bytes to write.
-  * @retval None
   */
 void ACCELERO_IO_Write(uint8_t *pBuffer, uint8_t WriteAddr, uint16_t NumByteToWrite)
 {
@@ -612,7 +590,6 @@ void ACCELERO_IO_Write(uint8_t *pBuffer, uint8_t WriteAddr, uint16_t NumByteToWr
   * @param  pBuffer: pointer to the buffer that receives the data read from the Accelerometer.
   * @param  ReadAddr: Accelerometer's internal address to read from.
   * @param  NumByteToRead: number of bytes to read from the Accelerometer.
-  * @retval None
   */
 void ACCELERO_IO_Read(uint8_t *pBuffer, uint8_t ReadAddr, uint16_t NumByteToRead)
 {  
@@ -647,8 +624,6 @@ void ACCELERO_IO_Read(uint8_t *pBuffer, uint8_t ReadAddr, uint16_t NumByteToRead
 
 /**
   * @brief  Initializes Audio low level.
-  * @param  None
-  * @retval None
   */
 void AUDIO_IO_Init(void) 
 {
@@ -681,8 +656,6 @@ void AUDIO_IO_Init(void)
 
 /**
   * @brief  DeInitializes Audio low level.
-  * @param  None
-  * @retval None
   */
 void AUDIO_IO_DeInit(void)
 {
@@ -694,7 +667,6 @@ void AUDIO_IO_DeInit(void)
   * @param  Addr: I2C address
   * @param  Reg: Reg address 
   * @param  Value: Data to be written
-  * @retval None
   */
 void AUDIO_IO_Write (uint8_t Addr, uint8_t Reg, uint8_t Value)
 {

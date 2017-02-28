@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_sram.h
   * @author  MCD Application Team
-  * @version V1.1.1
-  * @date    19-June-2015
+  * @version V1.4.0
+  * @date    16-December-2016
   * @brief   Header file of SRAM HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -45,9 +45,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
-  #include "stm32f3xx_ll_fmc.h"
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
-
+#include "stm32f3xx_ll_fmc.h"
 
 /** @addtogroup STM32F3xx_HAL_Driver
   * @{
@@ -56,8 +54,6 @@
 /** @addtogroup SRAM
   * @{
   */ 
-
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
 
 /* Exported typedef ----------------------------------------------------------*/
 
@@ -69,10 +65,10 @@
   */ 
 typedef enum
 {
-  HAL_SRAM_STATE_RESET     = 0x00,  /*!< SRAM not yet initialized or disabled           */
-  HAL_SRAM_STATE_READY     = 0x01,  /*!< SRAM initialized and ready for use             */
-  HAL_SRAM_STATE_BUSY      = 0x02,  /*!< SRAM internal process is ongoing               */
-  HAL_SRAM_STATE_ERROR     = 0x03,  /*!< SRAM error state                               */
+  HAL_SRAM_STATE_RESET     = 0x00U,  /*!< SRAM not yet initialized or disabled           */
+  HAL_SRAM_STATE_READY     = 0x01U,  /*!< SRAM initialized and ready for use             */
+  HAL_SRAM_STATE_BUSY      = 0x02U,  /*!< SRAM internal process is ongoing               */
+  HAL_SRAM_STATE_ERROR     = 0x03U,  /*!< SRAM error state                               */
   HAL_SRAM_STATE_PROTECTED = 0x04   /*!< SRAM peripheral NORSRAM device write protected */
   
 }HAL_SRAM_StateTypeDef;
@@ -184,7 +180,6 @@ HAL_SRAM_StateTypeDef HAL_SRAM_GetState(SRAM_HandleTypeDef *hsram);
   * @}
   */
 
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 /**
   * @}
   */ 
@@ -192,7 +187,9 @@ HAL_SRAM_StateTypeDef HAL_SRAM_GetState(SRAM_HandleTypeDef *hsram);
 /**
   * @}
   */
-  
+
+#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
+
 #ifdef __cplusplus
 }
 #endif

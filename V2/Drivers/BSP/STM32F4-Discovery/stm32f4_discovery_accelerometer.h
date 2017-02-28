@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f4_discovery_accelerometer.h
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    14-August-2015
+  * @version V2.1.1
+  * @date    12-January-2016
   * @brief   This file contains all the functions prototypes for the 
   *          stm32f4_discovery_accelerometer.c firmware driver.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -63,7 +63,7 @@
   * @{
   */
 
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Exported_Types
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Exported_Types STM32F4 DISCOVERY ACCELEROMETER Exported Types
   * @{
   */
 typedef enum 
@@ -76,7 +76,7 @@ typedef enum
   * @}
   */
   
-/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Exported_Functions
+/** @defgroup STM32F4_DISCOVERY_ACCELEROMETER_Exported_Functions STM32F4 DISCOVERY ACCELEROMETER Exported Functions
   * @{
   */
 /* Accelerometer functions */  

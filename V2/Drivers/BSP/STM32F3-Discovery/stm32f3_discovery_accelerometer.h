@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f3_discovery_accelerometer.h
   * @author  MCD Application Team
-  * @version V2.1.1
-  * @date    30-December-2014
+  * @version V2.1.4
+  * @date    16-December-2016
   * @brief   This file contains definitions for stm32f3_discovery_accelerometer.c 
   *          firmware driver.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -62,7 +62,7 @@
   * @{
   */
   
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Exported_Types STM32F3_DISCOVERY_ACCELERO_Exported_Type
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Exported_Types Exported Types
   * @{
   */
 
@@ -70,7 +70,7 @@
   * @}
   */
   
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Exported_Constants STM32F3_DISCOVERY_ACCELERO_Exported_Constants
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Exported_Constants Exported Constants
   * @{
   */
 typedef enum 
@@ -85,7 +85,16 @@ ACCELERO_StatusTypeDef;
   * @}
   */
   
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Exported_Functions STM32F3_DISCOVERY_ACCELERO_Exported_Functions
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Exported_Macros Exported Macros
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+/* Exported functions --------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Exported_Functions Exported Functions
   * @{
   */
 /* Acc functions */  

@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f3_discovery_gyroscope.h
   * @author  MCD Application Team
-  * @version V2.1.1
-  * @date    30-December-2014
+  * @version V2.1.4
+  * @date    16-December-2016
   * @brief   This file contains definitions for stm32f3_discovery_gyroscope.c 
   *          firmware driver.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -62,7 +62,7 @@
   * @{
   */
   
-/** @defgroup STM32F3_DISCOVERY_GYRO_Exported_Types STM32F3_DISCOVERY_GYRO_Exported_Types
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Exported_Types Exported Types
   * @{
   */
 typedef enum 
@@ -77,7 +77,7 @@ GYRO_StatusTypeDef;
   * @}
   */ 
 
-/** @defgroup STM32F3_DISCOVERY_GYRO_Exported_Constants STM32F3_DISCOVERY_GYRO_Exported_Constants
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Exported_Constants Exported Constants
   * @{
   */
 
@@ -85,7 +85,7 @@ GYRO_StatusTypeDef;
   * @}
   */
   
-/** @defgroup STM32F3_DISCOVERY_GYRO_Exported_Macros STM32F3_DISCOVERY_GYRO_Exported_Macros
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Exported_Macros Exported Macros
   * @{
   */
 
@@ -93,7 +93,7 @@ GYRO_StatusTypeDef;
   * @}
   */
  
-/** @defgroup STM32F3_DISCOVERY_GYRO_Exported_Functions STM32F3_DISCOVERY_GYRO_Exported_Functions
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Exported_Functions  Exported Functions
   * @{
   */
 /* Sensor Configuration Functions */ 

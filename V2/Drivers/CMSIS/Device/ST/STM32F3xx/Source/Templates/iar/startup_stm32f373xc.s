@@ -1,8 +1,8 @@
-;/******************** (C) COPYRIGHT 2014 STMicroelectronics ********************
+;/******************** (C) COPYRIGHT 2016 STMicroelectronics ********************
 ;* File Name          : startup_stm32f373xc.s
 ;* Author             : MCD Application Team
-;* Version            : $VERSION$
-;* Date               : 12-Sept-2014
+;* Version            : V2.3.1
+;* Date               : 16-December-2016
 ;* Description        : STM32F373xB/STM32F373xC devices vector table for EWARM toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP
@@ -14,8 +14,6 @@
 ;*                      After Reset the Cortex-M4 processor is in Thread mode,
 ;*                      priority is Privileged, and the Stack is set to Main.
 ;********************************************************************************
-;*
-;* <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
 ;*
 ;* Redistribution and use in source and binary forms, with or without modification,
 ;* are permitted provided that the following conditions are met:

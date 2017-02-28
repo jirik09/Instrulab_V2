@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f4_discovery.h
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    14-August-2015
+  * @version V2.1.1
+  * @date    12-January-2016
   * @brief   This file contains definitions for STM32F4-Discovery Kit's Leds and 
   *          push-button hardware resources.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -59,7 +59,7 @@
   * @{
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Types
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Types STM32F4 DISCOVERY LOW LEVEL_Exported_Types
   * @{
   */
 typedef enum 
@@ -84,7 +84,7 @@ typedef enum
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Constants
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Constants STM32F4 DISCOVERY LOW LEVEL Exported Constants
   * @{
   */ 
 
@@ -95,7 +95,7 @@ typedef enum
  #define USE_STM32F4_DISCO
 #endif
 
-/** @addtogroup STM32F4_DISCOVERY_LOW_LEVEL_LED
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_LED STM32F4 DISCOVERY LOW LEVEL LED
   * @{
   */
 #define LEDn                             4
@@ -135,7 +135,7 @@ typedef enum
   * @}
   */ 
   
-/** @addtogroup STM32F4_DISCOVERY_LOW_LEVEL_BUTTON
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_BUTTON STM32F4 DISCOVERY LOW LEVEL BUTTON
   * @{
   */  
 #define BUTTONn                          1 
@@ -158,7 +158,7 @@ typedef enum
   * @}
   */ 
   
-/** @addtogroup STM32F4_DISCOVERY_LOW_LEVEL_BUS
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_BUS STM32F4 DISCOVERY LOW LEVEL BUS
   * @{
   */  
 
@@ -254,20 +254,16 @@ typedef enum
 #define AUDIO_RESET_GPIO                      GPIOD
 /**
   * @}
-  */ 
+  */  
 
-/**
-  * @}
-  */ 
-
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Macros
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Macros STM32F4 DISCOVERY LOW LEVEL Exported Macros
   * @{
   */  
 /**
   * @}
   */ 
 
-/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Functions
+/** @defgroup STM32F4_DISCOVERY_LOW_LEVEL_Exported_Functions STM32F4 DISCOVERY LOW LEVEL Exported Functions
   * @{
   */
 uint32_t BSP_GetVersion(void);
@@ -277,6 +273,10 @@ void     BSP_LED_Off(Led_TypeDef Led);
 void     BSP_LED_Toggle(Led_TypeDef Led);
 void     BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Mode);
 uint32_t BSP_PB_GetState(Button_TypeDef Button);
+
+/**
+  * @}
+  */
 
 /**
   * @}

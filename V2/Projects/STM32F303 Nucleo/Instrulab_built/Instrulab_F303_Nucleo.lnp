@@ -33,6 +33,7 @@
 ".\instrulab_built\stm32f3xx_hal_tim.o"
 ".\instrulab_built\stm32f3xx_hal_tim_ex.o"
 ".\instrulab_built\stm32f3xx_hal_uart.o"
+".\instrulab_built\stm32f3xx_hal_uart_ex.o"
 ".\instrulab_built\stm32f3xx_hal_usart.o"
 ".\instrulab_built\tasks.o"
 ".\instrulab_built\timers.o"

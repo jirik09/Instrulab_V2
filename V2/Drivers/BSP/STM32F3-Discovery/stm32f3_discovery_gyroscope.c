@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f3_discovery_gyroscope.c
   * @author  MCD Application Team
-  * @version V2.1.1
-  * @date    30-December-2014
+  * @version V2.1.4
+  * @date    16-December-2016
   * @brief   This file provides a set of functions needed to manage the l3gd20
   *          MEMS accelerometer available on STM32F3-Discovery Kit.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3_discovery_gyroscope.h"
 
-/** @addtogroup Utilities
+/** @addtogroup BSP
   * @{
   */ 
 
@@ -46,36 +46,36 @@
   * @{
   */ 
 
-/** @addtogroup STM32F3_DISCOVERY_GYROSCOPE
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE STM32F3-DISCOVERY GYROSCOPE
   * @{
   */
 
-
-/** @defgroup STM32F3_DISCOVERY_GYRO_Private_TypesDefinitions STM32F3_DISCOVERY_GYRO_Private_TypesDefinitions
+/* Private typedef -----------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Private_Types Private Types
   * @{
   */
-  
 /**
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_GYRO_Private_Defines STM32F3_DISCOVERY_GYRO_Private_Defines
+/* Private defines ------------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Private_Constants Private Constants
   * @{
   */
-
 /**
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_GYRO_Private_Macros STM32F3_DISCOVERY_GYRO_Private_Macros
+/* Private macros ------------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Private_Macros Private Macros
   * @{
   */
-
 /**
   * @}
   */ 
   
-/** @defgroup STM32F3_DISCOVERY_GYRO_Private_Variables STM32F3_DISCOVERY_GYRO_Private_Variables
+/* Private variables ---------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Private_Variables Private Variables
   * @{
   */ 
 static GYRO_DrvTypeDef *GyroscopeDrv;
@@ -84,21 +84,21 @@ static GYRO_DrvTypeDef *GyroscopeDrv;
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_GYRO_Private_FunctionPrototypes STM32F3_DISCOVERY_GYRO_Private_FunctionPrototypes
+/* Private function prototypes -----------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_GYROSCOPE_Private_FunctionPrototypes Private Functions
   * @{
   */
-
 /**
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_GYRO_Private_Functions STM32F3_DISCOVERY_GYRO_Private_Functions
+/* Exported functions --------------------------------------------------------*/
+/** @addtogroup STM32F3_DISCOVERY_GYROSCOPE_Exported_Functions
   * @{
   */
 
 /**
   * @brief  Set GYROSCOPE Initialization.
-  * @param  None
   * @retval GYRO_OK if no problem during initialization
   */
 uint8_t BSP_GYRO_Init(void)
@@ -154,7 +154,6 @@ uint8_t BSP_GYRO_Init(void)
 
 /**
   * @brief  Read ID of Gyroscope component
-  * @param  None
   * @retval ID
   */
 uint8_t BSP_GYRO_ReadID(void)
@@ -170,7 +169,6 @@ uint8_t BSP_GYRO_ReadID(void)
 
 /**
   * @brief  Reboot memory content of GYROSCOPE
-  * @param  None
   * @retval None
   */
 void BSP_GYRO_Reset(void)

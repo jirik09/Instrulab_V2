@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_nucleo.h
   * @author  MCD Application Team
-  * @version V1.1.0
-  * @date    25-Aug-2014
+  * @version V1.1.3
+  * @date    16-December-2016
   * @brief   This file contains definitions for:
   *          - LEDs and push-button available on STM32F3XX-Nucleo Kit 
   *            from STMicroelectronics
@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -47,33 +47,58 @@
  extern "C" {
 #endif
 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
 
 /** @addtogroup BSP
   * @{
   */
-  
-/** @addtogroup STM32F3XX_NUCLEO
+
+/** @defgroup STM32F3XX_NUCLEO STM32F3XX-NUCLEO
   * @{
   */
-      
-/** @addtogroup STM32F3XX_NUCLEO_LOW_LEVEL
-  * @{
-  */ 
+  
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f3xx_hal.h"
 
-/** @defgroup STM32F3XX_NUCLEO_LOW_LEVEL_Exported_Types 
+
+/** @defgroup STM32F3XX_NUCLEO_Common STM32F3XX-NUCLEO Common
+  * @{
+  */
+
+/** @defgroup STM32F3XX_NUCLEO_Private_Constants Private Constants
+  * @{
+  */
+/**
+* @}
+*/        
+
+/** @defgroup STM32F3XX_NUCLEO_Private_Variables Private Variables
   * @{
   */ 
+/**
+* @}
+*/
+
+/** @defgroup STM32F3XX_NUCLEO_Exported_Types Exported Types
+  * @{
+  */
+
+/**
+ * @brief LED Types Definition
+ */
 typedef enum 
 {
   LED2 = 0,
   LED_GREEN = LED2
 } Led_TypeDef;
 
+/**
+ * @brief BUTTON Types Definition
+ */
 typedef enum 
 {  
-  BUTTON_USER = 0
+  BUTTON_USER = 0,
+  /* Alias */
+  BUTTON_KEY  = BUTTON_USER
 } Button_TypeDef;
 
 typedef enum 
@@ -82,6 +107,9 @@ typedef enum
   BUTTON_MODE_EXTI = 1
 } ButtonMode_TypeDef; 
 
+/**
+ * @brief JOYSTICK Types Definition
+ */
 typedef enum 
 { 
   JOY_NONE  = 0,
@@ -96,18 +124,19 @@ typedef enum
   * @}
   */ 
 
-/** @defgroup STM32F3XX_NUCLEO_LOW_LEVEL_Exported_Constants 
+/** @defgroup STM32F3XX_NUCLEO_Exported_Constants Exported Constants
   * @{
   */ 
 
 /** 
 * @brief	Define for STM32F3XX_NUCLEO board  
 */ 
+
 #if !defined (USE_STM32F3XX_NUCLEO)
  #define USE_STM32F3XX_NUCLEO
 #endif
 
-/** @addtogroup STM32F3XX_NUCLEO_LOW_LEVEL_LED
+/** @defgroup STM32F3XX_NUCLEO_LED STM32F3XX-NUCLEO LED
   * @{
   */
 #define LEDn                              1
@@ -115,27 +144,28 @@ typedef enum
 #if defined(STM32F302x8)
 #define LED2_PIN                          GPIO_PIN_13
 #define LED2_GPIO_PORT                    GPIOB
-#define LED2_GPIO_CLK_ENABLE()            __GPIOB_CLK_ENABLE()  
-#define LED2_GPIO_CLK_DISABLE()           __GPIOB_CLK_DISABLE()
+#define LED2_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOB_CLK_ENABLE()  
+#define LED2_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOB_CLK_DISABLE()
 
-#elif defined(STM32F334x8) || defined(STM32F303xE)
+#elif defined(STM32F301x8) || defined(STM32F334x8) || defined(STM32F303xE)
 #define LED2_PIN                          GPIO_PIN_5
 #define LED2_GPIO_PORT                    GPIOA
-#define LED2_GPIO_CLK_ENABLE()            __GPIOA_CLK_ENABLE()  
-#define LED2_GPIO_CLK_DISABLE()           __GPIOA_CLK_DISABLE()
+#define LED2_GPIO_CLK_ENABLE()            __HAL_RCC_GPIOA_CLK_ENABLE()
+#define LED2_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOA_CLK_DISABLE()
 
 #else
 #error "MCU device not yet supported on STM32 F3 Nucleo kit"
 #endif /* STM32F302x8 */
 
 
-#define LEDx_GPIO_CLK_ENABLE(__INDEX__)   (((__INDEX__) == 0) ? LED2_GPIO_CLK_ENABLE() : 0)
+#define LEDx_GPIO_CLK_ENABLE(__INDEX__)   do { if ((__INDEX__) == 0) LED2_GPIO_CLK_ENABLE();} while(0)
 #define LEDx_GPIO_CLK_DISABLE(__INDEX__)  (((__INDEX__) == 0) ? LED2_GPIO_CLK_DISABLE() : 0)
+
 /**
   * @}
   */ 
   
-/** @addtogroup STM32F3XX_NUCLEO_LOW_LEVEL_BUTTON
+/** @defgroup STM32F3XX_NUCLEO_BUTTON STM32F3XX-NUCLEO BUTTON
   * @{
   */  
 #define BUTTONn                           1
@@ -145,53 +175,60 @@ typedef enum
  */
 #define USER_BUTTON_PIN                       GPIO_PIN_13
 #define USER_BUTTON_GPIO_PORT                 GPIOC
-#define USER_BUTTON_GPIO_CLK_ENABLE()         __GPIOC_CLK_ENABLE()
-#define USER_BUTTON_GPIO_CLK_DISABLE()        __GPIOC_CLK_DISABLE()
+#define USER_BUTTON_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOC_CLK_ENABLE()
+#define USER_BUTTON_GPIO_CLK_DISABLE()        __HAL_RCC_GPIOC_CLK_DISABLE()
 #define USER_BUTTON_EXTI_IRQn                 EXTI15_10_IRQn
+/* Aliases */
+#define KEY_BUTTON_PIN                        USER_BUTTON_PIN
+#define KEY_BUTTON_GPIO_PORT                  USER_BUTTON_GPIO_PORT
+#define KEY_BUTTON_GPIO_CLK_ENABLE()          USER_BUTTON_GPIO_CLK_ENABLE()
+#define KEY_BUTTON_GPIO_CLK_DISABLE()         USER_BUTTON_GPIO_CLK_DISABLE()
+#define KEY_BUTTON_EXTI_LINE                  USER_BUTTON_EXTI_LINE
+#define KEY_BUTTON_EXTI_IRQn                  USER_BUTTON_EXTI_IRQn
 
-#define BUTTONx_GPIO_CLK_ENABLE(__INDEX__)    (((__INDEX__) == 0) ? USER_BUTTON_GPIO_CLK_ENABLE() : 0)
+#define BUTTONx_GPIO_CLK_ENABLE(__INDEX__)    do { if ((__INDEX__) == 0) USER_BUTTON_GPIO_CLK_ENABLE();} while(0)
 #define BUTTONx_GPIO_CLK_DISABLE(__INDEX__)   (((__INDEX__) == 0) ? USER_BUTTON_GPIO_CLK_DISABLE() : 0)
 /**
   * @}
-  */ 
+  */
 
-/** @addtogroup STM32F3XX_NUCLEO_LOW_LEVEL_BUS
+/** @defgroup STM32F3XX_NUCLEO_COM STM32F3XX-NUCLEO COM
   * @{
   */ 
 #if defined(HAL_SPI_MODULE_ENABLED)
-#if defined(STM32F302x8)
+#if defined(STM32F301x8) || defined(STM32F302x8)
 /*###################### SPI2 ###################################*/
 #define NUCLEO_SPIx                               SPI2
-#define NUCLEO_SPIx_CLK_ENABLE()                  __SPI2_CLK_ENABLE()
+#define NUCLEO_SPIx_CLK_ENABLE()                  __HAL_RCC_SPI2_CLK_ENABLE()
 
 #define NUCLEO_SPIx_SCK_AF                        GPIO_AF5_SPI2
 #define NUCLEO_SPIx_SCK_GPIO_PORT                 GPIOB
 #define NUCLEO_SPIx_SCK_PIN                       GPIO_PIN_13
-#define NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE()         __GPIOB_CLK_ENABLE()
-#define NUCLEO_SPIx_SCK_GPIO_CLK_DISABLE()        __GPIOB_CLK_DISABLE()
+#define NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOB_CLK_ENABLE()
+#define NUCLEO_SPIx_SCK_GPIO_CLK_DISABLE()        __HAL_RCC_GPIOB_CLK_DISABLE()
 
 #define NUCLEO_SPIx_MISO_MOSI_AF                  GPIO_AF5_SPI2
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT           GPIOB
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()   __GPIOB_CLK_ENABLE()
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()  __GPIOB_CLK_DISABLE()
+#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()   __HAL_RCC_GPIOB_CLK_ENABLE()
+#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()  __HAL_RCC_GPIOB_CLK_DISABLE()
 #define NUCLEO_SPIx_MISO_PIN                      GPIO_PIN_14
 #define NUCLEO_SPIx_MOSI_PIN                      GPIO_PIN_15
 
 #elif defined(STM32F334x8) || defined(STM32F303xE)
 /*###################### SPI1 ###################################*/
 #define NUCLEO_SPIx                               SPI1
-#define NUCLEO_SPIx_CLK_ENABLE()                  __SPI1_CLK_ENABLE()
+#define NUCLEO_SPIx_CLK_ENABLE()                  __HAL_RCC_SPI1_CLK_ENABLE()
 
 #define NUCLEO_SPIx_SCK_AF                        GPIO_AF5_SPI1
 #define NUCLEO_SPIx_SCK_GPIO_PORT                 GPIOA
 #define NUCLEO_SPIx_SCK_PIN                       GPIO_PIN_5
-#define NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE()         __GPIOA_CLK_ENABLE()
-#define NUCLEO_SPIx_SCK_GPIO_CLK_DISABLE()        __GPIOA_CLK_DISABLE()
+#define NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOA_CLK_ENABLE()
+#define NUCLEO_SPIx_SCK_GPIO_CLK_DISABLE()        __HAL_RCC_GPIOA_CLK_DISABLE()
 
 #define NUCLEO_SPIx_MISO_MOSI_AF                  GPIO_AF5_SPI1
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT           GPIOA
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()   __GPIOA_CLK_ENABLE()
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()  __GPIOA_CLK_DISABLE()
+#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()   __HAL_RCC_GPIOA_CLK_ENABLE()
+#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()  __HAL_RCC_GPIOA_CLK_DISABLE()
 #define NUCLEO_SPIx_MISO_PIN                      GPIO_PIN_6
 #define NUCLEO_SPIx_MOSI_PIN                      GPIO_PIN_7
 
@@ -210,7 +247,8 @@ typedef enum
   * @}
   */
 
-/** @addtogroup STM32F0XX_NUCLEO_LOW_LEVEL_COMPONENT
+
+/** @defgroup STM32F3XX_NUCLEO_COMPONENT STM32F3XX-NUCLEO COMPONENT
   * @{
   */
 
@@ -229,38 +267,39 @@ typedef enum
 #define LCD_DC_HIGH()     HAL_GPIO_WritePin(LCD_DC_GPIO_PORT, LCD_DC_PIN, GPIO_PIN_SET)
      
 /**
-  * @brief  SD Control Interface pins
+  * @brief  SD Control Interface pins (shield D4)
   */
 #define SD_CS_PIN                                 GPIO_PIN_5
 #define SD_CS_GPIO_PORT                           GPIOB
-#define SD_CS_GPIO_CLK_ENABLE()                 __GPIOB_CLK_ENABLE()
-#define SD_CS_GPIO_CLK_DISABLE()                __GPIOB_CLK_DISABLE()
+#define SD_CS_GPIO_CLK_ENABLE()                 __HAL_RCC_GPIOB_CLK_ENABLE()
+#define SD_CS_GPIO_CLK_DISABLE()                __HAL_RCC_GPIOB_CLK_DISABLE()
 
 /**
-  * @brief  LCD Control Interface pins
+  * @brief  LCD Control Interface pins (shield D10)
   */
 #define LCD_CS_PIN                                 GPIO_PIN_6
 #define LCD_CS_GPIO_PORT                           GPIOB
-#define LCD_CS_GPIO_CLK_ENABLE()                 __GPIOB_CLK_ENABLE()
-#define LCD_CS_GPIO_CLK_DISABLE()                __GPIOB_CLK_DISABLE()
+#define LCD_CS_GPIO_CLK_ENABLE()                 __HAL_RCC_GPIOB_CLK_ENABLE()
+#define LCD_CS_GPIO_CLK_DISABLE()                __HAL_RCC_GPIOB_CLK_DISABLE()
     
 /**
   * @brief  LCD Data/Command Interface pins
   */
 #define LCD_DC_PIN                                 GPIO_PIN_9
 #define LCD_DC_GPIO_PORT                           GPIOA
-#define LCD_DC_GPIO_CLK_ENABLE()                 __GPIOA_CLK_ENABLE()
-#define LCD_DC_GPIO_CLK_DISABLE()                __GPIOA_CLK_DISABLE()
+#define LCD_DC_GPIO_CLK_ENABLE()                 __HAL_RCC_GPIOA_CLK_ENABLE()
+#define LCD_DC_GPIO_CLK_DISABLE()                __HAL_RCC_GPIOA_CLK_DISABLE()
 
 #if defined(HAL_ADC_MODULE_ENABLED)
-#if defined(STM32F302x8) || defined(STM32F334x8)
+#if defined(STM32F301x8) || defined(STM32F302x8) || defined(STM32F334x8)
 /*##################### ADC1 ###################################*/
 /**
   * @brief  ADC Interface pins
   *         used to detect motion of Joystick available on Adafruit 1.8" TFT shield
   */
 #define NUCLEO_ADCx                                 ADC1
-#define NUCLEO_ADCx_CLK_ENABLE()                  __ADC1_CLK_ENABLE()
+#define NUCLEO_ADCx_CLK_ENABLE()                  __HAL_RCC_ADC1_CLK_ENABLE()
+#define NUCLEO_ADCx_CLK_DISABLE()                 __HAL_RCC_ADC1_CLK_DISABLE()
 #elif defined(STM32F303xE)
 /*##################### ADC3 ###################################*/
 /**
@@ -268,15 +307,16 @@ typedef enum
   *         used to detect motion of Joystick available on Adafruit 1.8" TFT shield
   */
 #define NUCLEO_ADCx                                 ADC3
-#define NUCLEO_ADCx_CLK_ENABLE()                  __ADC34_CLK_ENABLE()
+#define NUCLEO_ADCx_CLK_ENABLE()                  __HAL_RCC_ADC34_CLK_ENABLE()
+#define NUCLEO_ADCx_CLK_DISABLE()                 __HAL_RCC_ADC34_CLK_DISABLE()
 #else
 #error "MCU device not yet supported on STM32 F3 Nucleo kit"
 #endif /* STM32F302x8 || STM32F334x8 */
 
 #define NUCLEO_ADCx_GPIO_PORT                       GPIOB
 #define NUCLEO_ADCx_GPIO_PIN                        GPIO_PIN_0
-#define NUCLEO_ADCx_GPIO_CLK_ENABLE()             __GPIOB_CLK_ENABLE()
-#define NUCLEO_ADCx_GPIO_CLK_DISABLE()            __GPIOB_CLK_DISABLE()
+#define NUCLEO_ADCx_GPIO_CLK_ENABLE()             __HAL_RCC_GPIOB_CLK_ENABLE()
+#define NUCLEO_ADCx_GPIO_CLK_DISABLE()            __HAL_RCC_GPIOB_CLK_DISABLE()
 
 #endif /* HAL_ADC_MODULE_ENABLED */
 
@@ -284,40 +324,29 @@ typedef enum
   * @}
   */
 
-/** @defgroup STM32F3XX_NUCLEO_LOW_LEVEL_Exported_Macros 
-  * @{
-  */  
 /**
   * @}
   */ 
 
-
-/** @defgroup STM32F3XX_NUCLEO_LOW_LEVEL_Exported_Functions 
+/** @defgroup STM32F3XX_NUCLEO_Exported_Functions Exported Functions
   * @{
   */
 uint32_t  BSP_GetVersion(void);  
 void      BSP_LED_Init(Led_TypeDef Led);
+void      BSP_LED_DeInit(Led_TypeDef Led);
 void      BSP_LED_On(Led_TypeDef Led);
 void      BSP_LED_Off(Led_TypeDef Led);
 void      BSP_LED_Toggle(Led_TypeDef Led);
 void      BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode);
+void      BSP_PB_DeInit(Button_TypeDef Button);
 uint32_t  BSP_PB_GetState(Button_TypeDef Button);
 #if defined(HAL_ADC_MODULE_ENABLED)
 uint8_t          BSP_JOY_Init(void);
 JOYState_TypeDef BSP_JOY_GetState(void);
+void             BSP_JOY_DeInit(void);
 #endif /* HAL_ADC_MODULE_ENABLED */
-/**
-  * @}
-  */
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */ 
-
+  
 /**
   * @}
   */
@@ -325,6 +354,14 @@ JOYState_TypeDef BSP_JOY_GetState(void);
 /**
   * @}
   */ 
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 #ifdef __cplusplus
 }

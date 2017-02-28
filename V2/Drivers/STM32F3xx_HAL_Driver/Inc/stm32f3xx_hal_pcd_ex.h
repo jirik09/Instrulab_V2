@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_pcd_ex.h
   * @author  MCD Application Team
-  * @version V1.1.1
-  * @date    19-June-2015
-  * @brief   Header file of PCD HAL Extended module.
+  * @version V1.4.0
+  * @date    16-December-2016
+  * @brief   Header file of PCD HAL Extension module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -75,15 +75,16 @@
 #if defined(STM32F302xC) || defined(STM32F303xC) || \
     defined(STM32F373xC)
       
-#define PCD_EP_TX_ADDRESS(USBx, bEpNum) ((uint32_t *)((USBx->BTABLE+bEpNum*8)*2+     ((uint32_t)USBx + 0x400)))
-#define PCD_EP_TX_CNT(USBx, bEpNum) ((uint32_t *)((USBx->BTABLE+bEpNum*8+2)*2+  ((uint32_t)USBx + 0x400)))
-#define PCD_EP_RX_ADDRESS(USBx, bEpNum) ((uint32_t *)((USBx->BTABLE+bEpNum*8+4)*2+  ((uint32_t)USBx + 0x400)))
-#define PCD_EP_RX_CNT(USBx, bEpNum) ((uint32_t *)((USBx->BTABLE+bEpNum*8+6)*2+  ((uint32_t)USBx + 0x400)))
+#define PCD_EP_TX_ADDRESS(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8)*2+     ((uint32_t)(USBx) + 0x400U)))))
+#define PCD_EP_TX_CNT(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8+2)*2+  ((uint32_t)(USBx) + 0x400U)))))
+#define PCD_EP_RX_ADDRESS(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8+4)*2+ ((uint32_t)(USBx) + 0x400U)))))
+#define PCD_EP_RX_CNT(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8+6)*2+  ((uint32_t)(USBx) + 0x400U)))))
+
       
 #define PCD_SET_EP_RX_CNT(USBx, bEpNum,wCount) {\
-    uint32_t *pdwReg = PCD_EP_RX_CNT(USBx, bEpNum); \
-    PCD_SET_EP_CNT_RX_REG(pdwReg, wCount);\
-  }    
+    uint16_t *pdwReg =PCD_EP_RX_CNT((USBx),(bEpNum)); \
+    PCD_SET_EP_CNT_RX_REG((pdwReg), (wCount))\
+  }
 
 #endif /* STM32F302xC || STM32F303xC || */
        /* STM32F373xC                   */
@@ -92,14 +93,14 @@
 #if defined(STM32F302xE) || defined(STM32F303xE) || \
     defined(STM32F302x8)
            
-#define PCD_EP_TX_ADDRESS(USBx, bEpNum) ((uint16_t *)((USBx->BTABLE+bEpNum*8)+     ((uint32_t)USBx + 0x400)))
-#define PCD_EP_TX_CNT(USBx, bEpNum) ((uint16_t *)((USBx->BTABLE+bEpNum*8+2)+  ((uint32_t)USBx + 0x400)))
-#define PCD_EP_RX_ADDRESS(USBx, bEpNum) ((uint16_t *)((USBx->BTABLE+bEpNum*8+4)+  ((uint32_t)USBx + 0x400)))
-#define PCD_EP_RX_CNT(USBx, bEpNum) ((uint16_t *)((USBx->BTABLE+bEpNum*8+6)+  ((uint32_t)USBx + 0x400)))
+#define PCD_EP_TX_ADDRESS(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8)+     ((uint32_t)(USBx) + 0x400U)))))
+#define PCD_EP_TX_CNT(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8+2)+  ((uint32_t)(USBx) + 0x400U)))))
+#define PCD_EP_RX_ADDRESS(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8+4)+ ((uint32_t)(USBx) + 0x400U)))))
+#define PCD_EP_RX_CNT(USBx, bEpNum) ((uint16_t *)((uint32_t)((((USBx)->BTABLE+(bEpNum)*8+6)+  ((uint32_t)(USBx) + 0x400U)))))
 
 #define PCD_SET_EP_RX_CNT(USBx, bEpNum,wCount) {\
-    uint16_t *pdwReg = PCD_EP_RX_CNT(USBx, bEpNum); \
-    PCD_SET_EP_CNT_RX_REG(pdwReg, wCount);\
+    uint16_t *pdwReg = PCD_EP_RX_CNT((USBx), (bEpNum));\
+    PCD_SET_EP_CNT_RX_REG((pdwReg), (wCount))\
   }
 
 #endif /* STM32F302xE || STM32F303xE || */
@@ -109,11 +110,10 @@
   */ 
 
 /* Exported functions --------------------------------------------------------*/
-/** @addtogroup PCDEx_Exported_Functions PCD Extended Exported Functions
+/** @addtogroup PCDEx_Exported_Functions PCDEx Exported Functions
   * @{
   */
-/** @addtogroup PCDEx_Exported_Functions_Group1 Extended Initialization and de-initialization functions 
- *  @brief    Initialization and Configuration functions
+/** @addtogroup PCDEx_Exported_Functions_Group1 Peripheral Control functions
   * @{
   */
 HAL_StatusTypeDef HAL_PCDEx_PMAConfig(PCD_HandleTypeDef *hpcd, 
@@ -121,7 +121,7 @@ HAL_StatusTypeDef HAL_PCDEx_PMAConfig(PCD_HandleTypeDef *hpcd,
                                      uint16_t ep_kind,
                                      uint32_t pmaadress);
 
- __weak void HAL_PCDEx_SetConnectionState(PCD_HandleTypeDef *hpcd, uint8_t state);
+void HAL_PCDEx_SetConnectionState(PCD_HandleTypeDef *hpcd, uint8_t state);
 
 /**
   * @}

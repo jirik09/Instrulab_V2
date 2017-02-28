@@ -1,8 +1,8 @@
-;******************** (C) COPYRIGHT 2014 STMicroelectronics ********************
+;******************** (C) COPYRIGHT 2016 STMicroelectronics ********************
 ;* File Name          : startup_stm32f318xx.s
 ;* Author             : MCD Application Team
-;* Version            : $VERSION$
-;* Date               : 12-Sept-2014
+;* Version            : V2.3.1
+;* Date               : 16-December-2016
 ;* Description        : STM32F318xx devices vector table for MDK-ARM toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP
@@ -12,7 +12,7 @@
 ;*                        calls main()).
 ;*                      After Reset the CortexM4 processor is in Thread mode,
 ;*                      priority is Privileged, and the Stack is set to Main.
-;* <<< Use Configuration Wizard in Context Menu >>>
+;*
 ;*******************************************************************************
 ;
 ;* Redistribution and use in source and binary forms, with or without modification,

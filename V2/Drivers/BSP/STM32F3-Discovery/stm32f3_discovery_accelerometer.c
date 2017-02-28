@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f3_discovery_accelerometer.c
   * @author  MCD Application Team
-  * @version V2.1.1
-  * @date    30-December-2014
+  * @version V2.1.4
+  * @date    16-December-2016
   * @brief   This file provides a set of functions needed to manage the ACCELEROMETER
   *          MEMS available on STM32F3-Discovery Kit.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -47,60 +47,56 @@
   * @{
   */ 
 
-/** @addtogroup STM32F3_DISCOVERY_ACCELEROMETER
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER STM32F3-DISCOVERY ACCELEROMETER
   * @{
   */
 
-
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Private_TypesDefinitions
+/* Private typedef -----------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Private_Types Private Types
   * @{
   */
-  
 /**
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Private_Defines
+/* Private defines ------------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Private_Constants Private Constants
   * @{
   */
-
 /**
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Private_Macros
+/* Private macros ------------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Private_Macros Private Macros
   * @{
   */
-
 /**
   * @}
   */ 
   
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Private_Variables
+/* Private variables ---------------------------------------------------------*/
+/** @defgroup STM32F3_DISCOVERY_ACCELEROMETER_Private_Variables Private Variables
   * @{
   */ 
 static ACCELERO_DrvTypeDef *AccelerometerDrv;
 
-/**
-  * @}
-  */
-
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Private_FunctionPrototypes
-  * @{
-  */
 
 /**
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_ACCELERO_Private_Functions
+/* Private function prototypes -----------------------------------------------*/
+/** @addtogroup STM32F3_DISCOVERY_ACCELEROMETER_Private_FunctionPrototypes Private Functions
   * @{
   */
-
 /**
-  * @brief  Set ACCELEROMETER Initialization.
-  * @param  None
-  * @retval ACCELERO_OK if no problem during initialization
+  * @}
+  */
+
+/* Exported functions ---------------------------------------------------------*/
+/** @addtogroup STM32F3_DISCOVERY_ACCELEROMETER_Exported_Functions
+  * @{
   */
 uint8_t BSP_ACCELERO_Init(void)
 {  
@@ -161,7 +157,6 @@ uint8_t BSP_ACCELERO_Init(void)
 
 /**
   * @brief  Reboot memory content of ACCELEROMETER
-  * @param  None         
   * @retval None
   */
 void BSP_ACCELERO_Reset(void)

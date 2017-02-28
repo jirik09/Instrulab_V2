@@ -100,10 +100,10 @@ int main(void)
 
 
 	#ifdef USE_GEN
-	MX_DAC1_Init();
-	MX_DAC2_Init();
 	MX_TIM6_Init();
 	MX_TIM7_Init();
+	MX_DAC1_Init();
+	MX_DAC2_Init();
 	#endif //USE_GEN  
   
 
