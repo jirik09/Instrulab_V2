@@ -92,6 +92,7 @@
             this.ch1Ch2ToolStripMenuItem_minus = new System.Windows.Forms.ToolStripMenuItem();
             this.ch2Ch1ToolStripMenuItem_minus = new System.Windows.Forms.ToolStripMenuItem();
             this.ch1XCh2ToolStripMenuItem_mult = new System.Windows.Forms.ToolStripMenuItem();
+            this.FFTCh1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.communicationDecodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uARTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -736,7 +737,8 @@
             this.ch1Ch2ToolStripMenuItem_plus,
             this.ch1Ch2ToolStripMenuItem_minus,
             this.ch2Ch1ToolStripMenuItem_minus,
-            this.ch1XCh2ToolStripMenuItem_mult});
+            this.ch1XCh2ToolStripMenuItem_mult,
+            this.FFTCh1ToolStripMenuItem});
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(47, 20);
             this.toolStripMenuItem3.Text = "Math";
@@ -745,7 +747,7 @@
             // 
             this.ch1Ch2ToolStripMenuItem_plus.CheckOnClick = true;
             this.ch1Ch2ToolStripMenuItem_plus.Name = "ch1Ch2ToolStripMenuItem_plus";
-            this.ch1Ch2ToolStripMenuItem_plus.Size = new System.Drawing.Size(130, 22);
+            this.ch1Ch2ToolStripMenuItem_plus.Size = new System.Drawing.Size(152, 22);
             this.ch1Ch2ToolStripMenuItem_plus.Text = "Ch1 + Ch2";
             this.ch1Ch2ToolStripMenuItem_plus.Click += new System.EventHandler(this.ch1Ch2ToolStripMenuItem_plus_Click);
             // 
@@ -753,7 +755,7 @@
             // 
             this.ch1Ch2ToolStripMenuItem_minus.CheckOnClick = true;
             this.ch1Ch2ToolStripMenuItem_minus.Name = "ch1Ch2ToolStripMenuItem_minus";
-            this.ch1Ch2ToolStripMenuItem_minus.Size = new System.Drawing.Size(130, 22);
+            this.ch1Ch2ToolStripMenuItem_minus.Size = new System.Drawing.Size(152, 22);
             this.ch1Ch2ToolStripMenuItem_minus.Text = "Ch1 - Ch2";
             this.ch1Ch2ToolStripMenuItem_minus.Click += new System.EventHandler(this.ch1Ch2ToolStripMenuItem_minus_Click);
             // 
@@ -761,7 +763,7 @@
             // 
             this.ch2Ch1ToolStripMenuItem_minus.CheckOnClick = true;
             this.ch2Ch1ToolStripMenuItem_minus.Name = "ch2Ch1ToolStripMenuItem_minus";
-            this.ch2Ch1ToolStripMenuItem_minus.Size = new System.Drawing.Size(130, 22);
+            this.ch2Ch1ToolStripMenuItem_minus.Size = new System.Drawing.Size(152, 22);
             this.ch2Ch1ToolStripMenuItem_minus.Text = "Ch2 - Ch1";
             this.ch2Ch1ToolStripMenuItem_minus.Click += new System.EventHandler(this.ch2Ch1ToolStripMenuItem_minus_Click);
             // 
@@ -769,9 +771,17 @@
             // 
             this.ch1XCh2ToolStripMenuItem_mult.CheckOnClick = true;
             this.ch1XCh2ToolStripMenuItem_mult.Name = "ch1XCh2ToolStripMenuItem_mult";
-            this.ch1XCh2ToolStripMenuItem_mult.Size = new System.Drawing.Size(130, 22);
+            this.ch1XCh2ToolStripMenuItem_mult.Size = new System.Drawing.Size(152, 22);
             this.ch1XCh2ToolStripMenuItem_mult.Text = "Ch1 x Ch2";
             this.ch1XCh2ToolStripMenuItem_mult.Click += new System.EventHandler(this.ch1XCh2ToolStripMenuItem_mult_Click);
+            // 
+            // FFTCh1ToolStripMenuItem
+            // 
+            this.FFTCh1ToolStripMenuItem.CheckOnClick = true;
+            this.FFTCh1ToolStripMenuItem.Name = "FFTCh1ToolStripMenuItem";
+            this.FFTCh1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.FFTCh1ToolStripMenuItem.Text = "FFT Ch1 (beta)";
+            this.FFTCh1ToolStripMenuItem.Click += new System.EventHandler(this.FFTCh1ToolStripMenuItem_Click);
             // 
             // otherToolStripMenuItem
             // 
@@ -2722,6 +2732,7 @@
         private System.Windows.Forms.ToolStripMenuItem default4ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripMenuItem phaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FFTCh1ToolStripMenuItem;
 
 
     }

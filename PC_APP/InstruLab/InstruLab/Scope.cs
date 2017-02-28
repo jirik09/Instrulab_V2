@@ -23,6 +23,10 @@ namespace LEO
         System.Timers.Timer GUITimer;
         System.Timers.Timer ZedTimer;
 
+        FFT fft_calc;
+        double[] fft_xRe;
+        double[] fft_xIm;
+
         int semaphoreTimeout = 4000;
 
         private Queue<Message> scope_q = new Queue<Message>();
@@ -35,7 +39,7 @@ namespace LEO
         public enum triggerEdge_def { RISE, FALL };
         public enum TRIG_MODE {IDLE, NORMAL, AUTO, SINGLE };
 
-        public enum math_def {NONE, SUM,DIFF_A,DIFF_B,MULT };
+        public enum math_def { NONE, SUM, DIFF_A, DIFF_B, MULT, FFT };
 
         math_def math = math_def.NONE;
         math_def last_math = math_def.NONE;
@@ -999,8 +1003,17 @@ namespace LEO
             actualCahnnels = 1;
             set_num_of_channels(Commands.CHANNELS_1);
 
-            numSamples=100;
-            set_num_of_samples(Commands.SAMPLES_1K);
+            if (ScopeDevice.maxBufferLength >= 2000)
+            {
+                numSamples = 1000;
+                set_num_of_samples(Commands.SAMPLES_1K);
+            }
+            else {
+                numSamples = 500;
+                set_num_of_samples(Commands.SAMPLES_500);
+                this.ToolStripMenuItem_1ksmp.Checked = false;
+                this.ToolStripMenuItem_500smp.Checked = true;
+            }
 
             adcRes = 12;
             set_data_depth(Commands.DATA_DEPTH_12B);
@@ -2343,7 +2356,7 @@ namespace LEO
                 }
             }
 
-            if (math != math_def.NONE && actualCahnnels>=2)
+            if ((math != math_def.NONE && actualCahnnels >= 2) || math == math_def.FFT)
             {
                 this.signal_math = new double[device.scopeCfg.timeBase.Length];
                 double scale_ch1 = ((double)device.scopeCfg.ranges[1, selectedRange] - (double)device.scopeCfg.ranges[0, selectedRange]) / 1000 / Math.Pow(2, device.scopeCfg.actualRes);
@@ -2375,6 +2388,31 @@ namespace LEO
                         {
                             signal_math[j] = ((device.scopeCfg.samples[0, j] * scale_ch1) * (device.scopeCfg.samples[1, j] * scale_ch2) + off)*gain[4];
                         }
+                        break;
+                    case math_def.FFT:
+                        fft_calc = new FFT();
+                        uint logN = (uint)Math.Round(Math.Log(device.scopeCfg.timeBase.Length, 2));
+                        uint N = (uint)Math.Pow(2, logN);
+                        uint minLeng = (uint)Math.Min(device.scopeCfg.timeBase.Length, N);
+                        
+
+                        fft_xRe = new double[N];
+                        fft_xIm = new double[N];
+
+                        fft_calc.init(logN);
+                        for (int j = 0; j < minLeng; j++)
+                        {
+                            double flatTop = 0.21557895 - 0.41663158 * Math.Cos(2 * Math.PI * j / (minLeng - 1)) + 0.277263158 * Math.Cos(4 * Math.PI * j / (minLeng - 1)) + 0.083578947 * Math.Cos(6 * Math.PI * j / (minLeng - 1)) + 0.006947368 * Math.Cos(8 * Math.PI * j / (minLeng - 1));
+                            fft_xRe[j] = (double)device.scopeCfg.samples[0, j];// * flatTop;
+                        }
+                        fft_calc.run(fft_xRe, fft_xIm);
+
+                        for (int j = 0; j < minLeng; j++)
+                        {
+                            signal_math[j] = Math.Sqrt(fft_xRe[j] * scale_ch1 * fft_xRe[j] * scale_ch1 + fft_xIm[j] * scale_ch1 * fft_xIm[j] * scale_ch1) * scale_ch1 * gain[4];
+                        }
+                        signal_math[0] = 0;
+
                         break;
                 }
             }
@@ -2728,11 +2766,25 @@ namespace LEO
             validate_math(); 
         }
 
+        private void FFTCh1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (FFTCh1ToolStripMenuItem.Checked)
+            {
+                math = math_def.FFT;
+            }
+            else
+            {
+                math = math_def.NONE;
+            }
+            validate_math(); 
+        }
+
         private void validate_math() {
             ch1Ch2ToolStripMenuItem_minus.Checked = math == math_def.DIFF_A ? true : false;
             ch1Ch2ToolStripMenuItem_plus.Checked = math == math_def.SUM ? true : false;
             ch2Ch1ToolStripMenuItem_minus.Checked = math == math_def.DIFF_B ? true : false;
             ch1XCh2ToolStripMenuItem_mult.Checked = math == math_def.MULT ? true : false;
+            FFTCh1ToolStripMenuItem.Checked = math == math_def.FFT ? true : false;
 
             radioButton_hor_cur_math.Enabled = math == math_def.NONE ? false : true;
             radioButton_ver_cur_math.Enabled = math == math_def.NONE ? false : true;
@@ -2938,6 +2990,8 @@ namespace LEO
         public double getMeasFreq(int chann) {
             return meas.getFreq(chann);
         }
+
+
 
 
 
