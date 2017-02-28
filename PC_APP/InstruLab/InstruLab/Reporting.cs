@@ -23,7 +23,7 @@ namespace LEO
         public void Sendreport(string capt, Exception ex, Device dev, List<String> log, int ErrorNumber)
         {
 
-            
+            /*
             if (SystemInformation.Network)
             {
                 try
@@ -108,12 +108,13 @@ namespace LEO
                     Environment.Exit(1);
                 }
                 
-            }
+            }*/
         }
 
 
         public void sendFeedback(string mail, string addres)
         {
+            /*
             try
             {
                 mailMsg = new MailMessage("leo.platform.ctu@gmail.com", "leo.platform.ctu@gmail.com");
@@ -158,7 +159,7 @@ namespace LEO
             catch (Exception excp)
             {
                 MessageBox.Show("Unhandled exception. feedback cannot be send.\r\n"+ excp.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
         }
 
         private string get_os() {

@@ -319,7 +319,7 @@ ARM Macro Assembler    Page 5
   185 00000000                 EXPORT           Reset_Handler             [WEAK
 ]
   186 00000000                 IMPORT           SystemInit
-  187 00000000                 IMPORT           __main
+  187 00000000                 IMPORT           main
   188 00000000         
   189 00000000 4806            LDR              R0, =SystemInit
   190 00000002 4780            BLX              R0
@@ -329,7 +329,7 @@ ARM Macro Assembler    Page 5
 ARM Macro Assembler    Page 6 
 
 
-  191 00000004 4806            LDR              R0, =__main
+  191 00000004 4806            LDR              R0, =main
   192 00000006 4700            BX               R0
   193 00000008                 ENDP
   194 00000008         
@@ -643,18 +643,18 @@ ARM Macro Assembler    Page 10
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\instrulab_built\startup_stm32f303xc.d -o.\instrulab_built\sta
-rtup_stm32f303xc.o -I..\..\Inc -I"D:\Instrulab_V2\V2\Projects\STM32F303 Discove
-ry\RTE" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\PA
-CK\Keil\STM32F3xx_DFP\1.3.0\Device\Include --predefine="__MICROLIB SETA 1" --pr
-edefine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --predefine="ST
-M32F303xC SETA 1" --list=startup_stm32f303xc.lst ..\..\Drivers\CMSIS\Device\ST\
+rtup_stm32f303xc.o -I..\..\Inc -I"E:\Git\Instrulab_V2\V2\Projects\STM32F303 Dis
+covery\RTE" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\AR
+M\PACK\Keil\STM32F3xx_DFP\1.3.0\Device\Include --predefine="__MICROLIB SETA 1" 
+--predefine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --predefine
+="STM32F303xC SETA 1" --list=startup_stm32f303xc.lst ..\..\Drivers\CMSIS\Device
 
 
 
 ARM Macro Assembler    Page 11 
 
 
-STM32F3xx\Source\Templates\arm\startup_stm32f303xc.s
+\ST\STM32F3xx\Source\Templates\arm\startup_stm32f303xc.s
 
 
 
@@ -1857,15 +1857,15 @@ tes\arm\startup_stm32f303xc.s
       At line 189 in file ..\..\Drivers\CMSIS\Device\ST\STM32F3xx\Source\Templa
 tes\arm\startup_stm32f303xc.s
 Comment: SystemInit used once
-__main 00000000
+main 00000000
 
-Symbol: __main
+Symbol: main
    Definitions
       At line 187 in file ..\..\Drivers\CMSIS\Device\ST\STM32F3xx\Source\Templa
 tes\arm\startup_stm32f303xc.s
    Uses
       At line 191 in file ..\..\Drivers\CMSIS\Device\ST\STM32F3xx\Source\Templa
 tes\arm\startup_stm32f303xc.s
-Comment: __main used once
+Comment: main used once
 2 symbols
 430 symbols in table

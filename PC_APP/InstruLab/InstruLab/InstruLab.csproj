@@ -122,6 +122,7 @@
     <Compile Include="feedback.Designer.cs">
       <DependentUpon>feedback.cs</DependentUpon>
     </Compile>
+    <Compile Include="FFT.cs" />
     <Compile Include="FW_version.cs" />
     <Compile Include="Instrulab.cs">
       <SubType>Form</SubType>

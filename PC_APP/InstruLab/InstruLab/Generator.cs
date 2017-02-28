@@ -764,9 +764,10 @@ namespace LEO
             device.send(":");
             for (int i = 0; i < actualSend; i++)
             {
-                tmpData = (int)Math.Round(data[sent + i] / (device.genCfg.VRefMax - device.genCfg.VRefMin) * 1000 * (Math.Pow(2, device.genCfg.dataDepth) - 1) + (Math.Pow(2, device.genCfg.dataDepth - 1) - 1));
+                tmpData = (int)Math.Round(data[sent + i] / (device.genCfg.VRefMax - device.genCfg.VRefMin) * 1000 * (Math.Pow(2, device.genCfg.dataDepth) - 1));
 
                 if (device.systemCfg.isShield) {
+                    tmpData += (int)(Math.Pow(2, device.genCfg.dataDepth - 1) - 1);
                     tmpData = (int)(Math.Pow(2, device.genCfg.dataDepth) - 1) - tmpData;
                 }
                 

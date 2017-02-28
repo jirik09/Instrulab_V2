@@ -97,6 +97,7 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define	DAC_DATA_DEPTH 12
 
 #define GEN_VREF 3300
+#define GEN_VDDA 3300
 #define GEN_VREF_INT 1200
 
 #define GEN_CH1_PIN_STR "PA4_" //must be 4 chars

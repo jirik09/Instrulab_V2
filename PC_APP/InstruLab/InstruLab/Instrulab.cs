@@ -106,7 +106,7 @@ namespace LEO
                     this.btn_voltmeter_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_voltage_source_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
-                    this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;
+                    ////this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_connect.Text = "Disconnect";
                     this.btn_scan.Enabled = false;
                     //GUITimer.Stop();

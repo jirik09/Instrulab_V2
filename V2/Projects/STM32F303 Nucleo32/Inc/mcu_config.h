@@ -69,6 +69,18 @@ static GPIO_TypeDef * ANALOG_GPIO_ADC2[ADC2_NUM_CHANNELS] = {				GPIOA,					GPIO
 static const uint32_t ANALOG_CHANNEL_ADC2[ADC2_NUM_CHANNELS] = {		ADC_CHANNEL_1,	ADC_CHANNEL_4,	ADC_CHANNEL_18};
 static const char* ANALOG_CHANN_ADC2_NAME[ADC2_NUM_CHANNELS] = { 		"A3", 					"A4", 					"Vref"};
 
+#define ADC3_NUM_CHANNELS 1
+static const uint16_t ANALOG_PIN_ADC3[ADC3_NUM_CHANNELS] = {				0};
+static GPIO_TypeDef * ANALOG_GPIO_ADC3[ADC3_NUM_CHANNELS] = {				0};
+static const uint32_t ANALOG_CHANNEL_ADC3[ADC3_NUM_CHANNELS] = {		0};
+static const char* ANALOG_CHANN_ADC3_NAME[ADC3_NUM_CHANNELS] = { 		" "};
+
+#define ADC4_NUM_CHANNELS 1
+static const uint16_t ANALOG_PIN_ADC4[ADC4_NUM_CHANNELS] = {				0};
+static GPIO_TypeDef * ANALOG_GPIO_ADC4[ADC4_NUM_CHANNELS] = {				0};
+static const uint32_t ANALOG_CHANNEL_ADC4[ADC4_NUM_CHANNELS] = {		0};
+static const char* ANALOG_CHANN_ADC4_NAME[ADC4_NUM_CHANNELS] = { 		" "};
+
 static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,ADC2_NUM_CHANNELS}; //number of ADC channels {ADC1,ADC2,ADC3,ADC4}
 
 
@@ -79,6 +91,7 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define	DAC_DATA_DEPTH 12
 
 #define GEN_VREF 3300
+#define GEN_VDDA 3300
 #define GEN_VREF_INT 1200
 
 
