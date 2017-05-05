@@ -10,7 +10,7 @@
 #define COMMANDS_H_
 // Constant definitions =======================================================
 // Types definitions ==========================================================
-typedef  uint32_t command;
+typedef uint32_t command;
 
 
 #define STR_ACK "ACK_"
@@ -50,6 +50,7 @@ REGISTER_CMD(RESET_DEVICE,RES!),
 
 REGISTER_CMD(SCOPE,OSCP),
 REGISTER_CMD(GENERATOR,GEN_),
+REGISTER_CMD(COUNTER,CNT_),
 REGISTER_CMD(COMMS,COMS),
 REGISTER_CMD(SYSTEM,SYST),	
 	
@@ -93,9 +94,18 @@ REGISTER_CMD(GEN_CHANNELS,CHAN),
 REGISTER_CMD(GEN_START,STRT),
 REGISTER_CMD(GEN_STOP,STOP),
 
+REGISTER_CMD(CNT_MODE,MODE),						// CNT_MODE command can have two values: MODE == ETR, MODE == IC
 
 };
 
+//Counter mode
+enum{
+REGISTER_CMD(CNT_ETR,ETR_),
+REGISTER_CMD(CNT_IC,IC__)
+};
+
+#define isCounterMode(CMD) (((CMD) == CMD_CNT_ETR) || \
+                           ((CMD) == CMD_CNT_IC))	
 
 //Scope tigger modes
 enum{

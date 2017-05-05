@@ -37,6 +37,8 @@
 #include "stm32f3xx_it.h"
 #include "cmsis_os.h"
 #include "comms_hal.h"
+#include "counter.h"
+
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -48,6 +50,12 @@ extern void xPortSysTickHandler(void);
 extern PCD_HandleTypeDef hpcd_USB_FS;
 #endif //USE_USB
 extern UART_HandleTypeDef huart2;
+
+#ifdef USE_COUNTER
+extern DMA_HandleTypeDef hdma_tim2_up;
+extern DMA_HandleTypeDef hdma_tim2_ch1;
+extern volatile counterTypeDef counter;
+#endif //USE_COUNTER
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -108,6 +116,32 @@ void USART2_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+/**
+* @brief This function handles DMA1 channel2 global interrupt.
+*/
+void DMA1_Channel2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel2_IRQn 0 */
 
+  /* USER CODE END DMA1_Channel2_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_tim2_up);
+  /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
+	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterEtr.buffer, 1);
+  /* USER CODE END DMA1_Channel2_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 channel5 global interrupt.
+*/
+void DMA1_Channel5_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
+	
+  /* USER CODE END DMA1_Channel5_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_tim2_ch1);
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
+	HAL_DMA_Start_IT(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterIc.ic1buffer, 2);
+  /* USER CODE END DMA1_Channel5_IRQn 1 */
+}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

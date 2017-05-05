@@ -129,7 +129,15 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define GEN_CH1_PIN_STR "A2__" //must be 4 chars
 #define GEN_CH2_PIN_STR "D13_" //must be 4 chars
 
+// Counter constatnts =======================================================
+#define ETR_BUFFER_SIZE		1
+/* TIM4 -> ARR & PSC set to gate 200 ms */
+#define TIM4_ARR					1999			
+#define TIM4_PSC					7199
+#define IC_THRESHOLD			20	
+//#define IC12_BUFFER_SIZE	2
 
+//#define CNT_AVG_BUFF_SIZE 	16
 
 //Definition of assert to check length of strings
 #define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}

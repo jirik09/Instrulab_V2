@@ -67,8 +67,26 @@ void MX_TIM6_Init(void);
 void MX_TIM7_Init(void);
 #endif //USE_GEN
 
+#ifdef USE_PWM
+void PWMEnable(void);
+void PWMDisable(void);
+void MX_TIM3_Init(void);
+void MX_TIM15_Init(void);
+#endif //USE_PWM
 
-
+#ifdef USE_COUNTER
+void MX_TIM4_Init(void);
+void MX_TIM2_ETR_Init(void);
+void MX_TIM2_IC_Init(void);
+void TIM_counter_etr_init(void);
+void TIM_counter_ic_init(void);
+void TIM_etr_deinit(void);
+void TIM_ic_deinit(void);
+void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);	
+void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
+//void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
+void ETRP_Config(double freq);
+#endif // USE_COUNTER
 
 	 
 #ifdef __cplusplus

@@ -17,6 +17,7 @@
 #include "generator.h"
 #include "adc.h"
 #include "clock.h"
+#include "counter.h"
 
 // External variables definitions =============================================
 xQueueHandle cmdParserMessageQueue;
@@ -25,6 +26,7 @@ command parseCommsCmd(void);
 command parseScopeCmd(void);
 command parseGeneratorCmd(void);
 command giveNextCmd(void);
+command parseCounterCmd(void);
 void printErrResponse(command cmd);
 // Function definitions =======================================================
 
@@ -93,6 +95,12 @@ void CmdParserTask(void const *argument){
 						printErrResponse(tempCmd);
 					break;
 					#endif //USE_GEN
+					#ifdef USE_COUNTER
+					case CMD_COUNTER: //parse generator command
+						tempCmd = parseCounterCmd();
+						printErrResponse(tempCmd);
+					break;
+					#endif //USE_COUNTER
 					default:
 					xQueueSendToBack(messageQueue, UNSUPORTED_FUNCTION_ERR_STR, portMAX_DELAY);
 					while(commBufferReadByte(&chr)==0 && chr!=';');
@@ -168,6 +176,34 @@ command parseCommsCmd(void){
 	}
 return cmdIn;
 }
+
+#ifdef USE_COUNTER
+command parseCounterCmd(void)
+{
+	command cmdIn=CMD_ERR; 
+	uint8_t error=0;
+	
+	cmdIn = giveNextCmd();
+		switch(cmdIn){
+			case CMD_CNT_MODE:
+				if(isCounterMode(cmdIn)){
+					if(cmdIn == CMD_CNT_ETR){
+						counterSetMode(ETR);
+					}else if(cmdIn == CMD_CNT_IC){
+						counterSetMode(IC);
+					}
+				}
+			break;
+			
+		}	
+	if(error>0){
+		cmdIn=error;
+	}else{
+		cmdIn=CMD_END;
+	}
+	return cmdIn;
+}
+#endif // USE_COUNTER
 
 /**
   * @brief  Scope command parse function 

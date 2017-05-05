@@ -48,6 +48,7 @@
 #include "mcu_config.h"
 #include "scope.h"
 #include "generator.h"
+#include "counter.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -106,6 +107,10 @@ int main(void)
 	MX_TIM7_Init();
 	#endif //USE_GEN  
 	
+	#ifdef USE_COUNTER
+	TIM_counter_etr_init();
+	#endif //USE_COUNTER
+	
 	#ifdef USE_SHIELD
 	detectScopeShield();
 	#endif
@@ -124,6 +129,9 @@ int main(void)
 	osThreadDef(SCOPE_TASK, ScopeTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(SCOPE_TRIG_TASK, ScopeTriggerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_SCOPE
+	#ifdef USE_COUNTER
+	
+	#endif //USE_COUNTER
 	
 	#ifdef USE_GEN
 	osThreadDef(GENERATOR_TASK, GeneratorTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
@@ -135,6 +143,9 @@ int main(void)
 	osThreadCreate (osThread(SCOPE_TASK), NULL);
 	osThreadCreate (osThread(SCOPE_TRIG_TASK), NULL);
 	#endif //USE_SCOPE
+	#ifdef USE_COUNTER
+	
+	#endif //USE_COUNTER
 	
 	#ifdef USE_GEN
 	osThreadCreate (osThread(GENERATOR_TASK), NULL);
