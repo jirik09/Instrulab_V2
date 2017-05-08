@@ -25,6 +25,8 @@ void counter_deinit(void);
 
 volatile counterTypeDef counter;
 extern uint32_t tim2clk, tim4clk;
+volatile uint8_t ic1BufferSize = 2;
+volatile uint8_t ic2BufferSize = 2;
 
 // Function definitions ========================================================
 /**
@@ -44,7 +46,7 @@ void CounterTask(void const *argument)
 		if(message[0]=='1'){
 				counterInitETR();
 		}else if(message[0]=='2'){
-
+				counterInitIC();
 		}
 //		else if(message[0]=='3'){ //invalidate
 //			if(generator.state==GENERATOR_IDLE){
@@ -139,6 +141,45 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 }
 
 /**
+  * @brief  This function is executed in case of DMA transfer complete event of Input Capture channel 1.
+  * @param  Pointer to DMA handle structure.
+  * @retval None
+  */
+void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
+{
+	uint32_t psc = TIM2->PSC;	
+	uint32_t ic1psc = ((TIM2->CCMR1) & TIM_CCMR1_IC1PSC_Msk) >> TIM_CCMR1_IC1PSC_Pos;	
+	uint32_t capture1;
+	double ic1freq;		
+	
+	capture1 = IC_GetCapture(counter.counterIc.ic1buffer);
+	
+	ic1freq = (double)(tim2clk*(psc+1)*IC_GetPrescaler(ic1psc))*((double)(ic1BufferSize-1)/(double)capture1);
+
+	IC1PSC_Config(ic1freq);			
+}
+
+
+/**
+  * @brief  This function is executed in case of DMA transfer complete event of Input Capture channel 2.
+  * @param  Pointer to DMA handle structure.
+  * @retval None
+  */
+void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
+{
+	uint32_t psc = TIM2->PSC;	
+	uint32_t ic2psc = ((TIM2->CCMR1) & TIM_CCMR1_IC2PSC_Msk) >> TIM_CCMR1_IC2PSC_Pos;
+	uint32_t capture2;	
+	double ic2freq;		
+		
+	capture2 = IC_GetCapture(counter.counterIc.ic2buffer);
+	
+	ic2freq = (double)(tim2clk*(psc+1)*IC_GetPrescaler(ic2psc))*((double)(ic2BufferSize-1)/(double)capture2);
+
+	IC2PSC_Config(ic2freq);				
+}
+
+/**
   * @brief  This function is used to select the desired ETR prescaler ETPS. (TIM2 should be clocked to 144 MHz - not possible - only 72 MHz)
 	* @param  freq: frequency
   * @retval none 
@@ -168,214 +209,132 @@ void ETRP_Config(double freq)
 }
 
 /**
-	* @brief  This function automatically configures ARR and PSC registers of given timer. 
-						The configurable overflow period range depends on the "psc" value calculated as:
-
-				psc = mean(sqrt(timclk / ovFreq_max), sqrt(timclk / ovFreq_min))
-
-	* @param  timclk: peripheral clock
+	* @brief  This function configures ARR and PSC registers of 16bit timer if running on 72 MHz. 	
 	* @param  *tim: pointer to timer structure
 	* @param  ovFreq: gives the number of counter (TIMx) overflows..
   * @retval none 
   */
-void ARR_PSC_AutoConfig(TIM_HandleTypeDef *tim, uint32_t timclk, double ovFreq)
+void ARR_PSC_Config(TIM_HandleTypeDef *tim, double ovFreq)
 {	
-	uint32_t arr;
-	double psc;
+	uint16_t arr;
+	uint16_t psc;	
 	
-	if (ovFreq >= 10 && ovFreq <= 100) {									/* min. gate time 00.01 second */
-		psc = 3532;
-	} else if (ovFreq >= 1 && ovFreq < 10) {
-		psc = 5584;
-	} else if (ovFreq >= 0.1 && ovFreq < 1){
-		psc = 17659;   
-	} else if (ovFreq > 0.04 && ovFreq < 0.1) {						/* max. gate time 25.00 second */
-		psc = 65536;	
-	}
+	if (ovFreq == 100) {									/* min. gate time 00.01 second */
+		psc = 7199;
+		arr = 99;
+	} else if (ovFreq == 10) {
+		psc = 7199;
+		arr = 999;
+	} else if (ovFreq == 1){
+		psc = 7199;
+		arr = 9999;
+	} else if (ovFreq == 0.1) {						/* max. gate time 25.00 second */
+		psc = 35999;
+		arr = 19999;		
+	}	
 	
-	arr = ((double)timclk / ovFreq) / psc;	
-	
-	tim->Instance->ARR = (uint32_t)(arr - 1); 
-	tim->Instance->PSC = (uint32_t)(psc - 1);
+	tim->Instance->ARR = arr; 
+	tim->Instance->PSC = psc;
 }
 
-///**
-//  * @brief  Oscilloscope set Default values
-//  * @param  None
-//  * @retval None
-//  */
-//void generatorSetDefault(void){
-//	generator.bufferMemory=generatorBuffer;
-//	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
-//		generator.generatingFrequency[i]=DEFAULT_GENERATING_FREQ;
-//		generator.realGenFrequency[i]=DEFAULT_GENERATING_FREQ;
-//	}
-//	
-//	generator.numOfChannles=1;
-//	generator.maxOneChanSamples=MAX_GENERATOR_BUFF_SIZE/2;
-//	generator.oneChanSamples[0]=MAX_GENERATOR_BUFF_SIZE/2;
-//	generator.pChanMem[0]=generatorBuffer;
-//	generator.state=GENERATOR_IDLE;
-//	generator.DAC_res=DAC_DATA_DEPTH;
-//}
+/**
+	* @brief  This function is used to select the desired prescaler of IC1 of TIM2. 
+	* @param  freq: frequency
+  * @retval none 
+  */
+void IC1PSC_Config(double freq)
+{
+	uint32_t ccmr1 = (TIM2->CCMR1) & TIM_CCMR1_IC1PSC_Msk;
+		
+	/* PSC1 configuration */
+	/* For IC_THRESHOLD = max (8), range is 9 MHz - 18 MHz */
+	if ((freq >= (double)(tim2clk/IC_THRESHOLD*2)) && (freq < (double)(tim2clk/IC_THRESHOLD))){
+		if (ccmr1 != TIM_CCMR1_IC1PSC_0) {
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC_0;				/* Set IC prescaler to 2 */
+		}
+	/* 18 MHz - 36 MHz */
+	} else if ((freq >= (double)(tim2clk/IC_THRESHOLD)) && (freq < (double)(tim2clk*2/IC_THRESHOLD))){
+		if (ccmr1 != TIM_CCMR1_IC1PSC_1){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC_1;				/* Set IC prescaler to 4 */
+		}
+	/* 36 MHz - 72 MHz */
+	} else if ((freq >= (double)(tim2clk*2/IC_THRESHOLD)) && (freq < (double)(tim2clk*4/IC_THRESHOLD))){
+		if (ccmr1 != TIM_CCMR1_IC1PSC){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC;					/* Set IC prescaler to 8 */
+		}
+	/* 0.0335276126861572265625 Hz - 9 MHz */
+	} else if (ccmr1 != 0x00) {
+		TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC; 					/* Set IC prescaler to 1 */
+	}
+}
 
-//void genInit(void){
-//	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
-//		TIM_Reconfig_gen(generator.generatingFrequency[i],i,0);
-//		if(generator.numOfChannles>i){
-//			DAC_DMA_Reconfig(i,(uint32_t *)generator.pChanMem[i], generator.oneChanSamples[i]);
-//		}else{
-//			DAC_DMA_Reconfig(i,NULL,0);
-//		}
-//	}
-//}
+/**
+	* @brief  This function is used to select the desired prescaler of IC2 of TIM2. 
+	* @param  freq: frequency
+  * @retval none 
+  */
+void IC2PSC_Config(double freq)
+{
+	uint32_t ccmr2 = (TIM2->CCMR1) & TIM_CCMR1_IC2PSC_Msk;
+	
+	/* PSC2 configuration */
+	if ((freq >= (tim2clk/IC_THRESHOLD*2)) && (freq < (tim2clk/IC_THRESHOLD))){
+		if (ccmr2 != TIM_CCMR1_IC2PSC_0) {
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC_0;				/* Set IC prescaler to 2 */
+		}
+	} else if ((freq >= (tim2clk)/IC_THRESHOLD) && (freq < (tim2clk*2/IC_THRESHOLD))){
+		if (ccmr2 != TIM_CCMR1_IC2PSC_1){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC_1;				/* Set IC prescaler to 4 */
+		}
+	} else if ((freq >= (tim2clk*2)/IC_THRESHOLD) && (freq < (tim2clk*4/IC_THRESHOLD))){
+		if (ccmr2 != TIM_CCMR1_IC2PSC){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC;					/* Set IC prescaler to 8 */
+		}
+	} else if (ccmr2 != 0x00) {
+		TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC; 					/* Set IC prescaler to 1 */
+	}		
+}
 
+/**
+  * @brief  This function returns returns the real value of prescaler.
+  * @param  Prescaler ICxPSC register value.
+	* @retval uint8_t presc: real value of prescaler
+  */
+uint8_t IC_GetPrescaler(uint32_t icxpsc)
+{
+	uint8_t presc;
+	/* Save the real value of ICxPSC prescaler for later calculations */
+	switch(icxpsc){
+		case 0:
+			presc = 1; break;			
+		case 1:
+			presc = 2;	break;
+		case 2:
+			presc = 4; break;
+		case 3:
+			presc = 8; break;
+		default: 
+			break;
+	}	
+	return presc;
+}
 
-//uint8_t genSetData(uint16_t index,uint8_t length,uint8_t chan){
-//	uint8_t result = GEN_INVALID_STATE;
-//	if(generator.state==GENERATOR_IDLE ){
-//		if ((index*2+length)/2<=generator.oneChanSamples[chan-1] && generator.numOfChannles>=chan){
-//			if(commBufferReadNBytes((uint8_t *)generator.pChanMem[chan-1]+index*2,length)==length && commBufferReadByte(&result)==0 && result==';'){
-//				result = 0;
-//				xQueueSendToBack(generatorMessageQueue, "3Invalidate", portMAX_DELAY);
-//			}else{
-//			result = GEN_INVALID_DATA;
-//			}
-//		}else{
-//			result = GEN_OUT_OF_MEMORY;
-//		}
-//	}
-//	return result;
-//}
+/**
+	* @brief  This function returns the difference between two trays.
+	* @param  buffer: DMA buffer.
+	* @retval uint32_t (capture_n - capture_0) 
+  */
+uint32_t IC_GetCapture(volatile uint32_t *buffer)
+{
+	return (buffer[ic1BufferSize-1] - buffer[0]); 
+}
 
-//uint8_t genSetFrequency(uint32_t freq,uint8_t chan){
-//	uint8_t result = GEN_TO_HIGH_FREQ;
-//	uint32_t realFreq;
-//	if(freq<=MAX_GENERATING_FREQ){
-//		generator.generatingFrequency[chan-1] = freq;
-//		result = TIM_Reconfig_gen(generator.generatingFrequency[chan-1],chan-1,&realFreq);
-//		generator.realGenFrequency[chan-1] = realFreq;
-//	}
-//	return result;
-//}
-
-//void genSendRealSamplingFreq(void){
-//	xQueueSendToBack(messageQueue, "2SendGenFreq", portMAX_DELAY);
-//}
-
-//void genDataOKSendNext(void){
-//	xQueueSendToBack(messageQueue, "7GenNext", portMAX_DELAY);
-//}
-
-//void genStatusOK(void){
-//	xQueueSendToBack(messageQueue, "8GenOK", portMAX_DELAY);
-//}
-
-
-//uint32_t genGetRealSmplFreq(uint8_t chan){
-//	return generator.realGenFrequency[chan-1];
-//}
-
-//uint8_t genSetLength(uint32_t length,uint8_t chan){
-//	uint8_t result=GEN_INVALID_STATE;
-//	if(generator.state==GENERATOR_IDLE){
-//		uint32_t smpTmp=generator.maxOneChanSamples;
-//		if(length<=generator.maxOneChanSamples){
-//			generator.oneChanSamples[chan-1]=length;
-//			clearGenBuffer();
-//			result=0;
-//		}else{
-//			result = GEN_BUFFER_SIZE_ERR;
-//		}
-//		xQueueSendToBack(generatorMessageQueue, "3Invalidate", portMAX_DELAY);
-//	}
-//	return result;
-//}
-
-
-
-//uint8_t genSetNumOfChannels(uint8_t chan){
-//	uint8_t result=GEN_INVALID_STATE;
-//	uint8_t chanTmp=generator.numOfChannles;
-//	if(generator.state==GENERATOR_IDLE){
-//		if(chan<=MAX_DAC_CHANNELS){
-//			while(chanTmp>0){
-//				if(generator.oneChanSamples[--chanTmp]>MAX_GENERATOR_BUFF_SIZE/2/chan){
-//					return GEN_BUFFER_SIZE_ERR;
-//				}
-//			}
-//			generator.numOfChannles=chan;
-//			generator.maxOneChanSamples=MAX_GENERATOR_BUFF_SIZE/2/chan;
-//			for(uint8_t i=0;i<chan;i++){
-//				generator.pChanMem[i]=(uint16_t *)&generatorBuffer[i*generator.maxOneChanSamples];
-//			}
-//			result=0;
-//			xQueueSendToBack(generatorMessageQueue, "3Invalidate", portMAX_DELAY);
-//		}
-//	}
-//	return result;
-//}
-
-
-///**
-//  * @brief 	Checks if scope settings doesn't exceed memory
-//  * @param  None
-//  * @retval err/ok
-//  */
-////uint8_t validateGenBuffUsage(){
-////	uint8_t result=1;
-////	uint32_t data_len=generator.maxOneChanSamples;
-////	if(generator.DAC_res>8){
-////		data_len=data_len*2;
-////	}
-////	data_len=data_len*generator.numOfChannles;
-////	if(data_len<=MAX_GENERATOR_BUFF_SIZE){
-////		result=0;
-////	}
-////	return result;
-////}
-
-///**
-//  * @brief 	Clears generator buffer
-//  * @param  None
-//  * @retval None
-//  */
-//void clearGenBuffer(void){
-//	for(uint32_t i=0;i<MAX_GENERATOR_BUFF_SIZE/2;i++){
-//		generatorBuffer[i]=0;
-//	}
-//}
-
-
-//void genSetOutputBuffer(void){
-//	DACSetOutputBuffer();
-//}
-
-//void genUnsetOutputBuffer(void){
-//	DACUnsetOutputBuffer();
-//}
-
-//uint8_t genSetDAC(uint16_t chann1,uint16_t chann2){
-//	uint8_t result=0;
-//	if(generator.state==GENERATOR_IDLE){
-//		for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
-//			result+=genSetLength(1,i+1);
-//		}
-//		result+=genSetNumOfChannels(MAX_DAC_CHANNELS);
-//	}
-//	if(MAX_DAC_CHANNELS>0){
-//		*generator.pChanMem[0]=chann1;
-//		result+=genSetFrequency(100,1);
-//	}
-//	if(MAX_DAC_CHANNELS>1){
-//		*generator.pChanMem[1]=chann2;
-//		result+=genSetFrequency(100,2);
-//	}
-//	genStart();	
-
-//	
-//	return result;
-//}
 /**
   * @brief  Start scope sampling
   * @param  None

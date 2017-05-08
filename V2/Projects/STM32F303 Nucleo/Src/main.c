@@ -130,7 +130,7 @@ int main(void)
 	osThreadDef(SCOPE_TRIG_TASK, ScopeTriggerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_SCOPE
 	#ifdef USE_COUNTER
-	
+	osThreadDef(COUNTER_TASK, CounterTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_COUNTER
 	
 	#ifdef USE_GEN
@@ -144,7 +144,7 @@ int main(void)
 	osThreadCreate (osThread(SCOPE_TRIG_TASK), NULL);
 	#endif //USE_SCOPE
 	#ifdef USE_COUNTER
-	
+	osThreadCreate (osThread(COUNTER_TASK), NULL);
 	#endif //USE_COUNTER
 	
 	#ifdef USE_GEN

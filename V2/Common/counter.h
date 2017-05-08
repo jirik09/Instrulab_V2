@@ -6,13 +6,16 @@
   * @brief   This file contains definitions and prototypes of counter functions
   ***************************************************************************** 
 */ 
-#include <stdint.h>
 
 #ifdef USE_COUNTER
 #ifndef COUNTER_H_
 #define COUNTER_H_
 
-#define IC12_BUFFER_SIZE	2
+/* Includes */
+#include <stdint.h>
+#include "stm32f3xx_hal.h"
+
+#define IC12_BUFFER_SIZE	10
 
 void counterSetMode(uint8_t mode);
 
@@ -36,10 +39,11 @@ typedef struct{
 
 typedef struct{
 	uint32_t ic1buffer[IC12_BUFFER_SIZE];
+	uint32_t ic2buffer[IC12_BUFFER_SIZE];
 	uint16_t arr;	
 	uint16_t psc;	
 	double ic1freq;
-	double freqRatio;
+	double ic2freq;	
 }counterIcTypeDef;
 
 typedef struct{
@@ -52,6 +56,19 @@ typedef struct{
 }counterTypeDef;
 
 
+// Exported functions =========================================================
+void CounterTask(void const *argument);
+
+void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);	
+void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
+void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
+
+void ETRP_Config(double freq);
+void ARR_PSC_Config(TIM_HandleTypeDef *tim, double ovFreq);
+void IC1PSC_Config(double freq);
+void IC2PSC_Config(double freq);
+uint8_t IC_GetPrescaler(uint32_t icxpsc);
+uint32_t IC_GetCapture(volatile uint32_t *buffer);
 
 #endif /* COUNTER_H_ */
 
