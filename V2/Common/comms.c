@@ -363,7 +363,7 @@ uint16_t commBufferCounter(void){
   */
 uint8_t commInputByte(uint8_t chr){
 	portBASE_TYPE xHigherPriorityTaskWoken;
-	uint8_t result=0;
+	uint8_t result=0;	
 	if (chr==';'){
 		result = commBufferStoreByte(chr);
 		xQueueSendToBackFromISR(cmdParserMessageQueue, "1TryParseCmd", &xHigherPriorityTaskWoken);

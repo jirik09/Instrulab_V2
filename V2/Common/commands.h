@@ -39,6 +39,7 @@ typedef uint32_t command;
 //Command definitions
 //Common commands
 enum{
+//Query commands
 REGISTER_CMD(IDN,IDN?),
 REGISTER_CMD(VERSION,VER?),
 REGISTER_CMD(GET_CONFIG,CFG?),
@@ -47,13 +48,14 @@ REGISTER_CMD(GET_INPUTS,INP?),
 REGISTER_CMD(IS_SHIELD,SH_?),	
 REGISTER_CMD(RESET_DEVICE,RES!),
 	
-
+//Peripherals access commands
 REGISTER_CMD(SCOPE,OSCP),
 REGISTER_CMD(GENERATOR,GEN_),
 REGISTER_CMD(COUNTER,CNT_),
 REGISTER_CMD(COMMS,COMS),
 REGISTER_CMD(SYSTEM,SYST),	
-	
+
+//Communication flags	
 REGISTER_CMD(ERR,ERR_),
 REGISTER_CMD(ACK,ACK_),
 REGISTER_CMD(NACK,NACK),
@@ -77,9 +79,7 @@ REGISTER_CMD(SCOPE_ADC_CHANNEL_SET,A_CH),
 REGISTER_CMD(SCOPE_ADC_CHANNEL_SET_DEFAULT,ADEF),
 REGISTER_CMD(SCOPE_ADC_CHANNEL_SET_VREF,AREF),
 
-
-
-
+//Generator specific commands
 REGISTER_CMD(GEN_DATA,DATA),
 REGISTER_CMD(GEN_SAMPLING_FREQ,FREQ),
 REGISTER_CMD(GEN_OUTBUFF_ON,B_ON),
@@ -94,18 +94,39 @@ REGISTER_CMD(GEN_CHANNELS,CHAN),
 REGISTER_CMD(GEN_START,STRT),
 REGISTER_CMD(GEN_STOP,STOP),
 
-REGISTER_CMD(CNT_MODE,MODE),						// CNT_MODE command can have two values: MODE == ETR, MODE == IC
+//Counter commands
+REGISTER_CMD(CNT_MODE,MODE),						// CNT_MODE command can have three values: MODE == ETR / IC / REF
+REGISTER_CMD(CNT_START,STRT),
+REGISTER_CMD(CNT_STOP,STOP),
+REGISTER_CMD(CNT_NEXT,NEXT),
 
+REGISTER_CMD(CNT_GATE,GATE),
+REGISTER_CMD(CNT_SAMPLE_COUNT,SMPLCNT),
 };
 
-//Counter mode
+//Counter modes
 enum{
-REGISTER_CMD(CNT_ETR,ETR_),
-REGISTER_CMD(CNT_IC,IC__)
+REGISTER_CMD(MODE_ETR,ETR_),
+REGISTER_CMD(MODE_IC,IC__),
+REGISTER_CMD(MODE_REF,REF_)
 };
 
-#define isCounterMode(CMD) (((CMD) == CMD_CNT_ETR) || \
-                           ((CMD) == CMD_CNT_IC))	
+#define isCounterMode(CMD) (((CMD) == CMD_MODE_ETR) || \
+                           ((CMD) == CMD_MODE_IC) || \
+													 ((CMD) == CMD_MODE_REF))
+
+//Counter ETR sampling times
+enum{
+REGISTER_CMD(GATE_10m,10m_),
+REGISTER_CMD(GATE_100m,100m),
+REGISTER_CMD(GATE_1s,1s__),
+REGISTER_CMD(GATE_10s,10s_)
+};
+
+#define isCounterEtrGate(CMD) (((CMD) == CMD_GATE_10m) || \
+															((CMD) == CMD_GATE_100m) || \
+															((CMD) == CMD_GATE_1s) || \
+															((CMD) == CMD_GATE_10s))
 
 //Scope tigger modes
 enum{

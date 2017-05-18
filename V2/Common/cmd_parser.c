@@ -177,6 +177,7 @@ command parseCommsCmd(void){
 return cmdIn;
 }
 
+uint16_t commin;
 #ifdef USE_COUNTER
 command parseCounterCmd(void)
 {
@@ -184,23 +185,57 @@ command parseCounterCmd(void)
 	uint8_t error=0;
 	
 	cmdIn = giveNextCmd();
-		switch(cmdIn){
-			case CMD_CNT_MODE:
-				if(isCounterMode(cmdIn)){
-					if(cmdIn == CMD_CNT_ETR){
-						counterSetMode(ETR);
-					}else if(cmdIn == CMD_CNT_IC){
-						counterSetMode(IC);
-					}
+	switch(cmdIn){
+		case CMD_CNT_MODE:
+			cmdIn = giveNextCmd();
+			if(isCounterMode(cmdIn)){				
+				if(cmdIn == CMD_MODE_ETR){
+					counterSetMode(ETR);				
+				}else if(cmdIn == CMD_MODE_IC){
+					counterSetMode(IC);
+				}else if(cmdIn == CMD_MODE_REF){
+					counterSetMode(REF);
 				}
+			}
+			break;	
+		case CMD_CNT_START:
+			counterSendStart();
 			break;
-			
-		}	
+		case CMD_CNT_STOP:
+			counterSendStop();
+			break;		
+		case CMD_CNT_GATE:
+			cmdIn = giveNextCmd();
+			if(isCounterEtrGate(cmdIn)){
+				if(cmdIn == CMD_GATE_10m){
+					counterSetEtrGate(10);
+				}else if(cmdIn == CMD_GATE_100m){
+					counterSetEtrGate(100);
+				}else if(cmdIn == CMD_GATE_1s){
+					counterSetEtrGate(1000);
+				}else if(cmdIn == CMD_GATE_10s){
+					counterSetEtrGate(10000);
+				}					
+			}
+			break;				
+		case CMD_CNT_SAMPLE_COUNT:
+			cmdIn = giveNextCmd();
+				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+					commin = (uint16_t)cmdIn;
+					counterSetIcSampleCount((uint16_t)cmdIn);
+				}else{
+					cmdIn = CMD_ERR;
+					error = COUNTER_INVALID_FEATURE_PARAM;
+				}		
+			break;
+	}	
+	
 	if(error>0){
 		cmdIn=error;
 	}else{
 		cmdIn=CMD_END;
 	}
+	
 	return cmdIn;
 }
 #endif // USE_COUNTER

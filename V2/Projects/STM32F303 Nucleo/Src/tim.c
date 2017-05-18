@@ -35,6 +35,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
+#include "counter.h"
 #include "mcu_config.h"
 /* USER CODE BEGIN 0 */
 
@@ -50,8 +51,6 @@ TIM_HandleTypeDef htim7;
 
 #ifdef USE_COUNTER
 uint32_t tim2clk, tim4clk;
-unsigned int timerClockSource = 14;
-//volatile uint16_t ic1bufferSize, ic2bufferSize;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
 DMA_HandleTypeDef hdma_tim2_up;
@@ -157,6 +156,10 @@ void MX_TIM7_Init(void)
 
 
 #ifdef USE_COUNTER
+/* ************************************************************************************** */
+/* --------------------------- TIM peripherals INIT functions --------------------------- */
+/* ************************************************************************************** */
+
 /* Timer TIM4 initialization - used for time gating of Counter TIM2 */
 void MX_TIM4_Init(void)
 {
@@ -194,8 +197,7 @@ void MX_TIM2_ETR_Init(void)
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   HAL_TIM_Base_Init(&htim2);
 
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_ETRMODE2;
-	timerClockSource = TIM_CLOCKSOURCE_ETRMODE2;
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_ETRMODE2;	
   sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
   sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
   sClockSourceConfig.ClockFilter = 0;
@@ -217,6 +219,7 @@ void MX_TIM2_ETR_Init(void)
 																					 actually be done into the input capture/compare register 1 (TIMx_CCR1) or not.  */
 }
 
+/* TIM2 mode IC init function */
 void MX_TIM2_IC_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
@@ -247,20 +250,133 @@ void MX_TIM2_IC_Init(void)
   HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1);
 	HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_2);
 	
-	TIM2 -> DIER = TIM_DIER_UDE;					/* __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE); */			
-	TIM2 -> CCMR1 = TIM_CCMR1_CC1S_0;  		/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TI1	*/
-	TIM2 -> CCMR1 = TIM_CCMR1_CC2S_0;			/* IC2 is mapped on TI2 */		
+	TIM2 -> DIER |= TIM_DIER_UDE;					/* __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE); */			
+	TIM2 -> CCMR1 |= TIM_CCMR1_CC1S_0;  		/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TI1	*/
+	TIM2 -> CCMR1 |= TIM_CCMR1_CC2S_0;			/* IC2 is mapped on TI2 */		
 	
-	TIM2 -> CCER = TIM_CCER_CC1E;					/* CC1 channel configured as input: This bit determines if a capture of the counter value can
+	TIM2 -> CCER |= TIM_CCER_CC1E;					/* CC1 channel configured as input: This bit determines if a capture of the counter value can
 																					 actually be done into the input capture/compare register 1 (TIMx_CCR1) or not.  */
-	TIM2 -> CCER = TIM_CCER_CC2E;		
+	TIM2 -> CCER |= TIM_CCER_CC2E;		
 	
-	TIM2 -> DIER = TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request */
-	TIM2 -> DIER = TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request */
+	TIM2 -> DIER |= TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request */
+	TIM2 -> DIER |= TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request */
 }
 
-void TIM_counter_etr_init(void){	
+void MX_TIM2_REF_Init(void)
+{
 	
+}
+
+/* ************************************************************************************** */
+/* ------------------------- Specific counter CONFIG functions -------------------------- */
+/* ************************************************************************************** */
+/**
+  * @brief  This function is used to select the desired ETR prescaler ETPS. (TIM2 should be clocked to 144 MHz - not possible - only 72 MHz)
+	* @param  freq: frequency
+  * @retval none 
+  */
+void ETRP_Config(double freq)
+{
+	uint32_t smcr = TIM2 -> SMCR;	
+	/* Check the range of the input frequency and set the ETR prescaler */
+	if ((freq >= (tim2clk / 4)) && freq < ((tim2clk / 2))){		
+			if ((smcr & 0x3000) != TIM_SMCR_ETPS_0){
+				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;
+				TIM2 -> SMCR |= TIM_SMCR_ETPS_0;												/* Set ETR prescaler to 2 */
+			}
+	} else if ((freq >= (tim2clk / 2)) && (freq < (tim2clk))) {		
+			if ((smcr & 0x3000) != TIM_SMCR_ETPS_1){			
+				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;				
+				TIM2 -> SMCR |= TIM_SMCR_ETPS_1;												/* Set ETR prescaler to 4 */
+			}			
+	} else if ((freq >= (tim2clk)) && (freq < (tim2clk * 2))) {		
+			if ((smcr & 0x3000) != TIM_SMCR_ETPS){	
+				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;				
+				TIM2 -> SMCR |= TIM_SMCR_ETPS;													/* Set ETR prescaler to 8 */
+			}					
+	} else if ((smcr & 0x3000) != 0) {															
+			TIM2 -> SMCR &= ~TIM_SMCR_ETPS;														/* Set ETR prescaler to 1 */										
+	}
+}
+
+/**
+	* @brief  This function is used to select the desired prescaler of IC1 of TIM2. 
+	* @param  freq: frequency
+  * @retval none 
+  */
+void IC1PSC_Config(double freq)
+{
+	uint32_t ccmr1 = (TIM2->CCMR1) & TIM_CCMR1_IC1PSC_Msk;
+		
+	/* PSC1 configuration */
+	/* For IC_THRESHOLD = max (8), range is 9 MHz - 18 MHz */
+	if ((freq >= (double)(tim2clk/IC_THRESHOLD*2)) && (freq < (double)(tim2clk/IC_THRESHOLD))){
+		if (ccmr1 != TIM_CCMR1_IC1PSC_0) {
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC_0;				/* Set IC prescaler to 2 */
+		}
+	/* 18 MHz - 36 MHz */
+	} else if ((freq >= (double)(tim2clk/IC_THRESHOLD)) && (freq < (double)(tim2clk*2/IC_THRESHOLD))){
+		if (ccmr1 != TIM_CCMR1_IC1PSC_1){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC_1;				/* Set IC prescaler to 4 */
+		}
+	/* 36 MHz - 72 MHz */
+	} else if ((freq >= (double)(tim2clk*2/IC_THRESHOLD)) && (freq < (double)(tim2clk*4/IC_THRESHOLD))){
+		if (ccmr1 != TIM_CCMR1_IC1PSC){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC;					/* Set IC prescaler to 8 */
+		}
+	/* 0.0335276126861572265625 Hz - 9 MHz */
+	} else if (ccmr1 != 0x00) {
+		TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC; 					/* Set IC prescaler to 1 */
+	}
+}
+
+/**
+	* @brief  This function is used to select the desired prescaler of IC2 of TIM2. 
+	* @param  freq: frequency
+  * @retval none 
+  */
+void IC2PSC_Config(double freq)
+{
+	uint32_t ccmr2 = (TIM2->CCMR1) & TIM_CCMR1_IC2PSC_Msk;
+	
+	/* PSC2 configuration */
+	if ((freq >= (tim2clk/IC_THRESHOLD*2)) && (freq < (tim2clk/IC_THRESHOLD))){
+		if (ccmr2 != TIM_CCMR1_IC2PSC_0) {
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC_0;				/* Set IC prescaler to 2 */
+		}
+	} else if ((freq >= (tim2clk)/IC_THRESHOLD) && (freq < (tim2clk*2/IC_THRESHOLD))){
+		if (ccmr2 != TIM_CCMR1_IC2PSC_1){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC_1;				/* Set IC prescaler to 4 */
+		}
+	} else if ((freq >= (tim2clk*2)/IC_THRESHOLD) && (freq < (tim2clk*4/IC_THRESHOLD))){
+		if (ccmr2 != TIM_CCMR1_IC2PSC){
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC;					/* Set IC prescaler to 8 */
+		}
+	} else if (ccmr2 != 0x00) {
+		TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC; 					/* Set IC prescaler to 1 */
+	}		
+}
+
+/**
+	* @brief  Function setting ARR and PSC values of TIM4 (gate time). 
+	* @params arr, psc
+  * @retval none 
+  */
+void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc){
+	TIM4->ARR = arr;
+	TIM4->PSC = psc;
+}
+
+/* ************************************************************************************** */
+/* ---------------------------- Counter timer INIT functions ---------------------------- */
+/* ************************************************************************************** */
+void TIM_counter_etr_init(void){	
 	MX_TIM4_Init();
 	MX_TIM2_ETR_Init();
 	
@@ -282,6 +398,13 @@ void TIM_counter_ic_init(void){
 	}		
 }
 
+void TIM_counter_ref_init(void){
+	
+}
+
+/* ************************************************************************************** */
+/* --------------------------- Counter timer DEINIT functions --------------------------- */
+/* ************************************************************************************** */
 void TIM_etr_deinit(void){
 	HAL_TIM_Base_DeInit(&htim2);
 	HAL_TIM_Base_DeInit(&htim4);
@@ -289,6 +412,45 @@ void TIM_etr_deinit(void){
 
 void TIM_ic_deinit(void){
 	HAL_TIM_Base_DeInit(&htim2);	
+}
+
+void TIM_ref_deinit(void){
+	
+}
+
+/* ************************************************************************************** */
+/* ------------------------- Counter timer START STOP functions ------------------------- */
+/* ************************************************************************************** */
+void TIM_ETR_Start(void){
+	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);
+	HAL_TIM_Base_Start(&htim2);	
+	HAL_TIM_Base_Start(&htim4);		
+}
+
+void TIM_IC_Start(void){
+	HAL_DMA_Start_IT(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
+	HAL_DMA_Start_IT(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);
+	HAL_TIM_Base_Start(&htim2);		
+}
+
+void TIM_REF_Start(void){
+	
+}
+
+void TIM_ETR_Stop(void){
+	HAL_DMA_Abort_IT(&hdma_tim2_up);
+	HAL_TIM_Base_Stop(&htim2);	
+	HAL_TIM_Base_Stop(&htim4);		
+}
+
+void TIM_IC_Stop(void){
+	HAL_DMA_Abort_IT(&hdma_tim2_ch1);
+	HAL_DMA_Abort_IT(&hdma_tim2_ch2_ch4);
+	HAL_TIM_Base_Stop(&htim2);		
+}
+
+void TIM_REF_Stop(void){
+	
 }
 
 #endif // USE_COUNTER
@@ -316,7 +478,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 	#ifdef USE_COUNTER
   GPIO_InitTypeDef GPIO_InitStruct;	  
 	
-	if(htim_base->Instance==TIM2 && timerClockSource==TIM_CLOCKSOURCE_ETRMODE2){
+	if(htim_base->Instance==TIM2 && counter.state == COUNTER_ETR){
 
 		__TIM2_CLK_ENABLE();
 			
@@ -346,10 +508,10 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 		HAL_DMA_RegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_ETR_DMA_CpltCallback);		
 		
 		/* DMA1_Channel2_IRQn interrupt configuration */
-		HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 3, 0);
+		HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 9, 0);
 		HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);		
 		
-	} else if (htim_base->Instance==TIM2 && timerClockSource==TIM_CLOCKSOURCE_INTERNAL){
+	} else if (htim_base->Instance==TIM2 && counter.state == COUNTER_IC){
 		
 		__HAL_RCC_TIM2_CLK_ENABLE();
   
@@ -397,8 +559,11 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 		HAL_DMA_RegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC2_DMA_CpltCallback);		
 		
 		/* DMA1_Channel5_IRQn interrupt configuration */
-		HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 3, 0);
+		HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 9, 0);
 		HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);		
+		
+	} else if (htim_base->Instance==TIM2 && counter.state == COUNTER_REF){
+		
 	}
 	
 	if(htim_base->Instance==TIM4){
@@ -434,16 +599,20 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 	#endif //USE_GEN
 	
 	#ifdef USE_COUNTER
-	if(htim_base->Instance==TIM2 && timerClockSource==TIM_CLOCKSOURCE_ETRMODE2){
+	if(htim_base->Instance==TIM2 && counter.state == COUNTER_ETR){
 		__TIM2_CLK_DISABLE();    
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);		/* TIM2 GPIO Configuration PA0 -> TIM2_ETR */
 		HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);
-	} else if(htim_base->Instance==TIM2 && timerClockSource==TIM_CLOCKSOURCE_INTERNAL){
+		
+	} else if(htim_base->Instance==TIM2 && counter.state == COUNTER_IC){
 		__TIM2_CLK_DISABLE(); 		
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1);
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC2]);
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC4]);
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC1]);
+		
+	} else if(htim_base->Instance==TIM2 && counter.state == COUNTER_REF){
+		
 	}
 	if(htim_base->Instance==TIM4){
 		__TIM4_CLK_DISABLE();

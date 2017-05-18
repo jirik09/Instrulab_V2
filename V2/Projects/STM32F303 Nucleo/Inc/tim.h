@@ -41,7 +41,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
-
+	 
+#ifdef USE_COUNTER
+//extern volatile uint8_t ic1BufferSize;
+//extern volatile uint8_t ic2BufferSize;
+#endif //USE_COUNTER
 	 
 uint8_t TIM_Reconfig(uint32_t samplingFreq,TIM_HandleTypeDef* htim_base,uint32_t* realFreq);
 	 
@@ -78,10 +82,25 @@ void MX_TIM15_Init(void);
 void MX_TIM4_Init(void);
 void MX_TIM2_ETR_Init(void);
 void MX_TIM2_IC_Init(void);
+void MX_TIM2_REF_Init(void);
 void TIM_counter_etr_init(void);
 void TIM_counter_ic_init(void);
+void TIM_counter_ref_init(void);
 void TIM_etr_deinit(void);
 void TIM_ic_deinit(void);
+void TIM_ref_deinit(void);
+void TIM_ETR_Start(void);
+void TIM_IC_Start(void);
+void TIM_REF_Start(void);
+void TIM_ETR_Stop(void);
+void TIM_IC_Stop(void);
+void TIM_REF_Stop(void);
+
+/* counter specific */
+void ETRP_Config(double freq);
+void IC1PSC_Config(double freq);
+void IC2PSC_Config(double freq);
+void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc);
 #endif // USE_COUNTER
 
 	 
