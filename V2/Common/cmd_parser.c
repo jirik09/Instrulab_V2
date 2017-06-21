@@ -177,7 +177,6 @@ command parseCommsCmd(void){
 return cmdIn;
 }
 
-uint16_t commin;
 #ifdef USE_COUNTER
 command parseCounterCmd(void)
 {
@@ -185,7 +184,7 @@ command parseCounterCmd(void)
 	uint8_t error=0;
 	
 	cmdIn = giveNextCmd();
-	switch(cmdIn){
+	switch(cmdIn){		
 		case CMD_CNT_MODE:
 			cmdIn = giveNextCmd();
 			if(isCounterMode(cmdIn)){				
@@ -197,12 +196,6 @@ command parseCounterCmd(void)
 					counterSetMode(REF);
 				}
 			}
-			break;	
-		case CMD_CNT_START:
-			counterSendStart();
-			break;
-		case CMD_CNT_STOP:
-			counterSendStop();
 			break;		
 		case CMD_CNT_GATE:
 			cmdIn = giveNextCmd();
@@ -218,15 +211,50 @@ command parseCounterCmd(void)
 				}					
 			}
 			break;				
-		case CMD_CNT_SAMPLE_COUNT:
-			cmdIn = giveNextCmd();
-				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
-					commin = (uint16_t)cmdIn;
-					counterSetIcSampleCount((uint16_t)cmdIn);
-				}else{
-					cmdIn = CMD_ERR;
-					error = COUNTER_INVALID_FEATURE_PARAM;
-				}		
+		case CMD_CNT_SAMPLE_COUNT1:			
+			cmdIn = giveNextCmd();	
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
+				counterSetIc1SampleCount((uint16_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}										
+			break;
+		case CMD_CNT_SAMPLE_COUNT2:			
+			cmdIn = giveNextCmd();	
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
+				counterSetIc2SampleCount((uint16_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}										
+			break;							
+		case CMD_CNT_MULT_PSC:		
+			cmdIn = giveNextCmd();	
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
+				counterSetRefPsc((uint16_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}				
+			break;
+		case CMD_CNT_MULT_ARR:		
+			cmdIn = giveNextCmd();	
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
+				counterSetRefArr((uint16_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}				
+			break;	
+		case CMD_CNT_START:
+			counterSendStart();
+			break;
+		case CMD_CNT_STOP:
+			counterSendStop();
+			break;	
+		case CMD_GET_CONFIG:
+				xQueueSendToBack(messageQueue, "DSendCntConfig", portMAX_DELAY);
 			break;
 	}	
 	
@@ -407,7 +435,7 @@ command parseScopeCmd(void){
 					error = SCOPE_INVALID_FEATURE_PARAM;
 				}
 			break;
-						
+				
 			case CMD_SCOPE_TRIG_LEVEL: //set trigger level
 				cmdIn = giveNextCmd();
 				if(cmdIn != CMD_END && cmdIn != CMD_ERR){

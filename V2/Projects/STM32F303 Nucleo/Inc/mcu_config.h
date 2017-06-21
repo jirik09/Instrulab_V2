@@ -44,7 +44,7 @@
 #define MAX_SAMPLING_FREQ 4000000 //smps
 #define MAX_ADC_CHANNELS 4
 
-#define MAX_SCOPE_BUFF_SIZE 50000//50000 //in bytes
+#define MAX_SCOPE_BUFF_SIZE 40000//50000 //in bytes
 #define SCOPE_BUFFER_MARGIN 100
 
 #define SCOPE_CH1_PIN_STR "A5__" //must be 4 chars
@@ -135,8 +135,8 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define TIM4_PSC					7199
 #define IC_THRESHOLD			20	
 //#define IC12_BUFFER_SIZE	2
-
 //#define CNT_AVG_BUFF_SIZE 	16
+#define COUNTER_MODES			"IC ETR REF"
 
 //Definition of assert to check length of strings
 #define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}

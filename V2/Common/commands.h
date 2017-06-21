@@ -21,6 +21,16 @@ typedef uint32_t command;
 #define STR_GEN_OK "G_OK"
 #define STR_GEN_NEXT "G_NX"
 
+#ifdef USE_COUNTER
+
+#define STR_CNT_ETR_DATA "ETRD "		// data from ETR measurement
+#define STR_CNT_REF_DATA "REFD "		// data from REF measurement
+#define STR_CNT_IC1_DATA "IC1D "		// data from IC1 channel meas.
+#define STR_CNT_IC2_DATA "IC2D "		// data from IC2 channel meas.
+#define STR_CNT_IC1_BUFF "IC1B "		// buffer correction
+#define STR_CNT_IC2_BUFF "IC2B "		// buffer correction
+
+#endif //USE_COUNTER
 
 
 // Macro definitions ==========================================================
@@ -87,21 +97,29 @@ REGISTER_CMD(GEN_OUTBUFF_OFF,B_OF),
 
 REGISTER_CMD(GEN_DAC_VAL,DAC_),
 
-//REGISTER_CMD(GEN_DATA_LENGTH,LENG),   //number of samples
+//REGISTER_CMD(GEN_DATA_LENGTH,LENG),   // number of samples
 REGISTER_CMD(GEN_DATA_LENGTH_CH1,LCH1),
 REGISTER_CMD(GEN_DATA_LENGTH_CH2,LCH2),
 REGISTER_CMD(GEN_CHANNELS,CHAN),
 REGISTER_CMD(GEN_START,STRT),
 REGISTER_CMD(GEN_STOP,STOP),
 
-//Counter commands
-REGISTER_CMD(CNT_MODE,MODE),						// CNT_MODE command can have three values: MODE == ETR / IC / REF
+//Counter general commands
+REGISTER_CMD(CNT_MODE,MODE),						// CNT_MODE command be of three values: MODE == ETR / IC / REF
 REGISTER_CMD(CNT_START,STRT),
 REGISTER_CMD(CNT_STOP,STOP),
-REGISTER_CMD(CNT_NEXT,NEXT),
 
+//Counter ETR commands
 REGISTER_CMD(CNT_GATE,GATE),
-REGISTER_CMD(CNT_SAMPLE_COUNT,SMPLCNT),
+
+//Counter IC commands
+REGISTER_CMD(CNT_SAMPLE_COUNT1,BUF1),
+REGISTER_CMD(CNT_SAMPLE_COUNT2,BUF2),
+
+//Counter REF commands
+REGISTER_CMD(CNT_MULT_PSC,PSC),						
+REGISTER_CMD(CNT_MULT_ARR,ARR),				// set PSC x ARR number of ticks to count from reference clock
+
 };
 
 //Counter modes
@@ -127,6 +145,7 @@ REGISTER_CMD(GATE_10s,10s_)
 															((CMD) == CMD_GATE_100m) || \
 															((CMD) == CMD_GATE_1s) || \
 															((CMD) == CMD_GATE_10s))
+
 
 //Scope tigger modes
 enum{

@@ -106,6 +106,7 @@ namespace LEO
                     this.btn_voltmeter_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_voltage_source_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
+                    this.button_counter.Enabled = comms.get_connected_device().cntCfg.isCnt ? true : false;
                     ////this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_connect.Text = "Disconnect";
                     this.btn_scan.Enabled = false;
@@ -195,6 +196,13 @@ namespace LEO
                         tmpStr = tmpStr.Replace("_", "");
                         this.label_scope_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);
                     }
+
+
+                    if (comms.get_connected_device().cntCfg.isCnt) {
+                        this.label_cnt_modes.Text = comms.get_connected_device().cntCfg.modes;
+                    }
+
+
                     break;
                 case Comms_thread.CommsStates.DISCONNECTED:
                     this.Text = "Instrulab";
@@ -222,13 +230,15 @@ namespace LEO
                     this.label_fw.Text = "--";
                     this.label_RTOS.Text = "--";
                     this.label_HAL.Text = "--";
-
+                    this.label_cnt_modes.Text = "--";
+                        
                     this.btn_scope_open.Enabled = false;
                     this.btn_voltmeter_open.Enabled = false;
                     this.btn_gen_open.Enabled = false;
                     this.btn_scan.Enabled = true;
                     this.btn_voltage_source_open.Enabled = false;
                     this.btn_freq_analysis_open.Enabled = false;
+                    this.button_counter.Enabled = false;
 
                     break;
                 case Comms_thread.CommsStates.ERROR:
@@ -265,7 +275,10 @@ namespace LEO
             comms.get_connected_device().open_freq_analysis();
         }
 
-
+        private void button_counter_Click(object sender, EventArgs e)
+        {
+            comms.get_connected_device().open_counter();
+        }
 
         private void Instrulab_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -275,6 +288,7 @@ namespace LEO
                 comms.get_connected_device().close_gen();
                 comms.get_connected_device().close_source();
                 comms.get_connected_device().close_volt();
+                comms.get_connected_device().close_counter();
             }
 
             if (comm_th.IsAlive) {
@@ -359,15 +373,5 @@ namespace LEO
         }
 
 
-
-
-
-
-
-
-
-
-
-        
     }
 }

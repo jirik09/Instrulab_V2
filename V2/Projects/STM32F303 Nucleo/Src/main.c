@@ -107,10 +107,6 @@ int main(void)
 	MX_TIM7_Init();
 	#endif //USE_GEN  
 	
-	#ifdef USE_COUNTER
-	TIM_counter_etr_init();
-	#endif //USE_COUNTER
-	
 	#ifdef USE_SHIELD
 	detectScopeShield();
 	#endif
@@ -146,6 +142,10 @@ int main(void)
 	#ifdef USE_COUNTER
 	osThreadCreate (osThread(COUNTER_TASK), NULL);
 	#endif //USE_COUNTER
+	
+	#ifdef USE_COUNTER
+
+	#endif //USE_COUNTER	
 	
 	#ifdef USE_GEN
 	osThreadCreate (osThread(GENERATOR_TASK), NULL);

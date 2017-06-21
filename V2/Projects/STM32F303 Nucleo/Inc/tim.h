@@ -80,9 +80,8 @@ void MX_TIM15_Init(void);
 
 #ifdef USE_COUNTER
 void MX_TIM4_Init(void);
-void MX_TIM2_ETR_Init(void);
+void MX_TIM2_ETRorREF_Init(void);
 void MX_TIM2_IC_Init(void);
-void MX_TIM2_REF_Init(void);
 void TIM_counter_etr_init(void);
 void TIM_counter_ic_init(void);
 void TIM_counter_ref_init(void);
@@ -97,10 +96,14 @@ void TIM_IC_Stop(void);
 void TIM_REF_Stop(void);
 
 /* counter specific */
-void ETRP_Config(double freq);
-void IC1PSC_Config(double freq);
-void IC2PSC_Config(double freq);
+void TIM_ETRP_Config(double freq);
+void TIM_IC1PSC_Config(double freq);
+void TIM_IC2PSC_Config(double freq);
 void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc);
+uint8_t TIM_ETPS_GetPrescaler(void);
+uint8_t TIM_IC1PSC_GetPrescaler(void);
+uint8_t TIM_IC2PSC_GetPrescaler(void);
+uint8_t TIM_GetPrescaler(uint32_t regPrescValue);
 #endif // USE_COUNTER
 
 	 

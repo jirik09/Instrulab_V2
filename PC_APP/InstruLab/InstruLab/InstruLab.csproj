@@ -115,6 +115,12 @@
     </Compile>
     <Compile Include="Commands.cs" />
     <Compile Include="Comms_thread.cs" />
+    <Compile Include="counter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="counter.Designer.cs">
+      <DependentUpon>counter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Device.cs" />
     <Compile Include="feedback.cs">
       <SubType>Form</SubType>
@@ -147,6 +153,7 @@
     <Compile Include="Scope.Designer.cs">
       <DependentUpon>Scope.cs</DependentUpon>
     </Compile>
+    <Compile Include="System\KeyEventHandler.cs" />
     <Compile Include="VoltageSource.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BodePlot.resx">
       <DependentUpon>BodePlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="counter.resx">
+      <DependentUpon>counter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="feedback.resx">
       <DependentUpon>feedback.cs</DependentUpon>

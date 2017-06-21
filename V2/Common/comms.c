@@ -17,6 +17,7 @@
 #include "scope.h"
 #include "generator.h"
 #include "commands.h"
+#include "counter.h"
 #include "usb_device.h"
 #include "usart.h"
 #include "gpio.h"
@@ -32,11 +33,14 @@ static commBuffer comm;
 void sendSystConf(void);
 void sendCommsConf(void);
 void sendScopeConf(void);
+void sendCounterConf(void);
 void sendScopeInputs(void);
 void sendGenConf(void);
 void sendShieldPresence(void);
 void sendSystemVersion(void);
 void assertPins(void);
+
+char mess[60];
 
 // Function definitions =======================================================
 /**
@@ -78,6 +82,10 @@ void CommTask(void const *argument){
 	#ifdef USE_GEN
 	uint8_t header_gen[12]="GEN_xCH_Fxxx";
 	#endif //USE_GEN
+	
+	#ifdef USE_COUNTER
+	
+	#endif //USE_COUNTER
 	
 	#if defined(USE_GEN) || defined(USE_SCOPE)
 	uint8_t i;
@@ -192,6 +200,61 @@ void CommTask(void const *argument){
 				commsSendBuff(header_gen,12);
 			}
 			#endif //USE_GEN
+			
+		/* ---------------------------------------------------- */	
+		/* COUNTER MEASURED DATA & IC BUFFER CORRECTION sending */
+		/* ---------------------------------------------------- */
+		}else if(message[0]=='G'){
+			#ifdef USE_COUNTER			
+			
+			/* is COUNTER ETR */
+			if(counter.state==COUNTER_ETR){
+				commsSendString(STR_CNT_ETR_DATA);
+				sprintf(message, "%09.9f ", counter.counterEtr.freq);
+				commsSendString(message);
+				
+			/* is COUNTER REF */	
+			}else if(counter.state==COUNTER_REF){
+				commsSendString(STR_CNT_REF_DATA);
+				/* Here's only the buffer is send - PC app calculates frequency ratio as:
+					 REF buffer / ETR buffer = arr * psc / buffer - where arr and psc is already 
+					 known by PC app (user set) */
+				sprintf(message, "%d ", counter.counterEtr.buffer);
+				commsSendString(message);										
+				
+			/* is COUNTER IC */	
+			}else if(counter.state==COUNTER_IC){			
+				
+				if(counter.icChannel==COUNTER_IRQ_IC1){												
+					commsSendString(STR_CNT_IC1_DATA);
+					sprintf(mess, "%09.9f ", counter.counterIc.ic1freq);
+					commsSendString(mess);	
+					counter.icChannel=COUNTER_IRQ_IC_PASS;
+				}else if(counter.icChannel==COUNTER_IRQ_IC2){										
+					commsSendString(STR_CNT_IC2_DATA);	
+					sprintf(mess, "%09.9f ", counter.counterIc.ic2freq);
+					commsSendString(mess);															
+					counter.icChannel=COUNTER_IRQ_IC_PASS;
+				}				
+				
+				if(counter.icFlag==COUNTER_FLAG1){
+					commsSendString(STR_CNT_IC1_BUFF);			
+					sprintf(mess, "%hu ", counter.counterIc.ic1BufferSize);
+					commsSendString(mess);
+					counter.icFlag=COUNTER_FLAG_PASS;
+				}else if(counter.icFlag==COUNTER_FLAG2){
+					commsSendString(STR_CNT_IC2_BUFF);			
+					sprintf(mess, "%hu ", counter.counterIc.ic2BufferSize);
+					commsSendString(mess);
+					counter.icFlag=COUNTER_FLAG_PASS;
+				}
+			}				
+				
+			#endif //USE_COUNTER			
+		/* ---------------------------------------------------- */	
+		/* ------------------ END OF COUNTER ------------------ */
+		/* ---------------------------------------------------- */			
+			
 		// send system config
 		}else if(message[0]=='3'){
 			sendSystConf();
@@ -205,6 +268,12 @@ void CommTask(void const *argument){
 			#ifdef USE_SCOPE
 			sendScopeConf();
 			#endif //USE_SCOPE
+			
+		// send counter config
+		}else if(message[0]=='D'){
+			#ifdef USE_COUNTER
+			sendCounterConf();
+			#endif //USE_COUNTER			
 			
 		// send scope inputs
 		}else if(message[0]=='B'){
@@ -452,6 +521,15 @@ void sendScopeConf(){
 	commsSendBuff((uint8_t*)scopeGetRanges(&i),i);
 }
 #endif //USE_SCOPE
+
+
+#ifdef USE_COUNTER
+void sendCounterConf(){
+	commsSendString("CNT_");
+	commsSendString(COUNTER_MODES);
+}
+#endif //USE_COUNTER
+
 
 #ifdef USE_SCOPE
 void sendScopeInputs(){

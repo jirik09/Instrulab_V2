@@ -37,6 +37,8 @@
 #include "tim.h"
 #include "counter.h"
 #include "mcu_config.h"
+#include "stdlib.h"
+#include "FreeRTOS.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -174,7 +176,11 @@ void MX_TIM4_Init(void)
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	HAL_TIM_Base_Init(&htim4);
 
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+	if(counter.state == COUNTER_REF){
+		sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_ETRMODE2;
+	}else{
+		sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+	}
   HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig);
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE; // TIM_TRGO_OC1 // TIM_TRGO_RESET // TIM_TRGO_UPDATE
@@ -183,7 +189,7 @@ void MX_TIM4_Init(void)
 }
 
 /* TIM2 mode ETR init function */
-void MX_TIM2_ETR_Init(void)
+void MX_TIM2_ETRorREF_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_SlaveConfigTypeDef sSlaveConfig;
@@ -262,10 +268,6 @@ void MX_TIM2_IC_Init(void)
 	TIM2 -> DIER |= TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request */
 }
 
-void MX_TIM2_REF_Init(void)
-{
-	
-}
 
 /* ************************************************************************************** */
 /* ------------------------- Specific counter CONFIG functions -------------------------- */
@@ -275,7 +277,7 @@ void MX_TIM2_REF_Init(void)
 	* @param  freq: frequency
   * @retval none 
   */
-void ETRP_Config(double freq)
+void TIM_ETRP_Config(double freq)
 {
 	uint32_t smcr = TIM2 -> SMCR;	
 	/* Check the range of the input frequency and set the ETR prescaler */
@@ -284,7 +286,7 @@ void ETRP_Config(double freq)
 				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;
 				TIM2 -> SMCR |= TIM_SMCR_ETPS_0;												/* Set ETR prescaler to 2 */
 			}
-	} else if ((freq >= (tim2clk / 2)) && (freq < (tim2clk))) {		
+	} else if ((freq >= (tim2clk / 2)) && (freq < (tim2clk))) {
 			if ((smcr & 0x3000) != TIM_SMCR_ETPS_1){			
 				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;				
 				TIM2 -> SMCR |= TIM_SMCR_ETPS_1;												/* Set ETR prescaler to 4 */
@@ -304,7 +306,7 @@ void ETRP_Config(double freq)
 	* @param  freq: frequency
   * @retval none 
   */
-void IC1PSC_Config(double freq)
+void TIM_IC1PSC_Config(double freq)
 {
 	uint32_t ccmr1 = (TIM2->CCMR1) & TIM_CCMR1_IC1PSC_Msk;
 		
@@ -338,7 +340,7 @@ void IC1PSC_Config(double freq)
 	* @param  freq: frequency
   * @retval none 
   */
-void IC2PSC_Config(double freq)
+void TIM_IC2PSC_Config(double freq)
 {
 	uint32_t ccmr2 = (TIM2->CCMR1) & TIM_CCMR1_IC2PSC_Msk;
 	
@@ -368,19 +370,79 @@ void IC2PSC_Config(double freq)
 	* @params arr, psc
   * @retval none 
   */
-void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc){
+void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc)
+{
 	TIM4->ARR = arr;
 	TIM4->PSC = psc;
 }
+
+/**
+	* @brief  Function getting ETRP (external trigger source prescaler) value of TIM2. 
+	* @params none
+	* @retval etps: ETRP prescaler register value
+  */
+uint8_t TIM_ETPS_GetPrescaler(void)
+{	
+	uint16_t etpsRegVal = ((TIM2->SMCR) & 0x3000) >> 12;			/* ETR prescaler register value */		
+	return TIM_GetPrescaler(etpsRegVal);
+}
+
+uint8_t TIM_IC1PSC_GetPrescaler(void)
+{
+	uint32_t ic1psc = ((TIM2->CCMR1) & TIM_CCMR1_IC1PSC_Msk) >> TIM_CCMR1_IC1PSC_Pos;	
+	return TIM_GetPrescaler(ic1psc);
+}
+
+uint8_t TIM_IC2PSC_GetPrescaler(void)
+{
+	uint32_t ic2psc = ((TIM2->CCMR1) & TIM_CCMR1_IC2PSC_Msk) >> TIM_CCMR1_IC2PSC_Pos;	
+	return TIM_GetPrescaler(ic2psc);
+}
+
+/**
+	* @brief  This function returns a real value of given register value prescaler. 
+	* @params regPrescValue: ETRP prescaler register value
+	* @retval presc: real prescaler value used for later calculations
+  */
+uint8_t TIM_GetPrescaler(uint32_t regPrescValue)
+{
+	uint8_t presc;
+	/* Save the real value of ICxPSC prescaler for later calculations */
+	switch(regPrescValue){
+		case 0:
+			presc = 1; break;			
+		case 1:
+			presc = 2;	break;
+		case 2:
+			presc = 4; break;
+		case 3:
+			presc = 8; break;
+		default: 
+			break;
+	}			
+	return presc;	
+}
+
 
 /* ************************************************************************************** */
 /* ---------------------------- Counter timer INIT functions ---------------------------- */
 /* ************************************************************************************** */
 void TIM_counter_etr_init(void){	
 	MX_TIM4_Init();
-	MX_TIM2_ETR_Init();
+	MX_TIM2_ETRorREF_Init();
 	
 	tim4clk = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_TIM34); 	
+	if ((RCC->CFGR3&RCC_TIM2CLK_PLLCLK) == RCC_TIM2CLK_PLLCLK){
+		tim2clk = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_TIM2) * 2; 
+	}	else {
+		tim2clk = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_TIM2); 
+	}		
+}
+
+void TIM_counter_ref_init(void){	
+	MX_TIM4_Init();
+	MX_TIM2_ETRorREF_Init();
+	
 	if ((RCC->CFGR3&RCC_TIM2CLK_PLLCLK) == RCC_TIM2CLK_PLLCLK){
 		tim2clk = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_TIM2) * 2; 
 	}	else {
@@ -398,10 +460,6 @@ void TIM_counter_ic_init(void){
 	}		
 }
 
-void TIM_counter_ref_init(void){
-	
-}
-
 /* ************************************************************************************** */
 /* --------------------------- Counter timer DEINIT functions --------------------------- */
 /* ************************************************************************************** */
@@ -410,12 +468,13 @@ void TIM_etr_deinit(void){
 	HAL_TIM_Base_DeInit(&htim4);
 }
 
-void TIM_ic_deinit(void){
-	HAL_TIM_Base_DeInit(&htim2);	
+void TIM_ref_deinit(void){
+	HAL_TIM_Base_DeInit(&htim2);
+	HAL_TIM_Base_DeInit(&htim4);	
 }
 
-void TIM_ref_deinit(void){
-	
+void TIM_ic_deinit(void){
+	HAL_TIM_Base_DeInit(&htim2);	
 }
 
 /* ************************************************************************************** */
@@ -433,10 +492,6 @@ void TIM_IC_Start(void){
 	HAL_TIM_Base_Start(&htim2);		
 }
 
-void TIM_REF_Start(void){
-	
-}
-
 void TIM_ETR_Stop(void){
 	HAL_DMA_Abort_IT(&hdma_tim2_up);
 	HAL_TIM_Base_Stop(&htim2);	
@@ -447,10 +502,6 @@ void TIM_IC_Stop(void){
 	HAL_DMA_Abort_IT(&hdma_tim2_ch1);
 	HAL_DMA_Abort_IT(&hdma_tim2_ch2_ch4);
 	HAL_TIM_Base_Stop(&htim2);		
-}
-
-void TIM_REF_Stop(void){
-	
 }
 
 #endif // USE_COUNTER
@@ -478,96 +529,115 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 	#ifdef USE_COUNTER
   GPIO_InitTypeDef GPIO_InitStruct;	  
 	
-	if(htim_base->Instance==TIM2 && counter.state == COUNTER_ETR){
-
-		__TIM2_CLK_ENABLE();
+	if(htim_base->Instance==TIM2){
+		
+		if(counter.state==COUNTER_ETR||counter.state==COUNTER_REF){			
 			
-		/**TIM2 GPIO Configuration    
-		PA0     ------> TIM2_ETR 
-		*/
-		GPIO_InitStruct.Pin = GPIO_PIN_0;
-		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-		GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
-		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+			__TIM2_CLK_ENABLE();
+				
+			/**TIM2 GPIO Configuration    
+			PA0     ------> TIM2_ETR 
+			*/
+			GPIO_InitStruct.Pin = GPIO_PIN_0;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-		/* Peripheral DMA init*/
+			/* Peripheral DMA init*/
 
-		hdma_tim2_up.Instance = DMA1_Channel2;		
-		hdma_tim2_up.Init.Direction = DMA_PERIPH_TO_MEMORY;
-		hdma_tim2_up.Init.PeriphInc = DMA_PINC_DISABLE;
-		hdma_tim2_up.Init.MemInc = DMA_MINC_DISABLE;
-		hdma_tim2_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-		hdma_tim2_up.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-		hdma_tim2_up.Init.Mode = DMA_CIRCULAR;
-		hdma_tim2_up.Init.Priority = DMA_PRIORITY_HIGH;
-		HAL_DMA_Init(&hdma_tim2_up);
+			hdma_tim2_up.Instance = DMA1_Channel2;		
+			hdma_tim2_up.Init.Direction = DMA_PERIPH_TO_MEMORY;
+			hdma_tim2_up.Init.PeriphInc = DMA_PINC_DISABLE;
+			hdma_tim2_up.Init.MemInc = DMA_MINC_DISABLE;
+			hdma_tim2_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+			hdma_tim2_up.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+			hdma_tim2_up.Init.Mode = DMA_CIRCULAR;
+			hdma_tim2_up.Init.Priority = DMA_PRIORITY_HIGH;
+			HAL_DMA_Init(&hdma_tim2_up);
+			
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim2_up);		
+			HAL_DMA_RegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_ETR_DMA_CpltCallback);		
+			
+			/* DMA1_Channel2_IRQn interrupt configuration */
+			HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 9, 0);
+			HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);		
+			
+		}else if(counter.state==COUNTER_IC){
 		
-		__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim2_up);		
-		HAL_DMA_RegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_ETR_DMA_CpltCallback);		
+			__HAL_RCC_TIM2_CLK_ENABLE();
 		
-		/* DMA1_Channel2_IRQn interrupt configuration */
-		HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 9, 0);
-		HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);		
-		
-	} else if (htim_base->Instance==TIM2 && counter.state == COUNTER_IC){
-		
-		__HAL_RCC_TIM2_CLK_ENABLE();
-  
-    /**TIM2 GPIO Configuration    
-    PA0     ------> TIM2_CH1
-    PA1     ------> TIM2_CH2 
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+			/**TIM2 GPIO Configuration    
+			PA0     ------> TIM2_CH1
+			PA1     ------> TIM2_CH2 
+			*/
+			GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    /* Peripheral DMA init*/
-		
-    hdma_tim2_ch2_ch4.Instance = DMA1_Channel7;
-    hdma_tim2_ch2_ch4.Init.Direction = DMA_PERIPH_TO_MEMORY;
-    hdma_tim2_ch2_ch4.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_tim2_ch2_ch4.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_tim2_ch2_ch4.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-    hdma_tim2_ch2_ch4.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    hdma_tim2_ch2_ch4.Init.Mode = DMA_CIRCULAR;
-    hdma_tim2_ch2_ch4.Init.Priority = DMA_PRIORITY_HIGH;
-    HAL_DMA_Init(&hdma_tim2_ch2_ch4);
-		
-    /* Several peripheral DMA handle pointers point to the same DMA handle.
-     Be aware that there is only one channel to perform all the requested DMAs. */
-    __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC2],hdma_tim2_ch2_ch4);
-    __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
+			/* Peripheral DMA init*/
+			
+			hdma_tim2_ch2_ch4.Instance = DMA1_Channel7;
+			hdma_tim2_ch2_ch4.Init.Direction = DMA_PERIPH_TO_MEMORY;
+			hdma_tim2_ch2_ch4.Init.PeriphInc = DMA_PINC_DISABLE;
+			hdma_tim2_ch2_ch4.Init.MemInc = DMA_MINC_ENABLE;
+			hdma_tim2_ch2_ch4.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+			hdma_tim2_ch2_ch4.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+			hdma_tim2_ch2_ch4.Init.Mode = DMA_CIRCULAR;
+			hdma_tim2_ch2_ch4.Init.Priority = DMA_PRIORITY_HIGH;
+			HAL_DMA_Init(&hdma_tim2_ch2_ch4);
+			
+			/* Several peripheral DMA handle pointers point to the same DMA handle.
+			 Be aware that there is only one channel to perform all the requested DMAs. */
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC2],hdma_tim2_ch2_ch4);
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
 
-    hdma_tim2_ch1.Instance = DMA1_Channel5;
-    hdma_tim2_ch1.Init.Direction = DMA_PERIPH_TO_MEMORY;
-    hdma_tim2_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_tim2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-    hdma_tim2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    hdma_tim2_ch1.Init.Mode = DMA_CIRCULAR;
-    hdma_tim2_ch1.Init.Priority = DMA_PRIORITY_HIGH;
-    HAL_DMA_Init(&hdma_tim2_ch1);
+			hdma_tim2_ch1.Instance = DMA1_Channel5;
+			hdma_tim2_ch1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+			hdma_tim2_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
+			hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
+			hdma_tim2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+			hdma_tim2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+			hdma_tim2_ch1.Init.Mode = DMA_CIRCULAR;
+			hdma_tim2_ch1.Init.Priority = DMA_PRIORITY_HIGH;
+			HAL_DMA_Init(&hdma_tim2_ch1);
 
-    __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC1],hdma_tim2_ch1);
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC1],hdma_tim2_ch1);
 
-		HAL_DMA_RegisterCallback(&hdma_tim2_ch1, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC1_DMA_CpltCallback);
-		HAL_DMA_RegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC2_DMA_CpltCallback);		
-		
-		/* DMA1_Channel5_IRQn interrupt configuration */
-		HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 9, 0);
-		HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);		
-		
-	} else if (htim_base->Instance==TIM2 && counter.state == COUNTER_REF){
-		
+			HAL_DMA_RegisterCallback(&hdma_tim2_ch1, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC1_DMA_CpltCallback);
+			HAL_DMA_RegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC2_DMA_CpltCallback);		
+			
+			/* DMA1_Channel5_IRQn interrupt configuration */
+			HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 9, 0);
+			HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);		
+			
+			/* DMA1_Channel7_IRQn interrupt configuration */
+			HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 9, 0);
+			HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);					
+
+			counter.counterIc.ic1buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic1BufferSize*sizeof(uint32_t));
+			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));
+		}
 	}
 	
 	if(htim_base->Instance==TIM4){
 		__TIM4_CLK_ENABLE();
+		
+		if(counter.state==COUNTER_REF){
+		 /**TIM4 GPIO Configuration    
+			PA8     ------> TIM4_ETR_REF (as reference) 
+			*/
+			GPIO_InitStruct.Pin = GPIO_PIN_8;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF10_TIM4;
+			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);	
+		}
 	}
 	#endif //USE_COUNTER
 }
@@ -599,23 +669,34 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 	#endif //USE_GEN
 	
 	#ifdef USE_COUNTER
-	if(htim_base->Instance==TIM2 && counter.state == COUNTER_ETR){
+	if(htim_base->Instance==TIM2&&(counter.state==COUNTER_ETR||counter.state==COUNTER_REF)){
 		__TIM2_CLK_DISABLE();    
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);		/* TIM2 GPIO Configuration PA0 -> TIM2_ETR */
-		HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);
+		HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);		
+		HAL_NVIC_DisableIRQ(DMA1_Channel2_IRQn);	
 		
-	} else if(htim_base->Instance==TIM2 && counter.state == COUNTER_IC){
+	}else if(htim_base->Instance==TIM2&&counter.state==COUNTER_IC){
 		__TIM2_CLK_DISABLE(); 		
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1);
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC2]);
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC4]);
-    HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC1]);
+    HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC1]);	
+
+		HAL_NVIC_DisableIRQ(DMA1_Channel5_IRQn);	
+		HAL_NVIC_DisableIRQ(DMA1_Channel7_IRQn);			
 		
-	} else if(htim_base->Instance==TIM2 && counter.state == COUNTER_REF){
-		
+		vPortFree((void *)counter.counterIc.ic1buffer);
+		vPortFree((void *)counter.counterIc.ic2buffer);
+		counter.counterIc.ic1buffer = NULL;
+		counter.counterIc.ic2buffer = NULL;	
 	}
+	
 	if(htim_base->Instance==TIM4){
 		__TIM4_CLK_DISABLE();
+		
+		if(counter.state==COUNTER_REF){
+			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_8);
+		}		
 	}
 	#endif //USE_COUNTER
 } 

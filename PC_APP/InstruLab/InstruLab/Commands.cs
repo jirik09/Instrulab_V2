@@ -21,18 +21,45 @@ namespace LEO
         public const string RESET_DEVICE = "RES!";
 
         public const string GENERATOR = "GEN_";
+        public const string COUNTER = "CNT_";
         public const string SCOPE = "OSCP";
         public const string SCOPE_INCOME = "OSC_";
         public const string COMMS = "COMS";
         public const string SYSTEM = "SYST";
 
+        // Counter modes
+        public const string MODE = "MODE";
+        public const string CNT_ETR = "ETR_";
+        public const string CNT_REF = "REF_";
+        public const string CNT_IC = "IC__";
+
+        // Counter ETR GATE times
+        public const string CNT_GATE = "GATE";
+        public const string CNT_GATE_10m = "10m_";
+        public const string CNT_GATE_100m = "100m";
+        public const string CNT_GATE_1s = "1s__";
+        public const string CNT_GATE_10s = "10s_";
+
+        // Counter IC SAMPLE counts
+        public const string CNT_SAMPLE_COUNT1 = "BUF1";
+        public const string CNT_SAMPLE_COUNT2 = "BUF2";
+
+        // Counter messages received
+        public const string COUNTER_ETR_DATA = "ETRD";
+        public const string COUNTER_REF_DATA = "REFD";
+        public const string COUNTER_IC1_DATA = "IC1D";
+        public const string COUNTER_IC2_DATA = "IC2D";
+        public const string COUNTER_IC1_BUFF = "IC1B";
+        public const string COUNTER_IC2_BUFF = "IC2B";
+
+        //general
         public const string ACKNOWLEDGE = "ACK_";
         public const char ERROR = 'E';
 
         public const string START = "STRT";
         public const string STOP = "STOP";
 
-
+        //scope
         public const string CHANNELS = "CHAN";
         public const string DATA_LENGTH = "LENG";  //number of samples
 
