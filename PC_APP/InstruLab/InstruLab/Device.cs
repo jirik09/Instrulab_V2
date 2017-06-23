@@ -110,8 +110,9 @@ namespace LEO
         private int semaphoreTakenBy = 0;
         private bool portError = false;
 
+        /* Counter vars */
         double freq;
-        UInt16 buff;
+        int buff;
         string cntMessage;
 
         int lastError = 0;
@@ -751,7 +752,7 @@ namespace LEO
                             }
                             catch (Exception ex) {
                                 logRecieved("Counter freq ETR was not parsed  " + new string(inputValEtr, 0, 4));
-                            }
+                            }                           
                             break;
                         case Commands.COUNTER_IC1_DATA:
                             Thread.Sleep(10);
@@ -814,7 +815,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValBuff1, 1, read5 - 1);
                                 string[] substring = cntMessage.Split(' ');
-                                buff = UInt16.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat) - 1;
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_BUFF, "IC1_BUFF", buff));
                             }
                             catch (Exception ex)
@@ -832,7 +833,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValBuff2, 1, read6 - 1);
                                 string[] substring = cntMessage.Split(' ');
-                                buff = UInt16.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat) - 1;
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_BUFF, "IC2_BUFF", buff));
                             }
                             catch (Exception ex)

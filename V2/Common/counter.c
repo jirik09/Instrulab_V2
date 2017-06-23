@@ -290,7 +290,7 @@ void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 	TIM_IC1PSC_Config(counter.counterIc.ic1freq);		
 	
 	counterIc1BufferConfig(counter.counterIc.ic1BufferSize);
-
+	
 	xSemaphoreGiveFromISR(counterMutex, &xHigherPriorityTaskWoken);		
 	xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);		
 }

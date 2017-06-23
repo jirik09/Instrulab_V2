@@ -173,7 +173,7 @@ void MX_TIM4_Init(void)
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = TIM4_ARR;					// by default 9999
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	HAL_TIM_Base_Init(&htim4);
 
 	if(counter.state == COUNTER_REF){
@@ -563,6 +563,10 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			/* DMA1_Channel2_IRQn interrupt configuration */
 			HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 9, 0);
 			HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);		
+					
+			counter.counterEtr.gateTime = 1000;				/* 1000 ms = 1 s */
+			counter.counterEtr.buffer = 0;
+			counter.counterEtr.etrp = 1;			
 			
 		}else if(counter.state==COUNTER_IC){
 		
@@ -617,10 +621,19 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			
 			/* DMA1_Channel7_IRQn interrupt configuration */
 			HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 9, 0);
-			HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);					
+			HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);								
+			
+			counter.counterIc.psc = 0;		
+			counter.counterIc.arr = 0xFFFFFFFF;
+			counter.counterIc.ic1BufferSize = 4;			/* the lowest value of icxBufferSize is 2! */
+			counter.counterIc.ic2BufferSize = 4;
+			counter.counterIc.ic1psc = 1;
+			counter.counterIc.ic2psc = 1;
+			counter.icChannel = COUNTER_IRQ_IC_PASS;
+			counter.icFlag = COUNTER_FLAG_PASS;					
 
 			counter.counterIc.ic1buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic1BufferSize*sizeof(uint32_t));
-			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));
+			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));	
 		}
 	}
 	
@@ -669,21 +682,36 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 	#endif //USE_GEN
 	
 	#ifdef USE_COUNTER
-	if(htim_base->Instance==TIM2&&(counter.state==COUNTER_ETR||counter.state==COUNTER_REF)){
-		__TIM2_CLK_DISABLE();    
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);		/* TIM2 GPIO Configuration PA0 -> TIM2_ETR */
+	if(htim_base->Instance==TIM2&&(counter.state==COUNTER_ETR||counter.state==COUNTER_REF)){   
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);		/* TIM2 GPIO Configuration PA0 -> TIM2_ETR */		
+		HAL_NVIC_DisableIRQ(DMA1_Channel2_IRQn);
+		HAL_DMA_UnRegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID);		
 		HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);		
-		HAL_NVIC_DisableIRQ(DMA1_Channel2_IRQn);	
 		
-	}else if(htim_base->Instance==TIM2&&counter.state==COUNTER_IC){
+		TIM2 -> DIER &= ~TIM_DIER_UDE;					
+		TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S_Msk;
+		TIM2 -> CCER &= ~TIM_CCER_CC1E;	
+		
 		__TIM2_CLK_DISABLE(); 		
+		
+	}else if(htim_base->Instance==TIM2&&counter.state==COUNTER_IC){		
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1);
+		HAL_NVIC_DisableIRQ(DMA1_Channel5_IRQn);	
+		HAL_NVIC_DisableIRQ(DMA1_Channel7_IRQn);	
+		HAL_DMA_UnRegisterCallback(&hdma_tim2_ch1, HAL_DMA_XFER_CPLT_CB_ID);		
+		HAL_DMA_UnRegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID);				
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC2]);
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC4]);
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC1]);	
 
-		HAL_NVIC_DisableIRQ(DMA1_Channel5_IRQn);	
-		HAL_NVIC_DisableIRQ(DMA1_Channel7_IRQn);			
+		TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S_0;  		
+		TIM2 -> CCMR1 &= ~TIM_CCMR1_CC2S_0;			
+		TIM2 -> CCER &= ~TIM_CCER_CC1E;					
+		TIM2 -> CCER &= ~TIM_CCER_CC2E;			
+		TIM2 -> DIER &= ~TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request deinit */
+		TIM2 -> DIER &= ~TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request deinit */		
+
+		__TIM2_CLK_DISABLE(); 		
 		
 		vPortFree((void *)counter.counterIc.ic1buffer);
 		vPortFree((void *)counter.counterIc.ic2buffer);
