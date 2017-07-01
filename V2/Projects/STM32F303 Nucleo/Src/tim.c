@@ -169,9 +169,16 @@ void MX_TIM4_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = TIM4_PSC;			// by default 7199
+	if(counter.state == COUNTER_REF){
+		/* REF mode - 1M samples (1000 * 1000) */
+		htim4.Init.Prescaler = 999;		
+		htim4.Init.Period = 999;								
+	} else {
+		/* ETR mode - one second time gate */
+		htim4.Init.Prescaler = TIM4_PSC;			// by default 7199 for ETR mode
+		htim4.Init.Period = TIM4_ARR;					// by default 9999 for ETR mode
+	}
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = TIM4_ARR;					// by default 9999
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	HAL_TIM_Base_Init(&htim4);
@@ -481,8 +488,8 @@ void TIM_ic_deinit(void){
 /* ------------------------- Counter timer START STOP functions ------------------------- */
 /* ************************************************************************************** */
 void TIM_ETR_Start(void){
-	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);
-	HAL_TIM_Base_Start(&htim2);	
+	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);	
+	HAL_TIM_Base_Start(&htim2);			
 	HAL_TIM_Base_Start(&htim4);		
 }
 

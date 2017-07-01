@@ -152,8 +152,8 @@ void counterSetIc2SampleCount(uint16_t buffer){
 
 /**
   * @brief  Setters for REF counter (TIM4) - PSC and REF numbers to be multiplied (number of REF clock ticks to be counted).
-						Note the REF mode uses some ETR struct, functions...
-	* @param  buffer: range between 1 - 65536
+						Note the REF mode uses ETR struct, some ETR functions...
+	* @param  buffer - psc or arr: range between 1 - 65536
   * @retval None
   */
 void counterSetRefPsc(uint16_t psc){

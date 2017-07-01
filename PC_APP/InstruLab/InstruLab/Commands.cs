@@ -44,6 +44,10 @@ namespace LEO
         public const string CNT_SAMPLE_COUNT1 = "BUF1";
         public const string CNT_SAMPLE_COUNT2 = "BUF2";
 
+        // Counter REF SAMPLE count
+        public const string CNT_SAMPLES_PSC = "PSC_";
+        public const string CNT_SAMPLES_ARR = "ARR_";
+
         // Counter messages received
         public const string COUNTER_ETR_DATA = "ETRD";
         public const string COUNTER_REF_DATA = "REFD";

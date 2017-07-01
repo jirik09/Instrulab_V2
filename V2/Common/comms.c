@@ -216,7 +216,7 @@ void CommTask(void const *argument){
 			/* is COUNTER REF */	
 			}else if(counter.state==COUNTER_REF){
 				commsSendString(STR_CNT_REF_DATA);
-				/* Here's only the buffer is send - PC app calculates frequency ratio as:
+				/* Here only the buffer is sent - PC app calculates frequency ratio as:
 					 REF buffer / ETR buffer = arr * psc / buffer - where arr and psc is already 
 					 known by PC app (user set) */
 				sprintf(message, "%d ", counter.counterEtr.buffer);

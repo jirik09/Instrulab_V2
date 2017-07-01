@@ -117,8 +117,8 @@ REGISTER_CMD(CNT_SAMPLE_COUNT1,BUF1),
 REGISTER_CMD(CNT_SAMPLE_COUNT2,BUF2),
 
 //Counter REF commands
-REGISTER_CMD(CNT_MULT_PSC,PSC),						
-REGISTER_CMD(CNT_MULT_ARR,ARR),				// set PSC x ARR number of ticks to count from reference clock
+REGISTER_CMD(CNT_MULT_PSC,PSC_),						
+REGISTER_CMD(CNT_MULT_ARR,ARR_),				// set PSC x ARR number of ticks to count from reference clock
 
 };
 

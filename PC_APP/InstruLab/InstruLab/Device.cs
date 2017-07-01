@@ -748,7 +748,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValEtr, 1, read1 - 1);
                                 freq = double.Parse(cntMessage,System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_DATA,"ETR_DATA",freq+0.00001));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_DATA,"ETR_DATA",freq/*+0.00001*/));
                             }
                             catch (Exception ex) {
                                 logRecieved("Counter freq ETR was not parsed  " + new string(inputValEtr, 0, 4));
@@ -764,7 +764,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIc1, 1, read2 - 1);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DATA, "IC1_DATA", freq+0.00001));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DATA, "IC1_DATA", freq/*+0.00001*/));
                             }
                             catch (Exception ex)
                             {
@@ -781,7 +781,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIc2, 1, read3 - 1);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_DATA, "IC2_DATA", freq + 0.00001));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_DATA, "IC2_DATA", freq/* + 0.00001*/));
                             }
                             catch (Exception ex)
                             {
@@ -792,17 +792,18 @@ namespace LEO
                             Thread.Sleep(10);
                             char[] inputValRef = new char[64];
                             int read4 = port.BytesToRead;
+                            int buff;
                             port.Read(inputValRef, 0, read4);
 
                             try
                             {
                                 cntMessage = new string(inputValRef, 1, read4 - 1);
-                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_DATA, "REF_DATA", freq + 0.00001));
+                                buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_DATA, "REF_DATA", buff/* + 0.00001*/));
                             }
                             catch (Exception ex)
                             {
-                                logRecieved("Counter freq REF was not parsed  " + new string(inputValRef, 0, 4));
+                                logRecieved("Counter buffer REF was not parsed  " + new string(inputValRef, 0, 4));
                             }
                             break;
                         case Commands.COUNTER_IC1_BUFF:

@@ -24,7 +24,7 @@ typedef enum{
 	REF	
 }counterMode;
 
-typedef enum{
+typedef volatile enum{
 	COUNTER_IDLE = 0,
 	COUNTER_ETR,
 	COUNTER_IC,
