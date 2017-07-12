@@ -40,8 +40,6 @@ void sendShieldPresence(void);
 void sendSystemVersion(void);
 void assertPins(void);
 
-char mess[60];
-
 // Function definitions =======================================================
 /**
   * @brief  Communication task function.
@@ -64,6 +62,7 @@ void CommTask(void const *argument){
 	messageQueue = xQueueCreate(5, 30);
 	commsMutex = xSemaphoreCreateRecursiveMutex();
 	char message[30];
+	char cntMessage[30];
 	#ifdef USE_SCOPE
 	uint8_t header[16]="OSC_yyyyxxxxCH0x";
 	uint8_t *pointer;
@@ -205,13 +204,13 @@ void CommTask(void const *argument){
 		/* COUNTER MEASURED DATA & IC BUFFER CORRECTION sending */
 		/* ---------------------------------------------------- */
 		}else if(message[0]=='G'){
-			#ifdef USE_COUNTER			
+			#ifdef USE_COUNTER		
 			
 			/* is COUNTER ETR */
 			if(counter.state==COUNTER_ETR){
 				commsSendString(STR_CNT_ETR_DATA);
-				sprintf(message, "%09.9f ", counter.counterEtr.freq);
-				commsSendString(message);
+				sprintf(cntMessage, "%09.6f ", counter.counterEtr.freq);
+				commsSendString(cntMessage);
 				
 			/* is COUNTER REF */	
 			}else if(counter.state==COUNTER_REF){
@@ -219,37 +218,39 @@ void CommTask(void const *argument){
 				/* Here only the buffer is sent - PC app calculates frequency ratio as:
 					 REF buffer / ETR buffer = arr * psc / buffer - where arr and psc is already 
 					 known by PC app (user set) */
-				sprintf(message, "%d ", counter.counterEtr.buffer);
-				commsSendString(message);										
+				sprintf(cntMessage, "%d ", counter.counterEtr.buffer);
+				commsSendString(cntMessage);										
 				
 			/* is COUNTER IC */	
 			}else if(counter.state==COUNTER_IC){			
 				
-				if(counter.icChannel==COUNTER_IRQ_IC1){												
-					commsSendString(STR_CNT_IC1_DATA);
-					sprintf(mess, "%09.9f ", counter.counterIc.ic1freq);
-					commsSendString(mess);	
-					counter.icChannel=COUNTER_IRQ_IC_PASS;
-				}else if(counter.icChannel==COUNTER_IRQ_IC2){										
-					commsSendString(STR_CNT_IC2_DATA);	
-					sprintf(mess, "%09.9f ", counter.counterIc.ic2freq);
-					commsSendString(mess);															
-					counter.icChannel=COUNTER_IRQ_IC_PASS;
-				}				
-				
-				if(counter.icFlag==COUNTER_FLAG1){
+				if(counter.icFlag1==COUNTER_BUFF_FLAG1){
 					commsSendString(STR_CNT_IC1_BUFF);			
-					sprintf(mess, "%hu ", counter.counterIc.ic1BufferSize);
-					commsSendString(mess);
-					counter.icFlag=COUNTER_FLAG_PASS;
-				}else if(counter.icFlag==COUNTER_FLAG2){
-					commsSendString(STR_CNT_IC2_BUFF);			
-					sprintf(mess, "%hu ", counter.counterIc.ic2BufferSize);
-					commsSendString(mess);
-					counter.icFlag=COUNTER_FLAG_PASS;
-				}
-			}				
-				
+					sprintf(cntMessage, "%hu ", (uint16_t)(counter.counterIc.ic1BufferSize - 1));
+					commsSendString(cntMessage);
+					counter.icFlag1=COUNTER_BUFF_FLAG1_PASS;
+				}else if(counter.icChannel1==COUNTER_IRQ_IC1){												
+					commsSendString(STR_CNT_IC1_DATA);
+					sprintf(cntMessage, "%09.6f ", counter.counterIc.ic1freq);
+					commsSendString(cntMessage);	
+					counter.icChannel1=COUNTER_IRQ_IC1_PASS;
+				}				
+			}	
+			
+		}else if(message[0]=='L'){
+			
+			 if(counter.icFlag2==COUNTER_BUFF_FLAG2){
+				commsSendString(STR_CNT_IC2_BUFF);			
+				sprintf(cntMessage, "%hu ", (uint16_t)(counter.counterIc.ic2BufferSize - 1));
+				commsSendString(cntMessage);
+				counter.icFlag2=COUNTER_BUFF_FLAG2_PASS;
+			}else if(counter.icChannel2==COUNTER_IRQ_IC2){							
+				commsSendString(STR_CNT_IC2_DATA);	
+				sprintf(cntMessage, "%09.6f ", counter.counterIc.ic2freq);
+				commsSendString(cntMessage);															
+				counter.icChannel2=COUNTER_IRQ_IC2_PASS;
+			}			
+
 			#endif //USE_COUNTER			
 		/* ---------------------------------------------------- */	
 		/* ------------------ END OF COUNTER ------------------ */
@@ -322,6 +323,7 @@ void CommTask(void const *argument){
 			commsSendString(message);
 			/////commsSendString("\r\n");
 		}
+//		memset(cntMessage,NULL,30);
 		xSemaphoreGiveRecursive(commsMutex);
 	}
 }

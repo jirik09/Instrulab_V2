@@ -16,7 +16,7 @@
 #include "stm32f3xx_hal.h"
 
 /* the buffer size of input capture mode has to be set at least to number 2 (two edges captured) */
-#define IC12_BUFFER_SIZE	2
+#define IC12_BUFFER_SIZE	110
 
 typedef enum{
 	ETR = 0,
@@ -33,36 +33,68 @@ typedef volatile enum{
 
 typedef enum{
 	COUNTER_IRQ_IC1 = 0,
-	COUNTER_IRQ_IC2,
-	COUNTER_IRQ_IC_PASS
-}counterIcChannel;
+	COUNTER_IRQ_IC1_PASS
+}counterIcChannel1;
 
 typedef enum{
-	COUNTER_FLAG1 = 0,
-	COUNTER_FLAG2,
-	COUNTER_FLAG_PASS
-}counterIcFlags;
+	COUNTER_IRQ_IC2 = 0,
+	COUNTER_IRQ_IC2_PASS
+}counterIcChannel2;
+
+typedef enum{
+	COUNTER_BUFF_FLAG1 = 0,
+	COUNTER_BUFF_FLAG1_PASS
+}counterIcFlags1;
+
+typedef enum{
+	COUNTER_BUFF_FLAG2 = 0,
+	COUNTER_BUFF_FLAG2_PASS
+}counterIcFlags2;
+
+typedef enum{
+	BUFF1_CHANGED = 0,
+	BUFF1_NOT_CHANGED
+}counterIc1BuffChange;
+
+typedef enum{
+	BUFF2_CHANGED = 0,
+	BUFF2_NOT_CHANGED
+}counterIc2BuffChange;
+
+typedef enum{
+	GATE_CHANGED = 0,
+	GATE_NOT_CHANGED
+}counterEtrGateChange;
+
+typedef enum{
+	BIN0 = 0,
+	BIN1
+}counterIcBin;
 
 /* ETR struct is also used for REF mode as only the difference 
 	 is the clock feeding of timer 4 and the data sent to PC app */
 typedef struct{
 	uint16_t arr;		// TIM4 ARR
 	uint16_t psc;		// TIM4 PSC
+	uint16_t arrTemp;
+	uint16_t pscTemp;			
 	uint8_t etrp;		// TIM2 ETRP
 	uint32_t buffer;	
 	uint16_t gateTime;	
 	double freq;
 }counterEtrTypeDef;
 
-typedef struct{
+volatile typedef struct{
 	uint32_t arr;		// TIM2 ARR
 	uint16_t psc;		// TIM2 PSC
 	volatile uint16_t ic1BufferSize;
 	volatile uint16_t ic2BufferSize;
 	volatile uint16_t ic1BufferSizeTemp;
 	volatile uint16_t ic2BufferSizeTemp;	
-	uint32_t *ic1buffer;
-	uint32_t *ic2buffer;
+//	uint32_t *ic1buffer;
+//	uint32_t *ic2buffer;
+	volatile uint32_t ic1buffer[IC12_BUFFER_SIZE];
+	volatile uint32_t ic2buffer[IC12_BUFFER_SIZE];	
 	double ic1freq;
 	double ic2freq;	
 	uint32_t ic1psc;
@@ -73,20 +105,21 @@ typedef struct{
 	counterIcTypeDef counterIc;
 	counterEtrTypeDef counterEtr;	
 //  counterRefTypeDef counterRef;	-> ETR structure used for REF	
-	counterIcChannel icChannel;
-	counterIcFlags icFlag;
-//	double floatAvgBuffer[CNT_AVG_BUFF_SIZE];
-//	double *pFloatAvgBuf;
-//	uint8_t sampleToAvg;
 	counterState state;
+	
+	counterIcChannel1 icChannel1;
+	counterIcChannel2 icChannel2;
+	counterIc1BuffChange buff1Change;
+	counterIc2BuffChange buff2Change;
+	counterIcFlags1 icFlag1;
+	counterIcFlags2 icFlag2;
+	counterIcBin icBin;
+	counterEtrGateChange gateChange;
+
 }counterTypeDef;
 
 // Exported functions =========================================================
 void CounterTask(void const *argument);
-
-void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);	
-void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
-void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 
 void counterInitETR(void);
 void counterInitIC(void);
@@ -96,6 +129,7 @@ void counterSendStart(void);
 void counterSendStop(void);
 void counterStart(void);
 void counterStop(void);
+void counterDeinit(void);
 void counterSetDefault(void);
 
 void counterSetMode(uint8_t mode);
@@ -113,8 +147,15 @@ uint8_t IC_GetPrescaler(uint32_t icxpsc);
 uint32_t IC1_GetCapture(uint32_t *volatile *buffer);
 uint32_t IC2_GetCapture(uint32_t *volatile *buffer);
 
+void COUNTER_IC_TIM_Elapse(void);
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+
 extern volatile counterTypeDef counter;
 extern uint32_t tim2clk, tim4clk;
+
+extern DMA_HandleTypeDef hdma_tim2_up;
+extern DMA_HandleTypeDef hdma_tim2_ch1;
+extern DMA_HandleTypeDef hdma_tim2_ch2_ch4;
 
 #endif /* COUNTER_H_ */
 

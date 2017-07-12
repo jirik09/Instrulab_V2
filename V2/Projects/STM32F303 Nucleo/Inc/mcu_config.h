@@ -130,8 +130,8 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define GEN_CH2_PIN_STR "D13_" //must be 4 chars
 
 // Counter constatnts =======================================================
-/* TIM4 -> ARR & PSC set to gate 1000 ms */
-#define TIM4_ARR					9999			
+/* TIM4 -> ARR & PSC set to gate 100 ms */
+#define TIM4_ARR					999			
 #define TIM4_PSC					7199
 #define IC_THRESHOLD			20	
 //#define IC12_BUFFER_SIZE	2

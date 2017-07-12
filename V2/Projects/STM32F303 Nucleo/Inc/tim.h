@@ -42,11 +42,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
 	 
-#ifdef USE_COUNTER
-//extern volatile uint8_t ic1BufferSize;
-//extern volatile uint8_t ic2BufferSize;
-#endif //USE_COUNTER
-	 
 uint8_t TIM_Reconfig(uint32_t samplingFreq,TIM_HandleTypeDef* htim_base,uint32_t* realFreq);
 	 
 #ifdef USE_SCOPE
@@ -79,12 +74,24 @@ void MX_TIM15_Init(void);
 #endif //USE_PWM
 
 #ifdef USE_COUNTER
+typedef enum{
+	false = 0,
+	true = 1
+} bool;
+
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim4;
+extern DMA_HandleTypeDef hdma_tim2_up;
+extern DMA_HandleTypeDef hdma_tim2_ch1;
+extern DMA_HandleTypeDef hdma_tim2_ch2_ch4;
+
 void MX_TIM4_Init(void);
 void MX_TIM2_ETRorREF_Init(void);
 void MX_TIM2_IC_Init(void);
 void TIM_counter_etr_init(void);
 void TIM_counter_ic_init(void);
 void TIM_counter_ref_init(void);
+void TIM_doubleClockVal(void);
 void TIM_etr_deinit(void);
 void TIM_ic_deinit(void);
 void TIM_ref_deinit(void);
@@ -104,6 +111,11 @@ uint8_t TIM_ETPS_GetPrescaler(void);
 uint8_t TIM_IC1PSC_GetPrescaler(void);
 uint8_t TIM_IC2PSC_GetPrescaler(void);
 uint8_t TIM_GetPrescaler(uint32_t regPrescValue);
+
+bool DMA_TransferComplete(DMA_HandleTypeDef *dmah);
+extern void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);	
+extern void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
+extern void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 #endif // USE_COUNTER
 
 	 

@@ -9,8 +9,8 @@ namespace LEO
     {
         public const string IDN = "IDN_";
 
-        /* KOMUNIKACE */
-        // obecne
+        /* COMMUNICATION */
+        // General
         public const string IDNRequest = "IDN?";
         public const string VersionRequest = "VER?";
         public const string CONFIGRequest = "CFG?";
@@ -33,11 +33,15 @@ namespace LEO
         public const string CNT_REF = "REF_";
         public const string CNT_IC = "IC__";
 
+        // Counter total deinit
+        public const string DEINIT = "DEIN";
+
         // Counter ETR GATE times
         public const string CNT_GATE = "GATE";
-        public const string CNT_GATE_10m = "10m_";
         public const string CNT_GATE_100m = "100m";
+        public const string CNT_GATE_500m = "500m";
         public const string CNT_GATE_1s = "1s__";
+        public const string CNT_GATE_5s = "5s__";
         public const string CNT_GATE_10s = "10s_";
 
         // Counter IC SAMPLE counts
@@ -61,7 +65,7 @@ namespace LEO
         public const char ERROR = 'E';
 
         public const string START = "STRT";
-        public const string STOP = "STOP";
+        public const string STOP = "STOP";        
 
         //scope
         public const string CHANNELS = "CHAN";

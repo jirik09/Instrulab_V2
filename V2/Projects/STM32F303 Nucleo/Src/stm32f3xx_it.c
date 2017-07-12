@@ -38,6 +38,7 @@
 #include "cmsis_os.h"
 #include "comms_hal.h"
 #include "counter.h"
+#include "tim.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -52,9 +53,7 @@ extern PCD_HandleTypeDef hpcd_USB_FS;
 extern UART_HandleTypeDef huart2;
 
 #ifdef USE_COUNTER
-extern DMA_HandleTypeDef hdma_tim2_up;
-extern DMA_HandleTypeDef hdma_tim2_ch1;
-extern DMA_HandleTypeDef hdma_tim2_ch2_ch4;
+
 #endif //USE_COUNTER
 
 /******************************************************************************/
@@ -127,35 +126,50 @@ void DMA1_Channel2_IRQHandler(void)
   /* USER CODE END DMA1_Channel2_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_tim2_up);
   /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
-	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);	
+//	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);	
   /* USER CODE END DMA1_Channel2_IRQn 1 */
+}
+
+/**
+* @brief This function handles TIM4 global interrupt.
+*/
+void TIM4_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM4_IRQn 0 */
+  /* USER CODE END TIM4_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim4);
+  /* USER CODE BEGIN TIM4_IRQn 1 */
+  /* USER CODE END TIM4_IRQn 1 */
 }
 
 /**
 * @brief This function handles DMA1 channel5 global interrupt.
 */
-void DMA1_Channel5_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
-  /* USER CODE END DMA1_Channel5_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_tim2_ch1);
-  /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
-	HAL_DMA_Start_IT(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
-  /* USER CODE END DMA1_Channel5_IRQn 1 */
-}
+//void DMA1_Channel5_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
+//  /* USER CODE END DMA1_Channel5_IRQn 0 */
+//  HAL_DMA_IRQHandler(&hdma_tim2_ch1);
+//  /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
+////	HAL_DMA_Start_IT(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
+//	HAL_DMA_Abort_IT(&hdma_tim2_ch1);
+//	HAL_DMA_Start_IT(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
+//  /* USER CODE END DMA1_Channel5_IRQn 1 */
+//}
 
 /**
 * @brief This function handles DMA1 channel7 global interrupt.
 */
-void DMA1_Channel7_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel7_IRQn 0 */
-  /* USER CODE END DMA1_Channel7_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_tim2_ch2_ch4);
-  /* USER CODE BEGIN DMA1_Channel7_IRQn 1 */
-	HAL_DMA_Start_IT(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);
-  /* USER CODE END DMA1_Channel7_IRQn 1 */
-}
+//void DMA1_Channel7_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN DMA1_Channel7_IRQn 0 */
+//  /* USER CODE END DMA1_Channel7_IRQn 0 */
+//  HAL_DMA_IRQHandler(&hdma_tim2_ch2_ch4);
+//  /* USER CODE BEGIN DMA1_Channel7_IRQn 1 */
+//	HAL_DMA_Abort_IT(&hdma_tim2_ch2_ch4);
+//	HAL_DMA_Start_IT(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);
+//  /* USER CODE END DMA1_Channel7_IRQn 1 */
+//}
 
 #endif //USE_COUNTER
 

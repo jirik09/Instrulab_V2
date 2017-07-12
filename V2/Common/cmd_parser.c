@@ -200,12 +200,14 @@ command parseCounterCmd(void)
 		case CMD_CNT_GATE:
 			cmdIn = giveNextCmd();
 			if(isCounterEtrGate(cmdIn)){
-				if(cmdIn == CMD_GATE_10m){
-					counterSetEtrGate(10);
-				}else if(cmdIn == CMD_GATE_100m){
-					counterSetEtrGate(100);
+				if(cmdIn == CMD_GATE_100m){
+					counterSetEtrGate(100);				
+				}else if(cmdIn == CMD_GATE_500m){
+					counterSetEtrGate(500);
 				}else if(cmdIn == CMD_GATE_1s){
 					counterSetEtrGate(1000);
+				}else if(cmdIn == CMD_GATE_5s){
+					counterSetEtrGate(5000);					
 				}else if(cmdIn == CMD_GATE_10s){
 					counterSetEtrGate(10000);
 				}					
@@ -253,8 +255,11 @@ command parseCounterCmd(void)
 		case CMD_CNT_STOP:
 			counterSendStop();
 			break;	
+		case CMD_CNT_DEINIT:
+			counterDeinit();
+			break;			
 		case CMD_GET_CONFIG:
-				xQueueSendToBack(messageQueue, "DSendCntConfig", portMAX_DELAY);
+			xQueueSendToBack(messageQueue, "DSendCntConfig", portMAX_DELAY);
 			break;
 	}	
 	

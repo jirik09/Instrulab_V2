@@ -108,6 +108,7 @@ REGISTER_CMD(GEN_STOP,STOP),
 REGISTER_CMD(CNT_MODE,MODE),						// CNT_MODE command be of three values: MODE == ETR / IC / REF
 REGISTER_CMD(CNT_START,STRT),
 REGISTER_CMD(CNT_STOP,STOP),
+REGISTER_CMD(CNT_DEINIT,DEIN),
 
 //Counter ETR commands
 REGISTER_CMD(CNT_GATE,GATE),
@@ -135,15 +136,17 @@ REGISTER_CMD(MODE_REF,REF_)
 
 //Counter ETR sampling times
 enum{
-REGISTER_CMD(GATE_10m,10m_),
 REGISTER_CMD(GATE_100m,100m),
+REGISTER_CMD(GATE_500m,500m),
 REGISTER_CMD(GATE_1s,1s__),
+REGISTER_CMD(GATE_5s,5s__),	
 REGISTER_CMD(GATE_10s,10s_)
 };
 
-#define isCounterEtrGate(CMD) (((CMD) == CMD_GATE_10m) || \
-															((CMD) == CMD_GATE_100m) || \
+#define isCounterEtrGate(CMD) (((CMD) == CMD_GATE_100m) || \
+															((CMD) == CMD_GATE_500m) || \
 															((CMD) == CMD_GATE_1s) || \
+															((CMD) == CMD_GATE_5s) || \
 															((CMD) == CMD_GATE_10s))
 
 
