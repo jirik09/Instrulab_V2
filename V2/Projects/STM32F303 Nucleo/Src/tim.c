@@ -175,8 +175,8 @@ void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
 	if(counter.state == COUNTER_REF){
 		/* REF mode - 1M samples (1000 * 1000) */
-		htim4.Init.Prescaler = 999;		
-		htim4.Init.Period = 999;								
+		htim4.Init.Prescaler = 0/* 999*/;		
+		htim4.Init.Period = 0/*999*/;								
 	}else if(counter.state == COUNTER_ETR){
 		/* ETR mode - 100 ms gate time by default */
 		htim4.Init.Prescaler = TIM4_PSC;			// by default 7199 for ETR mode
@@ -188,11 +188,19 @@ void MX_TIM4_Init(void)
 	}
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+//	if(counter.state==COUNTER_REF){
+		htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+//	}else{
+//		htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+//	}
+
 	HAL_TIM_Base_Init(&htim4);
 
 	if(counter.state == COUNTER_REF){
 		sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_ETRMODE2;
+		sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
+		sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
+		sClockSourceConfig.ClockFilter = 0;
 	}else{
 		sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
 	}
@@ -596,6 +604,8 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 	//		vPortFree(counter.counterIc.ic2buffer);
 	//		counter.counterIc.ic1buffer = NULL;
 	//		counter.counterIc.ic2buffer = NULL;	
+	
+	//		HAL_TIM_Base_DeInit(&htim4);
 		}		
 		__TIM2_CLK_DISABLE(); 		
 	}
@@ -720,8 +730,10 @@ void TIM_IC2PSC_Config(double freq)
   */
 void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc)
 {				
+	TIM4->ARR = arr;	
 	TIM4->PSC = psc;
-	TIM4->ARR = arr;
+	/* Generate an update event to reload the Prescaler and the repetition counter immediately */
+	TIM4->EGR |= TIM_EGR_UG;
 }
 
 /**
@@ -777,8 +789,8 @@ uint8_t TIM_GetPrescaler(uint32_t regPrescValue)
   *         the configuration information for the specified DMA Channel.  
 	* @retval bool: true, false
   */
-bool DMA_TransferComplete(DMA_HandleTypeDef *dmah){
-
+bool DMA_TransferComplete(DMA_HandleTypeDef *dmah)
+{
 	uint32_t dmaIsrReg = dmah->DmaBaseAddress->ISR;	
 		
 	if(dmaIsrReg & (uint32_t)(DMA_FLAG_TC1 << dmah->ChannelIndex)){		
@@ -787,6 +799,17 @@ bool DMA_TransferComplete(DMA_HandleTypeDef *dmah){
 	} else {		
 		return false;
 	}	
+}
+
+void DMA_Restart(DMA_HandleTypeDef *dmah)
+{
+	if(dmah == &hdma_tim2_ch1){
+		HAL_DMA_Abort(&hdma_tim2_ch1);
+		HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);	
+	}else{
+		HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
+		HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);	
+	}
 }
 
 

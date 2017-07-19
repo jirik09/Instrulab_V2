@@ -126,7 +126,6 @@ void DMA1_Channel2_IRQHandler(void)
   /* USER CODE END DMA1_Channel2_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_tim2_up);
   /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
-//	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);	
   /* USER CODE END DMA1_Channel2_IRQn 1 */
 }
 

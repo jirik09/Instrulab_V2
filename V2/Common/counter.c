@@ -48,8 +48,7 @@ void CounterTask(void const *argument)
 	
 	while(1){
 		
-		xQueueReceive(counterMessageQueue, message, portMAX_DELAY);
-		
+		xQueueReceive(counterMessageQueue, message, portMAX_DELAY);		
 		xSemaphoreTakeRecursive(counterMutex, portMAX_DELAY);
 		
 		if(message[0]=='1'){
@@ -68,8 +67,7 @@ void CounterTask(void const *argument)
 			counterGateConfig(counter.counterEtr.gateTime);
 		}else if(message[0]=='8'){
 			
-		}
-	
+		}	
 		xSemaphoreGiveRecursive(counterMutex);
 	}
 }
@@ -109,9 +107,7 @@ void counterDeinit(void){
   * @retval None
   */
 void counterSetEtrGate(uint16_t gateTime){
-	xSemaphoreTakeRecursive(counterMutex, portMAX_DELAY);
 	counter.counterEtr.gateTime = gateTime;
-	xSemaphoreGiveRecursive(counterMutex);
 	xQueueSendToBack(counterMessageQueue, "7SetEtrGate", portMAX_DELAY);
 }
 
@@ -145,9 +141,9 @@ void counterSetRefPsc(uint16_t psc){
 	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);
 }
 
-void counterSetRefArr(uint16_t arr){
+void counterSetRefArr(uint16_t arr){	
 	counter.counterEtr.arr = arr - 1;
-	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);
+	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);	
 }
 
 /* ************************************************************************************** */
@@ -246,11 +242,11 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 		counter.counterEtr.freq = ((double)counter.counterEtr.buffer * gateFreq * counter.counterEtr.etrp);								/* Sampled frequency */
 		TIM_ETRP_Config(counter.counterEtr.freq);	
 
-		if(counter.gateChange == GATE_CHANGED){
-			counter.counterEtr.arr = counter.counterEtr.arrTemp;			
-			counter.counterEtr.psc = counter.counterEtr.pscTemp;
-			counter.gateChange = GATE_NOT_CHANGED;
-		}
+//		if(counter.gateChange == GATE_CHANGED){
+//			counter.counterEtr.arr = counter.counterEtr.arrTemp;			
+//			counter.counterEtr.psc = counter.counterEtr.pscTemp;
+//			counter.gateChange = GATE_NOT_CHANGED;
+//		}
 	}
 	
 	xSemaphoreGiveFromISR(counterMutex, &xHigherPriorityTaskWoken);
@@ -328,7 +324,7 @@ void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 /**
   * @brief  This function is executed in case of TIM4 period elapse event. Frequencies of IC1 and IC2 channels
 						are computed and sent to PC app. This approach replaces DMA data transfer	complete interrupts	
-						of both channels - the higher frequencies measured the CPU more heavy loaded.
+						of both channels - the higher frequencies measured the CPU more heavy loaded, therefore replaced.
   * @param  Pointer to TIM handle structure.
   * @retval None
   * @state  USED
@@ -347,11 +343,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		if(DMA_TransferComplete(&hdma_tim2_ch1)){
 			
 			counter.icChannel1 = COUNTER_IRQ_IC1;	
-			counter.counterIc.ic1psc = TIM_IC1PSC_GetPrescaler();
-			
+			counter.counterIc.ic1psc = TIM_IC1PSC_GetPrescaler();			
 			uint32_t capture1 = counter.counterIc.ic1buffer[counter.counterIc.ic1BufferSize-1] - counter.counterIc.ic1buffer[0];
-			counter.counterIc.ic1freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic1psc)*((double)(counter.counterIc.ic1BufferSize-1)/(double)capture1);
-			
+			counter.counterIc.ic1freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic1psc)*((double)(counter.counterIc.ic1BufferSize-1)/(double)capture1);			
 			TIM_IC1PSC_Config(counter.counterIc.ic1freq);		
 			
 			if(counter.buff1Change == BUFF1_CHANGED){
@@ -361,9 +355,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			} 
 			
 			counterIc1BufferConfig(counter.counterIc.ic1BufferSize);	
-			
-			HAL_DMA_Abort(&hdma_tim2_ch1);
-			HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);	
+			DMA_Restart(&hdma_tim2_ch1);
 			xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);					
 		}
 		
@@ -373,25 +365,20 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if(DMA_TransferComplete(&hdma_tim2_ch2_ch4)){
 			
-			counter.icBin = BIN1;		
 			counter.icChannel2 = COUNTER_IRQ_IC2;		
-			counter.counterIc.ic2psc = TIM_IC2PSC_GetPrescaler();
-				
+			counter.counterIc.ic2psc = TIM_IC2PSC_GetPrescaler();				
 			uint32_t capture2 = counter.counterIc.ic2buffer[counter.counterIc.ic2BufferSize-1] - counter.counterIc.ic2buffer[0];
-			counter.counterIc.ic2freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic2psc)*((double)(counter.counterIc.ic2BufferSize-1)/(double)capture2);
-			
+			counter.counterIc.ic2freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic2psc)*((double)(counter.counterIc.ic2BufferSize-1)/(double)capture2);			
 			TIM_IC2PSC_Config(counter.counterIc.ic2freq);		
 
 			if(counter.buff2Change == BUFF2_CHANGED){
 				counter.counterIc.ic2BufferSize = counter.counterIc.ic2BufferSizeTemp;
-				counter.buff2Change = BUFF2_NOT_CHANGED;
-				counter.icFlag2 = COUNTER_BUFF_FLAG2;						
+				counter.icFlag2 = COUNTER_BUFF_FLAG2;	
+				counter.buff2Change = BUFF2_NOT_CHANGED;				
 			}
 			
 			counterIc2BufferConfig(counter.counterIc.ic2BufferSize);
-			
-			HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
-			HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);			
+			DMA_Restart(&hdma_tim2_ch2_ch4);		
 			xQueueSendToBackFromISR(messageQueue, "LIcDataSend", &xHigherPriorityTaskWoken);	
 		}
 	}
@@ -411,31 +398,31 @@ void counterGateConfig(uint16_t gateTime)
 {			
 	switch(gateTime){
 		case 100:														/* min.	gate time 00.10 second */
-			counter.counterEtr.pscTemp = 7199;
-			counter.counterEtr.arrTemp = 999;			
+			counter.counterEtr.psc = 7199;
+			counter.counterEtr.arr = 999;			
 			break;
 		case 500: 													/* ----	gate time 00.50 second */
-			counter.counterEtr.pscTemp = 5999;
-			counter.counterEtr.arrTemp = 5999;		
+			counter.counterEtr.psc = 5999;
+			counter.counterEtr.arr = 5999;		
 			break;		
 		case 1000: 													/* ----	gate time 01.00 second */
-			counter.counterEtr.pscTemp = 7199;
-			counter.counterEtr.arrTemp = 9999;		
+			counter.counterEtr.psc = 7199;
+			counter.counterEtr.arr = 9999;		
 			break;				
 		case 5000: 													/* ----	gate time 05.00 second */
-			counter.counterEtr.pscTemp = 59999;
-			counter.counterEtr.arrTemp = 5999;	
+			counter.counterEtr.psc = 59999;
+			counter.counterEtr.arr = 5999;	
 			break;		
 		case 10000: 												/* max. gate time 10.00 second */
-			counter.counterEtr.pscTemp = 35999;
-			counter.counterEtr.arrTemp = 19999;			
+			counter.counterEtr.psc = 35999;
+			counter.counterEtr.arr = 19999;			
 			break;
 		default:
 			break;			
 	}
 	
-	TIM_ARR_PSC_Config(counter.counterEtr.arrTemp, counter.counterEtr.pscTemp);
-	counter.gateChange = GATE_CHANGED;
+	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);
+//	counter.gateChange = GATE_CHANGED;
 }
 
 /**
@@ -470,6 +457,7 @@ void counterIc2BufferConfig(uint16_t ic2buffSize)
   * @brief  Counter set Default values
   * @param  None
   * @retval None
+	* @state 	NOT USED
   */
 void counterSetDefault(void)
 {

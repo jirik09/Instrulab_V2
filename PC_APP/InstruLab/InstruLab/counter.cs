@@ -16,16 +16,13 @@ namespace LEO
 
         Device device;
         int semaphoreTimeout = 4000;
-        UInt32 refSamples = 0;
+        UInt32 refSamples = 1000000;
         double cntPaint;
-     //   int passNum = 0;
-    //    int avrgTime;
         Message.MsgRequest req;
         int circBuffSizeTest;
 
         System.Timers.Timer GUITimer;
         private static System.Timers.Timer scrollTimer = new System.Timers.Timer(200);
-  //      private static System.Timers.Timer avrgTimer = new System.Timers.Timer(1000);
 
         private Queue<Message> cnt_q = new Queue<Message>();
         Message messg;
@@ -44,14 +41,13 @@ namespace LEO
         {
             InitializeComponent();
             scrollTimerConfig();
-       //     avrgTimerConfig();
 
             device = dev;
 
             GUITimer = new System.Timers.Timer(50);
             GUITimer.Elapsed += new ElapsedEventHandler(Update_GUI);
             GUITimer.Start();
-            
+
             cnt_init_mode(CNT_MODES.ETR);
             cnt_start();
         }
@@ -75,7 +71,6 @@ namespace LEO
                     case Message.MsgRequest.COUNTER_ETR_DATA:
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
-                        avrgCircBuffer();
                         //                      sendDataReques();
                         break;
                     case Message.MsgRequest.COUNTER_REF_DATA:
@@ -121,6 +116,7 @@ namespace LEO
                 /************************************** ETR DATA PRINT **************************************/
                 if (req == Message.MsgRequest.COUNTER_ETR_DATA)
                 {
+                    avrgCircBuffer();
                     label_cnt_etr_value.ForeColor = SystemColors.ControlText;
                     this.label_cnt_etr_value.Text = cntPaint.ToString("F6");
 
@@ -144,16 +140,18 @@ namespace LEO
 
                         if (((avrgList.Count < textBox) && (textBox != 2)) && (keyPress == KEY_PRESS.YES))
                         {
-                 
-                            //if ((gateTime != 5000) && (gateTime != 10000))
-                            //{
-
                             label_cnt_etr_avrg.ForeColor = SystemColors.WindowFrame;
                             label_cnt_etr_avrg.Font = new Font("Times New Roman", 15);
 
                             Int32 difference = Convert.ToInt32(cnt_etr_avrg_textBox.Text) - (int)(avrgList.Count);
-                            label_cnt_etr_avrg.Text = "Wait " + ((difference * gateTime / 1000) + 1).ToString() + " seconds.";
-                            //}
+                            if ((gateTime != 5000) && (gateTime != 10000))
+                            {
+                                label_cnt_etr_avrg.Text = "Wait " + ((difference * gateTime / 1000) + 1).ToString() + " seconds.";
+                            }
+                            else
+                            {
+                                label_cnt_etr_avrg.Text = "Wait " + (difference * gateTime / 1000).ToString() + " seconds.";
+                            }
                         }
                         else
                         {
@@ -161,7 +159,6 @@ namespace LEO
                             label_cnt_etr_avrg.Font = new Font("Times New Roman", 24);
                             this.label_cnt_etr_avrg.Text = average.ToString("F6");
                             keyPress = KEY_PRESS.NO;
-                          //  passNum = 0;
                         }
                     }
 
@@ -177,31 +174,15 @@ namespace LEO
                         label_cnt_etr_avrg.Text = "NA";
                     }
                 }
-                /************************************** ETR AVRG PRINT **************************************/
-                //else if (req == Message.MsgRequest.COUNTER_ETR_AVRG) {
-
-                //    //Int32 difference = Convert.ToInt32(cnt_etr_avrg_textBox.Text) - (int)(avrgList.Count);
-                //    //ushort gateTime = getRadioNumber();
-
-                //    if(keyPress == KEY_PRESS.YES){
-                //        if (passNum < avrgTime)
-                //        {
-                //            label_cnt_etr_avrg.ForeColor = SystemColors.WindowFrame;
-                //            label_cnt_etr_avrg.Font = new Font("Times New Roman", 15);
-
-                //            this.label_cnt_etr_avrg.Text = "Wait " + (avrgTime - passNum) /*(((difference * gateTime / 1000) + 1) - passNum).ToString()*/ + " seconds.";
-                //            passNum++;
-                //        }
-                //        else
-                //        {
-                //            avrgTimer.Stop();
-                //        }
-                //    }
-                //    else
-                //    {
-                //        avrgTimer.Stop();
-                //    }
-                //} 
+                /************************************** IC BUFF WAIT **************************************/
+                else if (req == Message.MsgRequest.COUNTER_IC1_BUFF_WAIT)
+                {
+                    cnt_ic1_buffRecalc_textBox.Text = "Wait";
+                }
+                else if (req == Message.MsgRequest.COUNTER_IC2_BUFF_WAIT)
+                {
+                    cnt_ic2_buffRecalc_textBox.Text = "Wait";
+                }
                 /************************************** IC1 DATA PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_IC1_DATA)
                 {
@@ -262,7 +243,26 @@ namespace LEO
                 /************************************** REF DATA PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_REF_DATA)
                 {
-                    this.label_cnt_ref_value.Text = (refSamples / cntPaint).ToString();
+                    int boole;
+                    bool isNumeric = int.TryParse(cnt_ref_sampleCount_textBox.Text, out boole);
+                    if (!string.IsNullOrEmpty(cnt_ref_sampleCount_textBox.Text) && isNumeric)
+                    {
+                        label_cnt_ref_value.ForeColor = SystemColors.ControlText;
+                        label_cnt_ref_value.Font = new Font("Times New Roman", 24);
+                        this.label_cnt_ref_value.Text = (refSamples / cntPaint).ToString("F6");
+                    }
+                }
+                /************************************** REF WAIT PRINT **************************************/
+                else if (req == Message.MsgRequest.COUNTER_REF_WAIT)
+                {
+                    int boole;
+                    bool isNumeric = int.TryParse(cnt_ref_sampleCount_textBox.Text, out boole);
+                    if (!string.IsNullOrEmpty(cnt_ref_sampleCount_textBox.Text) && isNumeric)
+                    {
+                        label_cnt_ref_value.ForeColor = SystemColors.WindowFrame;
+                        label_cnt_ref_value.Font = new Font("Times New Roman", 18);
+                        label_cnt_ref_value.Text = "Sampling!";
+                    }
                 }
 
                 base.OnPaint(e);
@@ -276,15 +276,10 @@ namespace LEO
 
         }
 
-
-
         private void counter_FormClosing(object sender, FormClosingEventArgs e)
         {
             cnt_stop();
-   //         radioButton_100m_CheckedChanged(null, null);
-   //         cnt_deinit();
         }
-
 
         public void cnt_start()
         {
@@ -292,7 +287,6 @@ namespace LEO
             device.send(Commands.COUNTER + ":" + Commands.START + ";");
             device.giveCommsSemaphore();
         }
-
 
         public void cnt_stop()
         {
@@ -307,7 +301,6 @@ namespace LEO
             device.send(Commands.COUNTER + ":" + Commands.DEINIT + ";");
             device.giveCommsSemaphore();
         }
-
 
         public void cnt_init_mode(CNT_MODES mode)
         {
@@ -341,24 +334,15 @@ namespace LEO
                     cnt_stop();
                     cnt_init_mode(CNT_MODES.ETR);
                     cnt_start();
-                    //avrgTimer.Start();
                     ETR_appReinit();
                     break;
                 case 1:
-                    //if (avrgTimer.Enabled)
-                    //{
-                    //    avrgTimer.Stop();
-                    //}
                     cnt_stop();
                     cnt_init_mode(CNT_MODES.IC);
                     cnt_start();
                     IC_appReinit();
                     break;
                 case 2:
-                    //if (avrgTimer.Enabled)
-                    //{
-                    //    avrgTimer.Stop();
-                    //}
                     cnt_stop();
                     cnt_init_mode(CNT_MODES.REF);
                     cnt_start();
@@ -370,17 +354,13 @@ namespace LEO
         private void ETR_appReinit()
         {
             average = 0;
-            for (int i = 0; i < Convert.ToInt32(cnt_etr_avrg_textBox.Text); i++)
-            {
-                avrgList.RemoveFirst();
-            }
+            avrgList.Clear();
 
             radioButton_100m.Checked = true;
             radioButton_100m_CheckedChanged(null, null);
             cnt_etr_trackBar.Value = 2;
             cnt_etr_trackBar_Scroll(null, null);
             cnt_etr_avrg_textBox.Text = "0";
-            avrgCircBuffer();
             cnt_etr_avrg_textBox.Text = "2";
             label_cnt_etr_avrg.Text = "0.000000";
             label_cnt_etr_value.Text = "0.000000";
@@ -393,6 +373,10 @@ namespace LEO
             cnt_ref_trackBar2.Value = 1000;
             cnt_ref_count_textBox1.Text = "1000";
             cnt_ref_count_textBox2.Text = "1000";
+            refSamples = 1000000;
+            label_cnt_ref_value.ForeColor = SystemColors.ControlText;
+            label_cnt_ref_value.Font = new Font("Times New Roman", 24);
+            label_cnt_ref_value.Text = "0.000000";
         }
 
         private void IC_appReinit()
@@ -408,7 +392,6 @@ namespace LEO
             cnt_ic1_trackBar.Value = 1;
             cnt_ic2_trackBar.Value = 1;
         }
-
 
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         /* --------------------------------------------------- COUNTER IC1/IC2 EVENTS ----------------------------------------------------- */
@@ -448,6 +431,8 @@ namespace LEO
                         device.send_short((ushort)ic1buffer);
                         device.send(";");
                         device.giveCommsSemaphore();
+                        req = Message.MsgRequest.COUNTER_IC1_BUFF_WAIT;
+                        this.Invalidate();
                     }
                 }
             }
@@ -503,6 +488,8 @@ namespace LEO
                         device.send_short((ushort)ic2buffer);
                         device.send(";");
                         device.giveCommsSemaphore();
+                        req = Message.MsgRequest.COUNTER_IC2_BUFF_WAIT;
+                        this.Invalidate();
                     }
                 }
             }
@@ -626,8 +613,8 @@ namespace LEO
                         this.ActiveControl = null;
                         cnt_etr_trackBar.Value = etrbuffer;
                         keyPress = KEY_PRESS.YES;
-                        avrgCircBuffer();
-                        //gateTimeHandling();
+                        req = Message.MsgRequest.COUNTER_ETR_DATA;
+                        this.Invalidate();
                     }
                 }
             }
@@ -660,7 +647,8 @@ namespace LEO
             cnt_etr_avrg_textBox.Text = "" + cnt_etr_trackBar.Value;
             keyPress = KEY_PRESS.YES;
             avrgCircBuffer();
-            //  gateTimeHandling();
+            req = Message.MsgRequest.COUNTER_ETR_DATA;
+            this.Invalidate();
         }
 
         private void cnt_etr_avrg_textBox_Enter(object sender, EventArgs e)
@@ -687,12 +675,8 @@ namespace LEO
             device.send(Commands.COUNTER + ":" + Commands.CNT_GATE + " ");
             device.send(Commands.CNT_GATE_100m + ";");
             device.giveCommsSemaphore();
-            //label_cnt_avrg_info.Text = "";
-            //        keyPress = KEY_PRESS.YES;
-            //if (avrgTimer.Enabled)
-            //{
-            //    avrgTimer.Stop();
-            //}
+            req = Message.MsgRequest.COUNTER_ETR_DATA;
+            this.Invalidate();
         }
         private void radioButton_500m_CheckedChanged(object sender, EventArgs e)
         {
@@ -700,12 +684,8 @@ namespace LEO
             device.send(Commands.COUNTER + ":" + Commands.CNT_GATE + " ");
             device.send(Commands.CNT_GATE_500m + ";");
             device.giveCommsSemaphore();
-            //label_cnt_avrg_info.Text = "";
-            //      keyPress = KEY_PRESS.YES;
-            //if (avrgTimer.Enabled)
-            //{
-            //    avrgTimer.Stop();
-            //}
+            req = Message.MsgRequest.COUNTER_ETR_DATA;
+            this.Invalidate();
         }
 
         private void radioButton_1s_CheckedChanged(object sender, EventArgs e)
@@ -714,12 +694,8 @@ namespace LEO
             device.send(Commands.COUNTER + ":" + Commands.CNT_GATE + " ");
             device.send(Commands.CNT_GATE_1s + ";");
             device.giveCommsSemaphore();
-            //label_cnt_avrg_info.Text = "";
-            //       keyPress = KEY_PRESS.YES;
-            //if (avrgTimer.Enabled)
-            //{
-            //    avrgTimer.Stop();
-            //}
+            req = Message.MsgRequest.COUNTER_ETR_DATA;
+            this.Invalidate();
         }
 
         private void radioButton_5s_CheckedChanged(object sender, EventArgs e)
@@ -728,13 +704,8 @@ namespace LEO
             device.send(Commands.COUNTER + ":" + Commands.CNT_GATE + " ");
             device.send(Commands.CNT_GATE_5s + ";");
             device.giveCommsSemaphore();
-            //label_cnt_avrg_info.Text = "5 sec. update";
-            //       avrgTime = Convert.ToUInt16(cnt_etr_avrg_textBox.Text) * 5;
-            //if (keyPress == KEY_PRESS.YES)
-            //{
-
-            //       avrgTimer.Start();
-            //}
+            req = Message.MsgRequest.COUNTER_ETR_DATA;
+            this.Invalidate();
         }
 
         private void radioButton_10s_CheckedChanged(object sender, EventArgs e)
@@ -743,12 +714,8 @@ namespace LEO
             device.send(Commands.COUNTER + ":" + Commands.CNT_GATE + " ");
             device.send(Commands.CNT_GATE_10s + ";");
             device.giveCommsSemaphore();
-            //label_cnt_avrg_info.Text = "10 sec. update";
-            //          avrgTime = Convert.ToUInt16(cnt_etr_avrg_textBox.Text) * 10;
-            //if (keyPress == KEY_PRESS.YES)
-            //{
-            //         avrgTimer.Start();
-            //}
+            req = Message.MsgRequest.COUNTER_ETR_DATA;
+            this.Invalidate();
         }
 
 
@@ -757,7 +724,7 @@ namespace LEO
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         private void avrgCircBuffer()
         {
-            int circBuffSize = Convert.ToInt32(cnt_etr_avrg_textBox.Text);
+            int circBuffSize = Convert.ToInt32(cnt_etr_trackBar.Value);
             circBuffSizeTest = circBuffSize;
             if (avrgList.Count == 0)
             {
@@ -812,28 +779,13 @@ namespace LEO
             return 0;
         }
 
-        //private void gateTimeHandling()
-        //{
-        //    ushort gateTime = getRadioNumber();
-        //    avrgTime = Convert.ToUInt16(cnt_etr_avrg_textBox.Text) * (gateTime / 1000);
-
-        //    if (((gateTime == 5000) || (gateTime == 10000)) && (avrgTime > (ushort)(avrgList.Count)))
-        //    {
-        //        avrgTimer.Start();
-        //    }
-        //    else if (avrgTimer.Enabled)
-        //    {
-        //        avrgTimer.Stop();
-        //    }
-        //}
-
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         /* ---------------------------------------------------- COUNTER REF FUNCTIONS ----------------------------------------------------- */
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         /* Function splitting 32 bit number into two 16 bit values that represent ARR and PSC register values send to MCU timer */
         private void splitAndSend(UInt32 sampleCount)
         {
-            UInt32 psc = 0, arr = 0;
+            UInt32 psc = 1, arr = 1;
 
             if (isPrimeNumber(sampleCount) && sampleCount > 64000)
             {
@@ -843,23 +795,23 @@ namespace LEO
             }
             else if (sampleCount <= 64000)
             {
-                psc = (ushort)sampleCount;
-                arr = 1;
+                arr = (ushort)sampleCount;
+                psc = 1;
             }
             else
             {
-                for (int arrTemp = 64000; arrTemp > 1; arrTemp--)
+                for (int pscTemp = 64000; pscTemp > 1; pscTemp--)
                 {
-                    if ((sampleCount % arrTemp) == 0 && arrTemp <= 64000)
+                    if ((sampleCount % pscTemp) == 0 && pscTemp <= 64000)
                     {
-                        arr = (ushort)arrTemp;
+                        psc = (ushort)pscTemp;
                         break;
                     }
                 }
 
-                psc = (sampleCount / arr);
+                arr = (sampleCount / psc);
 
-                if (psc > 64000)
+                if (arr > 64000)
                 {
                     cnt_ref_sampleCount_textBox.ForeColor = Color.DarkRed;
                     cnt_ref_sampleCount_textBox.Text = "Can't be devided.";
@@ -916,7 +868,7 @@ namespace LEO
         }
 
         /* -------------------------------------------------------------------------------------------------------------------------------- */
-        /* ------------------------------------------------- COUNTER ETR & IC TIMERS ------------------------------------------------------ */
+        /* ------------------------------------------------- COUNTER REF & IC TIMERS ------------------------------------------------------ */
         /* -------------------------------------------------------------------------------------------------------------------------------- */
 
         private void scrollTimerConfig()
@@ -924,12 +876,6 @@ namespace LEO
             scrollTimer.Elapsed += new ElapsedEventHandler(scrollTimeElapseEvent);
             scrollTimer.AutoReset = false;
         }
-
-        //private void avrgTimerConfig()
-        //{
-        //    avrgTimer.Elapsed += new ElapsedEventHandler(avrgTimeElapseEvent);
-        //    avrgTimer.AutoReset = true;
-        //}
 
         private void scrollTimeElapseEvent(Object source, ElapsedEventArgs e)
         {
@@ -941,35 +887,36 @@ namespace LEO
                     device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLE_COUNT1 + " ");
                     device.send_short(Convert.ToUInt16(cnt_ic1_buffer_textBox.Text));
                     device.send(";");
+                    req = Message.MsgRequest.COUNTER_IC1_BUFF_WAIT;
+                    this.Invalidate();
                     break;
                 case CNT_TIMER.TIM_SCROLL_IC2:
                     device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLE_COUNT2 + " ");
                     device.send_short(Convert.ToUInt16(cnt_ic2_buffer_textBox.Text));
                     device.send(";");
+                    req = Message.MsgRequest.COUNTER_IC2_BUFF_WAIT;
+                    this.Invalidate();
                     break;
                 case CNT_TIMER.TIM_SCROLL_REF1:
-                    device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLES_PSC + " ");
+                    scrollTimer.Stop();
+                    device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLES_ARR + " ");
                     device.send_short(Convert.ToUInt16(cnt_ref_count_textBox1.Text));
                     device.send(";");
-                    scrollTimer.Stop();
+                    req = Message.MsgRequest.COUNTER_REF_WAIT;
+                    this.Invalidate();
                     break;
                 case CNT_TIMER.TIM_SCROLL_REF2:
-                    device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLES_ARR + " ");
+                    scrollTimer.Stop();
+                    device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLES_PSC + " ");
                     device.send_short(Convert.ToUInt16(cnt_ref_count_textBox2.Text));
                     device.send(";");
-                    scrollTimer.Stop();
+                    req = Message.MsgRequest.COUNTER_REF_WAIT;
+                    this.Invalidate();
                     break;
             }
 
             device.giveCommsSemaphore();
         }
-
-        //private void avrgTimeElapseEvent(Object source, ElapsedEventArgs e)
-        //{
-        //    req = Message.MsgRequest.COUNTER_ETR_AVRG;
-        //    this.Invalidate();
-        //}
-
 
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         /* ----------------------------------------------------- COUNTER REF EVENTS ------------------------------------------------------- */
@@ -980,7 +927,7 @@ namespace LEO
 
             TextBox textBox = (TextBox)sender;
 
-            if (cnt_ref_count_textBox1.Text.Length > 10 && cnt_ref_count_textBox1.Text != "Min val. 1")
+            if (cnt_ref_count_textBox1.Text.Length > 10 && cnt_ref_count_textBox1.Text != "Min val. 2")
             {
                 e.KeyChar = (char)Keys.Enter;
                 cnt_ref_count_textBox1.ForeColor = Color.DarkRed;
@@ -1003,10 +950,10 @@ namespace LEO
                     e.Handled = true;
                     UInt32 refSampleCount = Convert.ToUInt32(textBox.Text);
 
-                    if (refSampleCount < 1)
+                    if (refSampleCount < 2)
                     {
                         cnt_ref_count_textBox1.ForeColor = Color.DarkRed;
-                        cnt_ref_count_textBox1.Text = "Min val. 1";
+                        cnt_ref_count_textBox1.Text = "Min val. 2";
                         this.ActiveControl = null;
                     }
                     else if (refSampleCount > 64000)
@@ -1020,7 +967,18 @@ namespace LEO
                         this.ActiveControl = null;
                         cnt_ref_trackBar1.Value = int.Parse(cnt_ref_count_textBox1.Text);
                         cnt_ref_sampleCount_textBox.ForeColor = SystemColors.WindowFrame;
-                        cnt_ref_sampleCount_textBox.Text = "" + (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+
+                        refSamples = (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+                        cnt_ref_sampleCount_textBox.Text = "" + refSamples;
+
+                        device.takeCommsSemaphore(semaphoreTimeout + 121);
+                        device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLES_ARR + " ");
+                        device.send_short((ushort)cnt_ref_trackBar1.Value);
+                        device.send(";");
+                        device.giveCommsSemaphore();
+        
+                        req = Message.MsgRequest.COUNTER_REF_WAIT;
+                        this.Invalidate();
                     }
                 }
             }
@@ -1072,7 +1030,18 @@ namespace LEO
                         this.ActiveControl = null;
                         cnt_ref_trackBar2.Value = int.Parse(cnt_ref_count_textBox2.Text);
                         cnt_ref_sampleCount_textBox.ForeColor = SystemColors.WindowFrame;
-                        cnt_ref_sampleCount_textBox.Text = "" + (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+
+                        refSamples = (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+                        cnt_ref_sampleCount_textBox.Text = "" + refSamples;
+
+                        device.takeCommsSemaphore(semaphoreTimeout + 121);
+                        device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLES_PSC + " ");
+                        device.send_short((ushort)cnt_ref_trackBar2.Value);
+                        device.send(";");
+                        device.giveCommsSemaphore();
+
+                        req = Message.MsgRequest.COUNTER_REF_WAIT;
+                        this.Invalidate();
                     }
                 }
             }
@@ -1084,7 +1053,7 @@ namespace LEO
 
             TextBox textBox = (TextBox)sender;
 
-            if (cnt_ref_sampleCount_textBox.Text.Length > 10 && cnt_ref_sampleCount_textBox.Text != "Min val. 1")
+            if (cnt_ref_sampleCount_textBox.Text.Length > 10 && cnt_ref_sampleCount_textBox.Text != "Min val. 2")
             {
                 e.KeyChar = (char)Keys.Enter;
                 cnt_ref_sampleCount_textBox.ForeColor = Color.DarkRed;
@@ -1107,10 +1076,10 @@ namespace LEO
                     e.Handled = true;
                     UInt64 refSampleCount = Convert.ToUInt64(textBox.Text);
 
-                    if (refSampleCount < 1)
+                    if (refSampleCount < 2)
                     {
                         cnt_ref_sampleCount_textBox.ForeColor = Color.DarkRed;
-                        cnt_ref_sampleCount_textBox.Text = "Min val. 1";
+                        cnt_ref_sampleCount_textBox.Text = "Min val. 2";
                         this.ActiveControl = null;
                     }
                     else if (refSampleCount > 4096000000)
@@ -1124,6 +1093,9 @@ namespace LEO
                         this.ActiveControl = null;
                         splitAndSend((UInt32)refSampleCount);
                         refSamples = (UInt32)refSampleCount;
+
+                        req = Message.MsgRequest.COUNTER_REF_WAIT;
+                        this.Invalidate();
                     }
                 }
             }
@@ -1138,7 +1110,8 @@ namespace LEO
             cnt_ref_sampleCount_textBox.ForeColor = SystemColors.GrayText;
             cnt_ref_count_textBox1.Text = "" + cnt_ref_trackBar1.Value;
 
-            cnt_ref_sampleCount_textBox.Text = "" + (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+            refSamples = (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+            cnt_ref_sampleCount_textBox.Text = "" + refSamples;
 
             scrollTimer.Stop();
             scrollTimer.Start();
@@ -1155,7 +1128,8 @@ namespace LEO
             cnt_ref_sampleCount_textBox.ForeColor = SystemColors.GrayText;
             cnt_ref_count_textBox2.Text = "" + cnt_ref_trackBar2.Value;
 
-            cnt_ref_sampleCount_textBox.Text = "" + (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+            refSamples = (UInt32)(cnt_ref_trackBar1.Value * cnt_ref_trackBar2.Value);
+            cnt_ref_sampleCount_textBox.Text = "" + refSamples;
 
             scrollTimer.Stop();
             scrollTimer.Start();
@@ -1180,7 +1154,6 @@ namespace LEO
 
         private void cnt_ref_count_textBox1_Enter(object sender, EventArgs e)
         {
-            //cnt_ref_sampleCount_textBox.ForeColor = SystemColors.WindowFrame;
             if (cnt_ref_count_textBox1.Text == "Enter a number")
             {
                 cnt_ref_count_textBox1.Text = "";
@@ -1190,7 +1163,6 @@ namespace LEO
 
         private void cnt_ref_count_textBox2_Enter(object sender, EventArgs e)
         {
-            //cnt_ref_sampleCount_textBox.ForeColor = SystemColors.WindowFrame;
             if (cnt_ref_count_textBox2.Text == "Enter a number")
             {
                 cnt_ref_count_textBox2.Text = "";
@@ -1200,8 +1172,6 @@ namespace LEO
 
         private void cnt_ref_sampleCount_textBox_Enter(object sender, EventArgs e)
         {
-            //cnt_ref_count_textBox1.ForeColor = SystemColors.WindowFrame;
-            //cnt_ref_count_textBox2.ForeColor = SystemColors.WindowFrame;
             if (cnt_ref_sampleCount_textBox.Text == "Enter a number")
             {
                 cnt_ref_sampleCount_textBox.Text = "";
@@ -1220,7 +1190,6 @@ namespace LEO
 
         private void cnt_ref_count_textBox2_Leave(object sender, EventArgs e)
         {
-            //cnt_ref_sampleCount_textBox.ForeColor = SystemColors.WindowFrame;
             if (cnt_ref_count_textBox2.Text.Length == 0)
             {
                 cnt_ref_count_textBox2.ForeColor = SystemColors.GrayText;

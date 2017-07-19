@@ -113,6 +113,7 @@ uint8_t TIM_IC2PSC_GetPrescaler(void);
 uint8_t TIM_GetPrescaler(uint32_t regPrescValue);
 
 bool DMA_TransferComplete(DMA_HandleTypeDef *dmah);
+void DMA_Restart(DMA_HandleTypeDef *dmah);
 extern void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);	
 extern void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 extern void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);

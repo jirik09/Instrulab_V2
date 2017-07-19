@@ -32,6 +32,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage_REF = new System.Windows.Forms.TabPage();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label_cnt_ref_value = new System.Windows.Forms.Label();
@@ -88,6 +92,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabPage_REF.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar2)).BeginInit();
@@ -127,6 +132,7 @@
             // tabPage_REF
             // 
             this.tabPage_REF.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage_REF.Controls.Add(this.groupBox9);
             this.tabPage_REF.Controls.Add(this.groupBox8);
             this.tabPage_REF.Controls.Add(this.groupBox3);
             this.tabPage_REF.Location = new System.Drawing.Point(4, 22);
@@ -135,15 +141,58 @@
             this.tabPage_REF.TabIndex = 2;
             this.tabPage_REF.Text = "Reference Frequency";
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.label18);
+            this.groupBox9.Controls.Add(this.label17);
+            this.groupBox9.Controls.Add(this.label16);
+            this.groupBox9.Location = new System.Drawing.Point(5, 69);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(506, 70);
+            this.groupBox9.TabIndex = 4;
+            this.groupBox9.TabStop = false;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label18.Location = new System.Drawing.Point(190, 45);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(198, 13);
+            this.label18.TabIndex = 5;
+            this.label18.Text = "Frequency (PA8) / Sample count   >   10";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label17.Location = new System.Drawing.Point(28, 21);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(456, 26);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "Configure the sample count according to a frequency taken on PA8 pin. The value s" +
+    "hould meet\r\nthe following condition:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label16.Location = new System.Drawing.Point(0, -2);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(33, 19);
+            this.label16.TabIndex = 3;
+            this.label16.Text = "Info";
+            // 
             // groupBox8
             // 
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox8.Controls.Add(this.label5);
             this.groupBox8.Controls.Add(this.label_cnt_ref_value);
-            this.groupBox8.Location = new System.Drawing.Point(3, 3);
+            this.groupBox8.Location = new System.Drawing.Point(5, 3);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(508, 136);
+            this.groupBox8.Size = new System.Drawing.Size(506, 69);
             this.groupBox8.TabIndex = 3;
             this.groupBox8.TabStop = false;
             // 
@@ -154,21 +203,19 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label5.Location = new System.Drawing.Point(0, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(185, 19);
+            this.label5.Size = new System.Drawing.Size(184, 19);
             this.label5.TabIndex = 1;
-            this.label5.Text = "Frequency ratio [PC6 / PA0]";
+            this.label5.Text = "Frequency ratio [PA8 / PA0]";
             // 
             // label_cnt_ref_value
             // 
-            this.label_cnt_ref_value.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label_cnt_ref_value.Font = new System.Drawing.Font("Times New Roman", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ref_value.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ref_value.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_ref_value.Location = new System.Drawing.Point(3, 16);
             this.label_cnt_ref_value.Name = "label_cnt_ref_value";
-            this.label_cnt_ref_value.Size = new System.Drawing.Size(502, 117);
+            this.label_cnt_ref_value.Size = new System.Drawing.Size(500, 50);
             this.label_cnt_ref_value.TabIndex = 0;
-            this.label_cnt_ref_value.Text = "0.00000";
+            this.label_cnt_ref_value.Text = "0.000000";
             this.label_cnt_ref_value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox3
@@ -264,7 +311,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(13, 13);
             this.label8.TabIndex = 5;
-            this.label8.Text = "1";
+            this.label8.Text = "2";
             // 
             // cnt_ref_sampleCount_textBox
             // 
@@ -272,12 +319,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cnt_ref_sampleCount_textBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.cnt_ref_sampleCount_textBox.Location = new System.Drawing.Point(41, 106);
+            this.cnt_ref_sampleCount_textBox.Location = new System.Drawing.Point(40, 106);
             this.cnt_ref_sampleCount_textBox.MaxLength = 10;
             this.cnt_ref_sampleCount_textBox.Name = "cnt_ref_sampleCount_textBox";
             this.cnt_ref_sampleCount_textBox.Size = new System.Drawing.Size(143, 20);
             this.cnt_ref_sampleCount_textBox.TabIndex = 0;
-            this.cnt_ref_sampleCount_textBox.Text = "1000000 ";
+            this.cnt_ref_sampleCount_textBox.Text = "1000000";
             this.cnt_ref_sampleCount_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cnt_ref_sampleCount_textBox.Click += new System.EventHandler(this.cnt_ref_sampleCount_textBox_Click);
             this.cnt_ref_sampleCount_textBox.Enter += new System.EventHandler(this.cnt_ref_sampleCount_textBox_Enter);
@@ -295,7 +342,6 @@
             this.cnt_ref_trackBar2.Minimum = 1;
             this.cnt_ref_trackBar2.Name = "cnt_ref_trackBar2";
             this.cnt_ref_trackBar2.Size = new System.Drawing.Size(198, 45);
-            this.cnt_ref_trackBar2.SmallChange = 100;
             this.cnt_ref_trackBar2.TabIndex = 4;
             this.cnt_ref_trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.cnt_ref_trackBar2.Value = 1000;
@@ -309,10 +355,9 @@
             this.cnt_ref_trackBar1.LargeChange = 1000;
             this.cnt_ref_trackBar1.Location = new System.Drawing.Point(12, 22);
             this.cnt_ref_trackBar1.Maximum = 64000;
-            this.cnt_ref_trackBar1.Minimum = 1;
+            this.cnt_ref_trackBar1.Minimum = 2;
             this.cnt_ref_trackBar1.Name = "cnt_ref_trackBar1";
             this.cnt_ref_trackBar1.Size = new System.Drawing.Size(198, 45);
-            this.cnt_ref_trackBar1.SmallChange = 100;
             this.cnt_ref_trackBar1.TabIndex = 3;
             this.cnt_ref_trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.cnt_ref_trackBar1.Value = 1000;
@@ -535,7 +580,7 @@
             this.groupBox4.Controls.Add(this.label_cnt_ic1_value);
             this.groupBox4.Location = new System.Drawing.Point(5, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(457, 68);
+            this.groupBox4.Size = new System.Drawing.Size(457, 69);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             // 
@@ -558,7 +603,7 @@
             this.label_cnt_ic1_value.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_ic1_value.Location = new System.Drawing.Point(3, 16);
             this.label_cnt_ic1_value.Name = "label_cnt_ic1_value";
-            this.label_cnt_ic1_value.Size = new System.Drawing.Size(451, 49);
+            this.label_cnt_ic1_value.Size = new System.Drawing.Size(451, 50);
             this.label_cnt_ic1_value.TabIndex = 1;
             this.label_cnt_ic1_value.Text = "0.000000";
             this.label_cnt_ic1_value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -733,7 +778,7 @@
             // label_cnt_avrg_info
             // 
             this.label_cnt_avrg_info.AutoSize = true;
-            this.label_cnt_avrg_info.ForeColor = System.Drawing.Color.CadetBlue;
+            this.label_cnt_avrg_info.ForeColor = System.Drawing.Color.DarkCyan;
             this.label_cnt_avrg_info.Location = new System.Drawing.Point(4, 20);
             this.label_cnt_avrg_info.Name = "label_cnt_avrg_info";
             this.label_cnt_avrg_info.Size = new System.Drawing.Size(0, 13);
@@ -770,7 +815,7 @@
             this.groupBox6.Controls.Add(this.label_cnt_etr_value);
             this.groupBox6.Location = new System.Drawing.Point(5, 3);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(457, 68);
+            this.groupBox6.Size = new System.Drawing.Size(457, 69);
             this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             // 
@@ -792,7 +837,7 @@
             this.label_cnt_etr_value.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_cnt_etr_value.Location = new System.Drawing.Point(3, 16);
             this.label_cnt_etr_value.Name = "label_cnt_etr_value";
-            this.label_cnt_etr_value.Size = new System.Drawing.Size(451, 49);
+            this.label_cnt_etr_value.Size = new System.Drawing.Size(451, 50);
             this.label_cnt_etr_value.TabIndex = 1;
             this.label_cnt_etr_value.Text = "0.000000";
             this.label_cnt_etr_value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -831,6 +876,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPage_REF.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -921,5 +968,9 @@
         private System.Windows.Forms.RadioButton radioButton_500m;
         private System.Windows.Forms.RadioButton radioButton_5s;
         private System.Windows.Forms.Label label_cnt_avrg_info;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
     }
 }
