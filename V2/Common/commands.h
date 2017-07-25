@@ -23,12 +23,13 @@ typedef uint32_t command;
 
 #ifdef USE_COUNTER
 
-#define STR_CNT_ETR_DATA "ETRD "		// data from ETR measurement
-#define STR_CNT_REF_DATA "REFD "		// data from REF measurement
-#define STR_CNT_IC1_DATA "IC1D "		// data from IC1 channel meas.
-#define STR_CNT_IC2_DATA "IC2D "		// data from IC2 channel meas.
-#define STR_CNT_IC1_BUFF "IC1B "		// buffer correction
-#define STR_CNT_IC2_BUFF "IC2B "		// buffer correction
+#define STR_CNT_ETR_DATA "ETRD"			// data from ETR measurement
+#define STR_CNT_REF_DATA "REFD"		// data from REF measurement
+#define STR_CNT_IC1_DATA "IC1D"		// data from IC1 channel meas.
+#define STR_CNT_IC2_DATA "IC2D"		// data from IC2 channel meas.
+#define STR_CNT_IC1_BUFF "IC1B"		// buffer correction
+#define STR_CNT_IC2_BUFF "IC2B"		// buffer correction
+#define STR_CNT_REF_WARN "WARN"		// reference counter sample count warning
 
 #endif //USE_COUNTER
 

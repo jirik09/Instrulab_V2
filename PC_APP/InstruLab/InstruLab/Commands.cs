@@ -51,6 +51,7 @@ namespace LEO
         // Counter REF SAMPLE count
         public const string CNT_SAMPLES_PSC = "PSC_";
         public const string CNT_SAMPLES_ARR = "ARR_";
+        public const string COUNTER_REF_WARN = "WARN";
 
         // Counter messages received
         public const string COUNTER_ETR_DATA = "ETRD";

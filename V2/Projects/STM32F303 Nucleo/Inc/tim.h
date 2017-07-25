@@ -107,6 +107,7 @@ void TIM_ETRP_Config(double freq);
 void TIM_IC1PSC_Config(double freq);
 void TIM_IC2PSC_Config(double freq);
 void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc);
+void TIM_Disable(void);
 uint8_t TIM_ETPS_GetPrescaler(void);
 uint8_t TIM_IC1PSC_GetPrescaler(void);
 uint8_t TIM_IC2PSC_GetPrescaler(void);

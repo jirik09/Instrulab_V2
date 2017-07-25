@@ -174,9 +174,9 @@ void MX_TIM4_Init(void)
 
   htim4.Instance = TIM4;
 	if(counter.state == COUNTER_REF){
-		/* REF mode - 1M samples (1000 * 1000) */
-		htim4.Init.Prescaler = 0/* 999*/;		
-		htim4.Init.Period = 0/*999*/;								
+		/* REF mode - 10M samples (10000 * 1000) */
+		htim4.Init.Prescaler = 999;		
+		htim4.Init.Period = 9999;								
 	}else if(counter.state == COUNTER_ETR){
 		/* ETR mode - 100 ms gate time by default */
 		htim4.Init.Prescaler = TIM4_PSC;			// by default 7199 for ETR mode
@@ -437,14 +437,14 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			if(counter.state==COUNTER_ETR){
 				counter.counterEtr.psc = TIM4_PSC;	
 				counter.counterEtr.arr = TIM4_ARR;
-				counter.counterEtr.gateTime = 100;				/* 100 ms */
-				counter.counterEtr.etrp = 1;				
-				counter.gateChange = GATE_NOT_CHANGED;			
+				counter.counterEtr.gateTime = 100;				/* 100 ms */												
 			}else{
 				counter.counterEtr.psc = 999;	
-				counter.counterEtr.arr = 999;				
+				counter.counterEtr.arr = 9999;				
 			}
-			counter.counterEtr.buffer = 0;		
+			counter.counterEtr.etrp = 1;
+			counter.counterEtr.buffer = 0;
+			counter.sampleCntChange = SAMPLE_COUNT_CHANGED;					
 			
 		}else if(counter.state==COUNTER_IC){
 		
@@ -631,7 +631,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 /* ------------------------- Specific counter CONFIG functions -------------------------- */
 /* ************************************************************************************** */
 /**
-  * @brief  This function is used to select the desired ETR prescaler ETPS. (TIM2 should be clocked to 144 MHz - not possible - only 72 MHz)
+  * @brief  This function is used to select the desired ETR prescaler ETPS. (TIM2 should be clocked to 144 MHz)
 	* @param  freq: frequency
   * @retval none 
   */
@@ -657,6 +657,10 @@ void TIM_ETRP_Config(double freq)
 	} else if ((smcr & 0x3000) != 0) {															
 			TIM2 -> SMCR &= ~TIM_SMCR_ETPS;														/* Set ETR prescaler to 1 */										
 	}
+}
+
+void TIM_REF_ETRP_Config(void){
+	
 }
 
 /**
@@ -729,11 +733,21 @@ void TIM_IC2PSC_Config(double freq)
   * @retval none 
   */
 void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc)
-{				
-	TIM4->ARR = arr;	
+{			
+	TIM4->ARR = arr;
 	TIM4->PSC = psc;
+	
+	if(counter.state!=COUNTER_IC){
+		counter.sampleCntChange = SAMPLE_COUNT_CHANGED;
+		TIM4->CR1 |= TIM_CR1_CEN;			
+		startTime = HAL_GetTick();			
+	}
 	/* Generate an update event to reload the Prescaler and the repetition counter immediately */
-	TIM4->EGR |= TIM_EGR_UG;
+	TIM4->EGR |= TIM_EGR_UG;	
+}
+
+void TIM_Disable(void){
+	TIM4->CR1 &= ~TIM_CR1_CEN;
 }
 
 /**
@@ -772,7 +786,7 @@ uint8_t TIM_GetPrescaler(uint32_t regPrescValue)
 		case 0:
 			presc = 1; break;			
 		case 1:
-			presc = 2;	break;
+			presc = 2; break;
 		case 2:
 			presc = 4; break;
 		case 3:

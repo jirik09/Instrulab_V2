@@ -13,7 +13,7 @@ using LEO;
 namespace LEO
 {
     public class Device
-    {
+    {       
         public struct SystemConfig_def
         {
             public int CoreClock;
@@ -739,30 +739,36 @@ namespace LEO
                         /* -------------------------------------------------- COUNTER RECEIVED MESSAGES --------------------------------------------------- */
                         /* -------------------------------------------------------------------------------------------------------------------------------- */
                         case Commands.COUNTER_ETR_DATA:
-                            Thread.Sleep(20);
+                            while (port.BytesToRead < 16)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
                             char[] inputValEtr = new char[64];
-                            int read1 = port.BytesToRead;
-                            port.Read(inputValEtr, 0, read1);
+                            port.Read(inputValEtr, 0, 16);
 
                             try
                             {
-                                cntMessage = new string(inputValEtr, 1, read1 - 1);
+                                cntMessage = new string(inputValEtr, 0, 16);
                                 freq = double.Parse(cntMessage,System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_DATA,"ETR_DATA", freq /*+ 0.000001*/));
+                                logRecieved("CNT ETR " + freq);
                             }
                             catch (Exception ex) {
                                 logRecieved("Counter freq ETR was not parsed  " + new string(inputValEtr, 0, 4));
                             }                           
                             break;
                         case Commands.COUNTER_IC1_DATA:
-                            Thread.Sleep(20);
+                            while (port.BytesToRead < 16)
+                            {
+                                wait_for_data(watchDog--);
+                            }
                             char[] inputValIc1 = new char[64];
-                            int read2 = port.BytesToRead;
-                            port.Read(inputValIc1, 0, read2);
+                            port.Read(inputValIc1, 0, 16);
 
                             try
                             {
-                                cntMessage = new string(inputValIc1, 1, read2 - 1);
+                                cntMessage = new string(inputValIc1, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DATA, "IC1_DATA", freq/*+ 0.000001*/));
                             }
@@ -772,14 +778,17 @@ namespace LEO
                             }
                             break;
                         case Commands.COUNTER_IC2_DATA:
-                            Thread.Sleep(20);
+                            while (port.BytesToRead < 16)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
                             char[] inputValIc2 = new char[64];
-                            int read3 = port.BytesToRead;
-                            port.Read(inputValIc2, 0, read3);
+                            port.Read(inputValIc2, 0, 16);
 
                             try
                             {
-                                cntMessage = new string(inputValIc2, 1, read3 - 1);
+                                cntMessage = new string(inputValIc2, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_DATA, "IC2_DATA", freq/* + 0.000001*/));
                             }
@@ -789,15 +798,18 @@ namespace LEO
                             }
                             break;
                         case Commands.COUNTER_REF_DATA:
-                            Thread.Sleep(20);
+                            while (port.BytesToRead < 10)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
                             char[] inputValRef = new char[64];
-                            int read4 = port.BytesToRead;
                             int buff;
-                            port.Read(inputValRef, 0, read4);
+                            port.Read(inputValRef, 0, 10);
 
                             try
                             {
-                                cntMessage = new string(inputValRef, 1, read4 - 1);
+                                cntMessage = new string(inputValRef, 0, 10);
                                 buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_DATA, "REF_DATA", buff/* + 0.000001*/));
                             }
@@ -807,16 +819,20 @@ namespace LEO
                             }
                             break;
                         case Commands.COUNTER_IC1_BUFF:
-                            Thread.Sleep(20);
+                            while (port.BytesToRead < 4)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
                             char[] inputValBuff1 = new char[64];
-                            int read5 = port.BytesToRead;
-                            port.Read(inputValBuff1, 0, read5);
+                            port.Read(inputValBuff1, 0, 4);
 
                             try
                             {
-                                cntMessage = new string(inputValBuff1, 1, read5 - 1);
-                                string[] substring = cntMessage.Split(' ');
-                                buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                cntMessage = new string(inputValBuff1, 0, 4);
+                                //string[] substring = cntMessage.Split(' ');
+                                //buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_BUFF, "IC1_BUFF", buff));
                             }
                             catch (Exception ex)
@@ -825,22 +841,47 @@ namespace LEO
                             }
                             break;
                         case Commands.COUNTER_IC2_BUFF:
-                            Thread.Sleep(20);
+                            while (port.BytesToRead < 4)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
                             char[] inputValBuff2 = new char[64];
-                            int read6 = port.BytesToRead;
-                            port.Read(inputValBuff2, 0, read6);
+                            port.Read(inputValBuff2, 0, 4);
 
                             try
                             {
-                                cntMessage = new string(inputValBuff2, 1, read6 - 1);
-                                string[] substring = cntMessage.Split(' ');
-                                buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                cntMessage = new string(inputValBuff2, 0, 4);
+                                //[] substring = cntMessage.Split(' ');
+                                //buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                                 counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_BUFF, "IC2_BUFF", buff));
                             }
                             catch (Exception ex)
                             {
                                 logRecieved("Counter IC ic2buffer was not parsed  " + new string(inputValBuff2, 0, 4));
                             }
+                            break;
+                        case Commands.COUNTER_REF_WARN:
+                            while (port.BytesToRead < 2)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
+                            char[] inputValWarn = new char[64];
+                            port.Read(inputValWarn, 0, 2);
+
+                            try
+                            {
+                                cntMessage = new string(inputValWarn, 0, 2);
+                                buff = Convert.ToInt32(cntMessage); //int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_WARN, "REF_WARN", buff));
+                            }
+                            catch (Exception ex)
+                            {
+                                logRecieved("Counter buffer REF was not parsed  " + new string(inputValWarn, 0, 2));
+                            }
+                            
                             break;
 
 

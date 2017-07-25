@@ -27,3 +27,7 @@ OK - Bug 00d - USB led by mela svitit i kdyz usb neni pripojeno (najit kde je pr
 OK - Bug 00a - Zmena frekvence pri odesilani dat vyvola chybu (internal prefix 1DataReady se dostane ven)
 OK - Bug 00b - pokuf je v datech strednik tak gen vyhodi chybu E999
  
+
+Counter: 
+- REF mode - priimplementovat automatickou rekonfiguraci preddelicky na TIM4 tak aby mohly byt citany i vyssi frekvence? 
+- REF mode - kdyz pretece TIM2 driv nez se nacita TIM4 sample count -> vyresit preruseni a poslat nedocitany TIM4? (nejdrive poslat priznak "BRK_" break) a pak data bafru TIM4.

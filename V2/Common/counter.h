@@ -62,9 +62,9 @@ typedef enum{
 }counterIc2BuffChange;
 
 typedef enum{
-	GATE_CHANGED = 0,
-	GATE_NOT_CHANGED
-}counterEtrGateChange;
+	SAMPLE_COUNT_CHANGED = 0,
+	SAMPLE_COUNT_NOT_CHANGED
+}counterRefSmplCntChange;
 
 typedef enum{
 	BIN0 = 0,
@@ -114,7 +114,7 @@ typedef struct{
 	counterIcFlags1 icFlag1;
 	counterIcFlags2 icFlag2;
 	counterIcBin icBin;
-	counterEtrGateChange gateChange;
+	counterRefSmplCntChange sampleCntChange;
 
 }counterTypeDef;
 
@@ -151,7 +151,7 @@ void COUNTER_IC_TIM_Elapse(void);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 
 extern volatile counterTypeDef counter;
-extern uint32_t tim2clk, tim4clk;
+extern uint32_t tim2clk, tim4clk, startTime;
 
 extern DMA_HandleTypeDef hdma_tim2_up;
 extern DMA_HandleTypeDef hdma_tim2_ch1;

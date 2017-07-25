@@ -160,7 +160,7 @@
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(198, 13);
             this.label18.TabIndex = 5;
-            this.label18.Text = "Frequency (PA8) / Sample count   >   10";
+            this.label18.Text = "Frequency (PA0) / Sample count   >   10";
             // 
             // label17
             // 
@@ -205,17 +205,19 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(184, 19);
             this.label5.TabIndex = 1;
-            this.label5.Text = "Frequency ratio [PA8 / PA0]";
+            this.label5.Text = "Frequency ratio [PA0 / PA8]";
+            this.toolTip1.SetToolTip(this.label5, "PA8 max. frequency 34 MHz.\r\nPA0 max. frequency 100 MHz.");
             // 
             // label_cnt_ref_value
             // 
             this.label_cnt_ref_value.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_cnt_ref_value.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ref_value.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ref_value.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label_cnt_ref_value.Location = new System.Drawing.Point(3, 16);
             this.label_cnt_ref_value.Name = "label_cnt_ref_value";
             this.label_cnt_ref_value.Size = new System.Drawing.Size(500, 50);
             this.label_cnt_ref_value.TabIndex = 0;
-            this.label_cnt_ref_value.Text = "0.000000";
+            this.label_cnt_ref_value.Text = "Change the sample count first.";
             this.label_cnt_ref_value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox3
@@ -237,7 +239,7 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Sample count";
-            this.toolTip1.SetToolTip(this.groupBox3, "Number of samples to be taken on PC6 input.");
+            this.toolTip1.SetToolTip(this.groupBox3, "Number of samples to be taken on PA8 input.");
             // 
             // cnt_ref_count_textBox2
             // 
@@ -245,6 +247,7 @@
             this.cnt_ref_count_textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.cnt_ref_count_textBox2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.cnt_ref_count_textBox2.Location = new System.Drawing.Point(50, 80);
+            this.cnt_ref_count_textBox2.MaxLength = 5;
             this.cnt_ref_count_textBox2.Name = "cnt_ref_count_textBox2";
             this.cnt_ref_count_textBox2.Size = new System.Drawing.Size(122, 13);
             this.cnt_ref_count_textBox2.TabIndex = 10;
@@ -263,10 +266,11 @@
             this.cnt_ref_count_textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cnt_ref_count_textBox1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.cnt_ref_count_textBox1.Location = new System.Drawing.Point(50, 44);
+            this.cnt_ref_count_textBox1.MaxLength = 5;
             this.cnt_ref_count_textBox1.Name = "cnt_ref_count_textBox1";
             this.cnt_ref_count_textBox1.Size = new System.Drawing.Size(122, 13);
             this.cnt_ref_count_textBox1.TabIndex = 9;
-            this.cnt_ref_count_textBox1.Text = "1000";
+            this.cnt_ref_count_textBox1.Text = "10000";
             this.cnt_ref_count_textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cnt_ref_count_textBox1.Click += new System.EventHandler(this.cnt_ref_count_textBox1_Click);
             this.cnt_ref_count_textBox1.Enter += new System.EventHandler(this.cnt_ref_count_textBox1_Enter);
@@ -324,7 +328,7 @@
             this.cnt_ref_sampleCount_textBox.Name = "cnt_ref_sampleCount_textBox";
             this.cnt_ref_sampleCount_textBox.Size = new System.Drawing.Size(143, 20);
             this.cnt_ref_sampleCount_textBox.TabIndex = 0;
-            this.cnt_ref_sampleCount_textBox.Text = "1000000";
+            this.cnt_ref_sampleCount_textBox.Text = "10 000 000";
             this.cnt_ref_sampleCount_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cnt_ref_sampleCount_textBox.Click += new System.EventHandler(this.cnt_ref_sampleCount_textBox_Click);
             this.cnt_ref_sampleCount_textBox.Enter += new System.EventHandler(this.cnt_ref_sampleCount_textBox_Enter);
@@ -360,7 +364,7 @@
             this.cnt_ref_trackBar1.Size = new System.Drawing.Size(198, 45);
             this.cnt_ref_trackBar1.TabIndex = 3;
             this.cnt_ref_trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.cnt_ref_trackBar1.Value = 1000;
+            this.cnt_ref_trackBar1.Value = 10000;
             this.cnt_ref_trackBar1.Scroll += new System.EventHandler(this.cnt_ref_trackBar1_Scroll);
             // 
             // tabPage_IC
@@ -396,6 +400,7 @@
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sample count";
+            this.toolTip1.SetToolTip(this.groupBox2, "The sample count represents a time \r\nbetween the first and last edge.");
             // 
             // label15
             // 
@@ -562,6 +567,7 @@
             this.cnt_ic2_label.Size = new System.Drawing.Size(185, 19);
             this.cnt_ic2_label.TabIndex = 4;
             this.cnt_ic2_label.Text = "Input Capture channel 2 [Hz]";
+            this.toolTip1.SetToolTip(this.cnt_ic2_label, "PA1 max. frequency 10 MHz.");
             // 
             // label_cnt_ic2_value
             // 
@@ -596,6 +602,7 @@
             this.cnt_ic1_label.Size = new System.Drawing.Size(185, 19);
             this.cnt_ic1_label.TabIndex = 3;
             this.cnt_ic1_label.Text = "Input Capture channel 1 [Hz]";
+            this.toolTip1.SetToolTip(this.cnt_ic1_label, "PA0 max. frequency 10 MHz.");
             // 
             // label_cnt_ic1_value
             // 
@@ -662,7 +669,7 @@
             // 
             this.cnt_etr_avrg_textBox.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.cnt_etr_avrg_textBox.Location = new System.Drawing.Point(41, 91);
-            this.cnt_etr_avrg_textBox.MaxLength = 5;
+            this.cnt_etr_avrg_textBox.MaxLength = 3;
             this.cnt_etr_avrg_textBox.Name = "cnt_etr_avrg_textBox";
             this.cnt_etr_avrg_textBox.Size = new System.Drawing.Size(96, 20);
             this.cnt_etr_avrg_textBox.TabIndex = 1;
@@ -829,6 +836,7 @@
             this.label6.Size = new System.Drawing.Size(104, 19);
             this.label6.TabIndex = 3;
             this.label6.Text = "Frequency [Hz]";
+            this.toolTip1.SetToolTip(this.label6, "PA0 max. frequency 100 MHz.");
             // 
             // label_cnt_etr_value
             // 

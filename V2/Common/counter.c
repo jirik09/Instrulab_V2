@@ -22,6 +22,7 @@ xQueueHandle counterMessageQueue;
 xSemaphoreHandle counterMutex;
 
 volatile counterTypeDef counter;
+uint32_t startTime = 0;
 static uint32_t ic1PassNum = 1;
 static uint32_t ic2PassNum = 1;
 
@@ -236,21 +237,32 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);
 	
-	if(counter.state==COUNTER_ETR){	
+	/***** Counter ETR handle *****/
+	if(counter.state == COUNTER_ETR){			
 		counter.counterEtr.etrp = TIM_ETPS_GetPrescaler();
 		double gateFreq = ((double)tim4clk / (double)((counter.counterEtr.arr + 1) * (counter.counterEtr.psc + 1)));			/* TIM4 gating frequency */	
 		counter.counterEtr.freq = ((double)counter.counterEtr.buffer * gateFreq * counter.counterEtr.etrp);								/* Sampled frequency */
 		TIM_ETRP_Config(counter.counterEtr.freq);	
-
-//		if(counter.gateChange == GATE_CHANGED){
-//			counter.counterEtr.arr = counter.counterEtr.arrTemp;			
-//			counter.counterEtr.psc = counter.counterEtr.pscTemp;
-//			counter.gateChange = GATE_NOT_CHANGED;
-//		}
+		
+		if((counter.sampleCntChange != SAMPLE_COUNT_CHANGED) && ((HAL_GetTick() - startTime) > 210)){
+			xQueueSendToBackFromISR(messageQueue, "GEtrDataSend", &xHigherPriorityTaskWoken);
+		}else{
+			counter.sampleCntChange = SAMPLE_COUNT_NOT_CHANGED;
+		}		
+		
+	/***** Counter REF handle *****/
+	} else if(counter.state == COUNTER_REF){		
+		if((counter.sampleCntChange != SAMPLE_COUNT_CHANGED) && (HAL_GetTick() - startTime) < 100){
+			xQueueSendToBackFromISR(messageQueue, "ORefWarning", &xHigherPriorityTaskWoken);
+			TIM_Disable();				
+		}else if(counter.sampleCntChange != SAMPLE_COUNT_CHANGED){	
+			xQueueSendToBackFromISR(messageQueue, "GRefDataSend", &xHigherPriorityTaskWoken);			
+		}else{
+			counter.sampleCntChange = SAMPLE_COUNT_NOT_CHANGED;
+		}				
 	}
 	
 	xSemaphoreGiveFromISR(counterMutex, &xHigherPriorityTaskWoken);
-	xQueueSendToBackFromISR(messageQueue, "GEtrDataSend", &xHigherPriorityTaskWoken);
 }
 
 /**
@@ -485,7 +497,7 @@ void counterSetDefault(void)
 	counter.icFlag2 = COUNTER_BUFF_FLAG2_PASS;
 	counter.buff1Change = BUFF1_NOT_CHANGED;
 	counter.buff2Change = BUFF2_NOT_CHANGED;
-	counter.gateChange = GATE_NOT_CHANGED;
+	counter.sampleCntChange = SAMPLE_COUNT_CHANGED;
 }
 
 	#endif //USE_COUNTER

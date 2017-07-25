@@ -209,7 +209,7 @@ void CommTask(void const *argument){
 			/* is COUNTER ETR */
 			if(counter.state==COUNTER_ETR){
 				commsSendString(STR_CNT_ETR_DATA);
-				sprintf(cntMessage, "%09.6f ", counter.counterEtr.freq);
+				sprintf(cntMessage, "%016.6f", counter.counterEtr.freq);
 				commsSendString(cntMessage);
 				
 			/* is COUNTER REF */	
@@ -218,7 +218,7 @@ void CommTask(void const *argument){
 				/* Here only the buffer is sent - PC app calculates frequency ratio as:
 					 REF buffer / ETR buffer = arr * psc / buffer - where arr and psc is already 
 					 known by PC app (user set) */
-				sprintf(cntMessage, "%d ", counter.counterEtr.buffer);
+				sprintf(cntMessage, "%010d", counter.counterEtr.buffer);
 				commsSendString(cntMessage);										
 				
 			/* is COUNTER IC */	
@@ -226,12 +226,12 @@ void CommTask(void const *argument){
 				
 				if(counter.icFlag1==COUNTER_BUFF_FLAG1){
 					commsSendString(STR_CNT_IC1_BUFF);			
-					sprintf(cntMessage, "%hu ", (uint16_t)(counter.counterIc.ic1BufferSize - 1));
+					sprintf(cntMessage, "%04hu", (uint16_t)(counter.counterIc.ic1BufferSize - 1));
 					commsSendString(cntMessage);
 					counter.icFlag1=COUNTER_BUFF_FLAG1_PASS;
 				}else if(counter.icChannel1==COUNTER_IRQ_IC1){												
 					commsSendString(STR_CNT_IC1_DATA);
-					sprintf(cntMessage, "%09.6f ", counter.counterIc.ic1freq);
+					sprintf(cntMessage, "%016.6f", counter.counterIc.ic1freq);
 					commsSendString(cntMessage);	
 					counter.icChannel1=COUNTER_IRQ_IC1_PASS;
 				}				
@@ -241,15 +241,20 @@ void CommTask(void const *argument){
 			
 			 if(counter.icFlag2==COUNTER_BUFF_FLAG2){
 				commsSendString(STR_CNT_IC2_BUFF);			
-				sprintf(cntMessage, "%hu ", (uint16_t)(counter.counterIc.ic2BufferSize - 1));
+				sprintf(cntMessage, "%04hu", (uint16_t)(counter.counterIc.ic2BufferSize - 1));
 				commsSendString(cntMessage);
 				counter.icFlag2=COUNTER_BUFF_FLAG2_PASS;
 			}else if(counter.icChannel2==COUNTER_IRQ_IC2){							
 				commsSendString(STR_CNT_IC2_DATA);	
-				sprintf(cntMessage, "%09.6f ", counter.counterIc.ic2freq);
+				sprintf(cntMessage, "%016.6f", counter.counterIc.ic2freq);
 				commsSendString(cntMessage);															
 				counter.icChannel2=COUNTER_IRQ_IC2_PASS;
-			}			
+			}		
+			
+		}else if(message[0]=='O'){
+				commsSendString(STR_CNT_REF_WARN);			
+				sprintf(cntMessage, "%02d", 2);
+				commsSendString(cntMessage);			
 
 			#endif //USE_COUNTER			
 		/* ---------------------------------------------------- */	
