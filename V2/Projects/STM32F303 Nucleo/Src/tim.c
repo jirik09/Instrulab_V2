@@ -66,13 +66,13 @@ void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 #endif //USE_COUNTER
 			
 #ifdef USE_SCOPE
-/* TIM3 init function */
-void MX_TIM3_Init(void)
+/* TIM15 init function */
+void MX_TIM15_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
 
-  htim_scope.Instance = TIM3;
+  htim_scope.Instance = TIM15;
   htim_scope.Init.Prescaler = 0;
   htim_scope.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim_scope.Init.Period = 0;
@@ -380,10 +380,10 @@ void TIM_IC_Stop(void){
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 {
 	#ifdef USE_SCOPE
-  if(htim_base->Instance==TIM3)
+  if(htim_base->Instance==TIM15)
   {
     /* Peripheral clock enable */
-    __TIM3_CLK_ENABLE();
+    __TIM15_CLK_ENABLE();
   }
 	#endif //USE_SCOPE
 
@@ -546,16 +546,16 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
 	#ifdef USE_SCOPE
-  if(htim_base->Instance==TIM3)
+  if(htim_base->Instance==TIM15)
   {
-  /* USER CODE BEGIN TIM3_MspDeInit 0 */
+  /* USER CODE BEGIN TIM15_MspDeInit 0 */
 
-  /* USER CODE END TIM3_MspDeInit 0 */
+  /* USER CODE END TIM15_MspDeInit 0 */
     /* Peripheral clock disable */
-    __TIM3_CLK_DISABLE();
-  /* USER CODE BEGIN TIM3_MspDeInit 1 */
+    __TIM15_CLK_DISABLE();
+  /* USER CODE BEGIN TIM15_MspDeInit 1 */
 
-  /* USER CODE END TIM3_MspDeInit 1 */
+  /* USER CODE END TIM15_MspDeInit 1 */
   }
 	#endif //USE_SCOPE
 	

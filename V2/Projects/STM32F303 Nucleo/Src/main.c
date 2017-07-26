@@ -96,7 +96,7 @@ int main(void)
   MX_ADC2_Init();
   MX_ADC3_Init();
 	MX_ADC4_Init();
-	MX_TIM3_Init();
+	MX_TIM15_Init();
 	CalibrateADC();
 	adcSetDefaultInputs();
 	#endif //USE_SCOPE
