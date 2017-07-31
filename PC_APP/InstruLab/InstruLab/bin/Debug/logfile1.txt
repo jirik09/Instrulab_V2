@@ -65305,3 +65305,2746 @@ Send (31:36.392): CNT_:STOP;
 Příjem dat: 4
 Recieved (31:36.394): ACK
 PORT zavřen: COM4
+
+Log Entry : 14:26:31 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:27:37 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:30:19 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:31:42 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:34:41 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:35:46 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:36:32 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (36:35.199): CNT_:MODE 
+Send (36:35.200): ETR_;
+Send (36:35.201): CNT_:STRT;
+Příjem dat: 8
+Recieved (36:35.220): ACK
+Recieved (36:35.220): ACK
+Příjem dat: 6
+Recieved (36:35.456): CNT ETR 0
+Příjem dat: 20
+Recieved (36:35.504): CNT ETR 0
+Příjem dat: 20
+Recieved (36:35.605): CNT ETR 0
+Příjem dat: 6
+Recieved (36:35.709): CNT ETR 0
+Příjem dat: 20
+Recieved (36:35.804): CNT ETR 0
+Příjem dat: 20
+Recieved (36:35.906): CNT ETR 0
+Příjem dat: 6
+Recieved (36:36.9): CNT ETR 0
+Příjem dat: 20
+Recieved (36:36.104): CNT ETR 0
+Příjem dat: 20
+Recieved (36:36.206): CNT ETR 0
+Příjem dat: 5
+Recieved (36:36.308): CNT ETR 0
+Send (36:36.396): CNT_:STOP;
+Příjem dat: 4
+Recieved (36:36.398): ACK
+Send (36:37.586): CNT_:MODE 
+Send (36:37.586): ETR_;
+Send (36:37.587): CNT_:STRT;
+Příjem dat: 8
+Recieved (36:37.591): ACK
+Recieved (36:37.592): ACK
+Příjem dat: 19
+Recieved (36:37.796): CNT ETR 0
+Příjem dat: 16
+Recieved (36:37.899): CNT ETR 0
+Příjem dat: 20
+Recieved (36:37.994): CNT ETR 0
+Příjem dat: 19
+Recieved (36:38.97): CNT ETR 0
+Příjem dat: 20
+Recieved (36:38.192): CNT ETR 0
+Příjem dat: 20
+Recieved (36:38.294): CNT ETR 0
+Příjem dat: 19
+Recieved (36:38.396): CNT ETR 0
+Příjem dat: 20
+Recieved (36:38.491): CNT ETR 0
+Příjem dat: 20
+Recieved (36:38.594): CNT ETR 0
+Příjem dat: 19
+Recieved (36:38.696): CNT ETR 0
+Send (36:38.751): CNT_:STOP;
+Příjem dat: 4
+Recieved (36:38.755): ACK
+Send (36:39.740): CNT_:MODE 
+Send (36:39.740): ETR_;
+Send (36:39.741): CNT_:STRT;
+Příjem dat: 8
+Recieved (36:39.745): ACK
+Recieved (36:39.745): ACK
+Příjem dat: 17
+Recieved (36:39.950): CNT ETR 0
+Příjem dat: 20
+Recieved (36:40.45): CNT ETR 0
+Příjem dat: 20
+Recieved (36:40.147): CNT ETR 0
+Příjem dat: 17
+Recieved (36:40.251): CNT ETR 0
+Příjem dat: 20
+Recieved (36:40.346): CNT ETR 0
+Příjem dat: 20
+Recieved (36:40.448): CNT ETR 0
+Příjem dat: 17
+Recieved (36:40.552): CNT ETR 0
+Příjem dat: 20
+Recieved (36:40.646): CNT ETR 0
+Send (36:40.656): CNT_:STOP;
+Send (36:40.657): CNT_:MODE 
+Send (36:40.657): IC__;
+Send (36:40.658): CNT_:STRT;
+Příjem dat: 8
+Recieved (36:40.658): ACK
+Recieved (36:40.658): ACK
+Příjem dat: 4
+Recieved (36:40.664): ACK
+Send (36:43.161): CNT_:GATE 
+Send (36:43.162): 100m;
+Send (36:43.163): CNT_:STOP;
+Send (36:43.164): CNT_:MODE 
+Send (36:43.164): ETR_;
+Send (36:43.166): CNT_:STRT;
+Příjem dat: 12
+Recieved (36:43.166): ACK
+Recieved (36:43.166): ACK
+Recieved (36:43.166): ACK
+Příjem dat: 4
+Recieved (36:43.172): ACK
+Příjem dat: 15
+Recieved (36:43.274): CNT ETR 2420
+Příjem dat: 20
+Recieved (36:43.370): CNT ETR 0
+Příjem dat: 20
+Recieved (36:43.472): CNT ETR 0
+Příjem dat: 18
+Recieved (36:43.574): CNT ETR 0
+Příjem dat: 20
+Recieved (36:43.670): CNT ETR 0
+Příjem dat: 20
+Recieved (36:43.771): CNT ETR 0
+Příjem dat: 18
+Recieved (36:43.874): CNT ETR 0
+Příjem dat: 8
+Recieved (36:43.976): CNT ETR 0
+Příjem dat: 20
+Recieved (36:44.72): CNT ETR 0
+Příjem dat: 18
+Recieved (36:44.174): CNT ETR 0
+Příjem dat: 20
+Recieved (36:44.270): CNT ETR 0
+Send (36:44.279): CNT_:STOP;
+Send (36:44.281): CNT_:MODE 
+Send (36:44.281): IC__;
+Send (36:44.281): CNT_:STRT;
+Příjem dat: 8
+Recieved (36:44.281): ACK
+Recieved (36:44.281): ACK
+Příjem dat: 4
+Recieved (36:44.287): ACK
+Send (36:45.479): CNT_:GATE 
+Send (36:45.479): 100m;
+Send (36:45.480): CNT_:STOP;
+Send (36:45.481): CNT_:MODE 
+Příjem dat: 8
+Recieved (36:45.481): ACK
+Send (36:45.481): ETR_;
+Recieved (36:45.481): ACK
+Send (36:45.483): CNT_:STRT;
+Příjem dat: 8
+Recieved (36:45.487): ACK
+Recieved (36:45.487): ACK
+Příjem dat: 20
+Recieved (36:45.590): CNT ETR 2420
+Příjem dat: 20
+Recieved (36:45.686): CNT ETR 0
+Příjem dat: 20
+Recieved (36:45.787): CNT ETR 0
+Příjem dat: 20
+Recieved (36:45.890): CNT ETR 0
+Příjem dat: 20
+Recieved (36:45.985): CNT ETR 0
+Příjem dat: 20
+Recieved (36:46.88): CNT ETR 0
+Příjem dat: 20
+Recieved (36:46.190): CNT ETR 0
+Příjem dat: 16
+Recieved (36:46.293): CNT ETR 0
+Send (36:46.348): CNT_:STOP;
+Send (36:46.348): CNT_:MODE 
+Send (36:46.349): IC__;
+Send (36:46.350): CNT_:STRT;
+Příjem dat: 12
+Recieved (36:46.351): ACK
+Recieved (36:46.352): ACK
+Recieved (36:46.352): ACK
+Send (36:47.595): CNT_:GATE 
+Send (36:47.596): 100m;
+Send (36:47.597): CNT_:STOP;
+Send (36:47.598): CNT_:MODE 
+Send (36:47.598): ETR_;
+Příjem dat: 12
+Recieved (36:47.599): ACK
+Send (36:47.599): CNT_:STRT;
+Recieved (36:47.599): ACK
+Recieved (36:47.599): ACK
+Příjem dat: 4
+Recieved (36:47.605): ACK
+Příjem dat: 15
+Recieved (36:47.708): CNT ETR 2420
+Příjem dat: 20
+Recieved (36:47.804): CNT ETR 0
+Příjem dat: 20
+Recieved (36:47.906): CNT ETR 0
+Příjem dat: 19
+Recieved (36:48.9): CNT ETR 0
+Příjem dat: 20
+Recieved (36:48.104): CNT ETR 0
+Příjem dat: 20
+Recieved (36:48.206): CNT ETR 0
+Příjem dat: 18
+Recieved (36:48.309): CNT ETR 0
+Příjem dat: 20
+Recieved (36:48.403): CNT ETR 0
+Příjem dat: 20
+Recieved (36:48.506): CNT ETR 0
+Příjem dat: 19
+Recieved (36:48.608): CNT ETR 0
+Příjem dat: 20
+Recieved (36:48.703): CNT ETR 0
+Příjem dat: 4
+Recieved (36:48.814): CNT ETR 0
+Příjem dat: 18
+Recieved (36:48.909): CNT ETR 0
+Příjem dat: 20
+Recieved (36:49.3): CNT ETR 0
+Příjem dat: 20
+Recieved (36:49.106): CNT ETR 0
+Příjem dat: 18
+Recieved (36:49.208): CNT ETR 0
+Příjem dat: 20
+Recieved (36:49.304): CNT ETR 0
+Příjem dat: 20
+Recieved (36:49.406): CNT ETR 0
+Příjem dat: 18
+Recieved (36:49.508): CNT ETR 0
+Příjem dat: 20
+Recieved (36:49.604): CNT ETR 0
+Příjem dat: 20
+Recieved (36:49.706): CNT ETR 0
+Příjem dat: 18
+Recieved (36:49.809): CNT ETR 0
+Příjem dat: 20
+Recieved (36:49.904): CNT ETR 0
+Příjem dat: 20
+Recieved (36:50.6): CNT ETR 0
+Příjem dat: 18
+Recieved (36:50.109): CNT ETR 0
+Příjem dat: 20
+Recieved (36:50.204): CNT ETR 0
+Příjem dat: 20
+Recieved (36:50.306): CNT ETR 0
+Příjem dat: 18
+Recieved (36:50.408): CNT ETR 0
+Příjem dat: 20
+Recieved (36:50.504): CNT ETR 0
+Příjem dat: 20
+Recieved (36:50.606): CNT ETR 0
+Příjem dat: 18
+Recieved (36:50.709): CNT ETR 0
+Příjem dat: 20
+Recieved (36:50.804): CNT ETR 0
+Příjem dat: 20
+Recieved (36:50.905): CNT ETR 0
+Příjem dat: 18
+Recieved (36:51.9): CNT ETR 0
+Příjem dat: 20
+Recieved (36:51.104): CNT ETR 0
+Příjem dat: 20
+Recieved (36:51.206): CNT ETR 0
+Příjem dat: 16
+Recieved (36:51.309): CNT ETR 0
+Příjem dat: 20
+Recieved (36:51.404): CNT ETR 0
+Příjem dat: 20
+Recieved (36:51.505): CNT ETR 0
+Příjem dat: 18
+Recieved (36:51.609): CNT ETR 0
+Příjem dat: 20
+Recieved (36:51.704): CNT ETR 0
+Příjem dat: 20
+Recieved (36:51.806): CNT ETR 0
+Příjem dat: 18
+Recieved (36:51.911): CNT ETR 0
+Příjem dat: 20
+Recieved (36:52.31): CNT ETR 0
+Příjem dat: 20
+Recieved (36:52.106): CNT ETR 0
+Příjem dat: 18
+Recieved (36:52.208): CNT ETR 0
+Příjem dat: 20
+Recieved (36:52.304): CNT ETR 0
+Příjem dat: 20
+Recieved (36:52.406): CNT ETR 0
+Příjem dat: 18
+Recieved (36:52.509): CNT ETR 0
+Příjem dat: 12
+Recieved (36:52.611): CNT ETR 0
+Příjem dat: 20
+Recieved (36:52.705): CNT ETR 0
+Příjem dat: 18
+Recieved (36:52.808): CNT ETR 0
+Příjem dat: 20
+Recieved (36:52.904): CNT ETR 0
+Příjem dat: 20
+Recieved (36:53.6): CNT ETR 0
+Příjem dat: 18
+Recieved (36:53.109): CNT ETR 0
+Příjem dat: 20
+Recieved (36:53.204): CNT ETR 0
+Příjem dat: 20
+Recieved (36:53.306): CNT ETR 0
+Příjem dat: 18
+Recieved (36:53.408): CNT ETR 0
+Příjem dat: 20
+Recieved (36:53.504): CNT ETR 0
+Příjem dat: 20
+Recieved (36:53.606): CNT ETR 0
+Příjem dat: 18
+Recieved (36:53.709): CNT ETR 0
+Příjem dat: 20
+Recieved (36:53.804): CNT ETR 0
+Příjem dat: 8
+Recieved (36:53.912): CNT ETR 0
+Příjem dat: 18
+Recieved (36:54.9): CNT ETR 0
+Příjem dat: 20
+Recieved (36:54.104): CNT ETR 0
+Příjem dat: 20
+Recieved (36:54.206): CNT ETR 0
+Příjem dat: 18
+Recieved (36:54.309): CNT ETR 0
+Příjem dat: 20
+Recieved (36:54.404): CNT ETR 0
+Příjem dat: 20
+Recieved (36:54.506): CNT ETR 0
+Příjem dat: 18
+Recieved (36:54.608): CNT ETR 0
+Příjem dat: 20
+Recieved (36:54.704): CNT ETR 0
+Příjem dat: 20
+Recieved (36:54.805): CNT ETR 0
+Příjem dat: 18
+Recieved (36:54.910): CNT ETR 0
+Příjem dat: 20
+Recieved (36:55.3): CNT ETR 0
+Příjem dat: 20
+Recieved (36:55.106): CNT ETR 0
+Příjem dat: 4
+Recieved (36:55.209): CNT ETR 0
+Příjem dat: 20
+Recieved (36:55.303): CNT ETR 0
+Příjem dat: 20
+Recieved (36:55.405): CNT ETR 0
+Příjem dat: 18
+Recieved (36:55.508): CNT ETR 0
+Příjem dat: 20
+Recieved (36:55.603): CNT ETR 0
+Příjem dat: 20
+Recieved (36:55.706): CNT ETR 0
+Příjem dat: 17
+Recieved (36:55.808): CNT ETR 0
+Příjem dat: 20
+Recieved (36:55.904): CNT ETR 0
+Příjem dat: 20
+Recieved (36:56.6): CNT ETR 0
+Příjem dat: 18
+Recieved (36:56.109): CNT ETR 0
+Příjem dat: 20
+Recieved (36:56.250): CNT ETR 0
+Send (36:56.257): CNT_:GATE 
+Send (36:56.257): 1s__;
+Příjem dat: 4
+Recieved (36:56.264): ACK
+Příjem dat: 20
+Recieved (36:57.260): CNT ETR 0
+Send (36:57.445): CNT_:GATE 
+Send (36:57.446): 5s__;
+Příjem dat: 4
+Recieved (36:57.452): ACK
+Send (37:0.338): CNT_:STOP;
+Send (37:0.338): CNT_:MODE 
+Send (37:0.339): IC__;
+Send (37:0.340): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:0.343): ACK
+Recieved (37:0.343): ACK
+Recieved (37:0.343): ACK
+Send (37:0.912): CNT_:GATE 
+Send (37:0.912): 100m;
+Příjem dat: 4
+Recieved (37:0.913): ACK
+Send (37:0.914): CNT_:STOP;
+Send (37:0.914): CNT_:MODE 
+Send (37:0.915): ETR_;
+Send (37:0.916): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:0.919): ACK
+Recieved (37:0.920): ACK
+Recieved (37:0.920): ACK
+Příjem dat: 20
+Recieved (37:1.21): CNT ETR 2420
+Příjem dat: 9
+Recieved (37:1.124): CNT ETR 0
+Příjem dat: 20
+Recieved (37:1.220): CNT ETR 0
+Příjem dat: 20
+Recieved (37:1.322): CNT ETR 0
+Příjem dat: 9
+Recieved (37:1.424): CNT ETR 0
+Příjem dat: 20
+Recieved (37:1.520): CNT ETR 0
+Příjem dat: 20
+Recieved (37:1.622): CNT ETR 0
+Příjem dat: 9
+Recieved (37:1.725): CNT ETR 0
+Příjem dat: 20
+Recieved (37:1.819): CNT ETR 0
+Příjem dat: 20
+Recieved (37:1.922): CNT ETR 0
+Příjem dat: 9
+Recieved (37:2.25): CNT ETR 0
+Příjem dat: 20
+Recieved (37:2.120): CNT ETR 0
+Příjem dat: 20
+Recieved (37:2.222): CNT ETR 0
+Příjem dat: 9
+Recieved (37:2.324): CNT ETR 0
+Příjem dat: 20
+Recieved (37:2.419): CNT ETR 0
+Příjem dat: 20
+Recieved (37:2.522): CNT ETR 0
+Příjem dat: 9
+Recieved (37:2.625): CNT ETR 0
+Příjem dat: 20
+Recieved (37:2.720): CNT ETR 0
+Příjem dat: 20
+Recieved (37:2.821): CNT ETR 0
+Příjem dat: 9
+Recieved (37:2.924): CNT ETR 0
+Příjem dat: 20
+Recieved (37:3.20): CNT ETR 0
+Příjem dat: 20
+Recieved (37:3.121): CNT ETR 0
+Příjem dat: 9
+Recieved (37:3.225): CNT ETR 0
+Příjem dat: 20
+Recieved (37:3.319): CNT ETR 0
+Příjem dat: 16
+Send (37:3.427): CNT_:STOP;
+Recieved (37:3.428): CNT ETR 0
+Send (37:3.428): CNT_:MODE 
+Send (37:3.429): IC__;
+Send (37:3.430): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:3.434): ACK
+Recieved (37:3.434): ACK
+Recieved (37:3.434): ACK
+Send (37:3.927): CNT_:GATE 
+Send (37:3.927): 100m;
+Send (37:3.929): CNT_:STOP;
+Send (37:3.930): CNT_:MODE 
+Send (37:3.930): ETR_;
+Send (37:3.931): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:3.931): ACK
+Recieved (37:3.931): ACK
+Recieved (37:3.931): ACK
+Příjem dat: 4
+Recieved (37:3.937): ACK
+Příjem dat: 18
+Recieved (37:4.41): CNT ETR 2420
+Příjem dat: 20
+Recieved (37:4.136): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.237): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.334): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.436): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.538): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.634): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.736): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.838): CNT ETR 0
+Příjem dat: 20
+Recieved (37:4.935): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.35): CNT ETR 0
+Příjem dat: 4
+Recieved (37:5.145): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.233): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.336): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.438): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.534): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.636): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.738): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.834): CNT ETR 0
+Příjem dat: 20
+Recieved (37:5.936): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.38): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.134): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.236): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.338): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.434): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.536): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.638): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.734): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.836): CNT ETR 0
+Příjem dat: 20
+Recieved (37:6.938): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.34): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.136): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.238): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.334): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.436): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.538): CNT ETR 0
+Příjem dat: 16
+Recieved (37:7.640): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.736): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.838): CNT ETR 0
+Příjem dat: 20
+Recieved (37:7.934): CNT ETR 0
+Příjem dat: 20
+Recieved (37:8.36): CNT ETR 0
+Příjem dat: 20
+Recieved (37:8.138): CNT ETR 0
+Příjem dat: 20
+Recieved (37:8.234): CNT ETR 0
+Send (37:8.263): CNT_:STOP;
+Send (37:8.264): CNT_:MODE 
+Send (37:8.264): IC__;
+Send (37:8.265): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:8.269): ACK
+Recieved (37:8.269): ACK
+Recieved (37:8.269): ACK
+Send (37:10.515): CNT_:GATE 
+Send (37:10.515): 100m;
+Send (37:10.517): CNT_:STOP;
+Send (37:10.518): CNT_:MODE 
+Send (37:10.518): ETR_;
+Send (37:10.519): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:10.519): ACK
+Recieved (37:10.519): ACK
+Recieved (37:10.519): ACK
+Příjem dat: 4
+Recieved (37:10.525): ACK
+Příjem dat: 17
+Recieved (37:10.628): CNT ETR 2420
+Příjem dat: 20
+Recieved (37:10.723): CNT ETR 0
+Příjem dat: 20
+Recieved (37:10.826): CNT ETR 0
+Příjem dat: 20
+Recieved (37:10.922): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.24): CNT ETR 0
+Příjem dat: 4
+Recieved (37:11.132): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.222): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.323): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.425): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.521): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.624): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.726): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.822): CNT ETR 0
+Příjem dat: 20
+Recieved (37:11.923): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.26): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.122): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.223): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.326): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.422): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.524): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.626): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.721): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.824): CNT ETR 0
+Příjem dat: 20
+Recieved (37:12.925): CNT ETR 0
+Příjem dat: 20
+Recieved (37:13.22): CNT ETR 0
+Příjem dat: 20
+Recieved (37:13.124): CNT ETR 0
+Příjem dat: 20
+Recieved (37:13.226): CNT ETR 0
+Send (37:13.255): CNT_:STOP;
+Send (37:13.256): CNT_:MODE 
+Send (37:13.257): IC__;
+Send (37:13.258): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:13.261): ACK
+Recieved (37:13.261): ACK
+Recieved (37:13.261): ACK
+Send (37:13.975): CNT_:GATE 
+Send (37:13.975): 100m;
+Send (37:13.977): CNT_:STOP;
+Send (37:13.978): CNT_:MODE 
+Send (37:13.978): ETR_;
+Send (37:13.979): CNT_:STRT;
+Příjem dat: 16
+Recieved (37:13.981): ACK
+Recieved (37:13.981): ACK
+Recieved (37:13.981): ACK
+Recieved (37:13.981): ACK
+Příjem dat: 20
+Recieved (37:14.84): CNT ETR 2420
+Příjem dat: 20
+Recieved (37:14.186): CNT ETR 0
+Příjem dat: 8
+Recieved (37:14.289): CNT ETR 0
+Příjem dat: 20
+Recieved (37:14.384): CNT ETR 0
+Příjem dat: 20
+Recieved (37:14.486): CNT ETR 0
+Příjem dat: 20
+Recieved (37:14.582): CNT ETR 0
+Příjem dat: 20
+Recieved (37:14.683): CNT ETR 0
+Příjem dat: 20
+Recieved (37:14.786): CNT ETR 0
+Příjem dat: 20
+Recieved (37:14.882): CNT ETR 0
+Příjem dat: 20
+Recieved (37:14.984): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.86): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.182): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.284): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.386): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.482): CNT ETR 0
+Příjem dat: 4
+Recieved (37:15.590): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.686): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.782): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.883): CNT ETR 0
+Příjem dat: 20
+Recieved (37:15.985): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.82): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.184): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.286): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.382): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.484): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.585): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.682): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.783): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.886): CNT ETR 0
+Příjem dat: 20
+Recieved (37:16.981): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.84): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.186): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.282): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.384): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.486): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.582): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.684): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.786): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.882): CNT ETR 0
+Příjem dat: 20
+Recieved (37:17.984): CNT ETR 0
+Příjem dat: 16
+Recieved (37:18.92): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.182): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.284): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.386): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.482): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.584): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.685): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.782): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.884): CNT ETR 0
+Příjem dat: 20
+Recieved (37:18.986): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.82): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.184): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.285): CNT ETR 0
+Příjem dat: 12
+Recieved (37:19.388): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.484): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.586): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.682): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.783): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.886): CNT ETR 0
+Příjem dat: 20
+Recieved (37:19.981): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.84): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.186): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.282): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.384): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.486): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.581): CNT ETR 0
+Příjem dat: 8
+Recieved (37:20.690): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.786): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.882): CNT ETR 0
+Příjem dat: 20
+Recieved (37:20.984): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.86): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.182): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.284): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.386): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.481): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.584): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.686): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.781): CNT ETR 0
+Příjem dat: 20
+Recieved (37:21.884): CNT ETR 0
+Příjem dat: 4
+Recieved (37:21.992): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.82): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.184): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.286): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.382): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.484): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.586): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.682): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.783): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.886): CNT ETR 0
+Příjem dat: 20
+Recieved (37:22.982): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.84): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.186): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.281): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.384): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.486): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.582): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.684): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.786): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.882): CNT ETR 0
+Příjem dat: 20
+Recieved (37:23.984): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.85): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.181): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.284): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.386): CNT ETR 0
+Příjem dat: 16
+Recieved (37:24.488): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.583): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.686): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.782): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.883): CNT ETR 0
+Příjem dat: 20
+Recieved (37:24.985): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.82): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.183): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.286): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.381): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.484): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.586): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.682): CNT ETR 0
+Příjem dat: 12
+Recieved (37:25.790): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.886): CNT ETR 0
+Příjem dat: 20
+Recieved (37:25.982): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.84): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.185): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.284): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.384): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.486): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.582): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.684): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.785): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.881): CNT ETR 0
+Příjem dat: 20
+Recieved (37:26.984): CNT ETR 0
+Příjem dat: 8
+Recieved (37:27.91): CNT ETR 0
+Příjem dat: 20
+Recieved (37:27.182): CNT ETR 0
+Příjem dat: 20
+Recieved (37:27.283): CNT ETR 0
+Příjem dat: 20
+Recieved (37:27.385): CNT ETR 0
+Send (37:27.475): CNT_:STOP;
+Send (37:27.476): CNT_:MODE 
+Send (37:27.476): IC__;
+Send (37:27.478): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:27.481): ACK
+Recieved (37:27.481): ACK
+Recieved (37:27.481): ACK
+Send (37:28.39): CNT_:STOP;
+Send (37:28.40): CNT_:MODE 
+Send (37:28.40): REF_;
+Send (37:28.42): CNT_:STRT;
+Příjem dat: 12
+Recieved (37:28.45): ACK
+Recieved (37:28.45): ACK
+Recieved (37:28.45): ACK
+Send (37:29.766): CNT_:STOP;
+Příjem dat: 4
+Recieved (37:29.767): ACK
+PORT zavřen: COM4
+
+Log Entry : 14:37:49 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:38:24 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (38:26.480): CNT_:MODE 
+Send (38:26.480): ETR_;
+Send (38:26.481): CNT_:STRT;
+Příjem dat: 8
+Recieved (38:26.502): ACK
+Recieved (38:26.502): ACK
+Příjem dat: 18
+Recieved (38:26.690): CNT ETR 0
+Příjem dat: 20
+Recieved (38:26.785): CNT ETR 0
+Příjem dat: 20
+Recieved (38:26.888): CNT ETR 0
+Příjem dat: 18
+Recieved (38:26.991): CNT ETR 0
+Příjem dat: 20
+Recieved (38:27.85): CNT ETR 0
+Příjem dat: 20
+Recieved (38:27.188): CNT ETR 0
+Příjem dat: 18
+Recieved (38:27.291): CNT ETR 0
+Příjem dat: 20
+Recieved (38:27.385): CNT ETR 0
+Příjem dat: 20
+Recieved (38:27.487): CNT ETR 0
+Příjem dat: 18
+Recieved (38:27.591): CNT ETR 0
+Příjem dat: 20
+Recieved (38:27.685): CNT ETR 0
+Příjem dat: 20
+Recieved (38:27.788): CNT ETR 0
+Příjem dat: 8
+Recieved (38:27.889): CNT ETR 0
+Příjem dat: 20
+Recieved (38:27.985): CNT ETR 0
+Příjem dat: 20
+Recieved (38:28.88): CNT ETR 0
+Příjem dat: 18
+Recieved (38:28.189): CNT ETR 0
+Příjem dat: 20
+Recieved (38:28.286): CNT ETR 0
+Send (38:28.377): CNT_:STOP;
+Send (38:28.378): CNT_:MODE 
+Send (38:28.378): IC__;
+Send (38:28.380): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:28.382): ACK
+Recieved (38:28.382): ACK
+Recieved (38:28.382): ACK
+Send (38:28.888): CNT_:GATE 
+Send (38:28.889): 100m;
+Send (38:28.890): CNT_:STOP;
+Send (38:28.891): CNT_:MODE 
+Příjem dat: 8
+Recieved (38:28.892): ACK
+Recieved (38:28.892): ACK
+Send (38:28.892): ETR_;
+Send (38:28.893): CNT_:STRT;
+Příjem dat: 8
+Recieved (38:28.897): ACK
+Recieved (38:28.897): ACK
+Příjem dat: 4
+Recieved (38:29.1): CNT ETR 2420
+Příjem dat: 20
+Recieved (38:29.95): CNT ETR 0
+Příjem dat: 20
+Recieved (38:29.197): CNT ETR 0
+Příjem dat: 4
+Recieved (38:29.299): CNT ETR 0
+Příjem dat: 20
+Recieved (38:29.396): CNT ETR 0
+Příjem dat: 20
+Recieved (38:29.497): CNT ETR 0
+Příjem dat: 4
+Recieved (38:29.607): CNT ETR 0
+Příjem dat: 20
+Recieved (38:29.695): CNT ETR 0
+Příjem dat: 20
+Recieved (38:29.797): CNT ETR 0
+Příjem dat: 4
+Recieved (38:29.900): CNT ETR 0
+Příjem dat: 20
+Recieved (38:29.996): CNT ETR 0
+Příjem dat: 20
+Recieved (38:30.97): CNT ETR 0
+Příjem dat: 4
+Recieved (38:30.201): CNT ETR 0
+Příjem dat: 20
+Recieved (38:30.296): CNT ETR 0
+Send (38:30.343): CNT_:STOP;
+Send (38:30.344): CNT_:MODE 
+Send (38:30.344): IC__;
+Send (38:30.346): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:30.349): ACK
+Recieved (38:30.349): ACK
+Recieved (38:30.349): ACK
+Send (38:30.759): CNT_:GATE 
+Send (38:30.760): 100m;
+Send (38:30.761): CNT_:STOP;
+Send (38:30.762): CNT_:MODE 
+Send (38:30.762): ETR_;
+Send (38:30.763): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:30.763): ACK
+Recieved (38:30.763): ACK
+Recieved (38:30.763): ACK
+Příjem dat: 4
+Recieved (38:30.769): ACK
+Příjem dat: 18
+Recieved (38:30.873): CNT ETR 2420
+Příjem dat: 20
+Recieved (38:30.967): CNT ETR 0
+Příjem dat: 20
+Recieved (38:31.69): CNT ETR 0
+Příjem dat: 20
+Recieved (38:31.166): CNT ETR 0
+Příjem dat: 4
+Recieved (38:31.275): CNT ETR 0
+Příjem dat: 20
+Recieved (38:31.369): CNT ETR 0
+Příjem dat: 20
+Recieved (38:31.465): CNT ETR 0
+Příjem dat: 20
+Recieved (38:31.567): CNT ETR 0
+Příjem dat: 20
+Recieved (38:31.669): CNT ETR 0
+Send (38:31.747): CNT_:STOP;
+Send (38:31.748): CNT_:MODE 
+Send (38:31.748): REF_;
+Send (38:31.749): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:31.753): ACK
+Recieved (38:31.753): ACK
+Recieved (38:31.753): ACK
+Send (38:32.179): CNT_:STOP;
+Send (38:32.180): CNT_:MODE 
+Send (38:32.180): IC__;
+Send (38:32.181): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:32.185): ACK
+Recieved (38:32.185): ACK
+Recieved (38:32.185): ACK
+Send (38:32.563): CNT_:GATE 
+Send (38:32.564): 100m;
+Send (38:32.565): CNT_:STOP;
+Send (38:32.566): CNT_:MODE 
+Send (38:32.566): ETR_;
+Send (38:32.567): CNT_:STRT;
+Příjem dat: 16
+Recieved (38:32.569): ACK
+Recieved (38:32.569): ACK
+Recieved (38:32.569): ACK
+Recieved (38:32.569): ACK
+Příjem dat: 20
+Recieved (38:32.671): CNT ETR 2420
+Příjem dat: 20
+Recieved (38:32.774): CNT ETR 0
+Příjem dat: 20
+Recieved (38:32.870): CNT ETR 0
+Příjem dat: 20
+Recieved (38:32.972): CNT ETR 0
+Příjem dat: 20
+Recieved (38:33.74): CNT ETR 0
+Příjem dat: 20
+Recieved (38:33.169): CNT ETR 0
+Příjem dat: 20
+Recieved (38:33.271): CNT ETR 0
+Příjem dat: 20
+Recieved (38:33.373): CNT ETR 0
+Příjem dat: 20
+Recieved (38:33.470): CNT ETR 0
+Příjem dat: 20
+Recieved (38:33.572): CNT ETR 0
+Příjem dat: 20
+Recieved (38:33.673): CNT ETR 0
+Send (38:33.755): CNT_:STOP;
+Send (38:33.756): CNT_:MODE 
+Send (38:33.757): IC__;
+Send (38:33.758): CNT_:STRT;
+Příjem dat: 8
+Recieved (38:33.758): ACK
+Recieved (38:33.758): ACK
+Příjem dat: 4
+Recieved (38:33.763): ACK
+Send (38:34.207): CNT_:GATE 
+Send (38:34.208): 100m;
+Send (38:34.209): CNT_:STOP;
+Send (38:34.210): CNT_:MODE 
+Send (38:34.210): ETR_;
+Send (38:34.211): CNT_:STRT;
+Příjem dat: 16
+Recieved (38:34.213): ACK
+Recieved (38:34.213): ACK
+Recieved (38:34.213): ACK
+Recieved (38:34.213): ACK
+Příjem dat: 20
+Recieved (38:34.316): CNT ETR 2420
+Příjem dat: 20
+Recieved (38:34.417): CNT ETR 0
+Příjem dat: 19
+Recieved (38:34.519): CNT ETR 0
+Příjem dat: 20
+Recieved (38:34.615): CNT ETR 0
+Příjem dat: 20
+Recieved (38:34.717): CNT ETR 0
+Příjem dat: 19
+Recieved (38:34.819): CNT ETR 0
+Příjem dat: 8
+Recieved (38:34.923): CNT ETR 0
+Příjem dat: 20
+Recieved (38:35.17): CNT ETR 0
+Příjem dat: 19
+Recieved (38:35.119): CNT ETR 0
+Send (38:35.184): CNT_:STOP;
+Send (38:35.185): CNT_:MODE 
+Send (38:35.185): REF_;
+Příjem dat: 4
+Recieved (38:35.185): ACK
+Send (38:35.186): CNT_:STRT;
+Příjem dat: 8
+Recieved (38:35.191): ACK
+Recieved (38:35.191): ACK
+Send (38:35.680): CNT_:GATE 
+Send (38:35.680): 100m;
+Send (38:35.681): CNT_:STOP;
+Send (38:35.682): CNT_:MODE 
+Send (38:35.682): ETR_;
+Send (38:35.683): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:35.683): ACK
+Recieved (38:35.683): ACK
+Recieved (38:35.683): ACK
+Příjem dat: 4
+Recieved (38:35.689): ACK
+Příjem dat: 20
+Recieved (38:35.989): CNT ETR 0
+Příjem dat: 15
+Recieved (38:36.93): CNT ETR 0
+Příjem dat: 20
+Recieved (38:36.187): CNT ETR 0
+Příjem dat: 20
+Recieved (38:36.289): CNT ETR 0
+Příjem dat: 15
+Recieved (38:36.393): CNT ETR 0
+Příjem dat: 20
+Recieved (38:36.487): CNT ETR 0
+Příjem dat: 20
+Recieved (38:36.590): CNT ETR 0
+Příjem dat: 15
+Recieved (38:36.692): CNT ETR 0
+Příjem dat: 16
+Recieved (38:36.795): CNT ETR 0
+Send (38:36.819): CNT_:STOP;
+Send (38:36.820): CNT_:MODE 
+Send (38:36.820): REF_;
+Send (38:36.821): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:36.823): ACK
+Recieved (38:36.823): ACK
+Recieved (38:36.823): ACK
+Send (38:37.427): CNT_:GATE 
+Send (38:37.427): 100m;
+Send (38:37.429): CNT_:STOP;
+Send (38:37.430): CNT_:MODE 
+Příjem dat: 8
+Recieved (38:37.430): ACK
+Recieved (38:37.430): ACK
+Send (38:37.430): ETR_;
+Send (38:37.430): CNT_:STRT;
+Příjem dat: 8
+Recieved (38:37.435): ACK
+Recieved (38:37.435): ACK
+Příjem dat: 20
+Recieved (38:37.735): CNT ETR 0
+Příjem dat: 20
+Recieved (38:37.838): CNT ETR 0
+Příjem dat: 20
+Recieved (38:37.933): CNT ETR 0
+Send (38:37.971): CNT_:STOP;
+Send (38:37.972): CNT_:MODE 
+Send (38:37.972): IC__;
+Send (38:37.974): CNT_:STRT;
+Příjem dat: 12
+Recieved (38:37.975): ACK
+Recieved (38:37.975): ACK
+Recieved (38:37.976): ACK
+Send (38:38.419): CNT_:GATE 
+Send (38:38.420): 100m;
+Send (38:38.421): CNT_:STOP;
+Send (38:38.422): CNT_:MODE 
+Send (38:38.422): ETR_;
+Send (38:38.423): CNT_:STRT;
+Příjem dat: 16
+Recieved (38:38.425): ACK
+Recieved (38:38.425): ACK
+Recieved (38:38.425): ACK
+Recieved (38:38.425): ACK
+Příjem dat: 20
+Recieved (38:38.528): CNT ETR 2420
+Příjem dat: 20
+Recieved (38:38.629): CNT ETR 0
+Příjem dat: 19
+Recieved (38:38.733): CNT ETR 0
+Příjem dat: 20
+Recieved (38:38.828): CNT ETR 0
+Příjem dat: 20
+Recieved (38:38.929): CNT ETR 0
+Příjem dat: 19
+Recieved (38:39.33): CNT ETR 0
+Příjem dat: 16
+Recieved (38:39.133): CNT ETR 0
+Příjem dat: 20
+Recieved (38:39.230): CNT ETR 0
+Příjem dat: 19
+Recieved (38:39.333): CNT ETR 0
+Příjem dat: 20
+Recieved (38:39.428): CNT ETR 0
+Příjem dat: 20
+Recieved (38:39.530): CNT ETR 0
+Příjem dat: 19
+Recieved (38:39.631): CNT ETR 0
+Příjem dat: 20
+Recieved (38:39.728): CNT ETR 0
+Příjem dat: 20
+Recieved (38:39.829): CNT ETR 0
+Příjem dat: 19
+Recieved (38:39.933): CNT ETR 0
+Příjem dat: 20
+Recieved (38:40.28): CNT ETR 0
+Send (38:40.87): CNT_:STOP;
+Příjem dat: 1
+Recieved (38:40.95): ACK
+Send (38:41.175): CNT_:MODE 
+Send (38:41.176): ETR_;
+Send (38:41.177): CNT_:STRT;
+Příjem dat: 8
+Recieved (38:41.179): ACK
+Recieved (38:41.179): ACK
+Příjem dat: 20
+Recieved (38:41.383): CNT ETR 0
+Příjem dat: 20
+Recieved (38:41.480): CNT ETR 0
+Příjem dat: 20
+Recieved (38:41.581): CNT ETR 0
+Příjem dat: 20
+Recieved (38:41.684): CNT ETR 0
+Příjem dat: 20
+Recieved (38:41.779): CNT ETR 0
+Příjem dat: 20
+Recieved (38:41.881): CNT ETR 0
+Příjem dat: 20
+Recieved (38:41.983): CNT ETR 0
+Příjem dat: 20
+Recieved (38:42.79): CNT ETR 0
+Send (38:42.151): CNT_:STOP;
+Příjem dat: 4
+Recieved (38:42.151): ACK
+PORT zavřen: COM4
+
+Log Entry : 14:40:33 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:40:56 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:41:57 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:42:10 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (42:30.792): CNT_:MODE 
+Send (42:30.818): ETR_;
+Send (42:30.819): CNT_:STRT;
+Příjem dat: 8
+Recieved (42:30.832): ACK
+Recieved (42:30.832): ACK
+Příjem dat: 10
+Recieved (42:31.28): CNT ETR 0
+Příjem dat: 20
+Recieved (42:31.123): CNT ETR 0
+Příjem dat: 20
+Recieved (42:31.225): CNT ETR 0
+Příjem dat: 10
+Recieved (42:31.328): CNT ETR 0
+Příjem dat: 20
+Recieved (42:31.423): CNT ETR 0
+Příjem dat: 20
+Recieved (42:31.524): CNT ETR 0
+Příjem dat: 10
+Recieved (42:31.628): CNT ETR 0
+Příjem dat: 20
+Recieved (42:31.723): CNT ETR 0
+Příjem dat: 20
+Recieved (42:31.825): CNT ETR 0
+Příjem dat: 10
+Recieved (42:31.928): CNT ETR 0
+Příjem dat: 20
+Recieved (42:32.23): CNT ETR 0
+Příjem dat: 20
+Recieved (42:32.125): CNT ETR 0
+Příjem dat: 8
+Recieved (42:32.227): CNT ETR 0
+Příjem dat: 20
+Recieved (42:32.322): CNT ETR 0
+Příjem dat: 20
+Recieved (42:32.425): CNT ETR 0
+Příjem dat: 10
+Recieved (42:32.527): CNT ETR 0
+Příjem dat: 20
+Recieved (42:32.623): CNT ETR 0
+Příjem dat: 20
+Recieved (42:32.725): CNT ETR 0
+Příjem dat: 10
+Recieved (42:32.827): CNT ETR 0
+Příjem dat: 20
+Recieved (42:32.923): CNT ETR 0
+Příjem dat: 20
+Recieved (42:33.25): CNT ETR 0
+Příjem dat: 10
+Recieved (42:33.127): CNT ETR 0
+Příjem dat: 20
+Recieved (42:33.223): CNT ETR 0
+Příjem dat: 20
+Recieved (42:33.325): CNT ETR 0
+Příjem dat: 10
+Recieved (42:33.428): CNT ETR 0
+Příjem dat: 4
+Recieved (42:33.529): CNT ETR 0
+Send (42:33.590): CNT_:STOP;
+Příjem dat: 4
+Recieved (42:33.594): ACK
+PORT zavřen: COM4
+
+Log Entry : 14:43:58 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:44:50 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:45:19 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:45:39 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:45:54 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:46:09 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:46:20 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:46:53 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:47:10 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:48:23 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:48:37 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:48:52 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:49:06 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:49:24 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:49:54 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:50:05 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:50:15 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (50:48.996): CNT_:MODE 
+Send (50:49.22): ETR_;
+Send (50:49.23): CNT_:STRT;
+Příjem dat: 8
+Recieved (50:49.85): ACK
+Recieved (50:49.86): ACK
+Příjem dat: 2
+Recieved (50:49.230): CNT ETR 0
+Příjem dat: 20
+Recieved (50:49.325): CNT ETR 0
+Příjem dat: 20
+Recieved (50:49.428): CNT ETR 0
+Příjem dat: 2
+Recieved (50:49.531): CNT ETR 0
+Příjem dat: 20
+Recieved (50:49.626): CNT ETR 0
+Příjem dat: 20
+Recieved (50:49.727): CNT ETR 0
+Příjem dat: 2
+Recieved (50:49.831): CNT ETR 0
+Příjem dat: 20
+Recieved (50:49.926): CNT ETR 0
+Příjem dat: 20
+Recieved (50:50.27): CNT ETR 0
+Příjem dat: 2
+Send (50:50.130): CNT_:STOP;
+Send (50:50.130): CNT_:MODE 
+Send (50:50.130): IC__;
+Recieved (50:50.131): CNT ETR 0
+Send (50:50.131): CNT_:STRT;
+Příjem dat: 12
+Recieved (50:50.135): ACK
+Recieved (50:50.135): ACK
+Recieved (50:50.135): ACK
+Send (50:50.674): CNT_:GATE 
+Send (50:50.674): 100m;
+Příjem dat: 4
+Recieved (50:50.676): ACK
+Send (50:50.676): CNT_:STOP;
+Send (50:50.677): CNT_:MODE 
+Send (50:50.678): ETR_;
+Send (50:50.679): CNT_:STRT;
+Příjem dat: 12
+Recieved (50:50.681): ACK
+Recieved (50:50.681): ACK
+Recieved (50:50.681): ACK
+Příjem dat: 20
+Recieved (50:50.784): CNT ETR 2380
+Příjem dat: 4
+Recieved (50:50.887): CNT ETR 0
+Příjem dat: 20
+Recieved (50:50.981): CNT ETR 0
+Příjem dat: 20
+Recieved (50:51.83): CNT ETR 0
+Příjem dat: 4
+Recieved (50:51.187): CNT ETR 0
+Příjem dat: 20
+Recieved (50:51.282): CNT ETR 0
+Příjem dat: 20
+Recieved (50:51.384): CNT ETR 0
+Send (50:51.477): CNT_:STOP;
+Send (50:51.479): CNT_:MODE 
+Send (50:51.479): REF_;
+Send (50:51.480): CNT_:STRT;
+Příjem dat: 8
+Recieved (50:51.480): ACK
+Recieved (50:51.480): ACK
+Příjem dat: 4
+Recieved (50:51.485): ACK
+Send (50:52.757): CNT_:STOP;
+Příjem dat: 2
+Recieved (50:52.766): ACK
+Send (50:55.725): CNT_:MODE 
+Send (50:55.726): ETR_;
+Send (50:55.728): CNT_:STRT;
+Příjem dat: 4
+Recieved (50:55.728): ACK
+Příjem dat: 4
+Recieved (50:55.733): ACK
+Příjem dat: 20
+Recieved (50:55.932): CNT ETR 0
+Příjem dat: 20
+Recieved (50:56.34): CNT ETR 0
+Příjem dat: 19
+Recieved (50:56.136): CNT ETR 0
+Příjem dat: 20
+Recieved (50:56.232): CNT ETR 0
+Příjem dat: 20
+Recieved (50:56.334): CNT ETR 0
+Příjem dat: 12
+Recieved (50:56.437): CNT ETR 0
+Příjem dat: 20
+Recieved (50:56.532): CNT ETR 0
+Příjem dat: 20
+Recieved (50:56.633): CNT ETR 0
+Příjem dat: 19
+Recieved (50:56.757): CNT ETR 0
+Příjem dat: 20
+Recieved (50:56.831): CNT ETR 0
+Příjem dat: 20
+Recieved (50:56.933): CNT ETR 0
+Příjem dat: 19
+Recieved (50:57.36): CNT ETR 0
+Příjem dat: 20
+Recieved (50:57.131): CNT ETR 0
+Send (50:57.140): CNT_:STOP;
+Příjem dat: 4
+Recieved (50:57.143): ACK
+Send (50:59.321): CNT_:MODE 
+Send (50:59.321): ETR_;
+Send (50:59.322): CNT_:STRT;
+Příjem dat: 4
+Recieved (50:59.323): ACK
+Příjem dat: 4
+Recieved (50:59.328): ACK
+Příjem dat: 20
+Recieved (50:59.525): CNT ETR 0
+Příjem dat: 20
+Recieved (50:59.628): CNT ETR 0
+Příjem dat: 13
+Recieved (50:59.730): CNT ETR 0
+Příjem dat: 20
+Recieved (50:59.826): CNT ETR 0
+Příjem dat: 16
+Recieved (50:59.934): CNT ETR 0
+Příjem dat: 13
+Recieved (51:0.31): CNT ETR 0
+Příjem dat: 20
+Recieved (51:0.126): CNT ETR 0
+Příjem dat: 20
+Recieved (51:0.228): CNT ETR 0
+Send (51:0.281): CNT_:STOP;
+Send (51:0.282): CNT_:MODE 
+Send (51:0.282): IC__;
+Send (51:0.283): CNT_:STRT;
+Příjem dat: 12
+Recieved (51:0.287): ACK
+Recieved (51:0.287): ACK
+Recieved (51:0.287): ACK
+Send (51:1.241): CNT_:STOP;
+Příjem dat: 4
+Recieved (51:1.247): ACK
+PORT zavřen: COM4
+
+Log Entry : 14:52:18 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:53:52 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:56:22 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:56:46 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:57:41 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:58:58 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:59:18 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 14:59:50 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:00:18 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:00:26 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:00:47 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:01:12 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:01:25 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:01:35 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:01:44 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:01:54 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:02:05 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:02:13 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:02:24 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:02:33 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:02:43 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:02:57 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:03:08 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:03:17 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:05:04 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:07:21 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:07:36 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:07:53 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:08:11 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:08:24 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:08:35 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:08:59 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:09:20 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:09:57 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:10:09 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:11:08 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:11:24 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:11:39 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:12:03 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:12:16 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:12:44 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:12:56 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:13:49 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:14:37 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:14:46 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:15:00 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:15:35 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:15:52 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:16:07 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:16:41 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:16:58 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:17:08 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:17:26 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:17:34 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:18:18 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:18:35 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:19:48 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:20:05 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:22:04 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:22:26 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:22:40 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:22:53 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:27:58 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:28:06 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:28:20 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:28:29 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:28:39 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 15:28:51 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:25:43 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:28:19 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:43:26 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:44:45 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:45:12 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (45:19.481): CNT_:MODE 
+Send (45:19.481): ETR_;
+Send (45:19.481): CNT_:STRT;
+Příjem dat: 8
+Recieved (45:19.496): ACK
+Recieved (45:19.496): ACK
+Příjem dat: 3
+Recieved (45:19.700): CNT ETR 0
+Příjem dat: 20
+Recieved (45:19.778): CNT ETR 0
+Příjem dat: 20
+Recieved (45:19.887): CNT ETR 0
+Příjem dat: 3
+Recieved (45:19.996): CNT ETR 0
+Příjem dat: 20
+Recieved (45:20.90): CNT ETR 0
+Příjem dat: 20
+Recieved (45:20.184): CNT ETR 0
+Příjem dat: 3
+Recieved (45:20.298): CNT ETR 0
+Příjem dat: 20
+Recieved (45:20.376): CNT ETR 0
+Příjem dat: 20
+Recieved (45:20.485): CNT ETR 0
+Příjem dat: 3
+Recieved (45:20.610): CNT ETR 0
+Send (45:20.673): CNT_:STOP;
+Send (45:20.673): CNT_:MODE 
+Send (45:20.673): IC__;
+Send (45:20.688): CNT_:STRT;
+Příjem dat: 12
+Recieved (45:20.688): ACK
+Recieved (45:20.688): ACK
+Recieved (45:20.688): ACK
+Send (45:21.267): CNT_:GATE 
+Send (45:21.267): 100m;
+Send (45:21.267): CNT_:STOP;
+Send (45:21.267): CNT_:MODE 
+Send (45:21.282): ETR_;
+Send (45:21.282): CNT_:STRT;
+Příjem dat: 16
+Recieved (45:21.282): ACK
+Recieved (45:21.282): ACK
+Recieved (45:21.282): ACK
+Recieved (45:21.282): ACK
+Příjem dat: 20
+Recieved (45:21.375): CNT ETR 2380
+Příjem dat: 20
+Recieved (45:21.485): CNT ETR 0
+Příjem dat: 14
+Recieved (45:21.594): CNT ETR 0
+Příjem dat: 20
+Recieved (45:21.672): CNT ETR 0
+Příjem dat: 20
+Recieved (45:21.781): CNT ETR 0
+Příjem dat: 14
+Recieved (45:21.891): CNT ETR 0
+Příjem dat: 20
+Recieved (45:21.985): CNT ETR 0
+Příjem dat: 20
+Recieved (45:22.78): CNT ETR 0
+Příjem dat: 14
+Recieved (45:22.203): CNT ETR 0
+Příjem dat: 20
+Recieved (45:22.281): CNT ETR 0
+Send (45:22.375): CNT_:STOP;
+Send (45:22.375): CNT_:MODE 
+Příjem dat: 4
+Recieved (45:22.375): ACK
+Send (45:22.375): REF_;
+Send (45:22.375): CNT_:STRT;
+Příjem dat: 8
+Recieved (45:22.375): ACK
+Recieved (45:22.375): ACK
+Send (45:23.185): CNT_:GATE 
+Send (45:23.185): 100m;
+Send (45:23.185): CNT_:STOP;
+Send (45:23.185): CNT_:MODE 
+Send (45:23.185): ETR_;
+Příjem dat: 8
+Recieved (45:23.185): ACK
+Recieved (45:23.185): ACK
+Send (45:23.185): CNT_:STRT;
+Příjem dat: 8
+Recieved (45:23.185): ACK
+Recieved (45:23.185): ACK
+Příjem dat: 20
+Recieved (45:23.498): CNT ETR 0
+Příjem dat: 4
+Recieved (45:23.607): CNT ETR 0
+Příjem dat: 8
+Recieved (45:23.717): CNT ETR 0
+Příjem dat: 20
+Recieved (45:23.795): CNT ETR 0
+Příjem dat: 4
+Recieved (45:23.904): CNT ETR 0
+Příjem dat: 20
+Recieved (45:23.982): CNT ETR 0
+Příjem dat: 20
+Recieved (45:24.92): CNT ETR 0
+Příjem dat: 4
+Recieved (45:24.201): CNT ETR 0
+Příjem dat: 20
+Recieved (45:24.295): CNT ETR 0
+Send (45:24.357): CNT_:STOP;
+Příjem dat: 4
+Recieved (45:24.357): ACK
+PORT zavřen: COM4
+
+Log Entry : 18:47:53 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:48:15 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:48:31 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:48:42 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:49:00 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:49:21 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:49:37 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:50:05 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:51:20 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:54:25 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:55:24 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:55:33 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:55:44 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:55:54 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:57:24 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:58:28 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 18:59:07 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:00:34 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:06:03 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:06:39 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:06:50 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:07:16 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:07:31 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:08:00 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:08:35 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:08:52 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:09:33 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:09:45 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:10:21 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:10:36 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:10:45 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:11:30 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:12:29 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:14:18 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:15:22 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (15:24.19): CNT_:MODE 
+Send (15:24.19): ETR_;
+Send (15:24.19): CNT_:STRT;
+Příjem dat: 8
+Recieved (15:24.35): ACK
+Recieved (15:24.35): ACK
+Příjem dat: 20
+Recieved (15:24.222): CNT ETR 0
+Příjem dat: 13
+Recieved (15:24.337): CNT ETR 0
+Příjem dat: 20
+Recieved (15:24.431): CNT ETR 0
+Příjem dat: 20
+Recieved (15:24.524): CNT ETR 0
+Příjem dat: 13
+Recieved (15:24.696): CNT ETR 0
+Příjem dat: 20
+Recieved (15:24.728): CNT ETR 0
+Příjem dat: 20
+Recieved (15:24.821): CNT ETR 0
+Příjem dat: 13
+Recieved (15:24.946): CNT ETR 0
+Příjem dat: 20
+Recieved (15:25.24): CNT ETR 0
+Příjem dat: 20
+Recieved (15:25.134): CNT ETR 0
+Příjem dat: 13
+Recieved (15:25.243): CNT ETR 0
+Příjem dat: 20
+Recieved (15:25.321): CNT ETR 0
+Send (15:25.337): CNT_:STOP;
+Send (15:25.337): CNT_:MODE 
+Příjem dat: 4
+Recieved (15:25.337): ACK
+Send (15:25.337): IC__;
+Send (15:25.337): CNT_:STRT;
+Příjem dat: 4
+Recieved (15:25.353): ACK
+Příjem dat: 4
+Recieved (15:25.353): ACK
+Send (15:25.901): CNT_:STOP;
+Send (15:25.901): CNT_:MODE 
+Příjem dat: 4
+Recieved (15:25.901): ACK
+Send (15:25.901): REF_;
+Send (15:25.901): CNT_:STRT;
+Příjem dat: 8
+Recieved (15:25.917): ACK
+Recieved (15:25.917): ACK
+Send (15:26.448): CNT_:GATE 
+Send (15:26.448): 100m;
+Send (15:26.448): CNT_:STOP;
+Send (15:26.448): CNT_:MODE 
+Příjem dat: 8
+Recieved (15:26.448): ACK
+Send (15:26.448): ETR_;
+Send (15:26.448): CNT_:STRT;
+Recieved (15:26.448): ACK
+Příjem dat: 8
+Recieved (15:26.464): ACK
+Recieved (15:26.495): ACK
+Příjem dat: 20
+Recieved (15:26.760): CNT ETR 0
+Příjem dat: 20
+Recieved (15:26.854): CNT ETR 0
+Příjem dat: 17
+Recieved (15:26.980): CNT ETR 0
+Příjem dat: 20
+Recieved (15:27.58): CNT ETR 0
+Příjem dat: 20
+Recieved (15:27.168): CNT ETR 0
+Příjem dat: 17
+Recieved (15:27.277): CNT ETR 0
+Send (15:27.293): CNT_:STOP;
+Send (15:27.293): CNT_:MODE 
+Send (15:27.293): IC__;
+Send (15:27.293): CNT_:STRT;
+Příjem dat: 11
+Recieved (15:27.293): ACK
+Recieved (15:27.293): ACK
+Recieved (15:27.308): ACK
+Send (15:27.590): CNT_:GATE 
+Send (15:27.590): 100m;
+Send (15:27.590): CNT_:STOP;
+Send (15:27.590): CNT_:MODE 
+Send (15:27.590): ETR_;
+Send (15:27.590): CNT_:STRT;
+Příjem dat: 16
+Recieved (15:27.605): ACK
+Recieved (15:27.605): ACK
+Recieved (15:27.605): ACK
+Recieved (15:27.605): ACK
+Příjem dat: 20
+Recieved (15:27.699): CNT ETR 2380
+Příjem dat: 20
+Recieved (15:27.808): CNT ETR 0
+Příjem dat: 8
+Recieved (15:27.918): CNT ETR 0
+Příjem dat: 16
+Recieved (15:28.27): CNT ETR 0
+Příjem dat: 20
+Recieved (15:28.105): CNT ETR 0
+Příjem dat: 8
+Recieved (15:28.215): CNT ETR 0
+Příjem dat: 20
+Recieved (15:28.293): CNT ETR 0
+Příjem dat: 20
+Recieved (15:28.402): CNT ETR 0
+Příjem dat: 8
+Recieved (15:28.527): CNT ETR 0
+Příjem dat: 20
+Recieved (15:28.603): CNT ETR 0
+Příjem dat: 20
+Recieved (15:28.697): CNT ETR 0
+Příjem dat: 8
+Recieved (15:28.822): CNT ETR 0
+Příjem dat: 20
+Recieved (15:28.900): CNT ETR 0
+Příjem dat: 20
+Recieved (15:29.9): CNT ETR 0
+Příjem dat: 8
+Recieved (15:29.122): CNT ETR 0
+Příjem dat: 20
+Recieved (15:29.200): CNT ETR 0
+Příjem dat: 12
+Recieved (15:29.325): CNT ETR 0
+Příjem dat: 8
+Recieved (15:29.419): CNT ETR 0
+Příjem dat: 20
+Recieved (15:29.497): CNT ETR 0
+Příjem dat: 20
+Recieved (15:29.596): CNT ETR 0
+Příjem dat: 8
+Recieved (15:29.721): CNT ETR 0
+Příjem dat: 20
+Recieved (15:29.800): CNT ETR 0
+Příjem dat: 20
+Recieved (15:29.909): CNT ETR 0
+Příjem dat: 8
+Recieved (15:30.18): CNT ETR 0
+Příjem dat: 20
+Recieved (15:30.96): CNT ETR 0
+Send (15:30.159): CNT_:GATE 
+Send (15:30.159): 1s__;
+Příjem dat: 4
+Recieved (15:30.159): ACK
+Send (15:30.643): CNT_:GATE 
+Send (15:30.643): 5s__;
+Příjem dat: 4
+Recieved (15:30.659): ACK
+Send (15:32.144): CNT_:GATE 
+Send (15:32.144): 10s_;
+Příjem dat: 4
+Recieved (15:32.144): ACK
+Send (15:32.675): CNT_:GATE 
+Send (15:32.675): 5s__;
+Příjem dat: 4
+Recieved (15:32.690): ACK
+Send (15:33.34): CNT_:GATE 
+Send (15:33.34): 1s__;
+Příjem dat: 4
+Recieved (15:33.34): ACK
+Příjem dat: 12
+Recieved (15:34.52): CNT ETR 0
+Send (15:34.115): CNT_:STOP;
+Příjem dat: 4
+Recieved (15:34.130): ACK
+PORT zavřen: COM4
+
+Log Entry : 19:15:38 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:16:06 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:16:18 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:20:34 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:22:37 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:25:36 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (25:51.499): CNT_:MODE 
+Send (25:51.530): ETR_;
+Send (25:51.530): CNT_:STRT;
+Příjem dat: 8
+Recieved (25:51.593): ACK
+Recieved (25:51.593): ACK
+Příjem dat: 5
+Recieved (25:51.749): CNT ETR 0
+Příjem dat: 20
+Recieved (25:51.827): CNT ETR 0
+Příjem dat: 20
+Recieved (25:51.928): CNT ETR 0
+Příjem dat: 5
+Recieved (25:52.53): CNT ETR 0
+Příjem dat: 20
+Recieved (25:52.131): CNT ETR 0
+Příjem dat: 20
+Recieved (25:52.225): CNT ETR 0
+Příjem dat: 5
+Recieved (25:52.349): CNT ETR 0
+Příjem dat: 20
+Recieved (25:52.428): CNT ETR 0
+Příjem dat: 20
+Recieved (25:52.521): CNT ETR 0
+Příjem dat: 5
+Recieved (25:52.646): CNT ETR 0
+Send (25:52.693): CNT_:STOP;
+Send (25:52.693): CNT_:MODE 
+Send (25:52.693): IC__;
+Send (25:52.693): CNT_:STRT;
+Příjem dat: 12
+Recieved (25:52.709): ACK
+Recieved (25:52.709): ACK
+Recieved (25:52.709): ACK
+Send (25:53.454): CNT_:STOP;
+Send (25:53.454): CNT_:MODE 
+Send (25:53.454): REF_;
+Send (25:53.454): CNT_:STRT;
+Příjem dat: 12
+Recieved (25:53.454): ACK
+Recieved (25:53.454): ACK
+Recieved (25:53.454): ACK
+Send (25:53.985): CNT_:STOP;
+Send (25:53.985): CNT_:MODE 
+Send (25:53.985): IC__;
+Send (25:53.985): CNT_:STRT;
+Příjem dat: 12
+Recieved (25:53.985): ACK
+Recieved (25:53.985): ACK
+Recieved (25:53.985): ACK
+Send (25:54.985): CNT_:BUF1 
+91(0x00005B00)
+Send (25:54.985): ;
+Příjem dat: 4
+Recieved (25:54.985): ACK
+Send (25:57.330): CNT_:BUF2 
+91(0x00005B00)
+Send (25:57.330): ;
+Příjem dat: 4
+Recieved (25:57.330): ACK
+Send (25:58.315): CNT_:BUF2 
+75(0x00004B00)
+Send (25:58.315): ;
+Příjem dat: 4
+Recieved (25:58.315): ACK
+Send (25:58.565): CNT_:BUF2 
+59(0x00003B00)
+Send (25:58.565): ;
+Příjem dat: 2
+Recieved (25:58.580): ERROR 150
+Send (25:59.92): CNT_:BUF2 
+51(0x00003300)
+Send (25:59.93): ;
+Recieved (25:59.834): ERROR 999
+Recieved (26:0.721): ACK
+Send (26:1.720): CNT_:BUF2 
+35(0x00002300)
+Send (26:1.721): ;
+Příjem dat: 4
+Recieved (26:1.723): ACK
+Send (26:3.183): CNT_:BUF2 
+73(0x00004900)
+Send (26:3.183): ;
+Příjem dat: 4
+Recieved (26:3.183): ACK
+Send (26:3.433): CNT_:BUF2 
+49(0x00003100)
+Send (26:3.433): ;
+Příjem dat: 4
+Recieved (26:3.433): ACK
+Send (26:3.839): CNT_:GATE 
+Send (26:3.839): 100m;
+Send (26:3.839): CNT_:STOP;
+Send (26:3.839): CNT_:MODE 
+Příjem dat: 8
+Recieved (26:3.839): ACK
+Send (26:3.839): ETR_;
+Recieved (26:3.839): ACK
+Send (26:3.839): CNT_:STRT;
+Příjem dat: 8
+Recieved (26:3.839): ACK
+Recieved (26:3.839): ACK
+Příjem dat: 20
+Recieved (26:3.949): CNT ETR 2380
+Příjem dat: 20
+Recieved (26:4.42): CNT ETR 0
+Příjem dat: 20
+Recieved (26:4.152): CNT ETR 0
+Příjem dat: 20
+Recieved (26:4.245): CNT ETR 0
+Příjem dat: 20
+Recieved (26:4.339): CNT ETR 0
+Příjem dat: 20
+Recieved (26:4.449): CNT ETR 0
+Příjem dat: 20
+Recieved (26:4.542): CNT ETR 0
+Příjem dat: 20
+Recieved (26:4.636): CNT ETR 0
+Příjem dat: 20
+Recieved (26:4.746): CNT ETR 0
+Send (26:4.792): CNT_:STOP;
+Send (26:4.792): CNT_:MODE 
+Send (26:4.792): REF_;
+Send (26:4.792): CNT_:STRT;
+Příjem dat: 12
+Recieved (26:4.792): ACK
+Recieved (26:4.792): ACK
+Recieved (26:4.792): ACK
+Send (26:5.277): CNT_:STOP;
+Send (26:5.277): CNT_:MODE 
+Send (26:5.277): IC__;
+Send (26:5.277): CNT_:STRT;
+Příjem dat: 12
+Recieved (26:5.277): ACK
+Recieved (26:5.277): ACK
+Recieved (26:5.277): ACK
+Send (26:5.574): CNT_:GATE 
+Send (26:5.574): 100m;
+Send (26:5.574): CNT_:STOP;
+Příjem dat: 4
+Recieved (26:5.574): ACK
+Send (26:5.574): CNT_:MODE 
+Send (26:5.574): ETR_;
+Send (26:5.589): CNT_:STRT;
+Příjem dat: 8
+Recieved (26:5.589): ACK
+Recieved (26:5.589): ACK
+Příjem dat: 4
+Recieved (26:5.589): ACK
+Příjem dat: 20
+Recieved (26:5.683): CNT ETR 2380
+Příjem dat: 9
+Recieved (26:5.809): CNT ETR 0
+Příjem dat: 20
+Recieved (26:5.887): CNT ETR 0
+Příjem dat: 20
+Recieved (26:5.981): CNT ETR 0
+Příjem dat: 9
+Recieved (26:6.106): CNT ETR 0
+Příjem dat: 20
+Recieved (26:6.184): CNT ETR 0
+Příjem dat: 20
+Recieved (26:6.293): CNT ETR 0
+Příjem dat: 9
+Recieved (26:6.403): CNT ETR 0
+Příjem dat: 20
+Recieved (26:6.481): CNT ETR 0
+Příjem dat: 20
+Recieved (26:6.590): CNT ETR 0
+Příjem dat: 9
+Send (26:6.684): CNT_:STOP;
+Recieved (26:6.762): CNT ETR 0
+Recieved (26:6.762): ACK
+PORT zavřen: COM4
+
+Log Entry : 19:26:52 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4
+
+Log Entry : 19:27:38 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+Send (27:48.71): CNT_:MODE 
+Send (27:48.71): ETR_;
+Send (27:48.71): CNT_:STRT;
+Příjem dat: 8
+Recieved (27:48.151): ACK
+Recieved (27:48.151): ACK
+Příjem dat: 20
+Recieved (27:48.276): CNT ETR 0
+Příjem dat: 20
+Recieved (27:48.376): CNT ETR 0
+Příjem dat: 20
+Recieved (27:48.485): CNT ETR 0
+Příjem dat: 20
+Recieved (27:48.579): CNT ETR 0
+Příjem dat: 20
+Recieved (27:48.688): CNT ETR 0
+Příjem dat: 20
+Recieved (27:48.782): CNT ETR 0
+Příjem dat: 20
+Recieved (27:48.886): CNT ETR 0
+Příjem dat: 20
+Recieved (27:48.980): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.74): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.183): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.285): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.379): CNT ETR 0
+Příjem dat: 8
+Recieved (27:49.504): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.582): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.676): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.785): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.879): CNT ETR 0
+Příjem dat: 20
+Recieved (27:49.973): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.82): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.176): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.285): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.379): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.488): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.582): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.676): CNT ETR 0
+Příjem dat: 4
+Recieved (27:50.804): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.882): CNT ETR 0
+Příjem dat: 20
+Recieved (27:50.976): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.85): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.179): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.288): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.382): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.475): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.585): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.679): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.772): CNT ETR 0
+Příjem dat: 20
+Recieved (27:51.882): CNT ETR 0
+Send (27:51.913): CNT_:STOP;
+Příjem dat: 4
+Recieved (27:51.913): ACK
+PORT zavřen: COM4
+
+Log Entry : 20:23:04 Monday, July 31, 2017
+  :PORT otevřen: COM4  Baudrate:115200  Zařízení:STM32F303-Nucleo
+-------------------------------
+PORT zavřen: COM4

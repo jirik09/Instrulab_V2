@@ -21,6 +21,7 @@ namespace LEO
         public const string RESET_DEVICE = "RES!";
 
         public const string GENERATOR = "GEN_";
+        public const string PWM_GENERATOR = "GPWM";
         public const string COUNTER = "CNT_";
         public const string SCOPE = "OSCP";
         public const string SCOPE_INCOME = "OSC_";

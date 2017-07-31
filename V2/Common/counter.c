@@ -1,7 +1,7 @@
 /*
   *****************************************************************************
   * @file    counter.c
-  * @author  Y3288231
+  * @author  HeyBirdie
   * @date    June 3, 2017
   * @brief   This file contains counter functions
   ***************************************************************************** 
@@ -28,12 +28,11 @@ static uint32_t ic2PassNum = 1;
 
 // Function definitions ========================================================
 /**
-  * @brief  Oscilloscope task function.
-  * task is getting messages from other tasks and takes care about oscilloscope functions
+  * @brief  Counter task function.
+  * task is getting messages from other tasks and takes care about counter functions
   * @param  Task handler, parameters pointer
   * @retval None
   */
-//portTASK_FUNCTION(vScopeTask, pvParameters){	
 void CounterTask(void const *argument)
 {
 	counterMessageQueue = xQueueCreate(5, 20);  // xQueueCreate(5, sizeof(double)); e.g.
@@ -74,7 +73,7 @@ void CounterTask(void const *argument)
 }
 
 /* ************************************************************************************** */
-/* ------------------------------ Sending to Queue functions ---------------------------- */
+/* -------------------------------- Counter basic settings ------------------------------ */
 /* ************************************************************************************** */
 void counterSetMode(uint8_t mode){
 	switch(mode){
@@ -227,7 +226,7 @@ void counterStop(void){
 /* ************************************************************************************** */
 /**
   * @brief  This function is executed in case of DMA transfer complete event.
-	*					DMA transfer complete event is triggered after TIM4 gate time elapses.
+	*					DMA transfer complete event is triggered after TIM4 gate time elapse.
   * @param  Pointer to DMA handle structure.
   * @retval None
   * @state  USED
@@ -251,7 +250,7 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 		}		
 		
 	/***** Counter REF handle *****/
-	} else if(counter.state == COUNTER_REF){		
+	}else if(counter.state == COUNTER_REF){		
 		if((counter.sampleCntChange != SAMPLE_COUNT_CHANGED) && (HAL_GetTick() - startTime) < 100){
 			xQueueSendToBackFromISR(messageQueue, "ORefWarning", &xHigherPriorityTaskWoken);
 			TIM_Disable();				
@@ -434,7 +433,6 @@ void counterGateConfig(uint16_t gateTime)
 	}
 	
 	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);
-//	counter.gateChange = GATE_CHANGED;
 }
 
 /**

@@ -18,7 +18,6 @@ namespace LEO
         int semaphoreTimeout = 4000;
         UInt32 refSamples = 1000000;
         double cntPaint;
-        Message.MsgRequest req;
         int circBuffSizeTest;
 
         private const string ETR_MIN = "Min val. 2";
@@ -37,21 +36,24 @@ namespace LEO
         private const string NUMS_ONLY = "Numbers only";
         private const string NUM_ENTER = "Enter a number";
 
+        public enum CNT_MODES { IC = 0, ETR, REF };
+
+        public enum CNT_TIMER { TIM_SCROLL_REF1 = 0, TIM_SCROLL_REF2, TIM_SCROLL_IC1, TIM_SCROLL_IC2, TIM_SCROLL_ETR };
+        CNT_TIMER timScroll;
+
+        public enum KEY_PRESS { YES = 0, NO };
+        KEY_PRESS keyPress;
+
         System.Timers.Timer GUITimer;
         System.Timers.Timer scrollTimer;
 
         private Queue<Message> cnt_q = new Queue<Message>();
+        Message.MsgRequest req;
         Message messg;
 
         public LinkedList<double> avrgList = new LinkedList<double>();
         LinkedListNode<double> nodeCurrent;
         double average;
-
-        public enum CNT_MODES { IC = 0, ETR, REF };
-        public enum CNT_TIMER { TIM_SCROLL_REF1 = 0, TIM_SCROLL_REF2, TIM_SCROLL_IC1, TIM_SCROLL_IC2, TIM_SCROLL_ETR };
-        CNT_TIMER timScroll;
-        public enum KEY_PRESS { YES = 0, NO };
-        KEY_PRESS keyPress;
 
         public counter(Device dev)
         {

@@ -279,8 +279,13 @@ void CommTask(void const *argument){
 		}else if(message[0]=='D'){
 			#ifdef USE_COUNTER
 			sendCounterConf();
-			#endif //USE_COUNTER			
+			#endif //USE_COUNTER
 			
+		}else if(message[0]=='Q'){
+			#ifdef USE_PWM_GEN
+			sendGenPwmConf();
+			#endif //USE_PWM_GEN	
+
 		// send scope inputs
 		}else if(message[0]=='B'){
 			#ifdef USE_SCOPE
@@ -328,7 +333,6 @@ void CommTask(void const *argument){
 			commsSendString(message);
 			/////commsSendString("\r\n");
 		}
-//		memset(cntMessage,NULL,30);
 		xSemaphoreGiveRecursive(commsMutex);
 	}
 }
@@ -529,13 +533,25 @@ void sendScopeConf(){
 }
 #endif //USE_SCOPE
 
-
 #ifdef USE_COUNTER
 void sendCounterConf(){
 	commsSendString("CNT_");
 	commsSendString(COUNTER_MODES);
+	commsSendString(CNT_ETR_PIN);
+	commsSendString(CNT_IC_CH1_PIN);
+	commsSendString(CNT_IC_CH2_PIN);
+	commsSendString(CNT_REF1_PIN);
+	commsSendString(CNT_REF2_PIN);
 }
 #endif //USE_COUNTER
+
+
+#ifdef USE_GEN_PWM
+void sendGenPwmConf(){
+	commsSendString("GPWM");
+	commsSendUint32(MAX_GENERATING_FREQ);
+}
+#endif //USE_GEN_PWM
 
 
 #ifdef USE_SCOPE

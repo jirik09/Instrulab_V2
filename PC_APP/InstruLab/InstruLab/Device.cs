@@ -71,15 +71,30 @@ namespace LEO
             public int VRefMax;
             public int VRefMin;
             public int VRefInt;
-
         }
 
 
-        public struct CounterConfig_def {
+        public struct CounterConfig_def
+        {
             public bool isCnt;
-            public string modes;
-
+            public string modes;            
+            public string[] pins;
+            //public string etrPin;
+            //public string ic1Pin;
+            //public string ic2Pin;
+            //public string ref1Pin;
+            //public string ref2Pin;
         }
+
+        public struct PwmGenConfig_def
+        {
+            public bool isPwmGen;
+            public int maxPwmFrequency;
+            public int maxSamplingFrequency;
+            public int numChannels;
+            public string[] pins;
+        }
+
         enum FormOpened { NONE,SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS}
         FormOpened ADCFormOpened = FormOpened.NONE;
         FormOpened DACFormOpened = FormOpened.NONE;
@@ -93,6 +108,7 @@ namespace LEO
         public ScopeConfig_def scopeCfg;
         public GeneratorConfig_def genCfg;
         public CounterConfig_def cntCfg;
+        public PwmGenConfig_def pwmGenCfg;
         private StreamWriter logWriter;
         private List<String> logger = new List<String>();
         private const bool writeLog = true;
@@ -102,6 +118,7 @@ namespace LEO
         VoltageSource Source_form;
         BodePlot FreqAnalysis_form;
         counter counter_form;
+        PwmGenerator PwmGen_form;
 
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
@@ -496,13 +513,30 @@ namespace LEO
                     msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
 
                     if (new string(msg_char, 0, 4).Equals("CNT_"))
-                    {
+                    {                        
                         cntCfg.isCnt = true;
-                        cntCfg.modes = new string(msg_char, 4, toRead - 8);
+                        cntCfg.modes = new string(msg_char, 4, toRead - 23);
+                        cntCfg.pins = new string(msg_char, 12, toRead - 17).Split(' ');                        
                     }
                     else
                     {
                         cntCfg.isCnt = false;
+                    }               
+                         
+
+                    port.Write(Commands.PWM_GENERATOR + ":" + Commands.CONFIGRequest + ";");
+                    Thread.Sleep(wait);
+                    toRead = port.BytesToRead;
+                    port.Read(msg_byte, 0, toRead);
+                    msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
+
+                    if (new string(msg_char, 0, 4).Equals("GPWM"))
+                    {
+                        pwmGenCfg.isPwmGen = true;
+                    }
+                    else
+                    {
+                        pwmGenCfg.isPwmGen = false;
                     }
 
 
@@ -881,8 +915,12 @@ namespace LEO
                             {
                                 logRecieved("Counter buffer REF was not parsed  " + new string(inputValWarn, 0, 2));
                             }
-                            
                             break;
+                        /* -------------------------------------------------------------------------------------------------------------------------------- */
+                        /* ----------------------------------------------- PWM GENERATOR RECEIVED MESSAGES ------------------------------------------------ */
+                        /* -------------------------------------------------------------------------------------------------------------------------------- */
+
+
 
 
 
@@ -1085,6 +1123,14 @@ namespace LEO
             }
         }
 
+        public void close_pwm_gen()
+        {
+            if (PwmGen_form != null)
+            {
+                PwmGen_form.Close();
+            }
+        }
+
         public void open_source()
         {
             if (DACFormOpened == FormOpened.GENERATOR)
@@ -1152,6 +1198,19 @@ namespace LEO
             else
             {
                 counter_form.BringToFront();
+            }
+        }
+
+        public void open_pwm_gen()
+        {
+            if (PwmGen_form == null || PwmGen_form.IsDisposed)
+            {
+                PwmGen_form = new PwmGenerator(this);
+                PwmGen_form.Show();
+            }
+            else
+            {
+                PwmGen_form.BringToFront();
             }
         }
 

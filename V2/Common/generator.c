@@ -29,8 +29,8 @@ uint16_t generatorBuffer[MAX_GENERATOR_BUFF_SIZE/2];
 
 // Function definitions =======================================================
 /**
-  * @brief  Oscilloscope task function.
-  * task is getting messages from other tasks and takes care about oscilloscope functions
+  * @brief  Generator task function.
+  * task is getting messages from other tasks and takes care about generator functions
   * @param  Task handler, parameters pointer
   * @retval None
   */

@@ -107,6 +107,7 @@ namespace LEO
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_voltage_source_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.button_counter.Enabled = comms.get_connected_device().cntCfg.isCnt ? true : false;
+                    this.button_PWM.Enabled = comms.get_connected_device().pwmGenCfg.isPwmGen ? true : false;
                     ////this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_connect.Text = "Disconnect";
                     this.btn_scan.Enabled = false;
@@ -199,7 +200,28 @@ namespace LEO
 
 
                     if (comms.get_connected_device().cntCfg.isCnt) {
+
                         this.label_cnt_modes.Text = comms.get_connected_device().cntCfg.modes;
+
+                        if (comms.get_connected_device().cntCfg.pins[0] != "NA")
+                        {
+                            this.leo_etr_label.Text = (comms.get_connected_device().cntCfg.pins[0]).ToString();
+                        }
+                        else
+                        {
+                            this.leo_etr_label.Text = "NA";
+                        }
+
+                        if (comms.get_connected_device().cntCfg.pins[2] != "NA")
+                        {
+                            this.leo_ic_label.Text = (comms.get_connected_device().cntCfg.pins[1]).ToString() + ", " + (comms.get_connected_device().cntCfg.pins[2]).ToString();
+                        }
+                        else
+                        {
+                            this.leo_ic_label.Text = comms.get_connected_device().cntCfg.pins[1];
+                        }
+
+                        this.leo_ref_label.Text = (comms.get_connected_device().cntCfg.pins[3]).ToString() + ", " + (comms.get_connected_device().cntCfg.pins[4]).ToString();
                     }
 
 
@@ -231,7 +253,10 @@ namespace LEO
                     this.label_RTOS.Text = "--";
                     this.label_HAL.Text = "--";
                     this.label_cnt_modes.Text = "--";
-                        
+                    this.leo_etr_label.Text = "--";
+                    this.leo_ref_label.Text = "--";
+                    this.leo_ic_label.Text = "--";
+
                     this.btn_scope_open.Enabled = false;
                     this.btn_voltmeter_open.Enabled = false;
                     this.btn_gen_open.Enabled = false;
@@ -239,6 +264,7 @@ namespace LEO
                     this.btn_voltage_source_open.Enabled = false;
                     this.btn_freq_analysis_open.Enabled = false;
                     this.button_counter.Enabled = false;
+                    this.button_PWM.Enabled = false;
 
                     break;
                 case Comms_thread.CommsStates.ERROR:
@@ -280,6 +306,11 @@ namespace LEO
             comms.get_connected_device().open_counter();
         }
 
+        private void button_PWM_Click(object sender, EventArgs e)
+        {
+            comms.get_connected_device().open_pwm_gen();
+        }
+
         private void Instrulab_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (comms.get_connected_device() != null)
@@ -289,6 +320,7 @@ namespace LEO
                 comms.get_connected_device().close_source();
                 comms.get_connected_device().close_volt();
                 comms.get_connected_device().close_counter();
+                comms.get_connected_device().close_pwm_gen();
             }
 
             if (comm_th.IsAlive) {
@@ -371,7 +403,5 @@ namespace LEO
         public Device getDevice() {
             return comms.get_connected_device();
         }
-
-
     }
 }

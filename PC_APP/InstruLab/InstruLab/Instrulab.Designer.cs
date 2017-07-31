@@ -79,6 +79,20 @@
             this.label46 = new System.Windows.Forms.Label();
             this.label_gen_buff_len = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox_counter = new System.Windows.Forms.GroupBox();
+            this.leo_ref_label = new System.Windows.Forms.Label();
+            this.leo_ic_label = new System.Windows.Forms.Label();
+            this.leo_etr_label = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.button_counter = new System.Windows.Forms.Button();
+            this.label_cnt_modes = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.groupBox_analysator = new System.Windows.Forms.GroupBox();
+            this.button_logic = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox_mixed = new System.Windows.Forms.GroupBox();
             this.btn_freq_analysis_open = new System.Windows.Forms.Button();
             this.groupBox_digital = new System.Windows.Forms.GroupBox();
@@ -90,7 +104,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.btn_PWM = new System.Windows.Forms.Button();
+            this.button_PWM = new System.Windows.Forms.Button();
             this.btn_connect = new System.Windows.Forms.Button();
             this.btn_scan = new System.Windows.Forms.Button();
             this.listBox_devices = new System.Windows.Forms.ListBox();
@@ -108,12 +122,6 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sendUsFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox_counter = new System.Windows.Forms.GroupBox();
-            this.groupBox_analysator = new System.Windows.Forms.GroupBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label_cnt_modes = new System.Windows.Forms.Label();
-            this.button_counter = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox_device_info.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
@@ -121,12 +129,13 @@
             this.groupBox_scope.SuspendLayout();
             this.groupBox_generator.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox_counter.SuspendLayout();
+            this.groupBox_analysator.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox_mixed.SuspendLayout();
             this.groupBox_digital.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox_counter.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -204,7 +213,7 @@
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 1;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(586, 288);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(586, 289);
             this.tableLayoutPanel8.TabIndex = 2;
             // 
             // groupBox_general
@@ -227,7 +236,7 @@
             this.groupBox_general.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_general.Location = new System.Drawing.Point(3, 3);
             this.groupBox_general.Name = "groupBox_general";
-            this.groupBox_general.Size = new System.Drawing.Size(111, 282);
+            this.groupBox_general.Size = new System.Drawing.Size(111, 283);
             this.groupBox_general.TabIndex = 0;
             this.groupBox_general.TabStop = false;
             this.groupBox_general.Text = "General";
@@ -381,7 +390,7 @@
             this.groupBox_scope.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_scope.Location = new System.Drawing.Point(237, 3);
             this.groupBox_scope.Name = "groupBox_scope";
-            this.groupBox_scope.Size = new System.Drawing.Size(111, 282);
+            this.groupBox_scope.Size = new System.Drawing.Size(111, 283);
             this.groupBox_scope.TabIndex = 3;
             this.groupBox_scope.TabStop = false;
             this.groupBox_scope.Text = "Analog to Digital";
@@ -391,7 +400,7 @@
             this.btn_voltmeter_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_voltmeter_open.Enabled = false;
-            this.btn_voltmeter_open.Location = new System.Drawing.Point(5, 228);
+            this.btn_voltmeter_open.Location = new System.Drawing.Point(5, 227);
             this.btn_voltmeter_open.Name = "btn_voltmeter_open";
             this.btn_voltmeter_open.Size = new System.Drawing.Size(101, 23);
             this.btn_voltmeter_open.TabIndex = 2;
@@ -413,7 +422,7 @@
             this.btn_scope_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_scope_open.Enabled = false;
-            this.btn_scope_open.Location = new System.Drawing.Point(5, 256);
+            this.btn_scope_open.Location = new System.Drawing.Point(5, 255);
             this.btn_scope_open.Margin = new System.Windows.Forms.Padding(2);
             this.btn_scope_open.Name = "btn_scope_open";
             this.btn_scope_open.Size = new System.Drawing.Size(101, 23);
@@ -522,7 +531,7 @@
             this.groupBox_generator.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_generator.Location = new System.Drawing.Point(120, 3);
             this.groupBox_generator.Name = "groupBox_generator";
-            this.groupBox_generator.Size = new System.Drawing.Size(111, 282);
+            this.groupBox_generator.Size = new System.Drawing.Size(111, 283);
             this.groupBox_generator.TabIndex = 2;
             this.groupBox_generator.TabStop = false;
             this.groupBox_generator.Text = "Digital to analog";
@@ -532,7 +541,7 @@
             this.btn_voltage_source_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_voltage_source_open.Enabled = false;
-            this.btn_voltage_source_open.Location = new System.Drawing.Point(5, 228);
+            this.btn_voltage_source_open.Location = new System.Drawing.Point(5, 227);
             this.btn_voltage_source_open.Name = "btn_voltage_source_open";
             this.btn_voltage_source_open.Size = new System.Drawing.Size(101, 23);
             this.btn_voltage_source_open.TabIndex = 2;
@@ -554,7 +563,7 @@
             this.btn_gen_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_gen_open.Enabled = false;
-            this.btn_gen_open.Location = new System.Drawing.Point(5, 256);
+            this.btn_gen_open.Location = new System.Drawing.Point(5, 255);
             this.btn_gen_open.Margin = new System.Windows.Forms.Padding(2);
             this.btn_gen_open.Name = "btn_gen_open";
             this.btn_gen_open.Size = new System.Drawing.Size(101, 23);
@@ -664,26 +673,178 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.groupBox_counter, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox_analysator, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(354, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(111, 282);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(111, 283);
             this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // groupBox_counter
+            // 
+            this.groupBox_counter.Controls.Add(this.leo_ref_label);
+            this.groupBox_counter.Controls.Add(this.leo_ic_label);
+            this.groupBox_counter.Controls.Add(this.leo_etr_label);
+            this.groupBox_counter.Controls.Add(this.label23);
+            this.groupBox_counter.Controls.Add(this.label21);
+            this.groupBox_counter.Controls.Add(this.label20);
+            this.groupBox_counter.Controls.Add(this.label19);
+            this.groupBox_counter.Controls.Add(this.button_counter);
+            this.groupBox_counter.Controls.Add(this.label_cnt_modes);
+            this.groupBox_counter.Controls.Add(this.label18);
+            this.groupBox_counter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox_counter.Location = new System.Drawing.Point(0, 0);
+            this.groupBox_counter.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox_counter.Name = "groupBox_counter";
+            this.groupBox_counter.Size = new System.Drawing.Size(111, 141);
+            this.groupBox_counter.TabIndex = 0;
+            this.groupBox_counter.TabStop = false;
+            this.groupBox_counter.Text = "Counter";
+            // 
+            // leo_ref_label
+            // 
+            this.leo_ref_label.AutoSize = true;
+            this.leo_ref_label.Location = new System.Drawing.Point(58, 93);
+            this.leo_ref_label.Name = "leo_ref_label";
+            this.leo_ref_label.Size = new System.Drawing.Size(13, 13);
+            this.leo_ref_label.TabIndex = 9;
+            this.leo_ref_label.Text = "--";
+            // 
+            // leo_ic_label
+            // 
+            this.leo_ic_label.AutoSize = true;
+            this.leo_ic_label.Location = new System.Drawing.Point(58, 79);
+            this.leo_ic_label.Name = "leo_ic_label";
+            this.leo_ic_label.Size = new System.Drawing.Size(13, 13);
+            this.leo_ic_label.TabIndex = 8;
+            this.leo_ic_label.Text = "--";
+            // 
+            // leo_etr_label
+            // 
+            this.leo_etr_label.AutoSize = true;
+            this.leo_etr_label.Location = new System.Drawing.Point(58, 65);
+            this.leo_etr_label.Name = "leo_etr_label";
+            this.leo_etr_label.Size = new System.Drawing.Size(13, 13);
+            this.leo_etr_label.TabIndex = 7;
+            this.leo_etr_label.Text = "--";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(13, 93);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(39, 13);
+            this.label23.TabIndex = 6;
+            this.label23.Text = "Ref. F:";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(13, 79);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(39, 13);
+            this.label21.TabIndex = 5;
+            this.label21.Text = "Low F:";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(13, 65);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(41, 13);
+            this.label20.TabIndex = 4;
+            this.label20.Text = "High F:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(7, 49);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(66, 13);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "Counter pins";
+            // 
+            // button_counter
+            // 
+            this.button_counter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_counter.Enabled = false;
+            this.button_counter.Location = new System.Drawing.Point(5, 112);
+            this.button_counter.Name = "button_counter";
+            this.button_counter.Size = new System.Drawing.Size(101, 23);
+            this.button_counter.TabIndex = 2;
+            this.button_counter.Text = "Counter";
+            this.button_counter.UseVisualStyleBackColor = true;
+            this.button_counter.Click += new System.EventHandler(this.button_counter_Click);
+            // 
+            // label_cnt_modes
+            // 
+            this.label_cnt_modes.AutoSize = true;
+            this.label_cnt_modes.Location = new System.Drawing.Point(14, 32);
+            this.label_cnt_modes.Name = "label_cnt_modes";
+            this.label_cnt_modes.Size = new System.Drawing.Size(13, 13);
+            this.label_cnt_modes.TabIndex = 1;
+            this.label_cnt_modes.Text = "--";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 17);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 13);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Modes";
+            // 
+            // groupBox_analysator
+            // 
+            this.groupBox_analysator.Controls.Add(this.button_logic);
+            this.groupBox_analysator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox_analysator.Location = new System.Drawing.Point(0, 141);
+            this.groupBox_analysator.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox_analysator.Name = "groupBox_analysator";
+            this.groupBox_analysator.Size = new System.Drawing.Size(111, 142);
+            this.groupBox_analysator.TabIndex = 1;
+            this.groupBox_analysator.TabStop = false;
+            this.groupBox_analysator.Text = "Logic analyzer";
+            // 
+            // button_logic
+            // 
+            this.button_logic.Location = new System.Drawing.Point(5, 114);
+            this.button_logic.Name = "button_logic";
+            this.button_logic.Size = new System.Drawing.Size(101, 23);
+            this.button_logic.TabIndex = 0;
+            this.button_logic.Text = "Logic analyzer";
+            this.button_logic.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.groupBox_mixed, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.groupBox_digital, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(471, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(112, 283);
+            this.tableLayoutPanel2.TabIndex = 5;
             // 
             // groupBox_mixed
             // 
             this.groupBox_mixed.Controls.Add(this.btn_freq_analysis_open);
             this.groupBox_mixed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_mixed.Location = new System.Drawing.Point(3, 179);
+            this.groupBox_mixed.Location = new System.Drawing.Point(0, 176);
+            this.groupBox_mixed.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox_mixed.Name = "groupBox_mixed";
-            this.groupBox_mixed.Size = new System.Drawing.Size(106, 100);
+            this.groupBox_mixed.Size = new System.Drawing.Size(112, 107);
             this.groupBox_mixed.TabIndex = 0;
             this.groupBox_mixed.TabStop = false;
             this.groupBox_mixed.Text = "Mixed";
@@ -693,9 +854,9 @@
             this.btn_freq_analysis_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_freq_analysis_open.Enabled = false;
-            this.btn_freq_analysis_open.Location = new System.Drawing.Point(4, 77);
+            this.btn_freq_analysis_open.Location = new System.Drawing.Point(5, 79);
             this.btn_freq_analysis_open.Name = "btn_freq_analysis_open";
-            this.btn_freq_analysis_open.Size = new System.Drawing.Size(99, 23);
+            this.btn_freq_analysis_open.Size = new System.Drawing.Size(101, 23);
             this.btn_freq_analysis_open.TabIndex = 0;
             this.btn_freq_analysis_open.Text = "Freq. analy.";
             this.btn_freq_analysis_open.UseVisualStyleBackColor = true;
@@ -711,11 +872,12 @@
             this.groupBox_digital.Controls.Add(this.label12);
             this.groupBox_digital.Controls.Add(this.label13);
             this.groupBox_digital.Controls.Add(this.label14);
-            this.groupBox_digital.Controls.Add(this.btn_PWM);
+            this.groupBox_digital.Controls.Add(this.button_PWM);
             this.groupBox_digital.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_digital.Location = new System.Drawing.Point(3, 3);
+            this.groupBox_digital.Location = new System.Drawing.Point(0, 0);
+            this.groupBox_digital.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox_digital.Name = "groupBox_digital";
-            this.groupBox_digital.Size = new System.Drawing.Size(106, 170);
+            this.groupBox_digital.Size = new System.Drawing.Size(112, 176);
             this.groupBox_digital.TabIndex = 1;
             this.groupBox_digital.TabStop = false;
             this.groupBox_digital.Text = "PWM";
@@ -792,17 +954,18 @@
             this.label14.TabIndex = 4;
             this.label14.Text = "Resolution";
             // 
-            // btn_PWM
+            // button_PWM
             // 
-            this.btn_PWM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.button_PWM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_PWM.Enabled = false;
-            this.btn_PWM.Location = new System.Drawing.Point(4, 146);
-            this.btn_PWM.Name = "btn_PWM";
-            this.btn_PWM.Size = new System.Drawing.Size(99, 23);
-            this.btn_PWM.TabIndex = 0;
-            this.btn_PWM.Text = "PWM";
-            this.btn_PWM.UseVisualStyleBackColor = true;
+            this.button_PWM.Enabled = false;
+            this.button_PWM.Location = new System.Drawing.Point(5, 148);
+            this.button_PWM.Name = "button_PWM";
+            this.button_PWM.Size = new System.Drawing.Size(101, 23);
+            this.button_PWM.TabIndex = 0;
+            this.button_PWM.Text = "PWM";
+            this.button_PWM.UseVisualStyleBackColor = true;
+            this.button_PWM.Click += new System.EventHandler(this.button_PWM_Click);
             // 
             // btn_connect
             // 
@@ -957,75 +1120,6 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "CTU FEE 2016 - Jiří Hladík";
             // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.groupBox_mixed, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.groupBox_digital, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(471, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.5F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(112, 282);
-            this.tableLayoutPanel2.TabIndex = 5;
-            // 
-            // groupBox_counter
-            // 
-            this.groupBox_counter.Controls.Add(this.button_counter);
-            this.groupBox_counter.Controls.Add(this.label_cnt_modes);
-            this.groupBox_counter.Controls.Add(this.label18);
-            this.groupBox_counter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_counter.Location = new System.Drawing.Point(3, 3);
-            this.groupBox_counter.Name = "groupBox_counter";
-            this.groupBox_counter.Size = new System.Drawing.Size(105, 135);
-            this.groupBox_counter.TabIndex = 0;
-            this.groupBox_counter.TabStop = false;
-            this.groupBox_counter.Text = "Counter";
-            // 
-            // groupBox_analysator
-            // 
-            this.groupBox_analysator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_analysator.Location = new System.Drawing.Point(3, 144);
-            this.groupBox_analysator.Name = "groupBox_analyzer";
-            this.groupBox_analysator.Size = new System.Drawing.Size(105, 135);
-            this.groupBox_analysator.TabIndex = 1;
-            this.groupBox_analysator.TabStop = false;
-            this.groupBox_analysator.Text = "Log. analyzer";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(7, 20);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(39, 13);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Modes";
-            // 
-            // label_cnt_modes
-            // 
-            this.label_cnt_modes.AutoSize = true;
-            this.label_cnt_modes.Location = new System.Drawing.Point(7, 37);
-            this.label_cnt_modes.Name = "label_cnt_modes";
-            this.label_cnt_modes.Size = new System.Drawing.Size(13, 13);
-            this.label_cnt_modes.TabIndex = 1;
-            this.label_cnt_modes.Text = "--";
-            // 
-            // button_counter
-            // 
-            this.button_counter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_counter.Enabled = false;
-            this.button_counter.Location = new System.Drawing.Point(6, 106);
-            this.button_counter.Name = "button_counter";
-            this.button_counter.Size = new System.Drawing.Size(93, 23);
-            this.button_counter.TabIndex = 2;
-            this.button_counter.Text = "Counter";
-            this.button_counter.UseVisualStyleBackColor = true;
-            this.button_counter.Click += new System.EventHandler(this.button_counter_Click);
-            // 
             // Instrulab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1052,6 +1146,10 @@
             this.groupBox_generator.ResumeLayout(false);
             this.groupBox_generator.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.groupBox_counter.ResumeLayout(false);
+            this.groupBox_counter.PerformLayout();
+            this.groupBox_analysator.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox_mixed.ResumeLayout(false);
             this.groupBox_digital.ResumeLayout(false);
             this.groupBox_digital.PerformLayout();
@@ -1059,9 +1157,6 @@
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.groupBox_counter.ResumeLayout(false);
-            this.groupBox_counter.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1139,7 +1234,7 @@
         private System.Windows.Forms.GroupBox groupBox_mixed;
         private System.Windows.Forms.GroupBox groupBox_digital;
         private System.Windows.Forms.Button btn_freq_analysis_open;
-        private System.Windows.Forms.Button btn_PWM;
+        private System.Windows.Forms.Button button_PWM;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label6;
@@ -1154,6 +1249,14 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox groupBox_analysator;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button button_logic;
+        private System.Windows.Forms.Label leo_ref_label;
+        private System.Windows.Forms.Label leo_ic_label;
+        private System.Windows.Forms.Label leo_etr_label;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
     }
 }
 

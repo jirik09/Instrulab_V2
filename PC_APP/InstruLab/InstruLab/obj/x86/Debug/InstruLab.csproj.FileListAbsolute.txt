@@ -73,3 +73,4 @@ C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.application
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.exe
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.pdb
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.PwmGenerator.resources

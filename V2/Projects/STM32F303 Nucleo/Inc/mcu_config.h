@@ -130,13 +130,29 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 #define GEN_CH2_PIN_STR "D13_" //must be 4 chars
 
 // Counter constatnts =======================================================
-/* TIM4 -> ARR & PSC set to gate 100 ms */
-#define TIM4_ARR					999			
-#define TIM4_PSC					7199
-#define IC_THRESHOLD			20	
-//#define IC12_BUFFER_SIZE	2
-//#define CNT_AVG_BUFF_SIZE 	16
-#define COUNTER_MODES			"IC ETR REF"
+#ifdef USE_COUNTER
+	/* TIM4 -> ARR & PSC set to gate 100 ms */
+	#define TIM4_ARR					999			
+	#define TIM4_PSC					7199
+	#define IC_THRESHOLD			20	
+	
+	/* Instead send for. ex. "HF      " or "LF RF   " */
+	#define COUNTER_MODES			"HF LF RF"
+	
+	/* When porting && less pins -> send "NA " with both spaces as the PC app's parcing 
+		 depends on it */
+	#define CNT_ETR_PIN				"A0 "
+	#define CNT_IC_CH1_PIN		"A0 "	// PA0
+	#define CNT_IC_CH2_PIN		"A1 "	// PA1
+	#define CNT_REF1_PIN			"D7 "	// PA8
+	#define CNT_REF2_PIN			"A0 "	
+#endif //USE_COUNTER
+
+// PWM generator constatnts =================================================
+#ifdef USE_GEN_PWM
+	#define GEN_PWM_CH1_PIN		"D5 "	// PB4
+	#define GEN_PWM_CH2_PIN 	"D4 "  // PB5
+#endif //USE_GEN_PWM
 
 //Definition of assert to check length of strings
 #define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}

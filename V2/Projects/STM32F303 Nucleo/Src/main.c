@@ -49,6 +49,7 @@
 #include "scope.h"
 #include "generator.h"
 #include "counter.h"
+#include "gen_pwm.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -128,6 +129,9 @@ int main(void)
 	#ifdef USE_COUNTER
 	osThreadDef(COUNTER_TASK, CounterTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_COUNTER
+	#ifdef USE_GEN_PWM
+	osThreadDef(GEN_PWM_TASK, GenPwmTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+	#endif //USE_GEN_PWM
 	
 	#ifdef USE_GEN
 	osThreadDef(GENERATOR_TASK, GeneratorTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
@@ -142,11 +146,9 @@ int main(void)
 	#ifdef USE_COUNTER
 	osThreadCreate (osThread(COUNTER_TASK), NULL);
 	#endif //USE_COUNTER
-	
-	#ifdef USE_COUNTER
-
-	#endif //USE_COUNTER	
-	
+	#ifdef USE_GEN_PWM
+	osThreadCreate (osThread(GEN_PWM_TASK), NULL);
+	#endif //USE_GEN_PWM		
 	#ifdef USE_GEN
 	osThreadCreate (osThread(GENERATOR_TASK), NULL);
 	#endif //USE_GEN

@@ -1,7 +1,7 @@
 /*
   *****************************************************************************
   * @file    counter.h
-  * @author  Y3288231
+  * @author  HeyBirdie
   * @date    June 3, 2017
   * @brief   This file contains definitions and prototypes of counter functions
   ***************************************************************************** 
@@ -24,7 +24,7 @@ typedef enum{
 	REF	
 }counterMode;
 
-typedef volatile enum{
+typedef enum{
 	COUNTER_IDLE = 0,
 	COUNTER_ETR,
 	COUNTER_IC,
@@ -161,4 +161,4 @@ extern DMA_HandleTypeDef hdma_tim2_ch2_ch4;
 
 #endif //USE_COUNTER
 
-/* End my Friend */
+

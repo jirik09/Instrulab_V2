@@ -18,6 +18,7 @@
 #include "adc.h"
 #include "clock.h"
 #include "counter.h"
+#include "gen_pwm.h"
 
 // External variables definitions =============================================
 xQueueHandle cmdParserMessageQueue;
@@ -27,6 +28,7 @@ command parseScopeCmd(void);
 command parseGeneratorCmd(void);
 command giveNextCmd(void);
 command parseCounterCmd(void);
+command parseGenPwmCmd(void);
 void printErrResponse(command cmd);
 // Function definitions =======================================================
 
@@ -101,6 +103,12 @@ void CmdParserTask(void const *argument){
 						printErrResponse(tempCmd);
 					break;
 					#endif //USE_COUNTER
+					#ifdef USE_GEN_PWM
+					case CMD_GEN_PWM: //parse generator command
+						tempCmd = parseGenPwmCmd();
+						printErrResponse(tempCmd);
+					break;
+					#endif //USE_GEN_PWM					
 					default:
 					xQueueSendToBack(messageQueue, UNSUPORTED_FUNCTION_ERR_STR, portMAX_DELAY);
 					while(commBufferReadByte(&chr)==0 && chr!=';');
@@ -272,6 +280,42 @@ command parseCounterCmd(void)
 	return cmdIn;
 }
 #endif // USE_COUNTER
+
+/**
+  * @brief  Pwm generator command parse function 
+  * @param  None
+  * @retval Command ACK or ERR
+  */
+#ifdef USE_GEN_PWM
+command parseGenPwmCmd(void)
+{
+	command cmdIn=CMD_ERR; 
+	uint8_t error=0;
+	
+	cmdIn = giveNextCmd();
+	switch(cmdIn){
+		case CMD_GPWM_START:
+			genPwmSendStart();
+			break;
+		case CMD_GPWM_STOP:
+			genPwmSendStop();
+			break;			
+		case CMD_GET_CONFIG:
+			xQueueSendToBack(messageQueue, "QSendCntConfig", portMAX_DELAY);
+			break;
+		default:
+			break;
+	}
+	
+	if(error>0){
+		cmdIn=error;
+	}else{
+		cmdIn=CMD_END;
+	}
+	
+	return cmdIn;	
+}
+#endif //USE_GEN_PWM
 
 /**
   * @brief  Scope command parse function 
