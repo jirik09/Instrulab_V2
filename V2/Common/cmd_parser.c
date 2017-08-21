@@ -91,24 +91,18 @@ void CmdParserTask(void const *argument){
 					break;
 					#endif //USE_SCOPE
 
-					#ifdef USE_GEN
+					#if defined(USE_GEN) || defined(USE_GEN_PWM)
 					case CMD_GENERATOR: //parse generator command
 						tempCmd = parseGeneratorCmd();
 						printErrResponse(tempCmd);
 					break;
-					#endif //USE_GEN
+					#endif //USE_GEN || USE_GEN_PWM
 					#ifdef USE_COUNTER
 					case CMD_COUNTER: //parse generator command
 						tempCmd = parseCounterCmd();
 						printErrResponse(tempCmd);
 					break;
-					#endif //USE_COUNTER
-					#ifdef USE_GEN_PWM
-					case CMD_GEN_PWM: //parse generator command
-						tempCmd = parseGenPwmCmd();
-						printErrResponse(tempCmd);
-					break;
-					#endif //USE_GEN_PWM					
+					#endif //USE_COUNTER				
 					default:
 					xQueueSendToBack(messageQueue, UNSUPORTED_FUNCTION_ERR_STR, portMAX_DELAY);
 					while(commBufferReadByte(&chr)==0 && chr!=';');
@@ -280,42 +274,6 @@ command parseCounterCmd(void)
 	return cmdIn;
 }
 #endif // USE_COUNTER
-
-/**
-  * @brief  Pwm generator command parse function 
-  * @param  None
-  * @retval Command ACK or ERR
-  */
-#ifdef USE_GEN_PWM
-command parseGenPwmCmd(void)
-{
-	command cmdIn=CMD_ERR; 
-	uint8_t error=0;
-	
-	cmdIn = giveNextCmd();
-	switch(cmdIn){
-		case CMD_GPWM_START:
-			genPwmSendStart();
-			break;
-		case CMD_GPWM_STOP:
-			genPwmSendStop();
-			break;			
-		case CMD_GET_CONFIG:
-			xQueueSendToBack(messageQueue, "QSendCntConfig", portMAX_DELAY);
-			break;
-		default:
-			break;
-	}
-	
-	if(error>0){
-		cmdIn=error;
-	}else{
-		cmdIn=CMD_END;
-	}
-	
-	return cmdIn;	
-}
-#endif //USE_GEN_PWM
 
 /**
   * @brief  Scope command parse function 
@@ -575,9 +533,10 @@ return cmdIn;
 
 
 
-	#ifdef USE_GEN
+#if defined(USE_GEN) || defined(USE_GEN_PWM)
+
 /**
-  * @brief  Scope command parse function 
+  * @brief  Generator command parse function 
   * @param  None
   * @retval Command ACK or ERR
   */
@@ -591,6 +550,16 @@ command parseGeneratorCmd(void){
 		///////do{ 
 		cmdIn = giveNextCmd();
 		switch(cmdIn){
+			case CMD_GEN_MODE:
+				cmdIn = giveNextCmd();
+				if(isGeneratorMode(cmdIn)){				
+					if(cmdIn == CMD_MODE_PWM){
+						genSetMode(GEN_PWM);				
+					}else if(cmdIn == CMD_MODE_DAC){
+						genSetMode(GEN_DAC);
+					}
+				}
+				break;
 			case CMD_GEN_DATA://set data
 				cmdIn = giveNextCmd();
 				//index=(cmdIn&0xff00)>>8 | (cmdIn&0x00ff)<<8;
@@ -708,7 +677,7 @@ command parseGeneratorCmd(void){
 	///////}
 return cmdIn;
 }
-	#endif //USE_GEN
+#endif //USE_GEN || USE_GEN_PWM
 
 /**
   * @brief  Read command from input buffer 

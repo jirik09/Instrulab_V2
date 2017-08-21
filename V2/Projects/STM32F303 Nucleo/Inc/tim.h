@@ -48,9 +48,9 @@ uint8_t TIM_Reconfig(uint32_t samplingFreq,TIM_HandleTypeDef* htim_base,uint32_t
 uint8_t TIM_Reconfig_scope(uint32_t samplingFreq,uint32_t* realFreq);
 #endif //USE_SCOPE
 	 
-#ifdef USE_GEN
+#if defined(USE_GEN) || defined(USE_GEN_PWM)
 uint8_t TIM_Reconfig_gen(uint32_t samplingFreq,uint8_t chan,uint32_t* realFreq);
-#endif //USE_GEN
+#endif //USE_GEN || USE_GEN_PWM
 
 #ifdef USE_SCOPE
 void TIMScopeEnable(void);
@@ -59,19 +59,29 @@ void MX_TIM15_Init(void);
 uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes);
 #endif //USE_SCOPE
 
-#ifdef USE_GEN
+#if defined(USE_GEN) || defined(USE_GEN_PWM)
 void TIMGenEnable(void);
 void TIMGenDisable(void);
 void MX_TIM6_Init(void);
 void MX_TIM7_Init(void);
-#endif //USE_GEN
+#endif //USE_GEN || USE_GEN_PWM
 
-#ifdef USE_PWM
-void PWMEnable(void);
-void PWMDisable(void);
-//void MX_TIM3_Init(void);
-//void MX_TIM15_Init(void);
-#endif //USE_PWM
+#ifdef USE_GEN_PWM
+/* TIM1 and TIM3 enable/disable */
+void TIMGenPWMEnable(void);
+void TIMGenPWMDisable(void);
+/* PWM generatin timers */
+void MX_TIM1_Init(void);
+void MX_TIM3_Init(void);
+/* DMA update timers */
+void MX_TIM6_Init(void);
+void MX_TIM7_Init(void);
+
+void TIM_DMA_Reconfig(uint8_t chan);
+void TIMGenPwmInit(void);
+void PWMGeneratingEnable(void);
+void PWMGeneratingDisable(void);
+#endif //USE_GEN_PWM
 
 #ifdef USE_COUNTER
 typedef enum{

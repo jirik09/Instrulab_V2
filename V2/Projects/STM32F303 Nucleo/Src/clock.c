@@ -64,7 +64,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;		// RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1; (before PWM generator implementation)
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -72,13 +73,19 @@ void SystemClock_Config(void)
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2);
 
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_ADC34| \
-																			 RCC_PERIPHCLK_TIM2|RCC_PERIPHCLK_TIM34;
+																			 RCC_PERIPHCLK_TIM2|RCC_PERIPHCLK_TIM34| \
+																			 RCC_PERIPHCLK_TIM1|RCC_PERIPHCLK_TIM15; 
+																			 // RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_ADC34| \ RCC_PERIPHCLK_TIM2|RCC_PERIPHCLK_TIM34; (before gen. implem.)
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV1;
+	#ifdef USE_GEN_PWM
+		PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
+		PeriphClkInit.Tim34ClockSelection = RCC_TIM34CLK_PLLCLK;	// if COUNTER defined the	RCC_TIM34CLK clocked by HCLK (not PLL)
+	#endif //USE_GEN_PWM	
 	#ifdef USE_COUNTER	
 		PeriphClkInit.Tim2ClockSelection = RCC_TIM2CLK_PLLCLK;
 		PeriphClkInit.Tim34ClockSelection = RCC_TIM34CLK_HCLK;		
-	#endif //USE_COUNTER
+	#endif //USE_COUNTER	
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);

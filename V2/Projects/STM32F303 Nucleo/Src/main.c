@@ -129,13 +129,10 @@ int main(void)
 	#ifdef USE_COUNTER
 	osThreadDef(COUNTER_TASK, CounterTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_COUNTER
-	#ifdef USE_GEN_PWM
-	osThreadDef(GEN_PWM_TASK, GenPwmTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
-	#endif //USE_GEN_PWM
 	
-	#ifdef USE_GEN
+	#if defined(USE_GEN) || defined(USE_GEN_PWM)
 	osThreadDef(GENERATOR_TASK, GeneratorTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
-	#endif //USE_GEN
+	#endif //USE_GEN || USE_GEN_PWM
 	osThreadCreate (osThread(CMD_PARSER_TASK), NULL);
 	osThreadCreate (osThread(USER_TASK), NULL);
 	osThreadCreate (osThread(COMM_TASK), NULL);
@@ -146,12 +143,9 @@ int main(void)
 	#ifdef USE_COUNTER
 	osThreadCreate (osThread(COUNTER_TASK), NULL);
 	#endif //USE_COUNTER
-	#ifdef USE_GEN_PWM
-	osThreadCreate (osThread(GEN_PWM_TASK), NULL);
-	#endif //USE_GEN_PWM		
-	#ifdef USE_GEN
+	#if defined(USE_GEN) || defined(USE_GEN_PWM)
 	osThreadCreate (osThread(GENERATOR_TASK), NULL);
-	#endif //USE_GEN
+	#endif //USE_GEN || USE_GEN_PWM
 	LED_Off();
 	
 	

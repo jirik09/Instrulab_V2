@@ -8,7 +8,7 @@
 */ 
 
 // Includes ===================================================================
-	#ifdef USE_GEN
+#if defined(USE_GEN) || defined(USE_GEN_PWM)
 #include "cmsis_os.h"
 #include "mcu_config.h"
 #include "comms.h"
@@ -22,7 +22,7 @@ xQueueHandle generatorMessageQueue;
 //uint8_t validateGenBuffUsage(void);
 void clearGenBuffer(void);
 
-static volatile generatorTypeDef generator;
+volatile generatorTypeDef generator;
 uint16_t blindValue=0;
 
 uint16_t generatorBuffer[MAX_GENERATOR_BUFF_SIZE/2]; 
@@ -57,28 +57,56 @@ void GeneratorTask(void const *argument){
 			}
 		}else if(message[0]=='4'){ //start
 			if(generator.state==GENERATOR_IDLE){
-				genInit();
-				GeneratingEnable();
+				if(generator.modeState==GENERATOR_DAC){
+					genInit();
+					GeneratingEnable();
+				}else if(generator.modeState==GENERATOR_PWM){
+					genPwmInit();
+					PWMGeneratingEnable();
+				}
 				generator.state=GENERATOR_RUN;
 			}
 
 		}else if(message[0]=='5'){ //stop
 			if(generator.state==GENERATOR_RUN){
-				GeneratingDisable();
+				if(generator.modeState==GENERATOR_DAC){
+					GeneratingDisable();
+				}else if(generator.modeState==GENERATOR_PWM){
+					PWMGeneratingDisable();
+				}
 				generator.state=GENERATOR_IDLE;
 			}
+		}else if(message[0]=='6'){ //set PWM mode
+			generator.modeState=GENERATOR_PWM;
+		}else if(message[0]=='7'){ //set DAC mode
+			generator.modeState=GENERATOR_DAC;
 		}
 
 	}
 }
 
 
+void genSetMode(uint8_t mode)
+{
+	switch(mode){
+		case GEN_PWM:
+			xQueueSendToBack(generatorMessageQueue, "6SetGenPwmMode", portMAX_DELAY);
+			break;
+		case GEN_DAC:
+			xQueueSendToBack(generatorMessageQueue, "7SetGenDacMode", portMAX_DELAY);
+			break;
+		default:
+			break;
+	}
+}
+
 /**
-  * @brief  Oscilloscope set Default values
+  * @brief  Generator set Default values
   * @param  None
   * @retval None
   */
-void generatorSetDefault(void){
+void generatorSetDefault(void)
+{
 	generator.bufferMemory=generatorBuffer;
 	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
 		generator.generatingFrequency[i]=DEFAULT_GENERATING_FREQ;
@@ -93,7 +121,8 @@ void generatorSetDefault(void){
 	generator.DAC_res=DAC_DATA_DEPTH;
 }
 
-void genInit(void){
+void genInit(void)
+{	
 	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
 		TIM_Reconfig_gen(generator.generatingFrequency[i],i,0);
 		if(generator.numOfChannles>i){
@@ -101,8 +130,21 @@ void genInit(void){
 		}else{
 			DAC_DMA_Reconfig(i,NULL,0);
 		}
+	}	
+}
+
+#ifdef USE_GEN_PWM
+void genPwmInit(void)
+{	
+	TIMGenPwmInit();
+	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
+		TIM_Reconfig_gen(generator.generatingFrequency[i],i,0);
+		if(generator.numOfChannles>i){
+			TIM_DMA_Reconfig(i);			
+		}
 	}
 }
+#endif //USE_GEN_PWM	
 
 
 uint8_t genSetData(uint16_t index,uint8_t length,uint8_t chan){
@@ -144,7 +186,6 @@ void genDataOKSendNext(void){
 void genStatusOK(void){
 	xQueueSendToBack(messageQueue, "8GenOK", portMAX_DELAY);
 }
-
 
 uint32_t genGetRealSmplFreq(uint8_t chan){
 	return generator.realGenFrequency[chan-1];
@@ -268,5 +309,5 @@ void genStop(void){
 	xQueueSendToBack(generatorMessageQueue, "5Stop", portMAX_DELAY);
 }
 
-	#endif //USE_GEN
+#endif // USE_GEN || USE_GEN_PWM
 

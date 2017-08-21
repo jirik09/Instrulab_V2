@@ -63,7 +63,6 @@ REGISTER_CMD(RESET_DEVICE,RES!),
 REGISTER_CMD(SCOPE,OSCP),
 REGISTER_CMD(GENERATOR,GEN_),
 REGISTER_CMD(COUNTER,CNT_),
-REGISTER_CMD(GEN_PWM,GPWM),
 REGISTER_CMD(COMMS,COMS),
 REGISTER_CMD(SYSTEM,SYST),	
 
@@ -92,6 +91,7 @@ REGISTER_CMD(SCOPE_ADC_CHANNEL_SET_DEFAULT,ADEF),
 REGISTER_CMD(SCOPE_ADC_CHANNEL_SET_VREF,AREF),
 
 //Generator specific commands
+REGISTER_CMD(GEN_MODE,MODE),
 REGISTER_CMD(GEN_DATA,DATA),
 REGISTER_CMD(GEN_SAMPLING_FREQ,FREQ),
 REGISTER_CMD(GEN_OUTBUFF_ON,B_ON),
@@ -122,10 +122,6 @@ REGISTER_CMD(CNT_SAMPLE_COUNT2,BUF2),
 //Counter REF commands
 REGISTER_CMD(CNT_MULT_PSC,PSC_),						
 REGISTER_CMD(CNT_MULT_ARR,ARR_),				// set PSC x ARR number of ticks to count from reference clock
-
-//PWM generator general commands
-REGISTER_CMD(GPWM_START,STRT),
-REGISTER_CMD(GPWM_STOP,STOP),
 };
 
 //Counter modes
@@ -153,6 +149,15 @@ REGISTER_CMD(GATE_10s,10s_)
 															((CMD) == CMD_GATE_1s) || \
 															((CMD) == CMD_GATE_5s) || \
 															((CMD) == CMD_GATE_10s))
+
+//Generator modes
+enum{
+REGISTER_CMD(MODE_PWM,PWM_),
+REGISTER_CMD(MODE_DAC,DAC_),
+};
+
+#define isGeneratorMode(CMD) (((CMD) == CMD_MODE_PWM) || \
+															((CMD) == CMD_MODE_DAC))
 
 
 //Scope tigger modes

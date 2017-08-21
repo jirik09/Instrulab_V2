@@ -160,7 +160,7 @@
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(198, 13);
             this.label18.TabIndex = 5;
-            this.label18.Text = "Frequency (PA0) / Sample count   >   10";
+            this.label18.Text = "Frequency (PA8) / Sample count   >   10";
             // 
             // label17
             // 
@@ -205,7 +205,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(184, 19);
             this.label5.TabIndex = 1;
-            this.label5.Text = "Frequency ratio [PA0 / PA8]";
+            this.label5.Text = "Frequency ratio [PA8 / PA0]";
             this.toolTip1.SetToolTip(this.label5, "PA8 max. frequency 34 MHz.\r\nPA0 max. frequency 100 MHz.");
             // 
             // label_cnt_ref_value

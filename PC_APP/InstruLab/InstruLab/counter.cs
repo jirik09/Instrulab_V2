@@ -216,7 +216,7 @@ namespace LEO
                 {
                     label_cnt_ref_value.ForeColor = SystemColors.ControlText;
                     label_cnt_ref_value.Font = new Font("Times New Roman", 24);
-                    this.label_cnt_ref_value.Text = (cntPaint / refSamples).ToString("F10");
+                    this.label_cnt_ref_value.Text = (refSamples / cntPaint).ToString("F10");
                 }
                 /************************************** REF WAIT PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_REF_WAIT)
@@ -243,12 +243,12 @@ namespace LEO
             }
 
         }
-        Int16 bar;
+        
         /************************************** ETR DATA PRINT **************************************/
         private void etrPainting()
         {
             ushort gateTime = getRadioNumber();
-            Int16 trackBar = bar = (Int16)cnt_etr_trackBar.Value;
+            Int16 trackBar = (Int16)cnt_etr_trackBar.Value;
 
             if (((avrgList.Count < trackBar) && (trackBar != 2)) && (keyPress == KEY_PRESS.YES))
             {
@@ -303,7 +303,7 @@ namespace LEO
         public void cnt_init_mode(CNT_MODES mode)
         {
             device.takeCommsSemaphore(semaphoreTimeout + 104);
-            device.send(Commands.COUNTER + ":" + Commands.MODE + " ");
+            device.send(Commands.COUNTER + ":" + Commands.CNT_MODE + " ");
             if (mode == CNT_MODES.ETR)
             {
                 device.send(Commands.CNT_ETR + ";");

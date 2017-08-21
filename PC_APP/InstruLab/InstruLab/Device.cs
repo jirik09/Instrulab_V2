@@ -79,11 +79,6 @@ namespace LEO
             public bool isCnt;
             public string modes;            
             public string[] pins;
-            //public string etrPin;
-            //public string ic1Pin;
-            //public string ic2Pin;
-            //public string ref1Pin;
-            //public string ref2Pin;
         }
 
         public struct PwmGenConfig_def
@@ -95,9 +90,24 @@ namespace LEO
             public string[] pins;
         }
 
-        enum FormOpened { NONE,SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS}
+        enum FormOpened { NONE, SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS }
         FormOpened ADCFormOpened = FormOpened.NONE;
         FormOpened DACFormOpened = FormOpened.NONE;
+        public enum GenModeOpened { NONE, DAC, PWM }
+        public static GenModeOpened GenOpened = GenModeOpened.NONE;
+
+        public static GenModeOpened GenMode
+        {
+            get
+            {
+                return GenOpened;
+            }
+            //set
+            //{
+            //    GenOpened = value;
+            //}
+        }
+
         private SerialPort port;
         private string portName;
         private string name;
@@ -524,20 +534,20 @@ namespace LEO
                     }               
                          
 
-                    port.Write(Commands.PWM_GENERATOR + ":" + Commands.CONFIGRequest + ";");
-                    Thread.Sleep(wait);
-                    toRead = port.BytesToRead;
-                    port.Read(msg_byte, 0, toRead);
-                    msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
+                    //port.Write(Commands.PWM_GENERATOR + ":" + Commands.CONFIGRequest + ";");
+                    //Thread.Sleep(wait);
+                    //toRead = port.BytesToRead;
+                    //port.Read(msg_byte, 0, toRead);
+                    //msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
 
-                    if (new string(msg_char, 0, 4).Equals("GPWM"))
-                    {
-                        pwmGenCfg.isPwmGen = true;
-                    }
-                    else
-                    {
-                        pwmGenCfg.isPwmGen = false;
-                    }
+                    //if (new string(msg_char, 0, 4).Equals("GPWM"))
+                    //{
+                    //    pwmGenCfg.isPwmGen = true;
+                    //}
+                    //else
+                    //{
+                    //    pwmGenCfg.isPwmGen = false;
+                    //}
 
 
 
@@ -1062,12 +1072,44 @@ namespace LEO
             {
                 close_freq_analysis();
             }
+            if (GenOpened == GenModeOpened.PWM)
+            {
+                close_gen();
+            }
 
             if (Gen_form == null || Gen_form.IsDisposed)
             {
+                GenOpened = GenModeOpened.DAC;
                 Gen_form = new Generator(this);
                 Gen_form.Show();
                 DACFormOpened = FormOpened.GENERATOR;
+            }
+            else
+            {
+                Gen_form.BringToFront();
+            }
+        }
+
+        public void open_pwm_gen()
+        {
+            if (DACFormOpened == FormOpened.VOLT_SOURCE)
+            {
+                close_source();
+            }
+            if (DACFormOpened == FormOpened.FREQ_ANALYSIS)
+            {
+                close_freq_analysis();
+            }
+            if(GenOpened == GenModeOpened.DAC)
+            {
+                close_gen();
+            }
+
+            if (Gen_form == null || Gen_form.IsDisposed)
+            {
+                GenOpened = GenModeOpened.PWM;
+                Gen_form = new Generator(this);
+                Gen_form.Show();
             }
             else
             {
@@ -1201,18 +1243,6 @@ namespace LEO
             }
         }
 
-        public void open_pwm_gen()
-        {
-            if (PwmGen_form == null || PwmGen_form.IsDisposed)
-            {
-                PwmGen_form = new PwmGenerator(this);
-                PwmGen_form.Show();
-            }
-            else
-            {
-                PwmGen_form.BringToFront();
-            }
-        }
 
         public void close_source()
         {

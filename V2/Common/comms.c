@@ -78,13 +78,9 @@ void CommTask(void const *argument){
 	uint32_t oneChanMemSize;
 	#endif //USE_SCOPE
 
-	#ifdef USE_GEN
+	#if defined(USE_GEN) || defined(USE_GEN_PWM)
 	uint8_t header_gen[12]="GEN_xCH_Fxxx";
-	#endif //USE_GEN
-	
-	#ifdef USE_COUNTER
-	
-	#endif //USE_COUNTER
+	#endif //USE_GEN || USE_GEN_PWM
 	
 	#if defined(USE_GEN) || defined(USE_SCOPE)
 	uint8_t i;
@@ -189,7 +185,7 @@ void CommTask(void const *argument){
 			#endif //USE_SCOPE
 		//send generating frequency	
 		}else if(message[0]=='2'){
-			#ifdef USE_GEN
+			#if defined(USE_GEN) || defined(USE_GEN_PWM)
 			for(i = 0;i<MAX_DAC_CHANNELS;i++){
 				header_gen[4]=i+1+48;
 				j=genGetRealSmplFreq(i+1);
@@ -198,7 +194,7 @@ void CommTask(void const *argument){
 				header_gen[11]=(uint8_t)(j);
 				commsSendBuff(header_gen,12);
 			}
-			#endif //USE_GEN
+			#endif //USE_GEN || USE_GEN_PWM
 			
 		/* ---------------------------------------------------- */	
 		/* COUNTER MEASURED DATA & IC BUFFER CORRECTION sending */
@@ -280,12 +276,6 @@ void CommTask(void const *argument){
 			#ifdef USE_COUNTER
 			sendCounterConf();
 			#endif //USE_COUNTER
-			
-		}else if(message[0]=='Q'){
-			#ifdef USE_PWM_GEN
-			sendGenPwmConf();
-			#endif //USE_PWM_GEN	
-
 		// send scope inputs
 		}else if(message[0]=='B'){
 			#ifdef USE_SCOPE
@@ -300,21 +290,21 @@ void CommTask(void const *argument){
 			
 		// send gen config
 		}else if(message[0]=='6'){
-			#ifdef USE_GEN
+			#if defined(USE_GEN) || defined(USE_GEN_PWM)
 			sendGenConf();
-			#endif //USE_GEN
+			#endif //USE_GEN || USE_GEN_PWM
 			
 		// send gen next data block
 		}else if(message[0]=='7'){
-			#ifdef USE_GEN
+			#if defined(USE_GEN) || defined(USE_GEN_PWM)
 			commsSendString(STR_GEN_NEXT);
-			#endif //USE_GEN
+			#endif //USE_GEN || USE_GEN_PWM
 			
 		// send gen ok status
 		}else if(message[0]=='8'){
-			#ifdef USE_GEN
+			#if defined(USE_GEN) || defined(USE_GEN_PWM)
 			commsSendString(STR_GEN_OK);
-			#endif //USE_GEN
+			#endif //USE_GEN || USE_GEN_PWM
 			
 		}else if (message[0]=='9'){
 			sendSystemVersion();
@@ -545,15 +535,6 @@ void sendCounterConf(){
 }
 #endif //USE_COUNTER
 
-
-#ifdef USE_GEN_PWM
-void sendGenPwmConf(){
-	commsSendString("GPWM");
-	commsSendUint32(MAX_GENERATING_FREQ);
-}
-#endif //USE_GEN_PWM
-
-
 #ifdef USE_SCOPE
 void sendScopeInputs(){
 	uint8_t i,j;
@@ -599,8 +580,7 @@ void sendScopeInputs(){
 }
 #endif //USE_SCOPE
 
-
-#ifdef USE_GEN
+#if defined(USE_GEN) || defined(USE_GEN_PWM)
 void sendGenConf(){
 	uint8_t i;
 	commsSendString("GEN_");
@@ -633,7 +613,7 @@ void sendGenConf(){
 	commsSendUint32(GEN_VDDA);
 	commsSendUint32(GEN_VREF_INT);
 }
-#endif //USE_GEN
+#endif //USE_GEN || USE_GEN_PWM
 
 
 #ifdef USE_SHIELD

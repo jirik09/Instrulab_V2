@@ -959,11 +959,11 @@
             this.button_PWM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button_PWM.Enabled = false;
-            this.button_PWM.Location = new System.Drawing.Point(5, 148);
+            this.button_PWM.Location = new System.Drawing.Point(5, 147);
             this.button_PWM.Name = "button_PWM";
             this.button_PWM.Size = new System.Drawing.Size(101, 23);
             this.button_PWM.TabIndex = 0;
-            this.button_PWM.Text = "PWM";
+            this.button_PWM.Text = "PWM Generator";
             this.button_PWM.UseVisualStyleBackColor = true;
             this.button_PWM.Click += new System.EventHandler(this.button_PWM_Click);
             // 

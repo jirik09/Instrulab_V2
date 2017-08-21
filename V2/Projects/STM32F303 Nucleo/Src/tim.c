@@ -36,6 +36,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
 #include "counter.h"
+#include "generator.h"
 #include "mcu_config.h"
 #include "stdlib.h"
 #include "FreeRTOS.h"
@@ -46,10 +47,16 @@
 TIM_HandleTypeDef htim_scope;
 #endif //USE_SCOPE
 	
-#ifdef USE_GEN
+#if defined(USE_GEN) || defined(USE_GEN_PWM)
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
-#endif //USE_GEN
+	#ifdef USE_GEN_PWM
+	TIM_HandleTypeDef htim1;
+	TIM_HandleTypeDef htim3;
+	DMA_HandleTypeDef hdma_tim6_up;
+	DMA_HandleTypeDef hdma_tim7_up;
+	#endif //USE_GEN_PWM
+#endif // USE_GEN || USE_GEN_PWM
 
 #ifdef USE_COUNTER
 uint32_t tim2clk, tim4clk;
@@ -64,6 +71,7 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 #endif //USE_COUNTER
+			
 			
 #ifdef USE_SCOPE
 /* TIM15 init function */
@@ -158,12 +166,144 @@ void MX_TIM7_Init(void)
 	#endif //USE_GEN
 
 
+/* ************************************************************************************** */
+/* ------------------------------- START OF PWM GENERATOR ------------------------------- */
+#ifdef USE_GEN_PWM
+
+/* TIM1 PWM init function */
+static void MX_TIM1_GEN_PWM_Init(void)
+{
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_OC_InitTypeDef sConfigOC;
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
+
+	/* PSC * ARR = 1024 (10 bit resolution in defult) */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 31;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 31;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  HAL_TIM_Base_Init(&htim1);
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig);
+
+  HAL_TIM_PWM_Init(&htim1);
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig);
+
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+  HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2);
+
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+  sBreakDeadTimeConfig.DeadTime = 0;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.BreakFilter = 0;
+  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
+  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
+  sBreakDeadTimeConfig.Break2Filter = 0;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+  HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig);
+
+  HAL_TIM_Base_MspInit(&htim1);
+}
+
+
+/* TIM3 PWM init function */
+static void MX_TIM3_GEN_PWM_Init(void)
+{
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_OC_InitTypeDef sConfigOC;
+
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 31;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 31;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  HAL_TIM_Base_Init(&htim3);
+	
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig);
+
+  HAL_TIM_PWM_Init(&htim3);
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig);
+
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
+
+  HAL_TIM_Base_MspInit(&htim3);
+}
+
+
+/* TIM6 handling DMA init function */
+static void MX_TIM6_GEN_PWM_Init(void)
+{
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 0;
+  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim6.Init.Period = 0;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  HAL_TIM_Base_Init(&htim6);
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig);
+}
+
+
+/* TIM7 handling DMA init function */
+static void MX_TIM7_GEN_PWM_Init(void)
+{
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim7.Instance = TIM7;
+  htim7.Init.Prescaler = 0;
+  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim7.Init.Period = 0;
+  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  HAL_TIM_Base_Init(&htim7);
+		
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig);
+}
+
+/* -------------------------------- END OF PWM GENERATOR -------------------------------- */
+/* ************************************************************************************** */
+#endif //USE_GEN_PWM
+
+
 
 /* ************************************************************************************** */
-/* ---------------------------------- START OF COUNTER ---------------------------------- */
+/* ---------------------------- START OF COUNTER DEFINITIONS ---------------------------- */
 #ifdef USE_COUNTER
 /* ************************************************************************************** */
-/* --------------------------- TIM peripherals INIT functions --------------------------- */
+/* ---------------------- Counter timer peripherals INIT functions ---------------------- */
 /* ************************************************************************************** */
 
 /* Timer TIM4 initialization - used for time gating of Counter TIM2 */
@@ -351,7 +491,13 @@ void TIM_ic_deinit(void){
 void TIM_ETR_Start(void){
 	HAL_TIM_Base_Start(&htim2);			
 	HAL_TIM_Base_Start(&htim4);
-	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);		
+	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);	
+	/* Uncomment to get rid of the first random number */
+	if(counter.state == COUNTER_ETR){
+		counter.sampleCntChange = SAMPLE_COUNT_CHANGED;	
+		startTime = HAL_GetTick();	
+		TIM4->EGR |= TIM_EGR_UG;	
+	}
 }
 
 void TIM_IC_Start(void){
@@ -374,261 +520,8 @@ void TIM_IC_Stop(void){
 	HAL_TIM_Base_Stop(&htim2);	
 }
 
-#endif // USE_COUNTER
-
-
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
-{
-	#ifdef USE_SCOPE
-  if(htim_base->Instance==TIM15)
-  {
-    /* Peripheral clock enable */
-    __TIM15_CLK_ENABLE();
-  }
-	#endif //USE_SCOPE
-
-	#ifdef USE_GEN
-	if(htim_base->Instance==TIM6){
-		__TIM6_CLK_ENABLE();
-	}
-	if(htim_base->Instance==TIM7){
-		__TIM7_CLK_ENABLE();
-	}
-	#endif //USE_GEN
-	
-	#ifdef USE_COUNTER
-  GPIO_InitTypeDef GPIO_InitStruct;	  
-	
-	if(htim_base->Instance==TIM2){
-		
-		if(counter.state==COUNTER_ETR||counter.state==COUNTER_REF){			
-			
-			__TIM2_CLK_ENABLE();
-				
-			/**TIM2 GPIO Configuration    
-			PA0     ------> TIM2_ETR 
-			*/
-			GPIO_InitStruct.Pin = GPIO_PIN_0;
-			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-			GPIO_InitStruct.Pull = GPIO_NOPULL;
-			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-			GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
-			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-			/* Peripheral DMA init*/
-
-			hdma_tim2_up.Instance = DMA1_Channel2;		
-			hdma_tim2_up.Init.Direction = DMA_PERIPH_TO_MEMORY;
-			hdma_tim2_up.Init.PeriphInc = DMA_PINC_DISABLE;
-			hdma_tim2_up.Init.MemInc = DMA_MINC_DISABLE;
-			hdma_tim2_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-			hdma_tim2_up.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-			hdma_tim2_up.Init.Mode = DMA_CIRCULAR;
-			hdma_tim2_up.Init.Priority = DMA_PRIORITY_HIGH;
-			HAL_DMA_Init(&hdma_tim2_up);
-			
-			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim2_up);		
-			HAL_DMA_RegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_ETR_DMA_CpltCallback);		
-			
-			/* DMA1_Channel2_IRQn interrupt configuration */
-			HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 9, 0);
-			HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);		
-					
-			if(counter.state==COUNTER_ETR){
-				counter.counterEtr.psc = TIM4_PSC;	
-				counter.counterEtr.arr = TIM4_ARR;
-				counter.counterEtr.gateTime = 100;				/* 100 ms */												
-			}else{
-				counter.counterEtr.psc = 999;	
-				counter.counterEtr.arr = 9999;				
-			}
-			counter.counterEtr.etrp = 1;
-			counter.counterEtr.buffer = 0;
-			counter.sampleCntChange = SAMPLE_COUNT_CHANGED;					
-			
-		}else if(counter.state==COUNTER_IC){
-		
-			__HAL_RCC_TIM2_CLK_ENABLE();
-		
-			/**TIM2 GPIO Configuration    
-			PA0     ------> TIM2_CH1
-			PA1     ------> TIM2_CH2 
-			*/
-			GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
-			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-			GPIO_InitStruct.Pull = GPIO_NOPULL;
-			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-			GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
-			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-			/* Peripheral DMA init*/
-			
-			hdma_tim2_ch2_ch4.Instance = DMA1_Channel7;
-			hdma_tim2_ch2_ch4.Init.Direction = DMA_PERIPH_TO_MEMORY;
-			hdma_tim2_ch2_ch4.Init.PeriphInc = DMA_PINC_DISABLE;
-			hdma_tim2_ch2_ch4.Init.MemInc = DMA_MINC_ENABLE;
-			hdma_tim2_ch2_ch4.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-			hdma_tim2_ch2_ch4.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-			hdma_tim2_ch2_ch4.Init.Mode = DMA_NORMAL;
-			hdma_tim2_ch2_ch4.Init.Priority = DMA_PRIORITY_HIGH;
-			HAL_DMA_Init(&hdma_tim2_ch2_ch4);
-			
-			/* Several peripheral DMA handle pointers point to the same DMA handle.
-			 Be aware that there is only one channel to perform all the requested DMAs. */
-			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC2],hdma_tim2_ch2_ch4);
-//			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
-
-			hdma_tim2_ch1.Instance = DMA1_Channel5;
-			hdma_tim2_ch1.Init.Direction = DMA_PERIPH_TO_MEMORY;
-			hdma_tim2_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
-			hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
-			hdma_tim2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-			hdma_tim2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-			hdma_tim2_ch1.Init.Mode = DMA_NORMAL;
-			hdma_tim2_ch1.Init.Priority = DMA_PRIORITY_HIGH;
-			HAL_DMA_Init(&hdma_tim2_ch1);
-
-			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC1],hdma_tim2_ch1);
-
-//			HAL_DMA_RegisterCallback(&hdma_tim2_ch1, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC1_DMA_CpltCallback);
-//			HAL_DMA_RegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC2_DMA_CpltCallback);		
-			
-			/* DMA1_Channel5_IRQn interrupt configuration */
-//			HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 9, 0);
-//			HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);		
-			
-			/* DMA1_Channel7_IRQn interrupt configuration */
-//			HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 9, 0);
-//			HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);								
-			
-			counter.counterIc.psc = 0;		
-			counter.counterIc.arr = 0xFFFFFFFF;
-			counter.counterIc.ic1BufferSize = 2;			/* the lowest value of icxBufferSize is 2! - 1 sample */
-			counter.counterIc.ic2BufferSize = 2;
-			counter.counterIc.ic1psc = 1;
-			counter.counterIc.ic2psc = 1;
-			counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
-			counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
-			counter.icFlag1 = COUNTER_BUFF_FLAG1_PASS;
-			counter.icFlag2 = COUNTER_BUFF_FLAG2_PASS;
-			counter.buff1Change = BUFF1_NOT_CHANGED;
-			counter.buff2Change = BUFF2_NOT_CHANGED;
-			
-//			counter.counterIc.ic1buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic1BufferSize*sizeof(uint32_t));
-//			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));	
-		}
-	}
-	
-	if(htim_base->Instance==TIM4){
-		__TIM4_CLK_ENABLE();
-		
-		if(counter.state==COUNTER_REF){
-			
-		 /**TIM4 GPIO Configuration    
-			PA8     ------> TIM4_ETR_REF (as reference) 
-			*/
-			GPIO_InitStruct.Pin = GPIO_PIN_8;
-			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-			GPIO_InitStruct.Pull = GPIO_NOPULL;
-			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-			GPIO_InitStruct.Alternate = GPIO_AF10_TIM4;
-			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);	
-	
-		} else if(counter.state==COUNTER_IC){
-			
-			HAL_NVIC_SetPriority(TIM4_IRQn, 9, 0);
-			HAL_NVIC_EnableIRQ(TIM4_IRQn);			
-		}
-	}
-	#endif //USE_COUNTER
-}
-
-void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
-{
-	#ifdef USE_SCOPE
-  if(htim_base->Instance==TIM15)
-  {
-  /* USER CODE BEGIN TIM15_MspDeInit 0 */
-
-  /* USER CODE END TIM15_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __TIM15_CLK_DISABLE();
-  /* USER CODE BEGIN TIM15_MspDeInit 1 */
-
-  /* USER CODE END TIM15_MspDeInit 1 */
-  }
-	#endif //USE_SCOPE
-	
-	#ifdef USE_GEN
-	if(htim_base->Instance==TIM6){
-		__TIM6_CLK_DISABLE();
-	}
-	if(htim_base->Instance==TIM7){
-		__TIM7_CLK_DISABLE();
-	}
-	#endif //USE_GEN
-	
-	#ifdef USE_COUNTER
-	if(htim_base->Instance==TIM2){
-		
-		if(counter.state==COUNTER_ETR||counter.state==COUNTER_REF){   
-			
-			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);		/* TIM2 GPIO Configuration PA0 -> TIM2_ETR */		
-			HAL_NVIC_DisableIRQ(DMA1_Channel2_IRQn);
-			HAL_DMA_UnRegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID);		
-			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);		
-			
-			TIM2 -> DIER &= ~TIM_DIER_UDE;					
-			TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S_Msk;
-			TIM2 -> CCER &= ~TIM_CCER_CC1E;
-			
-		}else if(counter.state==COUNTER_IC){		
-			
-			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1);
-//			HAL_NVIC_DisableIRQ(DMA1_Channel5_IRQn);	
-//			HAL_NVIC_DisableIRQ(DMA1_Channel7_IRQn);			
-//			HAL_DMA_UnRegisterCallback(&hdma_tim2_ch1, HAL_DMA_XFER_CPLT_CB_ID);		
-//			HAL_DMA_UnRegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID);				
-			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC2]);
-//			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC4]);
-			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC1]);	
-
-			TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S_0;  		
-			TIM2 -> CCMR1 &= ~TIM_CCMR1_CC2S_0;			
-			TIM2 -> CCER &= ~TIM_CCER_CC1E;					
-			TIM2 -> CCER &= ~TIM_CCER_CC2E;			
-			TIM2 -> DIER &= ~TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request deinit */
-			TIM2 -> DIER &= ~TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request deinit */			
-			
-	//		vPortFree(counter.counterIc.ic1buffer);
-	//		vPortFree(counter.counterIc.ic2buffer);
-	//		counter.counterIc.ic1buffer = NULL;
-	//		counter.counterIc.ic2buffer = NULL;	
-	
-	//		HAL_TIM_Base_DeInit(&htim4);
-		}		
-		__TIM2_CLK_DISABLE(); 		
-	}
-	
-	if(htim_base->Instance==TIM4){
-		
-		if(counter.state==COUNTER_REF){
-			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_8);
-			
-		} else if(counter.state==COUNTER_IC){
-			HAL_NVIC_DisableIRQ(TIM4_IRQn);
-			
-		}	else if(counter.state==COUNTER_ETR){
-			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
-			
-		}
-		__TIM4_CLK_DISABLE();
-	}
-	#endif //USE_COUNTER
-} 
-
 /* ************************************************************************************** */
-/* ------------------------- Specific counter CONFIG functions -------------------------- */
+/* ----------------------------- Specific counter functions ----------------------------- */
 /* ************************************************************************************** */
 /**
   * @brief  This function is used to select the desired ETR prescaler ETPS. (TIM2 should be clocked to 144 MHz)
@@ -815,6 +708,7 @@ bool DMA_TransferComplete(DMA_HandleTypeDef *dmah)
 	}	
 }
 
+/* The value of DMA buffer size can be changed only if aborted first */
 void DMA_Restart(DMA_HandleTypeDef *dmah)
 {
 	if(dmah == &hdma_tim2_ch1){
@@ -827,8 +721,365 @@ void DMA_Restart(DMA_HandleTypeDef *dmah)
 }
 
 
-/* ----------------------------------- END OF COUNTER ----------------------------------- */
+/* ---------------------------- END OF COUNTER DEFINITIONS ------------------------------ */
 /* ************************************************************************************** */
+#endif //USE_COUNTER
+
+
+
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
+{
+	GPIO_InitTypeDef GPIO_InitStruct;
+	
+	#ifdef USE_SCOPE
+  if(htim_base->Instance==TIM15)
+  {
+    /* Peripheral clock enable */
+    __TIM15_CLK_ENABLE();
+  }
+	#endif //USE_SCOPE
+	
+	/* Note: PC app must send the mode first even if only one 
+		 generator is implemented in device */
+	#if defined(USE_GEN) || defined(USE_GEN_PWM)
+		#ifdef USE_GEN
+		/* DAC generator mode TIM decision */
+		if(generator.modeState==GENERATOR_DAC){
+			if(htim_base->Instance==TIM6){
+				__TIM6_CLK_ENABLE();
+			}
+			if(htim_base->Instance==TIM7){
+				__TIM7_CLK_ENABLE();
+			}	
+		}
+		#endif //USE_GEN
+	
+		#ifdef USE_GEN_PWM
+		/* PWM generator mode TIM decision */
+		if(generator.modeState==GENERATOR_PWM){
+			if(htim_base->Instance==TIM1){
+				__TIM1_CLK_ENABLE();
+				
+				/**TIM1 GPIO Configuration    
+				PA9     ------> TIM1_CH2 
+				*/
+				GPIO_InitStruct.Pin = GPIO_PIN_9;
+				GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+				GPIO_InitStruct.Pull = GPIO_NOPULL;
+				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+				GPIO_InitStruct.Alternate = GPIO_AF6_TIM1;
+				HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);			
+			}	
+			if(htim_base->Instance==TIM3){
+				__TIM3_CLK_ENABLE();
+				
+				/**TIM3 GPIO Configuration    
+				PB4     ------> TIM3_CH1 
+				*/
+				GPIO_InitStruct.Pin = GPIO_PIN_4;
+				GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+				GPIO_InitStruct.Pull = GPIO_NOPULL;
+				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+				GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
+				HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);			
+			}				
+			if(htim_base->Instance==TIM6){
+				__TIM6_CLK_ENABLE();
+				
+				/* Peripheral DMA init*/  
+				hdma_tim6_up.Instance = DMA1_Channel3;
+				hdma_tim6_up.Init.Direction = DMA_MEMORY_TO_PERIPH;
+				hdma_tim6_up.Init.PeriphInc = DMA_PINC_DISABLE;
+				hdma_tim6_up.Init.MemInc = DMA_MINC_ENABLE;
+				hdma_tim6_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+				hdma_tim6_up.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+				hdma_tim6_up.Init.Mode = DMA_CIRCULAR;
+				hdma_tim6_up.Init.Priority = DMA_PRIORITY_HIGH;
+				HAL_DMA_Init(&hdma_tim6_up);
+
+				__HAL_DMA_REMAP_CHANNEL_ENABLE(HAL_REMAPDMA_TIM6_DAC1_CH1_DMA1_CH3);
+				__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim6_up);
+			}
+			if(htim_base->Instance==TIM7){
+				__TIM7_CLK_ENABLE();
+				
+				/* Peripheral DMA init*/
+				hdma_tim7_up.Instance = DMA2_Channel4;
+				hdma_tim7_up.Init.Direction = DMA_MEMORY_TO_PERIPH;
+				hdma_tim7_up.Init.PeriphInc = DMA_PINC_DISABLE;
+				hdma_tim7_up.Init.MemInc = DMA_MINC_ENABLE;
+				hdma_tim7_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+				hdma_tim7_up.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+				hdma_tim7_up.Init.Mode = DMA_CIRCULAR;
+				hdma_tim7_up.Init.Priority = DMA_PRIORITY_HIGH;
+				HAL_DMA_Init(&hdma_tim7_up);
+				
+				__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim7_up);
+			}			
+		}
+		#endif //USE_GEN_PWM
+	#endif //USE_GEN || USE_GEN_PWM
+	
+	#ifdef USE_COUNTER    	
+	if(htim_base->Instance==TIM2){
+		
+		if(counter.state==COUNTER_ETR||counter.state==COUNTER_REF){			
+			
+			__TIM2_CLK_ENABLE();
+				
+			/**TIM2 GPIO Configuration    
+			PA0     ------> TIM2_ETR 
+			*/
+			GPIO_InitStruct.Pin = GPIO_PIN_0;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+			/* Peripheral DMA init*/
+
+			hdma_tim2_up.Instance = DMA1_Channel2;		
+			hdma_tim2_up.Init.Direction = DMA_PERIPH_TO_MEMORY;
+			hdma_tim2_up.Init.PeriphInc = DMA_PINC_DISABLE;
+			hdma_tim2_up.Init.MemInc = DMA_MINC_DISABLE;
+			hdma_tim2_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+			hdma_tim2_up.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+			hdma_tim2_up.Init.Mode = DMA_CIRCULAR;
+			hdma_tim2_up.Init.Priority = DMA_PRIORITY_HIGH;
+			HAL_DMA_Init(&hdma_tim2_up);
+			
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim2_up);		
+			HAL_DMA_RegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_ETR_DMA_CpltCallback);		
+			
+			/* DMA1_Channel2_IRQn interrupt configuration */
+			HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 9, 0);
+			HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);		
+					
+			if(counter.state==COUNTER_ETR){
+				counter.counterEtr.psc = TIM4_PSC;	
+				counter.counterEtr.arr = TIM4_ARR;
+				counter.counterEtr.gateTime = 100;				/* 100 ms */												
+			}else{
+				counter.counterEtr.psc = 999;	
+				counter.counterEtr.arr = 9999;				
+			}
+			counter.counterEtr.etrp = 1;
+			counter.counterEtr.buffer = 0;
+			counter.sampleCntChange = SAMPLE_COUNT_CHANGED;					
+			
+		}else if(counter.state==COUNTER_IC){
+		
+			__HAL_RCC_TIM2_CLK_ENABLE();
+		
+			/**TIM2 GPIO Configuration    
+			PA0     ------> TIM2_CH1
+			PA1     ------> TIM2_CH2 
+			*/
+			GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+			/* Peripheral DMA init*/
+			
+			hdma_tim2_ch2_ch4.Instance = DMA1_Channel7;
+			hdma_tim2_ch2_ch4.Init.Direction = DMA_PERIPH_TO_MEMORY;
+			hdma_tim2_ch2_ch4.Init.PeriphInc = DMA_PINC_DISABLE;
+			hdma_tim2_ch2_ch4.Init.MemInc = DMA_MINC_ENABLE;
+			hdma_tim2_ch2_ch4.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+			hdma_tim2_ch2_ch4.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+			hdma_tim2_ch2_ch4.Init.Mode = DMA_NORMAL;
+			hdma_tim2_ch2_ch4.Init.Priority = DMA_PRIORITY_HIGH;
+			HAL_DMA_Init(&hdma_tim2_ch2_ch4);
+			
+			/* Several peripheral DMA handle pointers point to the same DMA handle.
+			 Be aware that there is only one channel to perform all the requested DMAs. */
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC2],hdma_tim2_ch2_ch4);
+//			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
+
+			hdma_tim2_ch1.Instance = DMA1_Channel5;
+			hdma_tim2_ch1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+			hdma_tim2_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
+			hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
+			hdma_tim2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+			hdma_tim2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+			hdma_tim2_ch1.Init.Mode = DMA_NORMAL;
+			hdma_tim2_ch1.Init.Priority = DMA_PRIORITY_HIGH;
+			HAL_DMA_Init(&hdma_tim2_ch1);
+
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC1],hdma_tim2_ch1);
+
+//			HAL_DMA_RegisterCallback(&hdma_tim2_ch1, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC1_DMA_CpltCallback);
+//			HAL_DMA_RegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID, COUNTER_IC2_DMA_CpltCallback);		
+			
+			/* DMA1_Channel5_IRQn interrupt configuration */
+//			HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 9, 0);
+//			HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);		
+			
+			/* DMA1_Channel7_IRQn interrupt configuration */
+//			HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 9, 0);
+//			HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);								
+			
+			counter.counterIc.psc = 0;		
+			counter.counterIc.arr = 0xFFFFFFFF;
+			counter.counterIc.ic1BufferSize = 2;			/* the lowest value of icxBufferSize is 2! - 1 sample */
+			counter.counterIc.ic2BufferSize = 2;
+			counter.counterIc.ic1psc = 1;
+			counter.counterIc.ic2psc = 1;
+			counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
+			counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
+			counter.icFlag1 = COUNTER_BUFF_FLAG1_PASS;
+			counter.icFlag2 = COUNTER_BUFF_FLAG2_PASS;
+			counter.buff1Change = BUFF1_NOT_CHANGED;
+			counter.buff2Change = BUFF2_NOT_CHANGED;
+			
+//			counter.counterIc.ic1buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic1BufferSize*sizeof(uint32_t));
+//			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));	
+		}
+	}
+	
+	if(htim_base->Instance==TIM4){
+		__TIM4_CLK_ENABLE();
+		
+		if(counter.state==COUNTER_REF){
+			
+		 /**TIM4 GPIO Configuration    
+			PA8     ------> TIM4_ETR_REF (as reference) 
+			*/
+			GPIO_InitStruct.Pin = GPIO_PIN_8;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF10_TIM4;
+			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);	
+	
+		} else if(counter.state==COUNTER_IC){
+			
+			HAL_NVIC_SetPriority(TIM4_IRQn, 9, 0);
+			HAL_NVIC_EnableIRQ(TIM4_IRQn);			
+		}
+	}
+	#endif //USE_COUNTER
+}
+
+
+
+void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
+{
+	#ifdef USE_SCOPE
+  if(htim_base->Instance==TIM15)
+  {
+  /* USER CODE BEGIN TIM15_MspDeInit 0 */
+
+  /* USER CODE END TIM15_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __TIM15_CLK_DISABLE();
+  /* USER CODE BEGIN TIM15_MspDeInit 1 */
+
+  /* USER CODE END TIM15_MspDeInit 1 */
+  }
+	#endif //USE_SCOPE
+	
+	#if defined(USE_GEN) || defined(USE_GEN_PWM)
+		#ifdef USE_GEN
+		if(generator.modeState==GENERATOR_DAC){
+			if(htim_base->Instance==TIM6){
+				__TIM6_CLK_DISABLE();
+			}
+			if(htim_base->Instance==TIM7){
+				__TIM7_CLK_DISABLE();
+			}
+		}
+		#endif //USE_GEN
+		
+		#ifdef USE_GEN_PWM
+		if(generator.modeState==GENERATOR_PWM){
+			if(htim_base->Instance==TIM1){
+				__TIM1_CLK_DISABLE();
+			}
+			if(htim_base->Instance==TIM3){
+				__TIM3_CLK_DISABLE();
+			}
+			if(htim_base->Instance==TIM6){
+				__TIM6_CLK_DISABLE();
+				
+				/* Peripheral DMA DeInit*/
+				HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);				
+			}
+			if(htim_base->Instance==TIM7){
+				__TIM7_CLK_DISABLE();
+				
+				/* Peripheral DMA DeInit*/
+				HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);				
+			}
+		}
+		#endif //USE_GEN_PWM
+		
+	#endif //USE_GEN || USE_GEN_PWM
+	
+	#ifdef USE_COUNTER
+	if(htim_base->Instance==TIM2){
+		
+		if(counter.state==COUNTER_ETR||counter.state==COUNTER_REF){   
+			
+			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);		/* TIM2 GPIO Configuration PA0 -> TIM2_ETR */		
+			HAL_NVIC_DisableIRQ(DMA1_Channel2_IRQn);
+			HAL_DMA_UnRegisterCallback(&hdma_tim2_up, HAL_DMA_XFER_CPLT_CB_ID);		
+			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);		
+			
+			TIM2 -> DIER &= ~TIM_DIER_UDE;					
+			TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S_Msk;
+			TIM2 -> CCER &= ~TIM_CCER_CC1E;
+			
+		}else if(counter.state==COUNTER_IC){		
+			
+			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1);
+//			HAL_NVIC_DisableIRQ(DMA1_Channel5_IRQn);	
+//			HAL_NVIC_DisableIRQ(DMA1_Channel7_IRQn);			
+//			HAL_DMA_UnRegisterCallback(&hdma_tim2_ch1, HAL_DMA_XFER_CPLT_CB_ID);		
+//			HAL_DMA_UnRegisterCallback(&hdma_tim2_ch2_ch4, HAL_DMA_XFER_CPLT_CB_ID);				
+			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC2]);
+//			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC4]);
+			HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC1]);	
+
+			TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S_0;  		
+			TIM2 -> CCMR1 &= ~TIM_CCMR1_CC2S_0;			
+			TIM2 -> CCER &= ~TIM_CCER_CC1E;					
+			TIM2 -> CCER &= ~TIM_CCER_CC2E;			
+			TIM2 -> DIER &= ~TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request deinit */
+			TIM2 -> DIER &= ~TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request deinit */			
+			
+	//		vPortFree(counter.counterIc.ic1buffer);
+	//		vPortFree(counter.counterIc.ic2buffer);
+	//		counter.counterIc.ic1buffer = NULL;
+	//		counter.counterIc.ic2buffer = NULL;	
+	
+	//		HAL_TIM_Base_DeInit(&htim4);
+		}		
+		__TIM2_CLK_DISABLE(); 		
+	}
+	
+	if(htim_base->Instance==TIM4){
+		
+		if(counter.state==COUNTER_REF){
+			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_8);
+			
+		} else if(counter.state==COUNTER_IC){
+			HAL_NVIC_DisableIRQ(TIM4_IRQn);
+			
+		}	else if(counter.state==COUNTER_ETR){
+			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
+			
+		}
+		__TIM4_CLK_DISABLE();
+	}
+	#endif //USE_COUNTER
+} 
+
+
 
 
 /* USER CODE BEGIN 1 */
@@ -837,19 +1088,6 @@ uint8_t TIM_Reconfig_scope(uint32_t samplingFreq,uint32_t* realFreq){
 	return TIM_Reconfig(samplingFreq,&htim_scope,realFreq);
 }
 #endif //USE_SCOPE
-
-#ifdef USE_GEN
-uint8_t TIM_Reconfig_gen(uint32_t samplingFreq,uint8_t chan,uint32_t* realFreq){
-	if(chan==0){
-		return TIM_Reconfig(samplingFreq,&htim6,realFreq);
-	}else if(chan==1){
-		return TIM_Reconfig(samplingFreq,&htim7,realFreq);
-	}else{
-		return 0;
-	}
-}
-#endif //USE_GEN
-
 
 #ifdef USE_SCOPE
 void TIMScopeEnable(){
@@ -868,18 +1106,86 @@ uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes){
 }
 #endif //USE_SCOPE
 
+#if defined(USE_GEN) || defined(USE_GEN_PWM)
+uint8_t TIM_Reconfig_gen(uint32_t samplingFreq,uint8_t chan,uint32_t* realFreq){
+	if(chan==0){
+		return TIM_Reconfig(samplingFreq,&htim6,realFreq);
+	}else if(chan==1){
+		return TIM_Reconfig(samplingFreq,&htim7,realFreq);
+	}else{
+		return 0;
+	}
+}
 
-	#ifdef USE_GEN
 void TIMGenEnable(void){
   HAL_TIM_Base_Start(&htim6);
 	HAL_TIM_Base_Start(&htim7);
 }
+
 void TIMGenDisable(void){
   HAL_TIM_Base_Stop(&htim6);
 	HAL_TIM_Base_Stop(&htim7);
 }
+#endif //USE_GEN || USE_GEN_PWM
 
-	#endif //USE_GEN
+
+#ifdef USE_GEN_PWM
+void TIM_DMA_Reconfig(uint8_t chan){	
+	if(chan==0){
+		HAL_DMA_Abort(&hdma_tim6_up);
+		HAL_DMA_Start(&hdma_tim6_up, (uint32_t)generator.pChanMem[0], (uint32_t)&(TIM1->CCR2), generator.oneChanSamples[0]);
+	}else if(chan==1){
+		HAL_DMA_Abort(&hdma_tim7_up);
+		HAL_DMA_Start(&hdma_tim7_up, (uint32_t)generator.pChanMem[1], (uint32_t)&(TIM3->CCR1), generator.oneChanSamples[1]);
+	}
+}
+
+void PWMGeneratingEnable(void){
+	if(generator.numOfChannles==1){				
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+		HAL_TIM_Base_Start(&htim6);		
+	}else if(generator.numOfChannles>1){				
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+		HAL_TIM_Base_Start(&htim6);						
+		HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);		
+		HAL_TIM_Base_Start(&htim7);			
+	}
+}
+
+void PWMGeneratingDisable(void){
+	if(generator.numOfChannles==1){				
+		HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_2);
+		HAL_TIM_Base_Stop(&htim6);		
+	}else if(generator.numOfChannles>1){				
+		HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_2);
+		HAL_TIM_Base_Stop(&htim6);						
+		HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);		
+		HAL_TIM_Base_Stop(&htim7);			
+	}
+}
+
+void TIMGenPwmInit(void){
+	if(generator.numOfChannles==1){		
+		MX_TIM1_GEN_PWM_Init();		
+		MX_TIM6_GEN_PWM_Init();
+	}else if(generator.numOfChannles>1){
+		MX_TIM1_GEN_PWM_Init();	
+		MX_TIM6_GEN_PWM_Init();
+		MX_TIM3_GEN_PWM_Init();
+		MX_TIM7_GEN_PWM_Init();
+	}
+}
+
+void TIMGenPWMEnable(void){
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+}
+
+void TIMGenPWMDisable(void){
+  HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
+}
+#endif //USE_GEN_PWM
 
 
 uint8_t TIM_Reconfig(uint32_t samplingFreq,TIM_HandleTypeDef* htim_base,uint32_t* realFreq){
@@ -889,8 +1195,6 @@ uint8_t TIM_Reconfig(uint32_t samplingFreq,TIM_HandleTypeDef* htim_base,uint32_t
 	uint16_t autoReloadReg;
 	uint32_t errMinRatio = 0;
 	uint8_t result = UNKNOW_ERROR;
-	
-
 	
 	clkDiv = ((2*HAL_RCC_GetPCLK2Freq() / samplingFreq)+1)/2; //to minimize rounding error
 	

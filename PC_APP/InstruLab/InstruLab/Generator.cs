@@ -95,8 +95,46 @@ namespace LEO
         {
             InitializeComponent();
 
+            /* Check what generator mode is set */
+            if (Device.GenMode == Device.GenModeOpened.DAC)
+            {
+                /* Remove the PWM frequency sliders */
+                this.trackBar_pwmFreq_ch1.Dispose();
+                this.trackBar_pwmFreq_ch2.Dispose();
+                this.tableLayoutPanel3.Controls.Remove(groupBox_pwmFreq_ch1);
+                this.tableLayoutPanel10.Controls.Remove(groupBox_pwmFreq_ch2);
 
-           
+                /**** Remove columns ****/
+                tableLayoutPanel10.ColumnStyles.RemoveAt(tableLayoutPanel10.ColumnCount - 1);
+                tableLayoutPanel10.ColumnCount--;
+                tableLayoutPanel3.ColumnStyles.RemoveAt(tableLayoutPanel10.ColumnCount - 1);
+                tableLayoutPanel3.ColumnCount--;
+
+                /**** Remove rows ****/
+                DeleteRow(tableLayoutPanel1, 1);              
+                DeleteRow(tableLayoutPanel1, 2);
+                tableLayoutPanel1.Controls.RemoveAt(6);
+                this.tableLayoutPanel21.Controls.Remove(button_gen_analog_ch2);
+                this.tableLayoutPanel21.Controls.Remove(button_gen_digital_ch2);                
+
+                /**** Change the size of inner sliders section/tableLayout ****/
+                this.tableLayoutPanel3.Size = new Size(330, 400);
+                this.tableLayoutPanel10.Size = new Size(330, 400);
+                /**** Change the size of Generator window ****/
+                this.Size = new Size(800, 400);
+            }
+            else
+            {
+                /* Deactivate PWM mode control elements of channel 2 */
+                this.trackBar_pwmFreq_ch2.Enabled = false;
+                this.textBox_pwmFreq_ch2.Enabled = false;
+                this.trackBar_zoom_ch2.Enabled = false;
+                this.trackBar_position_ch2.Enabled = false;
+                this.button_gen_analog_ch2.Enabled = false;
+                this.button_gen_digital_ch2.Enabled = false;
+            } 
+            
+
             zedGraphControl_gen_ch1.MasterPane[0].IsFontsScaled = false;
             zedGraphControl_gen_ch1.MasterPane[0].Title.IsVisible = false;
             zedGraphControl_gen_ch1.MasterPane[0].XAxis.MajorGrid.IsVisible = true;
@@ -159,8 +197,58 @@ namespace LEO
             dataSendingTimer = new System.Timers.Timer(5);
             dataSendingTimer.Elapsed += new ElapsedEventHandler(data_sending);
 
-            this.Text = "Generator - (" + device.get_port() + ") " + device.get_name(); 
+            this.Text = "Generator - (" + device.get_port() + ") " + device.get_name();     
 
+            if(Device.GenMode == Device.GenModeOpened.DAC)
+            {
+                /* Send a message to device to initialize DAC mode */
+                Generator_DAC_Init();
+            }
+            else
+            {
+                /* Send a message to device to initialize PWM mode */
+                Generator_PWM_Init();
+            }
+        }
+
+        /* Function used to delete surplus rows of PWM mode when DAC mode is launched */
+        private void DeleteRow(TableLayoutPanel tableLayoutPanel, int rowNum)
+        {
+            foreach (Control control in tableLayoutPanel.Controls)
+            {
+                int row = tableLayoutPanel.GetRow(control);
+                if (row == rowNum)
+                {
+                    tableLayoutPanel.Controls.Remove(control);
+                }
+            }
+
+            tableLayoutPanel.RowStyles.RemoveAt(rowNum);
+
+            foreach (Control control in tableLayoutPanel.Controls)
+            {
+                int row = tableLayoutPanel.GetRow(control);
+                if (row > rowNum)
+                {
+                    tableLayoutPanel.SetRow(control, row - 1);
+                }
+            }
+        }
+
+        void Generator_DAC_Init()
+        {
+            device.takeCommsSemaphore(semaphoreTimeout + 102);         
+            device.send(Commands.GENERATOR + ":" + Commands.GEN_MODE + " ");
+            device.send(Commands.GEN_MODE_DAC + ";");
+            device.giveCommsSemaphore();
+        }
+
+        void Generator_PWM_Init()
+        {
+            device.takeCommsSemaphore(semaphoreTimeout + 102);
+            device.send(Commands.GENERATOR + ":" + Commands.GEN_MODE + " ");
+            device.send(Commands.GEN_MODE_PWM + ";");
+            device.giveCommsSemaphore();
         }
 
         private void data_sending(object sender, ElapsedEventArgs e)
@@ -1430,6 +1518,17 @@ namespace LEO
             radioButton_sine_ch2.Enabled = actual_channels == 2 ? true : false;
             radioButton_square_ch2.Enabled = actual_channels == 2 ? true : false;
 
+            if ((Device.GenMode == Device.GenModeOpened.PWM))
+            {
+                bool checkCheck = (checkBox_enable_ch2.Checked == true) ? true : false;
+
+                trackBar_pwmFreq_ch2.Enabled = checkCheck;
+                textBox_pwmFreq_ch2.Enabled = checkCheck;
+                trackBar_zoom_ch2.Enabled = checkCheck;
+                trackBar_position_ch2.Enabled = checkCheck;
+                button_gen_analog_ch2.Enabled = checkCheck;
+                button_gen_digital_ch2.Enabled = checkCheck;
+            }
         }
 
         private void checkBox_join_frequencies_CheckedChanged(object sender, EventArgs e)
@@ -1812,6 +1911,10 @@ namespace LEO
 
             this.checkBox_enable_ch2.Enabled = ctrl;
 
+            this.trackBar_pwmFreq_ch1.Enabled = ctrl;
+            this.textBox_pwmFreq_ch1.Enabled = ctrl;
+            this.trackBar_pwmFreq_ch2.Enabled = ctrl;
+            this.textBox_pwmFreq_ch2.Enabled = ctrl;
             this.trackBar_ampl_ch1.Enabled = ctrl;
             this.trackBar_duty_ch1.Enabled = ctrl;
             this.trackBar_offset_ch1.Enabled = ctrl;

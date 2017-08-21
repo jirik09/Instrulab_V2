@@ -39,6 +39,7 @@
 #include "dac.h"
 #include "gpio.h"
 #include "tim.h"
+#include "generator.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -110,9 +111,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
     __HAL_LINKDMA(hdac,DMA_Handle1,hdma_dac1_ch1);
     __HAL_REMAPDMA_CHANNEL_ENABLE(HAL_REMAPDMA_TIM6_DAC1_CH1_DMA1_CH3);
 
-
-		
-		
+			
 		hdma_dac1_ch2.Instance = DMA1_Channel4;
     hdma_dac1_ch2.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hdma_dac1_ch2.Init.PeriphInc = DMA_PINC_DISABLE;
@@ -204,7 +203,7 @@ void DACUnsetOutputBuffer(void){
   * @param  None
   * @retval None
   */
-void GeneratingEnable (void){
+void GeneratingEnable(void){
 	MX_DAC_Init();
 	DACEnableOutput();
 	TIMGenEnable();
@@ -215,7 +214,7 @@ void GeneratingEnable (void){
   * @param  None
   * @retval None
   */
-void GeneratingDisable (void){
+void GeneratingDisable(void){
 	TIMGenDisable();
 	HAL_DAC_Stop(&hdac,DAC_CHANNEL_1);
 	HAL_DAC_Stop(&hdac,DAC_CHANNEL_2);

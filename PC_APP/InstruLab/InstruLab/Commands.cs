@@ -21,7 +21,6 @@ namespace LEO
         public const string RESET_DEVICE = "RES!";
 
         public const string GENERATOR = "GEN_";
-        public const string PWM_GENERATOR = "GPWM";
         public const string COUNTER = "CNT_";
         public const string SCOPE = "OSCP";
         public const string SCOPE_INCOME = "OSC_";
@@ -29,12 +28,12 @@ namespace LEO
         public const string SYSTEM = "SYST";
 
         // Counter modes
-        public const string MODE = "MODE";
+        public const string CNT_MODE = "MODE";
         public const string CNT_ETR = "ETR_";
         public const string CNT_REF = "REF_";
         public const string CNT_IC = "IC__";
 
-        // Counter total deinit
+        // Counter complete deinit
         public const string DEINIT = "DEIN";
 
         // Counter ETR GATE times
@@ -94,7 +93,7 @@ namespace LEO
         public const string SCOPE_ADC_CHANNEL_DEAFULT = "ADEF";
         public const string SCOPE_ADC_CHANNEL_VREF = "AREF";
         
-
+        //Generator
         public const string GEN_DATA = "DATA";
         
         public const string GEN_OK = "G_OK";
@@ -105,6 +104,10 @@ namespace LEO
 
         public const string GEN_DAC_VAL = "DAC_";
 
+        //Generator modes        
+        public const string GEN_MODE = "MODE";
+        public const string GEN_MODE_PWM = "PWM_";
+        public const string GEN_MODE_DAC = "DAC_";        
 
         //scope modes
         public const string MODE_NORMAL = "NORM";
