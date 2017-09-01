@@ -91,6 +91,20 @@ namespace LEO
         double realFreq_ch1 = 0;
         double realFreq_ch2 = 0;
 
+        /*********** PWM generator variables START ***********/
+        const UInt32 pwmTimPeriphClock = 144000000;
+        double realPwmFreq_ch1 = 140625, realPwmFreq_ch2 = 140625;
+        double pwmFreq_ch1 = 140625, pwmFreq_ch2 = 140625;
+        ushort genPwm1Arr = 0, genPwm1Psc = 0, genPwm2Arr = 0, genPwm2Psc = 0;
+
+        public enum PWM_FREQ_CHANGE { CHANGE_CH1, CHANGE_CH2, CHANGE_NONE };
+        PWM_FREQ_CHANGE pwmFreqChange;
+
+        System.Timers.Timer genPwmScrollTimer;
+        public enum GEN_PWM_SCROLL { SCROLL_NONE, SCROLL_CH1, SCROLL_CH2 };
+        GEN_PWM_SCROLL pwmFreqScroll;
+        /*********** PWM generator variables END ************/
+
         public Generator(Device dev)
         {
             InitializeComponent();
@@ -98,7 +112,13 @@ namespace LEO
             /* Check what generator mode is set */
             if (Device.GenMode == Device.GenModeOpened.DAC)
             {
-                /* Remove the PWM frequency sliders */
+                /* Remove PWM real frequency labels */
+                this.label_real_pwmFreq_ch1_title.Dispose();
+                this.label_real_pwmFreq_ch2_title.Dispose();
+                this.label_real_pwmFreq_ch1.Dispose();
+                this.label_real_pwmFreq_ch2.Dispose();
+
+                /* Remove PWM frequency sliders */
                 this.trackBar_pwmFreq_ch1.Dispose();
                 this.trackBar_pwmFreq_ch2.Dispose();
                 this.tableLayoutPanel3.Controls.Remove(groupBox_pwmFreq_ch1);
@@ -131,10 +151,9 @@ namespace LEO
                 this.trackBar_zoom_ch2.Enabled = false;
                 this.trackBar_position_ch2.Enabled = false;
                 this.button_gen_analog_ch2.Enabled = false;
-                this.button_gen_digital_ch2.Enabled = false;
-            } 
+                this.button_gen_digital_ch2.Enabled = false;                
+            }
             
-
             zedGraphControl_gen_ch1.MasterPane[0].IsFontsScaled = false;
             zedGraphControl_gen_ch1.MasterPane[0].Title.IsVisible = false;
             zedGraphControl_gen_ch1.MasterPane[0].XAxis.MajorGrid.IsVisible = true;
@@ -207,7 +226,8 @@ namespace LEO
             else
             {
                 /* Send a message to device to initialize PWM mode */
-                Generator_PWM_Init();
+                //genPwmScrollTimerConfig();
+                Generator_PWM_Init();                
             }
         }
 
@@ -222,7 +242,7 @@ namespace LEO
                     tableLayoutPanel.Controls.Remove(control);
                 }
             }
-
+            
             tableLayoutPanel.RowStyles.RemoveAt(rowNum);
 
             foreach (Control control in tableLayoutPanel.Controls)
@@ -335,7 +355,15 @@ namespace LEO
 
         private void Update_signal(object sender, ElapsedEventArgs e)
         {
-            double sum = signalType_ch1.GetHashCode() + signalType_ch2.GetHashCode() + freq_ch1 + freq_ch2 + ampl_ch1 + ampl_ch2 + phase_ch1 + phase_ch2 + duty_ch1 + duty_ch2 + offset_ch1 + offset_ch2 + signal_leng_ch1 + signal_leng_ch2 + signal_leng + actual_channels;
+            double sum;
+            if (Device.GenMode == Device.GenModeOpened.DAC)
+            {
+                sum = signalType_ch1.GetHashCode() + signalType_ch2.GetHashCode() + freq_ch1 + freq_ch2 + ampl_ch1 + ampl_ch2 + phase_ch1 + phase_ch2 + duty_ch1 + duty_ch2 + offset_ch1 + offset_ch2 + signal_leng_ch1 + signal_leng_ch2 + signal_leng + actual_channels;
+            }
+            else
+            {
+                sum = signalType_ch1.GetHashCode() + signalType_ch2.GetHashCode() + pwmFreq_ch1 + pwmFreq_ch2 + freq_ch1 + freq_ch2 + ampl_ch1 + ampl_ch2 + phase_ch1 + phase_ch2 + duty_ch1 + duty_ch2 + offset_ch1 + offset_ch2 + signal_leng_ch1 + signal_leng_ch2 + signal_leng + actual_channels;
+            }         
             sum = bestFreqFit ? sum + 1 : sum;
             sum = customLeng ? sum + 2 : sum;
             sum = khz_ch1 ? sum + 4 : sum;
@@ -349,6 +377,26 @@ namespace LEO
 
                 if (!generating)
                 {
+                    /************* PWM gen START code **************/
+                    if(Device.GenMode == Device.GenModeOpened.PWM)
+                    {
+                        if(pwmFreqChange != PWM_FREQ_CHANGE.CHANGE_NONE)
+                        {
+                            switch (pwmFreqChange)
+                            {
+                                case PWM_FREQ_CHANGE.CHANGE_CH1:
+                                    realPwmFreq_ch1 = genProcessPwmFrequency(1, (UInt32)pwmFreq_ch1);
+                                    sendPwmFrequency(1, genPwm1Psc, genPwm1Arr);
+                                    break;
+                                case PWM_FREQ_CHANGE.CHANGE_CH2:
+                                    realPwmFreq_ch2 = genProcessPwmFrequency(2, (UInt32)pwmFreq_ch2);
+                                    sendPwmFrequency(2, genPwm2Psc, genPwm2Arr);
+                                    break;
+                            }
+                        }                        
+                    }
+                    /************* PWM gen END code ***************/
+
                     takeGenSemaphore(4852);
                     calculate_signal_lengths();
                     generate_signals();
@@ -718,8 +766,17 @@ namespace LEO
             }
             zedGraphControl_gen_ch1.Refresh();
             zedGraphControl_gen_ch2.Refresh();
+
             if (generating)
             {
+                /********* PWM gen part start *********/
+                if (Device.GenMode == Device.GenModeOpened.PWM)
+                {
+                    this.label_real_pwmFreq_ch1.Text = realPwmFreq_ch1.ToString("F4") + " Hz";
+                    this.label_real_pwmFreq_ch2.Text = realPwmFreq_ch2.ToString("F4") + " Hz";
+                }
+                /********** PWM gen part end *********/
+
                 label_real_freq_ch1_title.Text = "Real frequency";
                 if (realFreq_ch1 < 1000)
                 {
@@ -743,6 +800,27 @@ namespace LEO
             }
             else
             {
+                if (Device.GenMode == Device.GenModeOpened.PWM)
+                {
+                    /* Uncomment if textBox is desired to be the same as realFreq label - trackBar cannot be trimmed in that case */
+                    //textBox_pwmFreq_ch1.Text = realPwmFreq_ch1.ToString("F1");
+                    this.label_real_pwmFreq_ch1.Text = realPwmFreq_ch1.ToString("F4") + " Hz";                    
+
+                    if (actual_channels == 2)
+                    {
+                        if (checkBox_enable_ch2.Checked == true)
+                        {
+                            /* Uncomment if textBox is desired to be the same as realFreq label - trackBar cannot be trimmed in that case */
+                            //textBox_pwmFreq_ch2.Text = realPwmFreq_ch2.ToString("F1"); 
+                            this.label_real_pwmFreq_ch2.Text = realPwmFreq_ch2.ToString("F4") + " Hz";
+                        }
+                        else
+                        {
+                            this.label_real_pwmFreq_ch2.Text = "N/A Hz";
+                        }
+                    }
+                }
+
                 label_real_freq_ch1_title.Text = "Estimate freq.";
                 if ((double)(device.systemCfg.PeriphClock) / signal_leng_ch1 / divider_ch1 < 1000)
                 {
@@ -1528,6 +1606,8 @@ namespace LEO
                 trackBar_position_ch2.Enabled = checkCheck;
                 button_gen_analog_ch2.Enabled = checkCheck;
                 button_gen_digital_ch2.Enabled = checkCheck;
+                label_real_pwmFreq_ch2_title.Enabled = checkCheck;
+                label_real_pwmFreq_ch2.Enabled = checkCheck;
             }
         }
 
@@ -1673,6 +1753,18 @@ namespace LEO
                     set_data_length(Commands.DATA_LENGTH_CH1, signal_leng_ch1);
                 }
 
+                if (Device.GenMode == Device.GenModeOpened.PWM)
+                {
+                    if(actual_channels == 2)
+                    {
+                        sendPwmFrequency(1, genPwm1Psc, genPwm1Arr);
+                        sendPwmFrequency(2, genPwm2Psc, genPwm2Arr);
+                    }
+                    else
+                    {
+                        sendPwmFrequency(1, genPwm1Psc, genPwm1Arr);
+                    }
+                }
 
                 if (checkBox_khz_ch1.Checked)
                 {
@@ -1911,10 +2003,12 @@ namespace LEO
 
             this.checkBox_enable_ch2.Enabled = ctrl;
 
+            /* PWM generator validate control */
             this.trackBar_pwmFreq_ch1.Enabled = ctrl;
             this.textBox_pwmFreq_ch1.Enabled = ctrl;
             this.trackBar_pwmFreq_ch2.Enabled = ctrl;
             this.textBox_pwmFreq_ch2.Enabled = ctrl;
+            /**********************************/
             this.trackBar_ampl_ch1.Enabled = ctrl;
             this.trackBar_duty_ch1.Enabled = ctrl;
             this.trackBar_offset_ch1.Enabled = ctrl;
@@ -2006,11 +2100,238 @@ namespace LEO
             return signal_leng_ch1;
         }
 
+        /****************************************************************************************/
+        /*********************** PWM generator events channel 1 handlers ************************/
+        /****************************************************************************************/
+        private void trackBar_pwmFreq_ch1_ValueChanged(object sender, EventArgs e)
+        {
+            pwmFreq_ch1 = ((double)(this.trackBar_pwmFreq_ch1.Value));
+            this.textBox_pwmFreq_ch1.Text = pwmFreq_ch1.ToString("F1");
 
+            pwmFreqChange = PWM_FREQ_CHANGE.CHANGE_CH1;
+        }
 
+        private void textBox_pwmFreq_ch1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
 
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                validate_text_pwmFreq_ch1();
 
+                pwmFreq_ch1 = realPwmFreq_ch1 = genProcessPwmFrequency(1, Convert.ToUInt32(Convert.ToDouble(textBox.Text)));
+                //textBox_pwmFreq_ch1.Text = realPwmFreq_ch1.ToString("F1");
+            }
+        }
 
+        private void textBox_pwmFreq_ch1_Leave(object sender, EventArgs e)
+        {
+            validate_text_pwmFreq_ch1();
+
+            pwmFreq_ch1 = realPwmFreq_ch1 = genProcessPwmFrequency(1, Convert.ToUInt32(Convert.ToDouble(textBox_pwmFreq_ch1.Text)));
+            //textBox_pwmFreq_ch1.Text = realPwmFreq_ch1.ToString("F1");
+        }
+
+        private void validate_text_pwmFreq_ch1()
+        {
+            try
+            {
+                Double val = Double.Parse(this.textBox_pwmFreq_ch1.Text);
+                if (val > 9000000 /*device.pwmGenCfg.maxPwmFrequency*/)
+                {
+                    throw new System.ArgumentException("Parameter cannot be greather then ", "original");
+                }
+                this.trackBar_pwmFreq_ch1.Value = (int)(val);
+                pwmFreq_ch1 = val;
+            }
+            catch (Exception ex)
+            {
+                ex.Data.Clear();
+            }
+            finally
+            {
+                this.textBox_pwmFreq_ch1.Text = pwmFreq_ch1.ToString("F1");
+            }
+        }
+
+        /****************************************************************************************/
+        /*********************** PWM generator events channel 2 handlers ************************/
+        /****************************************************************************************/
+
+        private void trackBar_pwmFreq_ch2_ValueChanged(object sender, EventArgs e)
+        {            
+            pwmFreq_ch2 = ((double)(this.trackBar_pwmFreq_ch2.Value));
+            this.textBox_pwmFreq_ch2.Text = pwmFreq_ch2.ToString("F1");
+
+            pwmFreqChange = PWM_FREQ_CHANGE.CHANGE_CH2;
+        }
+
+        private void textBox_pwmFreq_ch2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                validate_text_pwmFreq_ch2();
+
+                pwmFreq_ch2 = realPwmFreq_ch2 = genProcessPwmFrequency(2, Convert.ToUInt32(Convert.ToDouble(textBox.Text)));
+                //textBox_pwmFreq_ch2.Text = realPwmFreq_ch2.ToString("F1");                                
+            }
+        }
+
+        private void textBox_pwmFreq_ch2_Leave(object sender, EventArgs e)
+        {
+            validate_text_pwmFreq_ch2();
+
+            pwmFreq_ch2 = realPwmFreq_ch2 = genProcessPwmFrequency(2, Convert.ToUInt32(Convert.ToDouble(textBox_pwmFreq_ch2.Text)));            
+            //textBox_pwmFreq_ch2.Text = realPwmFreq_ch2.ToString("F1");                        
+        }
+
+        private void validate_text_pwmFreq_ch2()
+        {
+            try
+            {
+                Double val = Double.Parse(this.textBox_pwmFreq_ch2.Text);
+                if (val > 9000000 /*device.pwmGenCfg.maxPwmFrequency*/)
+                {
+                    throw new System.ArgumentException("Parameter cannot be greather then ", "original");
+                }
+                this.trackBar_pwmFreq_ch2.Value = (int)(val);
+                pwmFreq_ch2 = val;
+            }
+            catch (Exception ex)
+            {
+                ex.Data.Clear();
+            }
+            finally
+            {
+                this.textBox_pwmFreq_ch2.Text = pwmFreq_ch2.ToString("F1");
+            }
+        }
+
+        /****************************************************************************************/
+        /******************************** PWM generator timer fun *******************************/
+        /****************************************************************************************/
+        //private void genPwmScrollTimerConfig()
+        //{
+        //    genPwmScrollTimer = new System.Timers.Timer(100);
+        //    genPwmScrollTimer.Elapsed += new ElapsedEventHandler(genPwmScrollTimeElapseEvent);
+        //    genPwmScrollTimer.AutoReset = false;
+        //}
+
+        //private void genPwmScrollTimeElapseEvent(Object source, ElapsedEventArgs e)
+        //{
+        //    genPwmScrollTimer.Stop();
+
+        //    switch (pwmFreqScroll)
+        //    {
+        //        case GEN_PWM_SCROLL.SCROLL_CH1:
+        //            realPwmFreq_ch1 = genProcessPwmFrequency((UInt32)pwmFreq_ch1, 1);
+        //            break;
+        //        case GEN_PWM_SCROLL.SCROLL_CH2:
+        //            realPwmFreq_ch2 = genProcessPwmFrequency((UInt32)pwmFreq_ch2, 2);
+        //            break;
+        //    }
+
+        //    pwmFreqScroll = GEN_PWM_SCROLL.SCROLL_NONE;
+        //}
+    
+
+        /****************************************************************************************/
+        /******************************** PWM generator functions *******************************/
+        /****************************************************************************************/
+        /* Maximal PWM frequency set to 9MHz - leads to minimal 4bit PWM resolution (144MHz / (16*1) = 9MHz) */
+        private double genProcessPwmFrequency(uint chan, UInt32 freq)
+        { 
+            UInt32 psc = 0, arr = 1;  // MCU TIM Prescaler and Auto Reload Register
+            UInt32 arrMultipliedByPsc = pwmTimPeriphClock / freq;
+
+            if (arrMultipliedByPsc <= 65536)
+            {
+                arr = arrMultipliedByPsc;
+                psc = 1;
+            }
+            else
+            {
+                for ( ; (psc == 0) || isPrimeNumber(arrMultipliedByPsc) ; arrMultipliedByPsc--)
+                {                    
+                    for (UInt32 pscTemp = 65536; pscTemp > 1; pscTemp--)
+                    {
+                        if ((arrMultipliedByPsc % pscTemp) == 0)
+                        {
+                            psc = pscTemp;
+                            break;
+                        }
+                    }
+                }
+                arrMultipliedByPsc += 1;
+                arr = (arrMultipliedByPsc / psc);
+
+                if (arr < psc)
+                {
+                    UInt32 swapVar = arr;                    
+                    arr = psc;
+                    psc = swapVar;
+                }
+            }
+
+            if(chan == 1)
+            {
+                genPwm1Arr = (ushort)(arr - 1);
+                genPwm1Psc = (ushort)(psc - 1);
+            }
+            else if(chan == 2)
+            {
+                genPwm2Arr = (ushort)(arr - 1);
+                genPwm2Psc = (ushort)(psc - 1);
+            }
+
+            double realPwmFreq = pwmTimPeriphClock / (double)(arr * psc);            
+            return realPwmFreq;
+        }
+
+        /* Send computed values of ARR and PSC to device */
+        private void sendPwmFrequency(ushort chan, ushort psc, ushort arr)
+        {
+            device.takeCommsSemaphore(semaphoreTimeout + 121);
+
+            device.send(Commands.GENERATOR + ":" + Commands.GEN_PWM_FREQ_PSC + " ");
+            device.send_int((psc << 8) + chan);
+            device.send(";");
+
+            Thread.Sleep(120);
+
+            device.send(Commands.GENERATOR + ":" + Commands.GEN_PWM_FREQ_ARR + " ");
+            device.send_short((arr << 8) + chan);
+            device.send(";");
+
+            device.giveCommsSemaphore();
+        }
+
+        /* Test for prime number */
+        private static bool isPrimeNumber(UInt32 number)
+        {
+            if ((number & 1) == 0)
+            {
+                if (number == 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            for (int i = 3; (i * i) <= number; i = i + 2)
+            {
+                if ((number % i) == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
     }
 }

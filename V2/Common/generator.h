@@ -37,10 +37,13 @@ typedef struct{
 	generatorState state;	
 	generatorModeState modeState;
 	uint8_t numOfChannles;
-	uint16_t *pChanMem[MAX_DAC_CHANNELS];					// buffer
+	uint16_t *pChanMem[MAX_DAC_CHANNELS];					// buffer itself
 	uint16_t oneChanSamples[MAX_DAC_CHANNELS];		// buffer size
 	uint32_t maxOneChanSamples;
 	uint16_t DAC_res;
+	/* PWM generator part of struct */
+//	uint16_t genPwmArr[MAX_DAC_CHANNELS];	
+//	uint16_t genPwmPsc[MAX_DAC_CHANNELS];	
 }generatorTypeDef;
 
 
@@ -62,7 +65,13 @@ void genUnsetOutputBuffer(void);
 void genStart(void);
 void genStop(void);
 
+/* PWM generator function prototypes */
 void genSetMode(uint8_t mode);
+void generatorSetModePWM(void);
+void generatorSetModeDAC(void);
+void generator_deinit(void);
+void genSetPwmFrequencyPSC(uint32_t pscVal, uint8_t chan);
+void genSetPwmFrequencyARR(uint32_t arrVal, uint8_t chan);
 
 extern volatile generatorTypeDef generator;
 

@@ -36,6 +36,7 @@ void sendScopeConf(void);
 void sendCounterConf(void);
 void sendScopeInputs(void);
 void sendGenConf(void);
+void sendGenPwmConf(void);
 void sendShieldPresence(void);
 void sendSystemVersion(void);
 void assertPins(void);
@@ -293,7 +294,7 @@ void CommTask(void const *argument){
 			#if defined(USE_GEN) || defined(USE_GEN_PWM)
 			sendGenConf();
 			#endif //USE_GEN || USE_GEN_PWM
-			
+				
 		// send gen next data block
 		}else if(message[0]=='7'){
 			#if defined(USE_GEN) || defined(USE_GEN_PWM)

@@ -221,6 +221,10 @@ void GeneratingDisable(void){
 	DACDisableOutput();	
 }
 
+void GEN_DAC_DMA_deinit(void){
+	HAL_DAC_MspDeInit(&hdac);
+}
+
 /* USER CODE END 1 */
 
 /**

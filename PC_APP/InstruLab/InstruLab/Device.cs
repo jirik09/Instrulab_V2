@@ -740,7 +740,7 @@ namespace LEO
                             switch (DACFormOpened)
                             {
                                 case FormOpened.GENERATOR:
-                                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));
+                                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));                                    
                                     break;
                                 case FormOpened.VOLT_SOURCE:
                                     Source_form.add_message(new Message(Message.MsgRequest.GEN_OK));
@@ -1110,6 +1110,7 @@ namespace LEO
                 GenOpened = GenModeOpened.PWM;
                 Gen_form = new Generator(this);
                 Gen_form.Show();
+                DACFormOpened = FormOpened.GENERATOR;
             }
             else
             {

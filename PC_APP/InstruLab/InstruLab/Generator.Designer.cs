@@ -122,6 +122,8 @@
             this.checkBox_khz_ch1 = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_real_pwmFreq_ch1 = new System.Windows.Forms.Label();
+            this.label_real_pwmFreq_ch1_title = new System.Windows.Forms.Label();
             this.button_gen_control = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label_real_freq_ch1 = new System.Windows.Forms.Label();
@@ -129,6 +131,8 @@
             this.label_sig_leng_ch1 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label_real_pwmFreq_ch2 = new System.Windows.Forms.Label();
+            this.label_real_pwmFreq_ch2_title = new System.Windows.Forms.Label();
             this.checkBox_join_frequencies = new System.Windows.Forms.CheckBox();
             this.label_real_freq_ch2 = new System.Windows.Forms.Label();
             this.label_real_freq_ch2_title = new System.Windows.Forms.Label();
@@ -217,7 +221,7 @@
             // 
             this.label_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label_status.BackColor = System.Drawing.Color.Red;
-            this.label_status.Location = new System.Drawing.Point(894, 0);
+            this.label_status.Location = new System.Drawing.Point(870, 0);
             this.label_status.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_status.Name = "label_status";
             this.label_status.Size = new System.Drawing.Size(21, 23);
@@ -233,7 +237,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(914, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(890, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -389,7 +393,7 @@
             // 
             this.label_status_gen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label_status_gen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.label_status_gen.Location = new System.Drawing.Point(814, 2);
+            this.label_status_gen.Location = new System.Drawing.Point(790, 2);
             this.label_status_gen.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_status_gen.Name = "label_status_gen";
             this.label_status_gen.Size = new System.Drawing.Size(75, 19);
@@ -402,7 +406,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel10, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel9, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
@@ -422,7 +426,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(914, 513);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(890, 483);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel10
@@ -441,12 +445,12 @@
             this.tableLayoutPanel10.Controls.Add(this.groupBox12, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.groupBox_pwmFreq_ch2, 5, 0);
             this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(380, 258);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(332, 243);
             this.tableLayoutPanel10.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 1;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(425, 192);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(425, 177);
             this.tableLayoutPanel10.TabIndex = 13;
             // 
             // groupBox8
@@ -457,7 +461,7 @@
             this.groupBox8.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox8.Size = new System.Drawing.Size(66, 188);
+            this.groupBox8.Size = new System.Drawing.Size(66, 173);
             this.groupBox8.TabIndex = 29;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Offset (mV)";
@@ -476,13 +480,13 @@
             this.tableLayoutPanel11.RowCount = 2;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel11.TabIndex = 0;
             // 
             // textBox_offset_ch2
             // 
             this.textBox_offset_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_offset_ch2.Location = new System.Drawing.Point(2, 150);
+            this.textBox_offset_ch2.Location = new System.Drawing.Point(2, 135);
             this.textBox_offset_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_offset_ch2.Name = "textBox_offset_ch2";
             this.textBox_offset_ch2.Size = new System.Drawing.Size(58, 20);
@@ -498,7 +502,7 @@
             this.trackBar_offset_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_offset_ch2.Name = "trackBar_offset_ch2";
             this.trackBar_offset_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_offset_ch2.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_offset_ch2.Size = new System.Drawing.Size(58, 129);
             this.trackBar_offset_ch2.TabIndex = 20;
             this.trackBar_offset_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_offset_ch2.ValueChanged += new System.EventHandler(this.trackBar_offset_ch2_ValueChanged);
@@ -511,7 +515,7 @@
             this.groupBox9.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox9.Size = new System.Drawing.Size(66, 188);
+            this.groupBox9.Size = new System.Drawing.Size(66, 173);
             this.groupBox9.TabIndex = 28;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Duty (%)";
@@ -530,13 +534,13 @@
             this.tableLayoutPanel12.RowCount = 2;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel12.TabIndex = 0;
             // 
             // textBox_duty_ch2
             // 
             this.textBox_duty_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_duty_ch2.Location = new System.Drawing.Point(2, 150);
+            this.textBox_duty_ch2.Location = new System.Drawing.Point(2, 135);
             this.textBox_duty_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_duty_ch2.Name = "textBox_duty_ch2";
             this.textBox_duty_ch2.Size = new System.Drawing.Size(58, 20);
@@ -553,7 +557,7 @@
             this.trackBar_duty_ch2.Maximum = 1000;
             this.trackBar_duty_ch2.Name = "trackBar_duty_ch2";
             this.trackBar_duty_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_duty_ch2.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_duty_ch2.Size = new System.Drawing.Size(58, 129);
             this.trackBar_duty_ch2.TabIndex = 20;
             this.trackBar_duty_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_duty_ch2.Value = 500;
@@ -567,7 +571,7 @@
             this.groupBox10.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox10.Size = new System.Drawing.Size(66, 188);
+            this.groupBox10.Size = new System.Drawing.Size(66, 173);
             this.groupBox10.TabIndex = 27;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Phase (°)";
@@ -586,13 +590,13 @@
             this.tableLayoutPanel13.RowCount = 2;
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel13.TabIndex = 0;
             // 
             // textBox_phase_ch2
             // 
             this.textBox_phase_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_phase_ch2.Location = new System.Drawing.Point(2, 150);
+            this.textBox_phase_ch2.Location = new System.Drawing.Point(2, 135);
             this.textBox_phase_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_phase_ch2.Name = "textBox_phase_ch2";
             this.textBox_phase_ch2.Size = new System.Drawing.Size(58, 20);
@@ -609,7 +613,7 @@
             this.trackBar_phase_ch2.Maximum = 3600;
             this.trackBar_phase_ch2.Name = "trackBar_phase_ch2";
             this.trackBar_phase_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_phase_ch2.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_phase_ch2.Size = new System.Drawing.Size(58, 129);
             this.trackBar_phase_ch2.TabIndex = 20;
             this.trackBar_phase_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_phase_ch2.ValueChanged += new System.EventHandler(this.trackBar_phase_ch2_ValueChanged);
@@ -622,7 +626,7 @@
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(66, 188);
+            this.groupBox11.Size = new System.Drawing.Size(66, 173);
             this.groupBox11.TabIndex = 26;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Ampl (mV)";
@@ -641,13 +645,13 @@
             this.tableLayoutPanel14.RowCount = 2;
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel14.TabIndex = 0;
             // 
             // textBox_ampl_ch2
             // 
             this.textBox_ampl_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_ampl_ch2.Location = new System.Drawing.Point(2, 150);
+            this.textBox_ampl_ch2.Location = new System.Drawing.Point(2, 135);
             this.textBox_ampl_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ampl_ch2.Name = "textBox_ampl_ch2";
             this.textBox_ampl_ch2.Size = new System.Drawing.Size(58, 20);
@@ -663,7 +667,7 @@
             this.trackBar_ampl_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_ampl_ch2.Name = "trackBar_ampl_ch2";
             this.trackBar_ampl_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_ampl_ch2.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_ampl_ch2.Size = new System.Drawing.Size(58, 129);
             this.trackBar_ampl_ch2.TabIndex = 20;
             this.trackBar_ampl_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_ampl_ch2.ValueChanged += new System.EventHandler(this.trackBar_ampl_ch2_ValueChanged);
@@ -676,7 +680,7 @@
             this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox12.Size = new System.Drawing.Size(66, 188);
+            this.groupBox12.Size = new System.Drawing.Size(66, 173);
             this.groupBox12.TabIndex = 25;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Freq (Hz)";
@@ -697,7 +701,7 @@
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
-            this.tableLayoutPanel15.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel15.TabIndex = 0;
             // 
             // checkBox_khz_ch2
@@ -716,7 +720,7 @@
             // textBox_freq_ch2
             // 
             this.textBox_freq_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_freq_ch2.Location = new System.Drawing.Point(2, 150);
+            this.textBox_freq_ch2.Location = new System.Drawing.Point(2, 135);
             this.textBox_freq_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_freq_ch2.Name = "textBox_freq_ch2";
             this.textBox_freq_ch2.Size = new System.Drawing.Size(58, 20);
@@ -734,7 +738,7 @@
             this.trackBar_freq_ch2.Minimum = 1;
             this.trackBar_freq_ch2.Name = "trackBar_freq_ch2";
             this.trackBar_freq_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_freq_ch2.Size = new System.Drawing.Size(58, 124);
+            this.trackBar_freq_ch2.Size = new System.Drawing.Size(58, 109);
             this.trackBar_freq_ch2.TabIndex = 20;
             this.trackBar_freq_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_freq_ch2.Value = 1000;
@@ -748,10 +752,10 @@
             this.groupBox_pwmFreq_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_pwmFreq_ch2.Name = "groupBox_pwmFreq_ch2";
             this.groupBox_pwmFreq_ch2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox_pwmFreq_ch2.Size = new System.Drawing.Size(71, 188);
+            this.groupBox_pwmFreq_ch2.Size = new System.Drawing.Size(71, 173);
             this.groupBox_pwmFreq_ch2.TabIndex = 30;
             this.groupBox_pwmFreq_ch2.TabStop = false;
-            this.groupBox_pwmFreq_ch2.Text = "PWM F";
+            this.groupBox_pwmFreq_ch2.Text = "PWM (Hz)";
             // 
             // tableLayoutPanel17
             // 
@@ -766,31 +770,37 @@
             this.tableLayoutPanel17.RowCount = 2;
             this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel17.Size = new System.Drawing.Size(67, 171);
+            this.tableLayoutPanel17.Size = new System.Drawing.Size(67, 156);
             this.tableLayoutPanel17.TabIndex = 2;
             // 
             // textBox_pwmFreq_ch2
             // 
             this.textBox_pwmFreq_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_pwmFreq_ch2.Location = new System.Drawing.Point(2, 150);
+            this.textBox_pwmFreq_ch2.Location = new System.Drawing.Point(2, 135);
             this.textBox_pwmFreq_ch2.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_pwmFreq_ch2.MaxLength = 9;
             this.textBox_pwmFreq_ch2.Name = "textBox_pwmFreq_ch2";
             this.textBox_pwmFreq_ch2.Size = new System.Drawing.Size(63, 20);
             this.textBox_pwmFreq_ch2.TabIndex = 0;
-            this.textBox_pwmFreq_ch2.Text = "100";
+            this.textBox_pwmFreq_ch2.Text = "140625";
+            this.textBox_pwmFreq_ch2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pwmFreq_ch2_KeyPress);
+            this.textBox_pwmFreq_ch2.Leave += new System.EventHandler(this.textBox_pwmFreq_ch2_Leave);
             // 
             // trackBar_pwmFreq_ch2
             // 
             this.trackBar_pwmFreq_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackBar_pwmFreq_ch2.LargeChange = 10000;
             this.trackBar_pwmFreq_ch2.Location = new System.Drawing.Point(3, 3);
-            this.trackBar_pwmFreq_ch2.Maximum = 10000;
+            this.trackBar_pwmFreq_ch2.Maximum = 9000000;
             this.trackBar_pwmFreq_ch2.Minimum = 1;
             this.trackBar_pwmFreq_ch2.Name = "trackBar_pwmFreq_ch2";
             this.trackBar_pwmFreq_ch2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_pwmFreq_ch2.Size = new System.Drawing.Size(61, 142);
+            this.trackBar_pwmFreq_ch2.Size = new System.Drawing.Size(61, 127);
+            this.trackBar_pwmFreq_ch2.SmallChange = 100;
             this.trackBar_pwmFreq_ch2.TabIndex = 1;
             this.trackBar_pwmFreq_ch2.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar_pwmFreq_ch2.Value = 100;
+            this.trackBar_pwmFreq_ch2.Value = 140625;
+            this.trackBar_pwmFreq_ch2.ValueChanged += new System.EventHandler(this.trackBar_pwmFreq_ch2_ValueChanged);
             // 
             // tableLayoutPanel9
             // 
@@ -799,14 +809,14 @@
             this.tableLayoutPanel9.Controls.Add(this.zedGraphControl_gen_ch2, 0, 1);
             this.tableLayoutPanel9.Controls.Add(this.panel4, 0, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(2, 258);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(2, 243);
             this.tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 2;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(374, 192);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(326, 177);
             this.tableLayoutPanel9.TabIndex = 12;
             // 
             // zedGraphControl_gen_ch2
@@ -826,7 +836,7 @@
             this.zedGraphControl_gen_ch2.ScrollMinX = 0D;
             this.zedGraphControl_gen_ch2.ScrollMinY = 0D;
             this.zedGraphControl_gen_ch2.ScrollMinY2 = 0D;
-            this.zedGraphControl_gen_ch2.Size = new System.Drawing.Size(370, 164);
+            this.zedGraphControl_gen_ch2.Size = new System.Drawing.Size(322, 149);
             this.zedGraphControl_gen_ch2.TabIndex = 4;
             // 
             // panel4
@@ -839,7 +849,7 @@
             this.panel4.Location = new System.Drawing.Point(2, 2);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(370, 20);
+            this.panel4.Size = new System.Drawing.Size(322, 20);
             this.panel4.TabIndex = 3;
             // 
             // radioButton_sine_ch2
@@ -909,7 +919,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(374, 192);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(326, 177);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
             // zedGraphControl_gen_ch1
@@ -929,7 +939,7 @@
             this.zedGraphControl_gen_ch1.ScrollMinX = 0D;
             this.zedGraphControl_gen_ch1.ScrollMinY = 0D;
             this.zedGraphControl_gen_ch1.ScrollMinY2 = 0D;
-            this.zedGraphControl_gen_ch1.Size = new System.Drawing.Size(370, 164);
+            this.zedGraphControl_gen_ch1.Size = new System.Drawing.Size(322, 149);
             this.zedGraphControl_gen_ch1.TabIndex = 4;
             // 
             // panel2
@@ -943,7 +953,7 @@
             this.panel2.Location = new System.Drawing.Point(2, 2);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(370, 20);
+            this.panel2.Size = new System.Drawing.Size(322, 20);
             this.panel2.TabIndex = 3;
             // 
             // button_load_ch1
@@ -1027,12 +1037,12 @@
             this.tableLayoutPanel3.Controls.Add(this.groupBox3, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.groupBox2, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(380, 2);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(332, 2);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(425, 192);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(425, 177);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupBox_pwmFreq_ch1
@@ -1043,10 +1053,10 @@
             this.groupBox_pwmFreq_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_pwmFreq_ch1.Name = "groupBox_pwmFreq_ch1";
             this.groupBox_pwmFreq_ch1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox_pwmFreq_ch1.Size = new System.Drawing.Size(71, 188);
+            this.groupBox_pwmFreq_ch1.Size = new System.Drawing.Size(71, 173);
             this.groupBox_pwmFreq_ch1.TabIndex = 30;
             this.groupBox_pwmFreq_ch1.TabStop = false;
-            this.groupBox_pwmFreq_ch1.Text = "PWM F";
+            this.groupBox_pwmFreq_ch1.Text = "PWM (Hz)";
             // 
             // tableLayoutPanel16
             // 
@@ -1061,31 +1071,37 @@
             this.tableLayoutPanel16.RowCount = 2;
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel16.Size = new System.Drawing.Size(67, 171);
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(67, 156);
             this.tableLayoutPanel16.TabIndex = 2;
             // 
             // textBox_pwmFreq_ch1
             // 
             this.textBox_pwmFreq_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_pwmFreq_ch1.Location = new System.Drawing.Point(2, 150);
+            this.textBox_pwmFreq_ch1.Location = new System.Drawing.Point(2, 135);
             this.textBox_pwmFreq_ch1.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_pwmFreq_ch1.MaxLength = 9;
             this.textBox_pwmFreq_ch1.Name = "textBox_pwmFreq_ch1";
             this.textBox_pwmFreq_ch1.Size = new System.Drawing.Size(63, 20);
             this.textBox_pwmFreq_ch1.TabIndex = 0;
-            this.textBox_pwmFreq_ch1.Text = "100";
+            this.textBox_pwmFreq_ch1.Text = "140625";
+            this.textBox_pwmFreq_ch1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pwmFreq_ch1_KeyPress);
+            this.textBox_pwmFreq_ch1.Leave += new System.EventHandler(this.textBox_pwmFreq_ch1_Leave);
             // 
             // trackBar_pwmFreq_ch1
             // 
             this.trackBar_pwmFreq_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackBar_pwmFreq_ch1.LargeChange = 10000;
             this.trackBar_pwmFreq_ch1.Location = new System.Drawing.Point(3, 3);
-            this.trackBar_pwmFreq_ch1.Maximum = 10000;
+            this.trackBar_pwmFreq_ch1.Maximum = 9000000;
             this.trackBar_pwmFreq_ch1.Minimum = 1;
             this.trackBar_pwmFreq_ch1.Name = "trackBar_pwmFreq_ch1";
             this.trackBar_pwmFreq_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_pwmFreq_ch1.Size = new System.Drawing.Size(61, 142);
+            this.trackBar_pwmFreq_ch1.Size = new System.Drawing.Size(61, 127);
+            this.trackBar_pwmFreq_ch1.SmallChange = 100;
             this.trackBar_pwmFreq_ch1.TabIndex = 1;
             this.trackBar_pwmFreq_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar_pwmFreq_ch1.Value = 100;
+            this.trackBar_pwmFreq_ch1.Value = 140625;
+            this.trackBar_pwmFreq_ch1.ValueChanged += new System.EventHandler(this.trackBar_pwmFreq_ch1_ValueChanged);
             // 
             // groupBox6
             // 
@@ -1095,7 +1111,7 @@
             this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox6.Size = new System.Drawing.Size(66, 188);
+            this.groupBox6.Size = new System.Drawing.Size(66, 173);
             this.groupBox6.TabIndex = 29;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Offset (mV)";
@@ -1114,13 +1130,13 @@
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel8.TabIndex = 0;
             // 
             // textBox_offset_ch1
             // 
             this.textBox_offset_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_offset_ch1.Location = new System.Drawing.Point(2, 150);
+            this.textBox_offset_ch1.Location = new System.Drawing.Point(2, 135);
             this.textBox_offset_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_offset_ch1.Name = "textBox_offset_ch1";
             this.textBox_offset_ch1.Size = new System.Drawing.Size(58, 20);
@@ -1136,7 +1152,7 @@
             this.trackBar_offset_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_offset_ch1.Name = "trackBar_offset_ch1";
             this.trackBar_offset_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_offset_ch1.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_offset_ch1.Size = new System.Drawing.Size(58, 129);
             this.trackBar_offset_ch1.TabIndex = 20;
             this.trackBar_offset_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_offset_ch1.ValueChanged += new System.EventHandler(this.trackBar_offset_ch1_ValueChanged);
@@ -1149,7 +1165,7 @@
             this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox5.Size = new System.Drawing.Size(66, 188);
+            this.groupBox5.Size = new System.Drawing.Size(66, 173);
             this.groupBox5.TabIndex = 28;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Duty (%)";
@@ -1167,13 +1183,13 @@
             this.tableLayoutPanel7.RowCount = 2;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // textBox_duty_ch1
             // 
             this.textBox_duty_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_duty_ch1.Location = new System.Drawing.Point(2, 150);
+            this.textBox_duty_ch1.Location = new System.Drawing.Point(2, 135);
             this.textBox_duty_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_duty_ch1.Name = "textBox_duty_ch1";
             this.textBox_duty_ch1.Size = new System.Drawing.Size(58, 20);
@@ -1190,7 +1206,7 @@
             this.trackBar_duty_ch1.Maximum = 1000;
             this.trackBar_duty_ch1.Name = "trackBar_duty_ch1";
             this.trackBar_duty_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_duty_ch1.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_duty_ch1.Size = new System.Drawing.Size(58, 129);
             this.trackBar_duty_ch1.TabIndex = 20;
             this.trackBar_duty_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_duty_ch1.Value = 500;
@@ -1204,7 +1220,7 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(66, 188);
+            this.groupBox4.Size = new System.Drawing.Size(66, 173);
             this.groupBox4.TabIndex = 27;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Phase (°)";
@@ -1223,13 +1239,13 @@
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // textBox_phase_ch1
             // 
             this.textBox_phase_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_phase_ch1.Location = new System.Drawing.Point(2, 150);
+            this.textBox_phase_ch1.Location = new System.Drawing.Point(2, 135);
             this.textBox_phase_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_phase_ch1.Name = "textBox_phase_ch1";
             this.textBox_phase_ch1.Size = new System.Drawing.Size(58, 20);
@@ -1246,7 +1262,7 @@
             this.trackBar_phase_ch1.Maximum = 3600;
             this.trackBar_phase_ch1.Name = "trackBar_phase_ch1";
             this.trackBar_phase_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_phase_ch1.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_phase_ch1.Size = new System.Drawing.Size(58, 129);
             this.trackBar_phase_ch1.TabIndex = 20;
             this.trackBar_phase_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_phase_ch1.ValueChanged += new System.EventHandler(this.trackBar_phase_ch1_ValueChanged);
@@ -1259,7 +1275,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(66, 188);
+            this.groupBox3.Size = new System.Drawing.Size(66, 173);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ampl (mV)";
@@ -1278,13 +1294,13 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // textBox_ampl_ch1
             // 
             this.textBox_ampl_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_ampl_ch1.Location = new System.Drawing.Point(2, 150);
+            this.textBox_ampl_ch1.Location = new System.Drawing.Point(2, 135);
             this.textBox_ampl_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ampl_ch1.Name = "textBox_ampl_ch1";
             this.textBox_ampl_ch1.Size = new System.Drawing.Size(58, 20);
@@ -1300,7 +1316,7 @@
             this.trackBar_ampl_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar_ampl_ch1.Name = "trackBar_ampl_ch1";
             this.trackBar_ampl_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_ampl_ch1.Size = new System.Drawing.Size(58, 144);
+            this.trackBar_ampl_ch1.Size = new System.Drawing.Size(58, 129);
             this.trackBar_ampl_ch1.TabIndex = 20;
             this.trackBar_ampl_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_ampl_ch1.ValueChanged += new System.EventHandler(this.trackBar_ampl_ch1_ValueChanged);
@@ -1313,7 +1329,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(66, 188);
+            this.groupBox2.Size = new System.Drawing.Size(66, 173);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Freq (Hz)";
@@ -1333,13 +1349,13 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(62, 171);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(62, 156);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // textBox_freq_ch1
             // 
             this.textBox_freq_ch1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_freq_ch1.Location = new System.Drawing.Point(2, 150);
+            this.textBox_freq_ch1.Location = new System.Drawing.Point(2, 135);
             this.textBox_freq_ch1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_freq_ch1.Name = "textBox_freq_ch1";
             this.textBox_freq_ch1.Size = new System.Drawing.Size(58, 20);
@@ -1357,7 +1373,7 @@
             this.trackBar_freq_ch1.Minimum = 1;
             this.trackBar_freq_ch1.Name = "trackBar_freq_ch1";
             this.trackBar_freq_ch1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_freq_ch1.Size = new System.Drawing.Size(58, 124);
+            this.trackBar_freq_ch1.Size = new System.Drawing.Size(58, 109);
             this.trackBar_freq_ch1.TabIndex = 20;
             this.trackBar_freq_ch1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_freq_ch1.Value = 1000;
@@ -1380,17 +1396,19 @@
             // 
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(809, 2);
+            this.groupBox1.Location = new System.Drawing.Point(761, 2);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(103, 192);
+            this.groupBox1.Size = new System.Drawing.Size(127, 177);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Params Ch 1";
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label_real_pwmFreq_ch1);
+            this.panel1.Controls.Add(this.label_real_pwmFreq_ch1_title);
             this.panel1.Controls.Add(this.button_gen_control);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label_real_freq_ch1);
@@ -1400,16 +1418,34 @@
             this.panel1.Location = new System.Drawing.Point(2, 15);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(99, 175);
+            this.panel1.Size = new System.Drawing.Size(123, 160);
             this.panel1.TabIndex = 7;
+            // 
+            // label_real_pwmFreq_ch1
+            // 
+            this.label_real_pwmFreq_ch1.AutoSize = true;
+            this.label_real_pwmFreq_ch1.Location = new System.Drawing.Point(5, 84);
+            this.label_real_pwmFreq_ch1.Name = "label_real_pwmFreq_ch1";
+            this.label_real_pwmFreq_ch1.Size = new System.Drawing.Size(20, 13);
+            this.label_real_pwmFreq_ch1.TabIndex = 3;
+            this.label_real_pwmFreq_ch1.Text = "Hz";
+            // 
+            // label_real_pwmFreq_ch1_title
+            // 
+            this.label_real_pwmFreq_ch1_title.AutoSize = true;
+            this.label_real_pwmFreq_ch1_title.Location = new System.Drawing.Point(5, 70);
+            this.label_real_pwmFreq_ch1_title.Name = "label_real_pwmFreq_ch1_title";
+            this.label_real_pwmFreq_ch1_title.Size = new System.Drawing.Size(86, 13);
+            this.label_real_pwmFreq_ch1_title.TabIndex = 2;
+            this.label_real_pwmFreq_ch1_title.Text = "Real PWM Freq.";
             // 
             // button_gen_control
             // 
             this.button_gen_control.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button_gen_control.Location = new System.Drawing.Point(0, 151);
+            this.button_gen_control.Location = new System.Drawing.Point(0, 136);
             this.button_gen_control.Margin = new System.Windows.Forms.Padding(2);
             this.button_gen_control.Name = "button_gen_control";
-            this.button_gen_control.Size = new System.Drawing.Size(99, 24);
+            this.button_gen_control.Size = new System.Drawing.Size(123, 24);
             this.button_gen_control.TabIndex = 0;
             this.button_gen_control.Text = "Enable";
             this.button_gen_control.UseVisualStyleBackColor = true;
@@ -1459,17 +1495,19 @@
             // 
             this.groupBox7.Controls.Add(this.panel3);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox7.Location = new System.Drawing.Point(809, 258);
+            this.groupBox7.Location = new System.Drawing.Point(761, 243);
             this.groupBox7.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox7.Size = new System.Drawing.Size(103, 192);
+            this.groupBox7.Size = new System.Drawing.Size(127, 177);
             this.groupBox7.TabIndex = 11;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Params Ch 2";
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label_real_pwmFreq_ch2);
+            this.panel3.Controls.Add(this.label_real_pwmFreq_ch2_title);
             this.panel3.Controls.Add(this.checkBox_join_frequencies);
             this.panel3.Controls.Add(this.label_real_freq_ch2);
             this.panel3.Controls.Add(this.label_real_freq_ch2_title);
@@ -1480,18 +1518,36 @@
             this.panel3.Location = new System.Drawing.Point(2, 15);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(99, 175);
+            this.panel3.Size = new System.Drawing.Size(123, 160);
             this.panel3.TabIndex = 7;
+            // 
+            // label_real_pwmFreq_ch2
+            // 
+            this.label_real_pwmFreq_ch2.AutoSize = true;
+            this.label_real_pwmFreq_ch2.Location = new System.Drawing.Point(5, 84);
+            this.label_real_pwmFreq_ch2.Name = "label_real_pwmFreq_ch2";
+            this.label_real_pwmFreq_ch2.Size = new System.Drawing.Size(43, 13);
+            this.label_real_pwmFreq_ch2.TabIndex = 10;
+            this.label_real_pwmFreq_ch2.Text = "N/A Hz";
+            // 
+            // label_real_pwmFreq_ch2_title
+            // 
+            this.label_real_pwmFreq_ch2_title.AutoSize = true;
+            this.label_real_pwmFreq_ch2_title.Location = new System.Drawing.Point(5, 69);
+            this.label_real_pwmFreq_ch2_title.Name = "label_real_pwmFreq_ch2_title";
+            this.label_real_pwmFreq_ch2_title.Size = new System.Drawing.Size(86, 13);
+            this.label_real_pwmFreq_ch2_title.TabIndex = 9;
+            this.label_real_pwmFreq_ch2_title.Text = "Real PWM Freq.";
             // 
             // checkBox_join_frequencies
             // 
             this.checkBox_join_frequencies.AutoSize = true;
             this.checkBox_join_frequencies.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.checkBox_join_frequencies.Location = new System.Drawing.Point(0, 131);
+            this.checkBox_join_frequencies.Location = new System.Drawing.Point(0, 116);
             this.checkBox_join_frequencies.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_join_frequencies.Name = "checkBox_join_frequencies";
             this.checkBox_join_frequencies.Padding = new System.Windows.Forms.Padding(4, 4, 4, 1);
-            this.checkBox_join_frequencies.Size = new System.Drawing.Size(99, 22);
+            this.checkBox_join_frequencies.Size = new System.Drawing.Size(123, 22);
             this.checkBox_join_frequencies.TabIndex = 8;
             this.checkBox_join_frequencies.Text = "Join freq Ch1";
             this.checkBox_join_frequencies.UseVisualStyleBackColor = true;
@@ -1521,11 +1577,11 @@
             // 
             this.checkBox_enable_ch2.AutoSize = true;
             this.checkBox_enable_ch2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.checkBox_enable_ch2.Location = new System.Drawing.Point(0, 153);
+            this.checkBox_enable_ch2.Location = new System.Drawing.Point(0, 138);
             this.checkBox_enable_ch2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_enable_ch2.Name = "checkBox_enable_ch2";
             this.checkBox_enable_ch2.Padding = new System.Windows.Forms.Padding(4, 1, 4, 4);
-            this.checkBox_enable_ch2.Size = new System.Drawing.Size(99, 22);
+            this.checkBox_enable_ch2.Size = new System.Drawing.Size(123, 22);
             this.checkBox_enable_ch2.TabIndex = 1;
             this.checkBox_enable_ch2.Text = "Enable Ch 2";
             this.checkBox_enable_ch2.UseVisualStyleBackColor = true;
@@ -1559,7 +1615,7 @@
             this.tableLayoutPanel18.Controls.Add(this.groupBox16, 1, 0);
             this.tableLayoutPanel18.Controls.Add(this.groupBox15, 0, 0);
             this.tableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel18.Location = new System.Drawing.Point(381, 199);
+            this.tableLayoutPanel18.Location = new System.Drawing.Point(333, 184);
             this.tableLayoutPanel18.Name = "tableLayoutPanel18";
             this.tableLayoutPanel18.RowCount = 1;
             this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1617,7 +1673,7 @@
             this.tableLayoutPanel19.Controls.Add(this.groupBox17, 0, 0);
             this.tableLayoutPanel19.Controls.Add(this.groupBox18, 1, 0);
             this.tableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel19.Location = new System.Drawing.Point(381, 455);
+            this.tableLayoutPanel19.Location = new System.Drawing.Point(333, 425);
             this.tableLayoutPanel19.Name = "tableLayoutPanel19";
             this.tableLayoutPanel19.RowCount = 1;
             this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1674,12 +1730,12 @@
             this.tableLayoutPanel20.Controls.Add(this.button_gen_analog_ch1, 0, 0);
             this.tableLayoutPanel20.Controls.Add(this.button_gen_digital_ch1, 0, 1);
             this.tableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel20.Location = new System.Drawing.Point(3, 199);
+            this.tableLayoutPanel20.Location = new System.Drawing.Point(3, 184);
             this.tableLayoutPanel20.Name = "tableLayoutPanel20";
             this.tableLayoutPanel20.RowCount = 2;
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel20.Size = new System.Drawing.Size(372, 54);
+            this.tableLayoutPanel20.Size = new System.Drawing.Size(324, 54);
             this.tableLayoutPanel20.TabIndex = 20;
             // 
             // button_gen_analog_ch1
@@ -1688,7 +1744,7 @@
             this.button_gen_analog_ch1.Dock = System.Windows.Forms.DockStyle.Top;
             this.button_gen_analog_ch1.Location = new System.Drawing.Point(3, 3);
             this.button_gen_analog_ch1.Name = "button_gen_analog_ch1";
-            this.button_gen_analog_ch1.Size = new System.Drawing.Size(366, 21);
+            this.button_gen_analog_ch1.Size = new System.Drawing.Size(318, 21);
             this.button_gen_analog_ch1.TabIndex = 18;
             this.button_gen_analog_ch1.Text = "Analog";
             this.button_gen_analog_ch1.UseVisualStyleBackColor = false;
@@ -1699,7 +1755,7 @@
             this.button_gen_digital_ch1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button_gen_digital_ch1.Location = new System.Drawing.Point(3, 30);
             this.button_gen_digital_ch1.Name = "button_gen_digital_ch1";
-            this.button_gen_digital_ch1.Size = new System.Drawing.Size(366, 21);
+            this.button_gen_digital_ch1.Size = new System.Drawing.Size(318, 21);
             this.button_gen_digital_ch1.TabIndex = 19;
             this.button_gen_digital_ch1.Text = "Digital";
             this.button_gen_digital_ch1.UseVisualStyleBackColor = true;
@@ -1711,12 +1767,12 @@
             this.tableLayoutPanel21.Controls.Add(this.button_gen_analog_ch2, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.button_gen_digital_ch2, 0, 1);
             this.tableLayoutPanel21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel21.Location = new System.Drawing.Point(3, 455);
+            this.tableLayoutPanel21.Location = new System.Drawing.Point(3, 425);
             this.tableLayoutPanel21.Name = "tableLayoutPanel21";
             this.tableLayoutPanel21.RowCount = 2;
             this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel21.Size = new System.Drawing.Size(372, 55);
+            this.tableLayoutPanel21.Size = new System.Drawing.Size(324, 55);
             this.tableLayoutPanel21.TabIndex = 21;
             // 
             // button_gen_analog_ch2
@@ -1725,7 +1781,7 @@
             this.button_gen_analog_ch2.Dock = System.Windows.Forms.DockStyle.Top;
             this.button_gen_analog_ch2.Location = new System.Drawing.Point(3, 3);
             this.button_gen_analog_ch2.Name = "button_gen_analog_ch2";
-            this.button_gen_analog_ch2.Size = new System.Drawing.Size(366, 21);
+            this.button_gen_analog_ch2.Size = new System.Drawing.Size(318, 21);
             this.button_gen_analog_ch2.TabIndex = 19;
             this.button_gen_analog_ch2.Text = "Analog";
             this.button_gen_analog_ch2.UseVisualStyleBackColor = false;
@@ -1735,7 +1791,7 @@
             this.button_gen_digital_ch2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_gen_digital_ch2.Location = new System.Drawing.Point(3, 30);
             this.button_gen_digital_ch2.Name = "button_gen_digital_ch2";
-            this.button_gen_digital_ch2.Size = new System.Drawing.Size(366, 22);
+            this.button_gen_digital_ch2.Size = new System.Drawing.Size(318, 22);
             this.button_gen_digital_ch2.TabIndex = 20;
             this.button_gen_digital_ch2.Text = "Digital";
             this.button_gen_digital_ch2.UseVisualStyleBackColor = true;
@@ -1744,7 +1800,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(914, 537);
+            this.ClientSize = new System.Drawing.Size(890, 507);
             this.Controls.Add(this.label_status_gen);
             this.Controls.Add(this.label_status);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -1964,5 +2020,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel21;
         private System.Windows.Forms.Button button_gen_analog_ch2;
         private System.Windows.Forms.Button button_gen_digital_ch2;
+        private System.Windows.Forms.Label label_real_pwmFreq_ch1;
+        private System.Windows.Forms.Label label_real_pwmFreq_ch1_title;
+        private System.Windows.Forms.Label label_real_pwmFreq_ch2;
+        private System.Windows.Forms.Label label_real_pwmFreq_ch2_title;
     }
 }

@@ -592,6 +592,26 @@ command parseGeneratorCmd(void){
 				}
 			break;	
 				
+			#ifdef USE_GEN_PWM
+			case CMD_GEN_PWM_FREQ_PSC: 
+				cmdIn = giveNextCmd();
+				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+					genSetPwmFrequencyPSC(((cmdIn)&0x00ffff00)>>8,(uint8_t)(cmdIn));					
+				}else{
+					cmdIn = CMD_ERR;
+				}
+			break;
+				
+			case CMD_GEN_PWM_FREQ_ARR: 
+				cmdIn = giveNextCmd();
+				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+					genSetPwmFrequencyARR(((cmdIn)&0x00ffff00)>>8,(uint8_t)(cmdIn));
+				}else{
+					cmdIn = CMD_ERR;
+				}
+			break;				
+			#endif // USE_GEN_PWM
+				
 			case CMD_GET_REAL_FREQ: //get sampling freq
 				genSendRealSamplingFreq();
 			break;	

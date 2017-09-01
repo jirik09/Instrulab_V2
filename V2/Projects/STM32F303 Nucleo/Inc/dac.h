@@ -56,6 +56,8 @@ void DACUnsetOutputBuffer(void);
 void GeneratingEnable (void);
 void GeneratingDisable (void);
 
+void GEN_DAC_DMA_deinit(void);
+	 
 #ifdef __cplusplus
 }
 #endif

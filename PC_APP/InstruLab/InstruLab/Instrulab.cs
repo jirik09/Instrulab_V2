@@ -106,8 +106,7 @@ namespace LEO
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_voltage_source_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.button_counter.Enabled = comms.get_connected_device().cntCfg.isCnt ? true : false;
-
-                    this.button_PWM.Enabled = true;
+                    this.button_PWM.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     //this.button_PWM.Enabled = comms.get_connected_device().pwmGenCfg.isPwmGen ? true : false;    this.button_PWM.Enabled  
 
                     ////this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;

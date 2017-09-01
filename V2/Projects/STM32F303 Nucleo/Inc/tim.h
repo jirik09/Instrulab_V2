@@ -64,12 +64,13 @@ void TIMGenEnable(void);
 void TIMGenDisable(void);
 void MX_TIM6_Init(void);
 void MX_TIM7_Init(void);
+
+void TIMGenInit(void);
+void TIMGenPwmDeinit(void);
+void TIMGenDacDeinit(void);
 #endif //USE_GEN || USE_GEN_PWM
 
 #ifdef USE_GEN_PWM
-/* TIM1 and TIM3 enable/disable */
-void TIMGenPWMEnable(void);
-void TIMGenPWMDisable(void);
 /* PWM generatin timers */
 void MX_TIM1_Init(void);
 void MX_TIM3_Init(void);
@@ -78,7 +79,13 @@ void MX_TIM6_Init(void);
 void MX_TIM7_Init(void);
 
 void TIM_DMA_Reconfig(uint8_t chan);
+void TIM_GEN_PWM_PSC_Config(uint16_t pscVal, uint8_t chan);
+void TIM_GEN_PWM_ARR_Config(uint16_t arrVal, uint8_t chan);
 void TIMGenPwmInit(void);
+
+/* TIM1 and TIM3 enable/disable */
+void TIMGenPWMEnable(void);
+void TIMGenPWMDisable(void);
 void PWMGeneratingEnable(void);
 void PWMGeneratingDisable(void);
 #endif //USE_GEN_PWM

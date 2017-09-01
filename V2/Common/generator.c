@@ -77,14 +77,16 @@ void GeneratorTask(void const *argument){
 				generator.state=GENERATOR_IDLE;
 			}
 		}else if(message[0]=='6'){ //set PWM mode
-			generator.modeState=GENERATOR_PWM;
+			generatorSetModePWM();
+			TIMGenPwmInit();
+			
 		}else if(message[0]=='7'){ //set DAC mode
-			generator.modeState=GENERATOR_DAC;
+			generatorSetModeDAC();
+			TIMGenInit();
 		}
 
 	}
 }
-
 
 void genSetMode(uint8_t mode)
 {
@@ -98,6 +100,36 @@ void genSetMode(uint8_t mode)
 		default:
 			break;
 	}
+}
+
+void generatorSetModePWM(void){
+	//generator_deinit();
+	generator.modeState = GENERATOR_PWM;
+}
+
+void generatorSetModeDAC(void){
+	//generator_deinit();
+	//TIMGenPwmDeinit();	
+	generator.modeState = GENERATOR_DAC;
+}
+
+void generator_deinit(void){
+	switch(generator.modeState){
+		case GENERATOR_PWM:
+			TIMGenPwmDeinit();
+			break;
+		case GENERATOR_DAC:
+			TIMGenDacDeinit();
+			break;	
+	}
+}
+
+void genSetPwmFrequencyPSC(uint32_t pscVal, uint8_t chan){
+	TIM_GEN_PWM_PSC_Config(pscVal, chan);		// -1 subtraction made in PC app
+}
+
+void genSetPwmFrequencyARR(uint32_t arrVal, uint8_t chan){
+	TIM_GEN_PWM_ARR_Config(arrVal, chan);		// -1 subtraction made in PC app
 }
 
 /**
@@ -136,7 +168,6 @@ void genInit(void)
 #ifdef USE_GEN_PWM
 void genPwmInit(void)
 {	
-	TIMGenPwmInit();
 	for(uint8_t i = 0;i<MAX_DAC_CHANNELS;i++){
 		TIM_Reconfig_gen(generator.generatingFrequency[i],i,0);
 		if(generator.numOfChannles>i){

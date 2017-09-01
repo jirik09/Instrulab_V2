@@ -34,6 +34,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include "dac.h"
 #include "tim.h"
 #include "counter.h"
 #include "generator.h"
@@ -178,11 +179,11 @@ static void MX_TIM1_GEN_PWM_Init(void)
   TIM_OC_InitTypeDef sConfigOC;
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
 
-	/* PSC * ARR = 1024 (10 bit resolution in defult) */
+	/* ARR = 1024 (10 bit resolution in default) */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 31;
+  htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 31;
+  htim1.Init.Period = 1023;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -199,7 +200,7 @@ static void MX_TIM1_GEN_PWM_Init(void)
   HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig);
 
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 512;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -232,9 +233,9 @@ static void MX_TIM3_GEN_PWM_Init(void)
   TIM_OC_InitTypeDef sConfigOC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 31;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 31;
+  htim3.Init.Period = 1023;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   HAL_TIM_Base_Init(&htim3);
@@ -249,7 +250,7 @@ static void MX_TIM3_GEN_PWM_Init(void)
   HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig);
 
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 512;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
@@ -266,11 +267,11 @@ static void MX_TIM6_GEN_PWM_Init(void)
   htim6.Instance = TIM6;
   htim6.Init.Prescaler = 0;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 0;
+  htim6.Init.Period = 0x7FF;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   HAL_TIM_Base_Init(&htim6);
 
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig);
 }
@@ -284,11 +285,11 @@ static void MX_TIM7_GEN_PWM_Init(void)
   htim7.Instance = TIM7;
   htim7.Init.Prescaler = 0;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 0;
+  htim7.Init.Period = 0x7FF;
   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   HAL_TIM_Base_Init(&htim7);
 		
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig);
 }
@@ -796,6 +797,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				hdma_tim6_up.Init.Mode = DMA_CIRCULAR;
 				hdma_tim6_up.Init.Priority = DMA_PRIORITY_HIGH;
 				HAL_DMA_Init(&hdma_tim6_up);
+				TIM6->DIER |= TIM_DIER_UDE;
 
 				__HAL_DMA_REMAP_CHANNEL_ENABLE(HAL_REMAPDMA_TIM6_DAC1_CH1_DMA1_CH3);
 				__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim6_up);
@@ -804,7 +806,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				__TIM7_CLK_ENABLE();
 				
 				/* Peripheral DMA init*/
-				hdma_tim7_up.Instance = DMA2_Channel4;
+				hdma_tim7_up.Instance = DMA1_Channel4;
 				hdma_tim7_up.Init.Direction = DMA_MEMORY_TO_PERIPH;
 				hdma_tim7_up.Init.PeriphInc = DMA_PINC_DISABLE;
 				hdma_tim7_up.Init.MemInc = DMA_MINC_ENABLE;
@@ -813,6 +815,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				hdma_tim7_up.Init.Mode = DMA_CIRCULAR;
 				hdma_tim7_up.Init.Priority = DMA_PRIORITY_HIGH;
 				HAL_DMA_Init(&hdma_tim7_up);
+				TIM7->DIER |= TIM_DIER_UDE;
 				
 				__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim7_up);
 			}			
@@ -956,7 +959,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			GPIO_InitStruct.Alternate = GPIO_AF10_TIM4;
 			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);	
 	
-		} else if(counter.state==COUNTER_IC){
+		}else if(counter.state==COUNTER_IC){
 			
 			HAL_NVIC_SetPriority(TIM4_IRQn, 9, 0);
 			HAL_NVIC_EnableIRQ(TIM4_IRQn);			
@@ -987,10 +990,10 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 		#ifdef USE_GEN
 		if(generator.modeState==GENERATOR_DAC){
 			if(htim_base->Instance==TIM6){
-				__TIM6_CLK_DISABLE();
+				__TIM6_CLK_DISABLE();				
 			}
 			if(htim_base->Instance==TIM7){
-				__TIM7_CLK_DISABLE();
+				__TIM7_CLK_DISABLE();				
 			}
 		}
 		#endif //USE_GEN
@@ -1126,6 +1129,12 @@ void TIMGenDisable(void){
   HAL_TIM_Base_Stop(&htim6);
 	HAL_TIM_Base_Stop(&htim7);
 }
+
+void TIMGenInit(void){
+	MX_DAC_Init();
+	MX_TIM6_Init();
+	MX_TIM7_Init();
+}
 #endif //USE_GEN || USE_GEN_PWM
 
 
@@ -1165,15 +1174,17 @@ void PWMGeneratingDisable(void){
 }
 
 void TIMGenPwmInit(void){
-	if(generator.numOfChannles==1){		
-		MX_TIM1_GEN_PWM_Init();		
-		MX_TIM6_GEN_PWM_Init();
-	}else if(generator.numOfChannles>1){
 		MX_TIM1_GEN_PWM_Init();	
 		MX_TIM6_GEN_PWM_Init();
-		MX_TIM3_GEN_PWM_Init();
-		MX_TIM7_GEN_PWM_Init();
-	}
+		MX_TIM3_GEN_PWM_Init();			// PWM generation
+		MX_TIM7_GEN_PWM_Init();			// DMA transaction timing
+}
+
+void TIMGenPwmDeinit(void){
+		HAL_TIM_Base_DeInit(&htim1);
+		HAL_TIM_Base_DeInit(&htim6);			
+		HAL_TIM_Base_DeInit(&htim3);		
+		HAL_TIM_Base_DeInit(&htim7);
 }
 
 void TIMGenPWMEnable(void){
@@ -1185,6 +1196,29 @@ void TIMGenPWMDisable(void){
   HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
 }
+
+void TIMGenDacDeinit(void){
+	HAL_TIM_Base_DeInit(&htim6);
+	HAL_TIM_Base_DeInit(&htim7);
+//	GEN_DAC_DMA_deinit();
+}
+
+void TIM_GEN_PWM_PSC_Config(uint16_t pscVal, uint8_t chan){
+	if(chan == 1){
+		TIM1->PSC = pscVal;
+	}else{
+		TIM3->PSC = pscVal;
+	}
+}
+
+void TIM_GEN_PWM_ARR_Config(uint16_t arrVal, uint8_t chan){
+	if(chan == 1){
+		TIM1->ARR = arrVal;
+	}else{
+		TIM3->ARR = arrVal;
+	}	
+}
+
 #endif //USE_GEN_PWM
 
 
