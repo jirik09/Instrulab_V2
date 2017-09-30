@@ -107,7 +107,7 @@ void counterDeinit(void){
   * @retval None
   */
 void counterSetEtrGate(uint16_t gateTime){
-	counter.counterEtr.gateTime = gateTime;
+	counter.counterEtr.gateTime = gateTime;			
 	xQueueSendToBack(counterMessageQueue, "7SetEtrGate", portMAX_DELAY);
 }
 
@@ -118,17 +118,57 @@ void counterSetEtrGate(uint16_t gateTime){
   */
 void counterSetIc1SampleCount(uint16_t buffer){
 	xSemaphoreTakeRecursive(counterMutex, portMAX_DELAY);
-	counter.counterIc.ic1BufferSizeTemp = buffer + 1;			// PC app sends number of samples but IC needs the number of edges, therefore "buffer + 1";		
-	counter.buff1Change = BUFF1_CHANGED;
-	xSemaphoreGiveRecursive(counterMutex);	
+	counter.counterIc.ic1BufferSize = buffer + 1;						 // PC app sends number of samples but IC needs the number of edges, therefore "buffer + 1";		
+	DMA_Restart(&hdma_tim2_ch1);
+	xSemaphoreGiveRecursive(counterMutex);
 }
 
 void counterSetIc2SampleCount(uint16_t buffer){
 	xSemaphoreTakeRecursive(counterMutex, portMAX_DELAY);	
-	counter.counterIc.ic2BufferSizeTemp = buffer + 1;
-	counter.buff2Change = BUFF2_CHANGED;
+	counter.counterIc.ic2BufferSize = buffer + 1;
+	DMA_Restart(&hdma_tim2_ch2_ch4);
 	xSemaphoreGiveRecursive(counterMutex);		
 }
+
+/**
+  * @brief  Setters for counters' IC signal prescalers
+	* @param  presc: 1, 2, 4, 8
+  * @retval None
+  */
+void counterSetIc1Prescaler(uint16_t presc){	
+	counter.counterIc.ic1pscTemp = presc;		
+	DMA_Restart(&hdma_tim2_ch1);	
+}
+
+void counterSetIc2Prescaler(uint16_t presc){	
+	counter.counterIc.ic2pscTemp = presc;			
+	DMA_Restart(&hdma_tim2_ch2_ch4);
+}
+
+/**
+	* @brief  Functions used to select active adges - dedicated to Pulse measurement configuration (IC mode). 						
+	* @param  none
+  * @retval none 
+  */
+void counterSetIc1PulseMeas(void){
+	TIM_IC1_RisingFalling();	
+	DMA_Restart(&hdma_tim2_ch1);
+}	
+
+void counterResetIc1PulseMeas(void){
+	TIM_IC1_RisingOnly();	
+	DMA_Restart(&hdma_tim2_ch1);
+}	
+
+void counterSetIc2PulseMeas(void){
+	TIM_IC2_RisingFalling();
+	DMA_Restart(&hdma_tim2_ch2_ch4);	
+}	
+
+void counterResetIc2PulseMeas(void){
+	TIM_IC2_RisingOnly();	
+	DMA_Restart(&hdma_tim2_ch2_ch4);
+}	
 
 /**
   * @brief  Setters for REF counter (TIM4) - PSC and REF numbers to be multiplied (number of REF clock ticks to be counted).
@@ -225,7 +265,7 @@ void counterStop(void){
 /* ----------------------------- Counter callback functions ----------------------------- */
 /* ************************************************************************************** */
 /**
-  * @brief  This function is executed in case of DMA transfer complete event.
+  * @brief  This function is executed in case of DMA transfer complete event of ETR or REF mode.
 	*					DMA transfer complete event is triggered after TIM4 gate time elapse.
   * @param  Pointer to DMA handle structure.
   * @retval None
@@ -268,7 +308,7 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
   * @brief  This function is executed in case of DMA transfer complete event of Input Capture channel 1.
   * @param  Pointer to DMA handle structure.
   * @retval None
-  * @state  NOT USED
+  * @state  NOT USED, OBSOLETE
   */
 void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 {
@@ -302,7 +342,7 @@ void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
   * @brief  This function is executed in case of DMA transfer complete event of Input Capture channel 2.
   * @param  Pointer to DMA handle structure.
   * @retval None
-  * @state  NOT USED
+  * @state  NOT USED, OBSOLETE
   */
 void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 {
@@ -333,9 +373,10 @@ void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 }
 
 /**
-  * @brief  This function is executed in case of TIM4 period elapse event. Frequencies of IC1 and IC2 channels
-						are computed and sent to PC app. This approach replaces DMA data transfer	complete interrupts	
-						of both channels - the higher frequencies measured the CPU more heavy loaded, therefore replaced.
+  * @brief  This function is executed in case of TIM4 period elapse event. Frequency of IC1 or IC2 channel
+						(depending on BIN "semaphore" and DMA_TransferComplete event) is computed and sent to PC app. 
+						This approach replaces DMA data transfer	complete interrupts	of both channels - the higher frequencies 
+						measured the CPU more heavy loaded, therefore replaced.
   * @param  Pointer to TIM handle structure.
   * @retval None
   * @state  USED
@@ -346,50 +387,34 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);	
 		
 	if(counter.icBin != BIN0){
-		/* BINx is used to alternate data sending from IC1 and IC2. However, thanks to DMA_TransferComplete function
+		/* BINx is used to alternate data sending from IC1 and IC2. Thanks to DMA_TransferComplete function
 			 if there's still no data available from one source (ICx) the second one is not stalled. Meaning,
-			 IC channels don't have to necessarilly rotate/alternate. */
+			 IC channels don't have to necessarilly rotate/alternate if the difference of frequencies is big. */
 		counter.icBin = BIN0;
 		
-		if(DMA_TransferComplete(&hdma_tim2_ch1)){
-			
-			counter.icChannel1 = COUNTER_IRQ_IC1;	
+		if(DMA_TransferComplete(&hdma_tim2_ch1)){				
+
 			counter.counterIc.ic1psc = TIM_IC1PSC_GetPrescaler();			
 			uint32_t capture1 = counter.counterIc.ic1buffer[counter.counterIc.ic1BufferSize-1] - counter.counterIc.ic1buffer[0];
-			counter.counterIc.ic1freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic1psc)*((double)(counter.counterIc.ic1BufferSize-1)/(double)capture1);			
-			TIM_IC1PSC_Config(counter.counterIc.ic1freq);		
+			counter.counterIc.ic1freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic1psc)*((double)(counter.counterIc.ic1BufferSize-1)/(double)capture1);				
 			
-			if(counter.buff1Change == BUFF1_CHANGED){
-				counter.counterIc.ic1BufferSize = counter.counterIc.ic1BufferSizeTemp;
-				counter.icFlag1 = COUNTER_BUFF_FLAG1;	
-				counter.buff1Change = BUFF1_NOT_CHANGED;									
-			} 
-			
-			counterIc1BufferConfig(counter.counterIc.ic1BufferSize);	
 			DMA_Restart(&hdma_tim2_ch1);
+			counter.icChannel1 = COUNTER_IRQ_IC1;
 			xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);					
 		}
 		
-	} else if(counter.icBin != BIN1){
+	}else if(counter.icBin != BIN1){
 		
 		counter.icBin = BIN1;
 		
 		if(DMA_TransferComplete(&hdma_tim2_ch2_ch4)){
-			
-			counter.icChannel2 = COUNTER_IRQ_IC2;		
+						
 			counter.counterIc.ic2psc = TIM_IC2PSC_GetPrescaler();				
 			uint32_t capture2 = counter.counterIc.ic2buffer[counter.counterIc.ic2BufferSize-1] - counter.counterIc.ic2buffer[0];
-			counter.counterIc.ic2freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic2psc)*((double)(counter.counterIc.ic2BufferSize-1)/(double)capture2);			
-			TIM_IC2PSC_Config(counter.counterIc.ic2freq);		
-
-			if(counter.buff2Change == BUFF2_CHANGED){
-				counter.counterIc.ic2BufferSize = counter.counterIc.ic2BufferSizeTemp;
-				counter.icFlag2 = COUNTER_BUFF_FLAG2;	
-				counter.buff2Change = BUFF2_NOT_CHANGED;				
-			}
-			
-			counterIc2BufferConfig(counter.counterIc.ic2BufferSize);
+			counter.counterIc.ic2freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic2psc)*((double)(counter.counterIc.ic2BufferSize-1)/(double)capture2);					
+						
 			DMA_Restart(&hdma_tim2_ch2_ch4);		
+			counter.icChannel2 = COUNTER_IRQ_IC2;		
 			xQueueSendToBackFromISR(messageQueue, "LIcDataSend", &xHigherPriorityTaskWoken);	
 		}
 	}
@@ -441,11 +466,12 @@ void counterGateConfig(uint16_t gateTime)
 						due to this prescaler. Therefore, instead (13/4)*4 = 3*4 + 4 = 16 will be set.
 	* @param  ic1buffSize: buffer size (e.g. sent from user PC app)
   * @retval none 
+  * @state  NOT USED, OBSOLETE
   */
 void counterIc1BufferConfig(uint16_t ic1buffSize)
 {
 	if((ic1buffSize % counter.counterIc.ic1psc)!=0){	
-		counter.icFlag1 = COUNTER_BUFF_FLAG1;
+		//counter.icFlag1 = COUNTER_BUFF_FLAG1;
 		counter.counterIc.ic1BufferSize = ((ic1buffSize/counter.counterIc.ic1psc)*counter.counterIc.ic1psc+counter.counterIc.ic1psc);			
 	}
 }
@@ -454,11 +480,12 @@ void counterIc1BufferConfig(uint16_t ic1buffSize)
 	* @brief  Function adjusting IC2 buffer size (number of edges counted)
 	* @param  ic1buffSize: buffer size (e.g. sent from user PC app)
   * @retval none 
+  * @state  NOT USED, OBSOLETE
   */
 void counterIc2BufferConfig(uint16_t ic2buffSize)
 {
 	if((ic2buffSize % counter.counterIc.ic2psc)!=0){	
-		counter.icFlag2 = COUNTER_BUFF_FLAG2;
+		//counter.icFlag2 = COUNTER_BUFF_FLAG2;
 		counter.counterIc.ic2BufferSize = ((ic2buffSize/counter.counterIc.ic2psc)*counter.counterIc.ic2psc+counter.counterIc.ic2psc);
 	}
 }
@@ -467,7 +494,7 @@ void counterIc2BufferConfig(uint16_t ic2buffSize)
   * @brief  Counter set Default values
   * @param  None
   * @retval None
-	* @state 	NOT USED
+	* @state 	NOT USED, OBSOLETE
   */
 void counterSetDefault(void)
 {
@@ -491,10 +518,6 @@ void counterSetDefault(void)
 	counter.counterIc.ic2psc = 1;
 	counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
 	counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
-	counter.icFlag1 = COUNTER_BUFF_FLAG1_PASS;
-	counter.icFlag2 = COUNTER_BUFF_FLAG2_PASS;
-	counter.buff1Change = BUFF1_NOT_CHANGED;
-	counter.buff2Change = BUFF2_NOT_CHANGED;
 	counter.sampleCntChange = SAMPLE_COUNT_CHANGED;
 }
 

@@ -208,6 +208,8 @@ void CommTask(void const *argument){
 				commsSendString(STR_CNT_ETR_DATA);
 				sprintf(cntMessage, "%016.6f", counter.counterEtr.freq);
 				commsSendString(cntMessage);
+				//commsSendString(STR_CNT_ETR_BUFF);
+				//commsSendUint32(counter.counterEtr.buffer);				
 				
 			/* is COUNTER REF */	
 			}else if(counter.state==COUNTER_REF){
@@ -219,14 +221,9 @@ void CommTask(void const *argument){
 				commsSendString(cntMessage);										
 				
 			/* is COUNTER IC */	
-			}else if(counter.state==COUNTER_IC){			
+			}else if(counter.state==COUNTER_IC){						
 				
-				if(counter.icFlag1==COUNTER_BUFF_FLAG1){
-					commsSendString(STR_CNT_IC1_BUFF);			
-					sprintf(cntMessage, "%04hu", (uint16_t)(counter.counterIc.ic1BufferSize - 1));
-					commsSendString(cntMessage);
-					counter.icFlag1=COUNTER_BUFF_FLAG1_PASS;
-				}else if(counter.icChannel1==COUNTER_IRQ_IC1){												
+				if(counter.icChannel1==COUNTER_IRQ_IC1){												
 					commsSendString(STR_CNT_IC1_DATA);
 					sprintf(cntMessage, "%016.6f", counter.counterIc.ic1freq);
 					commsSendString(cntMessage);	
@@ -235,13 +232,8 @@ void CommTask(void const *argument){
 			}	
 			
 		}else if(message[0]=='L'){
-			
-			 if(counter.icFlag2==COUNTER_BUFF_FLAG2){
-				commsSendString(STR_CNT_IC2_BUFF);			
-				sprintf(cntMessage, "%04hu", (uint16_t)(counter.counterIc.ic2BufferSize - 1));
-				commsSendString(cntMessage);
-				counter.icFlag2=COUNTER_BUFF_FLAG2_PASS;
-			}else if(counter.icChannel2==COUNTER_IRQ_IC2){							
+
+			if(counter.icChannel2==COUNTER_IRQ_IC2){							
 				commsSendString(STR_CNT_IC2_DATA);	
 				sprintf(cntMessage, "%016.6f", counter.counterIc.ic2freq);
 				commsSendString(cntMessage);															
@@ -291,9 +283,15 @@ void CommTask(void const *argument){
 			
 		// send gen config
 		}else if(message[0]=='6'){
-			#if defined(USE_GEN) || defined(USE_GEN_PWM)
+			#ifdef USE_GEN
 			sendGenConf();
-			#endif //USE_GEN || USE_GEN_PWM
+			#endif //USE_GEN
+			
+		// send PWM gen config
+		}else if(message[0]=='P'){
+			#ifdef USE_GEN_PWM
+			sendGenPwmConf();
+			#endif //USE_GEN_PWM			
 				
 		// send gen next data block
 		}else if(message[0]=='7'){
@@ -581,7 +579,7 @@ void sendScopeInputs(){
 }
 #endif //USE_SCOPE
 
-#if defined(USE_GEN) || defined(USE_GEN_PWM)
+#ifdef USE_GEN
 void sendGenConf(){
 	uint8_t i;
 	commsSendString("GEN_");
@@ -614,7 +612,23 @@ void sendGenConf(){
 	commsSendUint32(GEN_VDDA);
 	commsSendUint32(GEN_VREF_INT);
 }
-#endif //USE_GEN || USE_GEN_PWM
+#endif //USE_GEN
+
+void sendGenPwmConf(void){
+	uint8_t i;
+	commsSendString("GENP");		
+	commsSendUint32(MAX_GEN_PWM_CHANNELS);
+	for (i=0;i<MAX_DAC_CHANNELS;i++){
+		switch(i){
+			case 0:
+				commsSendString(GEN_PWM_CH1_PIN);
+				break;
+			case 1:
+				commsSendString(GEN_PWM_CH2_PIN);					
+				break;
+		}
+	}
+}
 
 
 #ifdef USE_SHIELD

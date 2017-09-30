@@ -214,7 +214,49 @@ command parseCounterCmd(void)
 					counterSetEtrGate(10000);
 				}					
 			}
-			break;				
+			break;
+		case CMD_CNT_PULSE:			
+			cmdIn = giveNextCmd();
+			if(isCounterIcPulse(cmdIn)){
+				if(cmdIn == CMD_PULSE_PLI1){
+					counterSetIc1PulseMeas();
+				}else if(cmdIn == CMD_PULSE_PLI2){
+					counterSetIc2PulseMeas();
+				}else if(cmdIn == CMD_PULSE_PLD1){
+					counterResetIc1PulseMeas();
+				}else if(cmdIn == CMD_PULSE_PLD2){
+					counterResetIc2PulseMeas();
+				}
+			}				
+			break;			
+		case CMD_CNT_PRESC1:			
+			cmdIn = giveNextCmd();
+			if(isCounterIcPresc1(cmdIn)){
+				if(cmdIn == CMD_PRESC1_1x){
+					counterSetIc1Prescaler(1);				
+				}else if(cmdIn == CMD_PRESC1_2x){
+					counterSetIc1Prescaler(2);
+				}else if(cmdIn == CMD_PRESC1_4x){
+					counterSetIc1Prescaler(4);
+				}else if(cmdIn == CMD_PRESC1_8x){
+					counterSetIc1Prescaler(8);								
+				}
+			}				
+			break;		
+		case CMD_CNT_PRESC2:			
+			cmdIn = giveNextCmd();
+			if(isCounterIcPresc2(cmdIn)){
+				if(cmdIn == CMD_PRESC2_1x){
+					counterSetIc2Prescaler(1);				
+				}else if(cmdIn == CMD_PRESC2_2x){
+					counterSetIc2Prescaler(2);
+				}else if(cmdIn == CMD_PRESC2_4x){
+					counterSetIc2Prescaler(4);
+				}else if(cmdIn == CMD_PRESC2_8x){
+					counterSetIc2Prescaler(8);	
+				}					
+			}										
+			break;	
 		case CMD_CNT_SAMPLE_COUNT1:			
 			cmdIn = giveNextCmd();	
 			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
@@ -675,6 +717,12 @@ command parseGeneratorCmd(void){
 			
 			case CMD_GET_CONFIG:
 				xQueueSendToBack(messageQueue, "6SendGenConfig", portMAX_DELAY);
+			break;
+			
+			case CMD_GET_PWM_CONFIG:
+			#ifdef USE_GEN_PWM
+				xQueueSendToBack(messageQueue, "PSendGenPwmConfig", portMAX_DELAY);
+			#endif // USE_GEN_PWM
 			break;
 			
 			case CMD_GENERATOR:

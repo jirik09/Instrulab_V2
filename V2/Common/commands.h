@@ -23,12 +23,11 @@ typedef uint32_t command;
 
 #ifdef USE_COUNTER
 
-#define STR_CNT_ETR_DATA "ETRD"			// data from ETR measurement
+#define STR_CNT_ETR_DATA "ETRD"		// data from ETR measurement
+#define STR_CNT_ETR_BUFF "ETRB"		// buffer itself
 #define STR_CNT_REF_DATA "REFD"		// data from REF measurement
 #define STR_CNT_IC1_DATA "IC1D"		// data from IC1 channel meas.
 #define STR_CNT_IC2_DATA "IC2D"		// data from IC2 channel meas.
-#define STR_CNT_IC1_BUFF "IC1B"		// buffer correction
-#define STR_CNT_IC2_BUFF "IC2B"		// buffer correction
 #define STR_CNT_REF_WARN "WARN"		// reference counter sample count warning
 
 #endif //USE_COUNTER
@@ -94,10 +93,14 @@ REGISTER_CMD(SCOPE_ADC_CHANNEL_SET_VREF,AREF),
 REGISTER_CMD(GEN_MODE,MODE),
 REGISTER_CMD(GEN_DATA,DATA),
 REGISTER_CMD(GEN_SAMPLING_FREQ,FREQ),
-REGISTER_CMD(GEN_PWM_FREQ_PSC,FPWP),	// setting PWM frequency by configuration of timer's PSC register
-REGISTER_CMD(GEN_PWM_FREQ_ARR,FPWA),	// setting PWM frequency by configuration of timer's ARR register
 REGISTER_CMD(GEN_OUTBUFF_ON,B_ON),
 REGISTER_CMD(GEN_OUTBUFF_OFF,B_OF),
+
+//PWM generator specific commands
+REGISTER_CMD(GET_PWM_CONFIG,PCF?),
+
+REGISTER_CMD(GEN_PWM_FREQ_PSC,FPWP),	// setting PWM frequency by configuration of timer's PSC register
+REGISTER_CMD(GEN_PWM_FREQ_ARR,FPWA),	// setting PWM frequency by configuration of timer's ARR register
 
 REGISTER_CMD(GEN_DAC_VAL,DAC_),
 
@@ -121,10 +124,16 @@ REGISTER_CMD(CNT_GATE,GATE),
 REGISTER_CMD(CNT_SAMPLE_COUNT1,BUF1),
 REGISTER_CMD(CNT_SAMPLE_COUNT2,BUF2),
 
+REGISTER_CMD(CNT_PRESC1,PRE1),
+REGISTER_CMD(CNT_PRESC2,PRE2),
+
+REGISTER_CMD(CNT_PULSE,PULS),
+
 //Counter REF commands
 REGISTER_CMD(CNT_MULT_PSC,PSC_),						
 REGISTER_CMD(CNT_MULT_ARR,ARR_),				// set PSC x ARR number of ticks to count from reference clock
 };
+
 
 //Counter modes
 enum{
@@ -151,6 +160,45 @@ REGISTER_CMD(GATE_10s,10s_)
 															((CMD) == CMD_GATE_1s) || \
 															((CMD) == CMD_GATE_5s) || \
 															((CMD) == CMD_GATE_10s))
+
+//Counter IC prescaler 1
+enum{
+REGISTER_CMD(PRESC1_1x,1x__),
+REGISTER_CMD(PRESC1_2x,2x__),
+REGISTER_CMD(PRESC1_4x,4x__),
+REGISTER_CMD(PRESC1_8x,8x__),
+};
+
+#define isCounterIcPresc1(CMD) (((CMD) == CMD_PRESC1_1x) || \
+																((CMD) == CMD_PRESC1_2x) || \
+																((CMD) == CMD_PRESC1_4x) || \
+																((CMD) == CMD_PRESC1_8x))		
+
+//Counter IC prescaler 2
+enum{
+REGISTER_CMD(PRESC2_1x,1x__),
+REGISTER_CMD(PRESC2_2x,2x__),
+REGISTER_CMD(PRESC2_4x,4x__),
+REGISTER_CMD(PRESC2_8x,8x__),
+};
+
+#define isCounterIcPresc2(CMD) (((CMD) == CMD_PRESC2_1x) || \
+																((CMD) == CMD_PRESC2_2x) || \
+																((CMD) == CMD_PRESC2_4x) || \
+																((CMD) == CMD_PRESC2_8x))		
+
+//Counter IC pulse mode change configuration
+enum{
+REGISTER_CMD(PULSE_PLI1,PLI1), // Pulse measurement channel 1 init
+REGISTER_CMD(PULSE_PLI2,PLI2), // Pulse measurement channel 2 init
+REGISTER_CMD(PULSE_PLD1,PLD1), // Pulse measurement channel 1 deinit
+REGISTER_CMD(PULSE_PLD2,PLD2), // Pulse measurement channel 2 deinit
+};
+
+#define isCounterIcPulse(CMD) (((CMD) == CMD_PULSE_PLI1) || \
+																((CMD) == CMD_PULSE_PLI2) || \
+																((CMD) == CMD_PULSE_PLD1) || \
+																((CMD) == CMD_PULSE_PLD2))		
 
 //Generator modes
 enum{

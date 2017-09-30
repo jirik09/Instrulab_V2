@@ -186,7 +186,7 @@ static void MX_TIM1_GEN_PWM_Init(void)
   htim1.Init.Period = 1023;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
-  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   HAL_TIM_Base_Init(&htim1);
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
@@ -237,7 +237,7 @@ static void MX_TIM3_GEN_PWM_Init(void)
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 1023;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   HAL_TIM_Base_Init(&htim3);
 	
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
@@ -329,11 +329,7 @@ void MX_TIM4_Init(void)
 	}
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-//	if(counter.state==COUNTER_REF){
-		htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-//	}else{
-//		htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-//	}
+	htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 
 	HAL_TIM_Base_Init(&htim4);
 
@@ -553,12 +549,9 @@ void TIM_ETRP_Config(double freq)
 	}
 }
 
-void TIM_REF_ETRP_Config(void){
-	
-}
-
 /**
 	* @brief  This function is used to select the desired prescaler of IC1 of TIM2. 
+						Automatic change due to frequency.
 	* @param  freq: frequency
   * @retval none 
   */
@@ -593,6 +586,7 @@ void TIM_IC1PSC_Config(double freq)
 
 /**
 	* @brief  This function is used to select the desired prescaler of IC2 of TIM2. 
+						Automatic change due to frequency.
 	* @param  freq: frequency
   * @retval none 
   */
@@ -622,6 +616,75 @@ void TIM_IC2PSC_Config(double freq)
 }
 
 /**
+	* @brief  This function is used to select the desired prescaler of IC1 of TIM2. 
+						Direct change of prescaler due to value given to function as parameter.
+	* @param  prescVal: value of prescaler (1, 2, 4, 8)
+  * @retval none 
+  */
+void TIM_IC1_PSC_Config(uint8_t prescVal)
+{	
+	TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+	/* Save the real value of ICxPSC prescaler for later calculations */
+	switch(prescVal){	
+		case 2:
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC_0; break;
+		case 4:
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC_1; break;
+		case 8:
+			TIM2->CCMR1 |= TIM_CCMR1_IC1PSC; break;
+		default:
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC; break;
+	}		
+}
+
+/**
+	* @brief  This function is used to select the desired prescaler of IC2 of TIM2. 
+						Direct change of prescaler due to value given to function as parameter.
+	* @param  prescVal: value of prescaler (1, 2, 4, 8)
+  * @retval none 
+  */
+void TIM_IC2_PSC_Config(uint8_t prescVal)
+{	
+	TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+	/* Save the real value of ICxPSC prescaler for later calculations */
+	switch(prescVal){		
+		case 2:
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC_0; break;
+		case 4:
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC_1; break;
+		case 8:
+			TIM2->CCMR1 |= TIM_CCMR1_IC2PSC; break;
+		default:
+			TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC; break;
+	}				
+}
+
+/**
+	* @brief  Functions used to select active adges - dedicated to Pulse measurement configuration. 						
+	* @param  none
+  * @retval none 
+  */
+void TIM_IC1_RisingFalling(void)
+{
+	TIM2->CCER |= (TIM_CCER_CC1P | TIM_CCER_CC1NP); 
+}
+
+void TIM_IC1_RisingOnly(void)
+{
+	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1P | TIM_CCER_CC1NP);	
+}
+
+void TIM_IC2_RisingFalling(void)
+{
+	TIM2->CCER |= (TIM_CCER_CC2P | TIM_CCER_CC2NP);
+}
+
+void TIM_IC2_RisingOnly(void)
+{
+	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2P | TIM_CCER_CC2NP);	
+}
+
+/**
 	* @brief  Function setting ARR and PSC values of TIM4 (gate time). 
 	* @params arr, psc
   * @retval none 
@@ -637,7 +700,7 @@ void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc)
 		startTime = HAL_GetTick();			
 	}
 	/* Generate an update event to reload the Prescaler and the repetition counter immediately */
-	TIM4->EGR |= TIM_EGR_UG;	
+	TIM4->EGR |= TIM_EGR_UG;			
 }
 
 void TIM_Disable(void){
@@ -713,10 +776,10 @@ bool DMA_TransferComplete(DMA_HandleTypeDef *dmah)
 void DMA_Restart(DMA_HandleTypeDef *dmah)
 {
 	if(dmah == &hdma_tim2_ch1){
-		HAL_DMA_Abort(&hdma_tim2_ch1);
+		HAL_DMA_Abort(&hdma_tim2_ch1);		
 		HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);	
 	}else{
-		HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
+		HAL_DMA_Abort(&hdma_tim2_ch2_ch4);		
 		HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);	
 	}
 }
@@ -767,7 +830,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				GPIO_InitStruct.Pin = GPIO_PIN_9;
 				GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 				GPIO_InitStruct.Pull = GPIO_NOPULL;
-				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 				GPIO_InitStruct.Alternate = GPIO_AF6_TIM1;
 				HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);			
 			}	
@@ -780,7 +843,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				GPIO_InitStruct.Pin = GPIO_PIN_4;
 				GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 				GPIO_InitStruct.Pull = GPIO_NOPULL;
-				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 				GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
 				HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);			
 			}				
@@ -934,10 +997,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			counter.counterIc.ic2psc = 1;
 			counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
 			counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
-			counter.icFlag1 = COUNTER_BUFF_FLAG1_PASS;
-			counter.icFlag2 = COUNTER_BUFF_FLAG2_PASS;
-			counter.buff1Change = BUFF1_NOT_CHANGED;
-			counter.buff2Change = BUFF2_NOT_CHANGED;
 			
 //			counter.counterIc.ic1buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic1BufferSize*sizeof(uint32_t));
 //			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));	

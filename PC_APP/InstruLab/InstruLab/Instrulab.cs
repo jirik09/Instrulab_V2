@@ -45,7 +45,7 @@ namespace LEO
         {
             this.Invalidate();
             //Console.WriteLine("inst update");
-        }
+        }        
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -166,8 +166,25 @@ namespace LEO
                             tmpStr += comms.get_connected_device().genCfg.pins[i] + ", ";
                         }
                         tmpStr = tmpStr.Replace("_", "");
-                        this.label_gen_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);
+                        this.label_gen_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);                        
                     }
+
+                    /* PWM generator get configuration label settings */
+                    if (comms.get_connected_device().pwmGenCfg.isPwmGen)
+                    {
+                        label_pwmGen_channs.Text = comms.get_connected_device().pwmGenCfg.numChannels.ToString();
+                        tmpStr = "";
+                        for (int i = 0; i < comms.get_connected_device().pwmGenCfg.numChannels; i++)
+                        {
+                            tmpStr += comms.get_connected_device().pwmGenCfg.pins[i] + ", ";
+                        }
+                        tmpStr = tmpStr.Replace("_", "");
+                        this.label_pwmGen_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);
+
+                        this.label_pwmGen_freq.Text = "1 Hz - 9 MHz";
+                        this.label_pwmGen_resol.Text = "4 bits - 16 bits";
+                    }
+                    /* PWM generator end */
 
                     if (comms.get_connected_device().scopeCfg.isScope)
                     {
@@ -196,10 +213,10 @@ namespace LEO
                             tmpStr += comms.get_connected_device().scopeCfg.pins[i] + ", ";
                         }
                         tmpStr = tmpStr.Replace("_", "");
-                        this.label_scope_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);
+                        this.label_scope_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);                       
                     }
 
-
+                    /* counter */
                     if (comms.get_connected_device().cntCfg.isCnt) {
 
                         this.label_cnt_modes.Text = comms.get_connected_device().cntCfg.modes;
@@ -220,9 +237,9 @@ namespace LEO
                         else
                         {
                             this.leo_ic_label.Text = comms.get_connected_device().cntCfg.pins[1];
-                        }
-
+                        }                        
                         this.leo_ref_label.Text = (comms.get_connected_device().cntCfg.pins[3]).ToString() + ", " + (comms.get_connected_device().cntCfg.pins[4]).ToString();
+                        setCounterRefPins(comms.get_connected_device().cntCfg.pins);
                     }
 
 
@@ -407,6 +424,11 @@ namespace LEO
 
         public Device getDevice() {
             return comms.get_connected_device();
+        }
+
+        public static void setCounterRefPins(string[] pins)
+        {
+            counter.setRefPins(pins);
         }
     }
 }

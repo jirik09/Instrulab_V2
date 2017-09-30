@@ -147,12 +147,12 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 	#define CNT_REF2_PIN			"A0 "	
 #endif //USE_COUNTER
 
-// PWM generator constatnts =================================================
+// PWM generator constants =================================================
 #ifdef USE_GEN_PWM
-	#define GEN_PWM_CH1_PIN		"D5 "	// PB4
-	#define GEN_PWM_CH2_PIN 	"D4 " // PB5
+	#define GEN_PWM_CH1_PIN		"D5__"	// PB4
+	#define GEN_PWM_CH2_PIN 	"D8__" // PA9
 	
-	#define MAX_GEN_PWM_CHANNELS 	2
+	#define MAX_GEN_PWM_CHANNELS 	2	
 #endif //USE_GEN_PWM
 
 //Definition of assert to check length of strings

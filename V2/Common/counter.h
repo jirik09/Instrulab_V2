@@ -41,25 +41,25 @@ typedef enum{
 	COUNTER_IRQ_IC2_PASS
 }counterIcChannel2;
 
-typedef enum{
-	COUNTER_BUFF_FLAG1 = 0,
-	COUNTER_BUFF_FLAG1_PASS
-}counterIcFlags1;
+//typedef enum{
+//	COUNTER_PRESC1_CHANGED = 0,
+//	COUNTER_PRESC1_NOT_CHANGED
+//}counterIcPresc1;
 
-typedef enum{
-	COUNTER_BUFF_FLAG2 = 0,
-	COUNTER_BUFF_FLAG2_PASS
-}counterIcFlags2;
+//typedef enum{
+//	COUNTER_PRESC2_CHANGED = 0,
+//	COUNTER_PRESC2_NOT_CHANGED
+//}counterIcPresc2;
 
-typedef enum{
-	BUFF1_CHANGED = 0,
-	BUFF1_NOT_CHANGED
-}counterIc1BuffChange;
+//typedef enum{
+//	BUFF1_CHANGED = 0,
+//	BUFF1_NOT_CHANGED
+//}counterIc1BuffChange;
 
-typedef enum{
-	BUFF2_CHANGED = 0,
-	BUFF2_NOT_CHANGED
-}counterIc2BuffChange;
+//typedef enum{
+//	BUFF2_CHANGED = 0,
+//	BUFF2_NOT_CHANGED
+//}counterIc2BuffChange;
 
 typedef enum{
 	SAMPLE_COUNT_CHANGED = 0,
@@ -84,21 +84,21 @@ typedef struct{
 	double freq;
 }counterEtrTypeDef;
 
-volatile typedef struct{
+typedef struct{
 	uint32_t arr;		// TIM2 ARR
 	uint16_t psc;		// TIM2 PSC
-	volatile uint16_t ic1BufferSize;
-	volatile uint16_t ic2BufferSize;
-	volatile uint16_t ic1BufferSizeTemp;
-	volatile uint16_t ic2BufferSizeTemp;	
-//	uint32_t *ic1buffer;
-//	uint32_t *ic2buffer;
+	uint16_t ic1BufferSize;
+	uint16_t ic2BufferSize;
+	uint16_t ic1BufferSizeTemp;
+	uint16_t ic2BufferSizeTemp;	
 	volatile uint32_t ic1buffer[IC12_BUFFER_SIZE];
 	volatile uint32_t ic2buffer[IC12_BUFFER_SIZE];	
 	double ic1freq;
 	double ic2freq;	
-	uint32_t ic1psc;
-	uint32_t ic2psc;
+	uint8_t ic1psc;
+	uint8_t ic2psc;
+	uint8_t ic1pscTemp;
+	uint8_t ic2pscTemp;
 }counterIcTypeDef;
 
 typedef struct{
@@ -109,10 +109,10 @@ typedef struct{
 	
 	counterIcChannel1 icChannel1;
 	counterIcChannel2 icChannel2;
-	counterIc1BuffChange buff1Change;
-	counterIc2BuffChange buff2Change;
-	counterIcFlags1 icFlag1;
-	counterIcFlags2 icFlag2;
+//	counterIc1BuffChange buff1Change;
+//	counterIc2BuffChange buff2Change;
+//	counterIcPresc1 icPresc1;
+//	counterIcPresc2 icPresc2;
 	counterIcBin icBin;
 	counterRefSmplCntChange sampleCntChange;
 
@@ -121,6 +121,7 @@ typedef struct{
 // Exported functions =========================================================
 void CounterTask(void const *argument);
 
+/* Counter general functions */
 void counterInitETR(void);
 void counterInitIC(void);
 void counterInitREF(void);
@@ -131,21 +132,27 @@ void counterStart(void);
 void counterStop(void);
 void counterDeinit(void);
 void counterSetDefault(void);
-
 void counterSetMode(uint8_t mode);
+
+/* ETR mode functions */
 void counterSetEtrGate(uint16_t gateTime);
+void counterGateConfig(uint16_t gateTime);
+
+/* IC mode functions */
 void counterSetIc1SampleCount(uint16_t buffer);
 void counterSetIc2SampleCount(uint16_t buffer);
-void counterSetRefPsc(uint16_t psc);
-void counterSetRefArr(uint16_t arr);
-
-void counterGateConfig(uint16_t gateTime);
+void counterSetIc1Prescaler(uint16_t presc);
+void counterSetIc2Prescaler(uint16_t presc);
+void counterSetIc1PulseMeas(void);
+void counterSetIc2PulseMeas(void);
+void counterResetIc1PulseMeas(void);
+void counterResetIc2PulseMeas(void);
 void counterIc1BufferConfig(uint16_t ic1buffSize);
 void counterIc2BufferConfig(uint16_t ic2buffSize);
 
-uint8_t IC_GetPrescaler(uint32_t icxpsc);
-uint32_t IC1_GetCapture(uint32_t *volatile *buffer);
-uint32_t IC2_GetCapture(uint32_t *volatile *buffer);
+/* REF mode functions */
+void counterSetRefPsc(uint16_t psc);
+void counterSetRefArr(uint16_t arr);
 
 void COUNTER_IC_TIM_Elapse(void);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);

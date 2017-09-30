@@ -13,7 +13,7 @@ using LEO;
 namespace LEO
 {
     public class Device
-    {       
+    {
         public struct SystemConfig_def
         {
             public int CoreClock;
@@ -77,15 +77,15 @@ namespace LEO
         public struct CounterConfig_def
         {
             public bool isCnt;
-            public string modes;            
+            public string modes;
             public string[] pins;
         }
 
         public struct PwmGenConfig_def
         {
             public bool isPwmGen;
-            public int maxPwmFrequency;
-            public int maxSamplingFrequency;
+            public int pwmFrequency;
+            public int pwmResolution;
             public int numChannels;
             public string[] pins;
         }
@@ -132,7 +132,7 @@ namespace LEO
 
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
-        static Semaphore commsSemaphore = new Semaphore(1,1);  // Dostupná kapacita=1; Celková=1
+        static Semaphore commsSemaphore = new Semaphore(1, 1);  // Dostupná kapacita=1; Celková=1
         static Semaphore logSemaphore = new Semaphore(1, 1);  // Dostupná kapacita=1; Celková=1
         private int semaphoreTakenBy = 0;
         private bool portError = false;
@@ -145,7 +145,7 @@ namespace LEO
         int lastError = 0;
         public Device(string portName, string name, int speed)
         {
-            syncContext= SynchronizationContext.Current;
+            syncContext = SynchronizationContext.Current;
             this.portName = portName;
             this.name = name;
             this.speed = speed;
@@ -173,7 +173,8 @@ namespace LEO
             return this.portName;
         }
 
-        public void close_port() {
+        public void close_port()
+        {
             if (port.IsOpen)
             {
                 logTextNL("PORT zavřen: " + this.portName);
@@ -183,10 +184,11 @@ namespace LEO
                     port.Close();
                     port.Dispose();
                 }
-                catch(Exception  ex){
-                //do nothing
+                catch (Exception ex)
+                {
+                    //do nothing
                 }
-                
+
             }
         }
 
@@ -220,8 +222,8 @@ namespace LEO
                 report.Sendreport("Fatal error during opening log file", ex, this, logger, 78641);
                 return false;
             }
-            
-            
+
+
             try
             {
                 portError = false;
@@ -243,7 +245,7 @@ namespace LEO
             }
             catch (Exception ex)
             {
-                   report.Sendreport("Fatal error during connecting to device 354135",ex,this,logger,318461);
+                report.Sendreport("Fatal error during connecting to device 354135", ex, this, logger, 318461);
             }
 
             return result;
@@ -372,7 +374,7 @@ namespace LEO
                     }
 
                     port.Write(Commands.SCOPE + ":" + Commands.GET_SCOPE_INPUTS + ";");
-                    Thread.Sleep(2*wait);
+                    Thread.Sleep(2 * wait);
                     toRead = port.BytesToRead;
                     port.Read(msg_byte, 0, toRead);
                     msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
@@ -413,7 +415,7 @@ namespace LEO
                             ch4 = chanels[4].Split(':');
                         }
 
-                        scopeCfg.numOfInputs=new int[4];
+                        scopeCfg.numOfInputs = new int[4];
 
 
                         int num_chan = chanels.Length - 2;
@@ -423,13 +425,14 @@ namespace LEO
 
                         for (int l = 0; l < num_chan; l++)
                         {
-                            
+
                             for (int n = 0; n < max_inp; n++)
                             {
                                 switch (l)
                                 {
                                     case 0:
-                                        if (n == 0) {
+                                        if (n == 0)
+                                        {
                                             scopeCfg.inputs[0] = new string[ch1.Length];
                                         }
                                         if (n < ch1.Length)
@@ -448,7 +451,7 @@ namespace LEO
                                             scopeCfg.numOfInputs[l] = ch2.Length;
                                             scopeCfg.inputs[l][n] = ch2[n];
                                         }
-                                        
+
                                         break;
                                     case 2:
                                         if (n == 0)
@@ -481,7 +484,7 @@ namespace LEO
                         scopeCfg.inputs[0] = new string[1];
                         scopeCfg.inputs[0][0] = "-";
                     }
-                    
+
 
 
                     port.Write(Commands.GENERATOR + ":" + Commands.CONFIGRequest + ";");
@@ -504,7 +507,7 @@ namespace LEO
                         }
                         genCfg.VRefMin = BitConverter.ToInt32(msg_byte, 20 + 4 * genCfg.numChannels);
                         genCfg.VRefMax = BitConverter.ToInt32(msg_byte, 24 + 4 * genCfg.numChannels);
-                        systemCfg.VDDA_target =    BitConverter.ToInt32(msg_byte, 28 + 4 * genCfg.numChannels);
+                        systemCfg.VDDA_target = BitConverter.ToInt32(msg_byte, 28 + 4 * genCfg.numChannels);
                         systemCfg.VDDA_actual = systemCfg.VDDA_target;
                         genCfg.VRefInt = BitConverter.ToInt32(msg_byte, 32 + 4 * genCfg.numChannels);
                     }
@@ -513,6 +516,28 @@ namespace LEO
                         genCfg.isGen = false;
                     }
 
+                    port.DiscardInBuffer();
+
+                    port.Write(Commands.GENERATOR + ":" + Commands.GEN_PWM_CONFIGRequest + ";");
+                    Thread.Sleep(wait);
+                    toRead = port.BytesToRead;
+                    port.Read(msg_byte, 0, toRead);
+                    msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
+
+                    if (new string(msg_char, 0, 4).Equals("GENP"))
+                    {
+                        pwmGenCfg.isPwmGen = true;
+                        pwmGenCfg.numChannels = BitConverter.ToInt32(msg_byte, 4);
+                        pwmGenCfg.pins = new string[pwmGenCfg.numChannels];
+                        for (int i = 0; i < this.genCfg.numChannels; i++)
+                        {
+                            pwmGenCfg.pins[i] = new string(msg_char, 8 + 4 * i, 4);
+                        }
+                    }
+                    else
+                    {
+                        pwmGenCfg.isPwmGen = false;
+                    }
 
                     port.DiscardInBuffer();
 
@@ -523,49 +548,31 @@ namespace LEO
                     msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
 
                     if (new string(msg_char, 0, 4).Equals("CNT_"))
-                    {                        
+                    {
                         cntCfg.isCnt = true;
                         cntCfg.modes = new string(msg_char, 4, toRead - 23);
-                        cntCfg.pins = new string(msg_char, 12, toRead - 17).Split(' ');                        
+                        cntCfg.pins = new string(msg_char, 12, toRead - 17).Split(' ');
                     }
                     else
                     {
                         cntCfg.isCnt = false;
-                    }               
-                         
-
-                    //port.Write(Commands.PWM_GENERATOR + ":" + Commands.CONFIGRequest + ";");
-                    //Thread.Sleep(wait);
-                    //toRead = port.BytesToRead;
-                    //port.Read(msg_byte, 0, toRead);
-                    //msg_char = System.Text.Encoding.ASCII.GetString(msg_byte).ToCharArray();
-
-                    //if (new string(msg_char, 0, 4).Equals("GPWM"))
-                    //{
-                    //    pwmGenCfg.isPwmGen = true;
-                    //}
-                    //else
-                    //{
-                    //    pwmGenCfg.isPwmGen = false;
-                    //}
-
-
-
-
+                    }
                 }
             }
-            catch (Exception ex) {
-                report.Sendreport("Fatal error during reading log", ex, this, logger,03246);
+            catch (Exception ex)
+            {
+                report.Sendreport("Fatal error during reading log", ex, this, logger, 03246);
             }
         }
 
-        public void wait_for_data(int watch) 
+        public void wait_for_data(int watch)
         {
             Thread.Sleep(1);
-            if (watch <= 0) { 
-               // throw (new Exception("Reading timeout")); 
-            } 
-        } 
+            if (watch <= 0)
+            {
+                // throw (new Exception("Reading timeout")); 
+            }
+        }
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -573,14 +580,14 @@ namespace LEO
             byte[] inputData = new byte[4];
             int watchDog = 250;
             logTextNL("Příjem dat: " + port.BytesToRead.ToString());
-            
+
             while (port.IsOpen && port.BytesToRead > 0)
             {
-                
-              /* inputMsg[0] = inputMsg[1]; //safe for un aligned messages
-                inputMsg[1] = inputMsg[2];
-                inputMsg[2] = inputMsg[3];
-                inputMsg[3] = (char)port.ReadChar();*/
+
+                /* inputMsg[0] = inputMsg[1]; //safe for un aligned messages
+                  inputMsg[1] = inputMsg[2];
+                  inputMsg[2] = inputMsg[3];
+                  inputMsg[3] = (char)port.ReadChar();*/
 
                 try
                 {
@@ -630,7 +637,8 @@ namespace LEO
                                 toRead = (leng - wasRead) > partsLen ? partsLen : (leng - wasRead);
                             }
 
-                            if(!port.IsOpen){
+                            if (!port.IsOpen)
+                            {
                                 break;
                             }
 
@@ -646,7 +654,7 @@ namespace LEO
                                     ushort depth = (ushort)Math.Pow(2, res);
                                     for (i = 0; i < leng / 2; i++)
                                     {
-                                        scopeCfg.samples[currChan - 1, i] = (ushort)(depth-BitConverter.ToUInt16(scopeCfg.buffer, i * 2));
+                                        scopeCfg.samples[currChan - 1, i] = (ushort)(depth - BitConverter.ToUInt16(scopeCfg.buffer, i * 2));
                                     }
                                 }
                                 else {
@@ -680,7 +688,7 @@ namespace LEO
                                 }
                             }
 
-                            
+
 
 
                             if (currChan == numChan)
@@ -733,14 +741,15 @@ namespace LEO
                             if (ADCFormOpened == FormOpened.SCOPE)
                             {
                                 Scope_form.add_message(new Message(Message.MsgRequest.SCOPE_TRIGGERED));
-                            } break;
+                            }
+                            break;
                         case Commands.GEN_OK:
                             //Console.WriteLine(Commands.TRIGGERED);
                             logRecieved("OK");
                             switch (DACFormOpened)
                             {
                                 case FormOpened.GENERATOR:
-                                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));                                    
+                                    Gen_form.add_message(new Message(Message.MsgRequest.GEN_OK));
                                     break;
                                 case FormOpened.VOLT_SOURCE:
                                     Source_form.add_message(new Message(Message.MsgRequest.GEN_OK));
@@ -756,7 +765,9 @@ namespace LEO
                             if (DACFormOpened == FormOpened.GENERATOR)
                             {
                                 Gen_form.add_message(new Message(Message.MsgRequest.GEN_NEXT));
-                            }else if (DACFormOpened == FormOpened.FREQ_ANALYSIS) {
+                            }
+                            else if (DACFormOpened == FormOpened.FREQ_ANALYSIS)
+                            {
                                 FreqAnalysis_form.genMessage(new Message(Message.MsgRequest.GEN_NEXT));
                             }
                             break;
@@ -782,8 +793,9 @@ namespace LEO
                         /* -------------------------------------------------------------------------------------------------------------------------------- */
                         /* -------------------------------------------------- COUNTER RECEIVED MESSAGES --------------------------------------------------- */
                         /* -------------------------------------------------------------------------------------------------------------------------------- */
+                        /************************* ETR data *************************/
                         case Commands.COUNTER_ETR_DATA:
-                            while (port.BytesToRead < 16)
+                            while (port.BytesToRead < 16) // 16
                             {
                                 wait_for_data(watchDog--);
                             }
@@ -794,14 +806,27 @@ namespace LEO
                             try
                             {
                                 cntMessage = new string(inputValEtr, 0, 16);
-                                freq = double.Parse(cntMessage,System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_DATA,"ETR_DATA", freq /*+ 0.000001*/));
+                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_DATA, "ETR_DATA", freq));
                                 logRecieved("CNT ETR " + freq);
                             }
-                            catch (Exception ex) {
+                            catch (Exception ex)
+                            {
                                 logRecieved("Counter freq ETR was not parsed  " + new string(inputValEtr, 0, 4));
-                            }                           
+                            }
                             break;
+                        /************************* ETR buffer *************************/
+                        case Commands.COUNTER_ETR_BUFFER:
+                            while (port.BytesToRead < 4)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+                            byte[] inputValEtrBuffer = new byte[4];
+                            port.Read(inputValEtrBuffer, 0, 4);
+                            freq = BitConverter.ToUInt32(inputValEtrBuffer, 4);
+                            counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_BUFFER, "ETR_BUFFER", freq));
+                            break;
+                        /************************* IC1 data *************************/
                         case Commands.COUNTER_IC1_DATA:
                             while (port.BytesToRead < 16)
                             {
@@ -814,13 +839,14 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIc1, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DATA, "IC1_DATA", freq/*+ 0.000001*/));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DATA, "IC1_DATA", freq));
                             }
                             catch (Exception ex)
                             {
                                 logRecieved("Counter freq IC1 was not parsed  " + new string(inputValIc1, 0, 4));
                             }
                             break;
+                        /************************* IC2 data *************************/
                         case Commands.COUNTER_IC2_DATA:
                             while (port.BytesToRead < 16)
                             {
@@ -834,13 +860,14 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIc2, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_DATA, "IC2_DATA", freq/* + 0.000001*/));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_DATA, "IC2_DATA", freq));
                             }
                             catch (Exception ex)
                             {
                                 logRecieved("Counter freq IC2 was not parsed  " + new string(inputValIc2, 0, 4));
                             }
                             break;
+                        /************************* REF data *************************/
                         case Commands.COUNTER_REF_DATA:
                             while (port.BytesToRead < 10)
                             {
@@ -855,57 +882,14 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValRef, 0, 10);
                                 buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_DATA, "REF_DATA", buff/* + 0.000001*/));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_DATA, "REF_DATA", buff));
                             }
                             catch (Exception ex)
                             {
                                 logRecieved("Counter buffer REF was not parsed  " + new string(inputValRef, 0, 4));
                             }
                             break;
-                        case Commands.COUNTER_IC1_BUFF:
-                            while (port.BytesToRead < 4)
-                            {
-                                wait_for_data(watchDog--);
-                            }
-
-                            char[] inputValBuff1 = new char[64];
-                            port.Read(inputValBuff1, 0, 4);
-
-                            try
-                            {
-                                cntMessage = new string(inputValBuff1, 0, 4);
-                                //string[] substring = cntMessage.Split(' ');
-                                //buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_BUFF, "IC1_BUFF", buff));
-                            }
-                            catch (Exception ex)
-                            {
-                                logRecieved("Counter IC ic1buffer was not parsed  " + new string(inputValBuff1, 0, 4));
-                            }
-                            break;
-                        case Commands.COUNTER_IC2_BUFF:
-                            while (port.BytesToRead < 4)
-                            {
-                                wait_for_data(watchDog--);
-                            }
-
-                            char[] inputValBuff2 = new char[64];
-                            port.Read(inputValBuff2, 0, 4);
-
-                            try
-                            {
-                                cntMessage = new string(inputValBuff2, 0, 4);
-                                //[] substring = cntMessage.Split(' ');
-                                //buff = int.Parse(substring[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_BUFF, "IC2_BUFF", buff));
-                            }
-                            catch (Exception ex)
-                            {
-                                logRecieved("Counter IC ic2buffer was not parsed  " + new string(inputValBuff2, 0, 4));
-                            }
-                            break;
+                        /************************* REF warning *************************/
                         case Commands.COUNTER_REF_WARN:
                             while (port.BytesToRead < 2)
                             {
@@ -926,28 +910,20 @@ namespace LEO
                                 logRecieved("Counter buffer REF was not parsed  " + new string(inputValWarn, 0, 2));
                             }
                             break;
-                        /* -------------------------------------------------------------------------------------------------------------------------------- */
-                        /* ----------------------------------------------- PWM GENERATOR RECEIVED MESSAGES ------------------------------------------------ */
-                        /* -------------------------------------------------------------------------------------------------------------------------------- */
-
-
-
-
-
-
                         default:
                             if (inputMsg[0] == Commands.ERROR)
                             {
                                 try
                                 {
                                     int err = int.Parse(new string(inputMsg, 1, 3));
-                                    
+
                                     logRecieved("ERROR " + err);
-                                    if (err == 107) {
+                                    if (err == 107)
+                                    {
                                         break;
-                                    }           
+                                    }
                                     if (lastError != err)
-                                    {    
+                                    {
                                         MessageBox.Show("Error recieved \r\n" + new string(inputMsg, 0, 4) + "\r\n" + getErrReason(err), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         //scopeCfg.mode = Scope.mode_def.IDLE;
                                         lastError = err;
@@ -958,7 +934,7 @@ namespace LEO
                                     logRecieved("Unknown message " + new string(inputMsg, 0, 4));
                                     if (lastError != -1)
                                     {
-                                        
+
                                         MessageBox.Show("Unknow Error recieved \r\n" + new string(inputMsg, 0, 4), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         lastError = -1;
                                         //Console.WriteLine(new string(inputMsg, 0, 4));
@@ -977,20 +953,22 @@ namespace LEO
                             }
                             break;
                     }
-                    if (!port.IsOpen) {
+                    if (!port.IsOpen)
+                    {
                         break;
                     }
                 }
-                catch (System.ArgumentException  ex)
+                catch (System.ArgumentException ex)
                 {
                     if (port.IsOpen)
                     {
                         port.DiscardInBuffer();
-                        report.Sendreport("Mismatch communication Error recieved", ex, this,logger,31681);
+                        report.Sendreport("Mismatch communication Error recieved", ex, this, logger, 31681);
                     }
                 }
-                catch(System.InvalidOperationException){
-                
+                catch (System.InvalidOperationException)
+                {
+
                 }
                 Thread.Yield();
             }
@@ -999,7 +977,7 @@ namespace LEO
         private void serialPort_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
             logTextNL("Serial port error recieved:\r\n");
-            report.Sendreport("Serial port error recieved", new Exception("Communication error handler"), this,logger,13587);
+            report.Sendreport("Serial port error recieved", new Exception("Communication error handler"), this, logger, 13587);
         }
 
 
@@ -1037,10 +1015,11 @@ namespace LEO
                 Scope_form.BringToFront();
             }
         }
-            
-        
 
-        public void close_scope() {
+
+
+        public void close_scope()
+        {
             if (Scope_form != null)
             {
                 Scope_form.Close();
@@ -1048,15 +1027,18 @@ namespace LEO
             }
         }
 
-        public void close_freq_analysis() {
-            if (FreqAnalysis_form != null) {
+        public void close_freq_analysis()
+        {
+            if (FreqAnalysis_form != null)
+            {
                 FreqAnalysis_form.Close();
                 ADCFormOpened = FormOpened.NONE;
-                DACFormOpened= FormOpened.NONE;  
+                DACFormOpened = FormOpened.NONE;
             }
         }
 
-        public void scopeClosed() {
+        public void scopeClosed()
+        {
             ADCFormOpened = FormOpened.NONE;
         }
 
@@ -1100,7 +1082,7 @@ namespace LEO
             {
                 close_freq_analysis();
             }
-            if(GenOpened == GenModeOpened.DAC)
+            if (GenOpened == GenModeOpened.DAC)
             {
                 close_gen();
             }
@@ -1128,7 +1110,7 @@ namespace LEO
 
         public void open_volt()
         {
-            if (ADCFormOpened == FormOpened.SCOPE )
+            if (ADCFormOpened == FormOpened.SCOPE)
             {
                 close_scope();
             }
@@ -1180,7 +1162,8 @@ namespace LEO
             {
                 close_gen();
             }
-            if (DACFormOpened == FormOpened.FREQ_ANALYSIS) {
+            if (DACFormOpened == FormOpened.FREQ_ANALYSIS)
+            {
                 close_freq_analysis();
             }
 
@@ -1196,7 +1179,8 @@ namespace LEO
             }
         }
 
-        public void open_freq_analysis() {
+        public void open_freq_analysis()
+        {
             if (DACFormOpened == FormOpened.GENERATOR)
             {
                 close_gen();
@@ -1264,8 +1248,9 @@ namespace LEO
         {
             DACFormOpened = FormOpened.NONE;
         }
-        
-        public SystemConfig_def getSystemCfg() {
+
+        public SystemConfig_def getSystemCfg()
+        {
             return this.systemCfg;
         }
         public CommsConfig_def getCommsCfg()
@@ -1274,26 +1259,31 @@ namespace LEO
         }
 
 
-        public void set_scope_mode(Scope.TRIG_MODE mod) {
+        public void set_scope_mode(Scope.TRIG_MODE mod)
+        {
             this.scopeCfg.mode = mod;
         }
 
-        public Scope.TRIG_MODE get_scope_mode() {
+        public Scope.TRIG_MODE get_scope_mode()
+        {
             return scopeCfg.mode;
         }
 
-        
-        public bool takeCommsSemaphore(int ms){
+
+        public bool takeCommsSemaphore(int ms)
+        {
             bool result = false;
             result = commsSemaphore.WaitOne(ms);
-            if (!result) {
+            if (!result)
+            {
                 throw new Exception("Unable to take semaphore");
             }
             semaphoreTakenBy = ms;
             return result;
         }
 
-        public void giveCommsSemaphore(){
+        public void giveCommsSemaphore()
+        {
             commsSemaphore.Release();
         }
 
@@ -1302,11 +1292,11 @@ namespace LEO
         {
             try
             {
-                    port.Write(s);
+                port.Write(s);
 
-                    //   if (!s.Equals("OSCP:SRAT")) {
-                    logSend(s);
-                
+                //   if (!s.Equals("OSCP:SRAT")) {
+                logSend(s);
+
                 // }
                 //  Console.WriteLine(s);
             }
@@ -1318,7 +1308,8 @@ namespace LEO
             }
         }
 
-        public bool isPortError() {
+        public bool isPortError()
+        {
             if (portError)
             {
                 portError = false;
@@ -1371,7 +1362,7 @@ namespace LEO
                 Console.WriteLine(ex);
                 portError = true;
             }
-           // Console.WriteLine(l.ToString());
+            // Console.WriteLine(l.ToString());
         }
 
         public void send_int(int l)
@@ -1401,7 +1392,7 @@ namespace LEO
         {
             try
             {
-                
+
                 if (writeLog)
                 {
                     logSemaphore.WaitOne(1000);
@@ -1413,7 +1404,7 @@ namespace LEO
                     logSemaphore.Release();
                 }
                 addLoggerString("Log Entry : " + DateTime.Now.ToLongTimeString() + "  " + DateTime.Now.ToLongDateString() + " :" + logMessage + "\r\n---------------------------\r\n");
-                
+
             }
             catch (Exception ex)
             {
@@ -1425,8 +1416,8 @@ namespace LEO
         {
             try
             {
-                
-                
+
+
                 if (writeLog)
                 {
                     logSemaphore.WaitOne(1000);
@@ -1436,7 +1427,7 @@ namespace LEO
                     logSemaphore.Release();
                 }
                 addLoggerString("Konec logu\r\n--------------------------\r\n");
-                
+
             }
             catch (Exception ex)
             {
@@ -1448,7 +1439,7 @@ namespace LEO
         {
             try
             {
-                
+
                 if (writeLog)
                 {
                     logSemaphore.WaitOne(1000);
@@ -1456,7 +1447,7 @@ namespace LEO
                     logSemaphore.Release();
                 }
                 addLoggerString("Send (" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + "): " + s + "\r\n");
-                
+
             }
             catch (Exception ex)
             {
@@ -1497,14 +1488,17 @@ namespace LEO
             addLoggerString(s + ", ");
         }
 
-        public void addLoggerString(string log){
+        public void addLoggerString(string log)
+        {
             logger.Add(log);
-            if (logger.Count() > 100) {
+            if (logger.Count() > 100)
+            {
                 logger.RemoveAt(0);
             }
         }
 
-        public List<String> getLogger() {
+        public List<String> getLogger()
+        {
             return this.logger;
         }
 
@@ -1579,7 +1573,6 @@ namespace LEO
             }
             return result;
         }
-
 
         //end class
     }

@@ -96,12 +96,12 @@
             this.groupBox_mixed = new System.Windows.Forms.GroupBox();
             this.btn_freq_analysis_open = new System.Windows.Forms.Button();
             this.groupBox_digital = new System.Windows.Forms.GroupBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.label_pwmGen_pins = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label_pwmGen_freq = new System.Windows.Forms.Label();
+            this.label_pwmGen_channs = new System.Windows.Forms.Label();
+            this.label_pwmGen_resol = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.button_PWM = new System.Windows.Forms.Button();
@@ -649,9 +649,9 @@
             this.label48.AutoSize = true;
             this.label48.Location = new System.Drawing.Point(6, 179);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(71, 13);
+            this.label48.Size = new System.Drawing.Size(76, 13);
             this.label48.TabIndex = 0;
-            this.label48.Text = "Generator pin";
+            this.label48.Text = "Generator pins";
             // 
             // label46
             // 
@@ -864,12 +864,12 @@
             // 
             // groupBox_digital
             // 
-            this.groupBox_digital.Controls.Add(this.label15);
+            this.groupBox_digital.Controls.Add(this.label_pwmGen_pins);
             this.groupBox_digital.Controls.Add(this.label16);
             this.groupBox_digital.Controls.Add(this.label6);
-            this.groupBox_digital.Controls.Add(this.label10);
-            this.groupBox_digital.Controls.Add(this.label11);
-            this.groupBox_digital.Controls.Add(this.label12);
+            this.groupBox_digital.Controls.Add(this.label_pwmGen_freq);
+            this.groupBox_digital.Controls.Add(this.label_pwmGen_channs);
+            this.groupBox_digital.Controls.Add(this.label_pwmGen_resol);
             this.groupBox_digital.Controls.Add(this.label13);
             this.groupBox_digital.Controls.Add(this.label14);
             this.groupBox_digital.Controls.Add(this.button_PWM);
@@ -882,23 +882,23 @@
             this.groupBox_digital.TabStop = false;
             this.groupBox_digital.Text = "PWM";
             // 
-            // label15
+            // label_pwmGen_pins
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(14, 129);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(13, 13);
-            this.label15.TabIndex = 9;
-            this.label15.Text = "--";
+            this.label_pwmGen_pins.AutoSize = true;
+            this.label_pwmGen_pins.Location = new System.Drawing.Point(14, 129);
+            this.label_pwmGen_pins.Name = "label_pwmGen_pins";
+            this.label_pwmGen_pins.Size = new System.Drawing.Size(13, 13);
+            this.label_pwmGen_pins.TabIndex = 9;
+            this.label_pwmGen_pins.Text = "--";
             // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(6, 113);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(56, 13);
+            this.label16.Size = new System.Drawing.Size(61, 13);
             this.label16.TabIndex = 8;
-            this.label16.Text = "Output pin";
+            this.label16.Text = "Output pins";
             // 
             // label6
             // 
@@ -909,32 +909,32 @@
             this.label6.TabIndex = 2;
             this.label6.Text = "Frequency";
             // 
-            // label10
+            // label_pwmGen_freq
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(14, 32);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(35, 13);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "-- kHz";
+            this.label_pwmGen_freq.AutoSize = true;
+            this.label_pwmGen_freq.Location = new System.Drawing.Point(14, 32);
+            this.label_pwmGen_freq.Name = "label_pwmGen_freq";
+            this.label_pwmGen_freq.Size = new System.Drawing.Size(29, 13);
+            this.label_pwmGen_freq.TabIndex = 5;
+            this.label_pwmGen_freq.Text = "-- Hz";
             // 
-            // label11
+            // label_pwmGen_channs
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(14, 98);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(13, 13);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "--";
+            this.label_pwmGen_channs.AutoSize = true;
+            this.label_pwmGen_channs.Location = new System.Drawing.Point(14, 98);
+            this.label_pwmGen_channs.Name = "label_pwmGen_channs";
+            this.label_pwmGen_channs.Size = new System.Drawing.Size(13, 13);
+            this.label_pwmGen_channs.TabIndex = 6;
+            this.label_pwmGen_channs.Text = "--";
             // 
-            // label12
+            // label_pwmGen_resol
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(14, 65);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(27, 13);
-            this.label12.TabIndex = 7;
-            this.label12.Text = "-- bit";
+            this.label_pwmGen_resol.AutoSize = true;
+            this.label_pwmGen_resol.Location = new System.Drawing.Point(14, 65);
+            this.label_pwmGen_resol.Name = "label_pwmGen_resol";
+            this.label_pwmGen_resol.Size = new System.Drawing.Size(27, 13);
+            this.label_pwmGen_resol.TabIndex = 7;
+            this.label_pwmGen_resol.Text = "-- bit";
             // 
             // label13
             // 
@@ -1235,12 +1235,12 @@
         private System.Windows.Forms.GroupBox groupBox_digital;
         private System.Windows.Forms.Button btn_freq_analysis_open;
         private System.Windows.Forms.Button button_PWM;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label_pwmGen_pins;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label_pwmGen_freq;
+        private System.Windows.Forms.Label label_pwmGen_channs;
+        private System.Windows.Forms.Label label_pwmGen_resol;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.GroupBox groupBox_counter;

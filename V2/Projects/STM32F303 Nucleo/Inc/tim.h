@@ -123,7 +123,14 @@ void TIM_REF_Stop(void);
 void TIM_ETRP_Config(double freq);
 void TIM_IC1PSC_Config(double freq);
 void TIM_IC2PSC_Config(double freq);
+void TIM_IC1_PSC_Config(uint8_t prescVal);
+void TIM_IC2_PSC_Config(uint8_t prescVal);
 void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc);
+void TIM_IC1_RisingFalling(void);
+void TIM_IC2_RisingFalling(void);
+void TIM_IC1_RisingOnly(void);
+void TIM_IC2_RisingOnly(void);
+
 void TIM_Disable(void);
 uint8_t TIM_ETPS_GetPrescaler(void);
 uint8_t TIM_IC1PSC_GetPrescaler(void);

@@ -146,6 +146,11 @@
     <Compile Include="Message.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="PwmGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,13 +202,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="PwmGenerator.resx">
       <DependentUpon>PwmGenerator.cs</DependentUpon>
     </EmbeddedResource>
@@ -256,6 +255,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LEO-logo_small.ico" />
+    <None Include="Resources\rising_rising.wmf" />
+    <None Include="Resources\edge_descending.wmf" />
+    <None Include="Resources\edge_ascending.wmf" />
+    <None Include="Resources\edge_asc.wmf" />
+    <None Include="Resources\ab_rising_falling.wmf" />
+    <None Include="Resources\ab_rising_falling1.wmf" />
+    <None Include="Resources\edge_asc1.wmf" />
+    <None Include="Resources\edge_descending1.wmf" />
+    <None Include="Resources\ab_rising_falling2.wmf" />
+    <None Include="Resources\edge_asc2.wmf" />
+    <None Include="Resources\edge_descending2.wmf" />
+    <None Include="Resources\edge_desc.wmf" />
+    <None Include="Resources\ab_rising_rising.wmf" />
+    <None Include="Resources\ab_falling_falling.wmf" />
+    <None Include="Resources\ab_falling_rising.wmf" />
+    <None Include="Resources\ba_falling_falling.wmf" />
+    <None Include="Resources\ba_falling_rising.wmf" />
+    <None Include="Resources\ba_rising_falling.wmf" />
+    <None Include="Resources\ba_rising_rising.wmf" />
     <Content Include="Resources\logo_cvut_vertical_tiny.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

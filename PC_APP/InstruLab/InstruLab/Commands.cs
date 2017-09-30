@@ -13,14 +13,15 @@ namespace LEO
         // General
         public const string IDNRequest = "IDN?";
         public const string VersionRequest = "VER?";
-        public const string CONFIGRequest = "CFG?";
+        public const string CONFIGRequest = "CFG?";        
         public const string GET_REAL_SMP_FREQ = "FRQ?";
         public const string GET_SCOPE_INPUTS = "INP?";
         public const string IS_SHIELD_CONNECTED = "SH_?";
 
         public const string RESET_DEVICE = "RES!";
 
-        public const string GENERATOR = "GEN_";        
+        public const string GENERATOR = "GEN_";
+        public const string PWM_GENERATOR = "GENP";
         public const string COUNTER = "CNT_";
         public const string SCOPE = "OSCP";
         public const string SCOPE_INCOME = "OSC_";
@@ -31,7 +32,7 @@ namespace LEO
         public const string CNT_MODE = "MODE";
         public const string CNT_ETR = "ETR_";
         public const string CNT_REF = "REF_";
-        public const string CNT_IC = "IC__";
+        public const string CNT_IC = "IC__";        
 
         // Counter complete deinit
         public const string DEINIT = "DEIN";
@@ -45,8 +46,23 @@ namespace LEO
         public const string CNT_GATE_10s = "10s_";
 
         // Counter IC SAMPLE counts
-        public const string CNT_SAMPLE_COUNT1 = "BUF1";
-        public const string CNT_SAMPLE_COUNT2 = "BUF2";
+        public const string CNT_SAMPLE_COUNT_CH1 = "BUF1";        
+        public const string CNT_SAMPLE_COUNT_CH2 = "BUF2";
+
+        // Counter IC Pulse length measure channel x
+        public const string CNT_IC_PULSE = "PULS";
+        public const string CNT_IC_PULSE_CH1_INIT = "PLI1";
+        public const string CNT_IC_PULSE_CH2_INIT = "PLI2";
+        public const string CNT_IC_PULSE_CH1_DEINIT = "PLD1";
+        public const string CNT_IC_PULSE_CH2_DEINIT = "PLD2";
+
+        // Counter IC prescalers configuration
+        public const string CNT_IC_PSC_CH1 = "PRE1";
+        public const string CNT_IC_PSC_CH2 = "PRE2";
+        public const string CNT_IC_PSC_1x = "1x__";
+        public const string CNT_IC_PSC_2x = "2x__";
+        public const string CNT_IC_PSC_4x = "4x__";
+        public const string CNT_IC_PSC_8x = "8x__";
 
         // Counter REF SAMPLE count
         public const string CNT_SAMPLES_PSC = "PSC_";
@@ -55,6 +71,7 @@ namespace LEO
 
         // Counter messages received
         public const string COUNTER_ETR_DATA = "ETRD";
+        public const string COUNTER_ETR_BUFFER = "ETRB";
         public const string COUNTER_REF_DATA = "REFD";
         public const string COUNTER_IC1_DATA = "IC1D";
         public const string COUNTER_IC2_DATA = "IC2D";
@@ -92,8 +109,10 @@ namespace LEO
         public const string SCOPE_ADC_CHANNEL = "A_CH";
         public const string SCOPE_ADC_CHANNEL_DEAFULT = "ADEF";
         public const string SCOPE_ADC_CHANNEL_VREF = "AREF";
-        
+
         //Generator
+        public const string GEN_PWM_CONFIGRequest = "PCF?";
+
         public const string GEN_DATA = "DATA";
         public const string GEN_PWM_FREQ_PSC = "FPWP";
         public const string GEN_PWM_FREQ_ARR = "FPWA";
