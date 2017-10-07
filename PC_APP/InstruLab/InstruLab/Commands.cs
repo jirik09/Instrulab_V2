@@ -32,7 +32,8 @@ namespace LEO
         public const string CNT_MODE = "MODE";
         public const string CNT_ETR = "ETR_";
         public const string CNT_REF = "REF_";
-        public const string CNT_IC = "IC__";        
+        public const string CNT_IC = "IC__";
+        public const string CNT_TI = "TI__";
 
         // Counter complete deinit
         public const string DEINIT = "DEIN";
@@ -50,11 +51,27 @@ namespace LEO
         public const string CNT_SAMPLE_COUNT_CH2 = "BUF2";
 
         // Counter IC Pulse length measure channel x
-        public const string CNT_IC_PULSE = "PULS";
-        public const string CNT_IC_PULSE_CH1_INIT = "PLI1";
-        public const string CNT_IC_PULSE_CH2_INIT = "PLI2";
-        public const string CNT_IC_PULSE_CH1_DEINIT = "PLD1";
-        public const string CNT_IC_PULSE_CH2_DEINIT = "PLD2";
+        public const string CNT_EVENT = "EVNT";
+        public const string CNT_EVENT_RISING_FALLING_CH1 = "RF1_";
+        public const string CNT_EVENT_RISING_FALLING_CH2 = "RF2_";
+        public const string CNT_EVENT_RISING_ONLY_CH1 = "RO1_";
+        public const string CNT_EVENT_RISING_ONLY_CH2 = "RO2_";
+        public const string CNT_EVENT_FALLING_ONLY_CH1 = "FO1_";
+        public const string CNT_EVENT_FALLING_ONLY_CH2 = "FO2_";
+
+        // Counter IC Pulse start/stop channel x
+        public const string CNT_PULSE = "PULS";
+        public const string CNT_PULSE_START_CH1 = "PST1";
+        public const string CNT_PULSE_START_CH2 = "PST2";
+        public const string CNT_PULSE_STOP_CH1 = "PSP1";
+        public const string CNT_PULSE_STOP_CH2 = "PSP2";
+
+        // Counter IC Pulse enable/disable channel x
+        public const string CNT_PMODE = "PMOD";
+        public const string CNT_PMODE_ENABLE_CH1 = "PEN1";
+        public const string CNT_PMODE_ENABLE_CH2 = "PEN2";
+        public const string CNT_PMODE_DISABLE_CH1 = "PDI1";
+        public const string CNT_PMODE_DISABLE_CH2 = "PDI2";
 
         // Counter IC prescalers configuration
         public const string CNT_IC_PSC_CH1 = "PRE1";
@@ -64,19 +81,28 @@ namespace LEO
         public const string CNT_IC_PSC_4x = "4x__";
         public const string CNT_IC_PSC_8x = "8x__";
 
+        // Counter TI send timeout value
+        public const string CNT_TI_TIMEOUT_VALUE = "TIMO";
+
+        // Counter TI receive data
+        public const string CNT_TI_TIMEOUT_OCCURED = "TMOT";
+        public const string CNT_TI_VALUES_EQUAL = "EQUL";
+        public const string CNT_TI_BUFF1_BIGGER = "BUF1";
+        public const string CNT_TI_BUFF2_BIGGER = "BUF2";
+
         // Counter REF SAMPLE count
         public const string CNT_SAMPLES_PSC = "PSC_";
         public const string CNT_SAMPLES_ARR = "ARR_";
-        public const string COUNTER_REF_WARN = "WARN";
+        public const string CNT_REF_WARN = "WARN";
 
         // Counter messages received
-        public const string COUNTER_ETR_DATA = "ETRD";
-        public const string COUNTER_ETR_BUFFER = "ETRB";
-        public const string COUNTER_REF_DATA = "REFD";
-        public const string COUNTER_IC1_DATA = "IC1D";
-        public const string COUNTER_IC2_DATA = "IC2D";
-        public const string COUNTER_IC1_BUFF = "IC1B";
-        public const string COUNTER_IC2_BUFF = "IC2B";
+        public const string CNT_ETR_DATA = "ETRD";
+        public const string CNT_ETR_BUFF = "ETRB";
+        public const string CNT_REF_DATA = "REFD";
+        public const string CNT_IC1_DATA = "IC1D";
+        public const string CNT_IC2_DATA = "IC2D";
+        public const string CNT_IC1_BUFF = "IC1B";
+        public const string CNT_IC2_BUFF = "IC2B";
 
         //general
         public const string ACKNOWLEDGE = "ACK_";

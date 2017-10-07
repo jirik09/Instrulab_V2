@@ -80,6 +80,8 @@
             this.label_gen_buff_len = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox_counter = new System.Windows.Forms.GroupBox();
+            this.leo_event_label = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.leo_ref_label = new System.Windows.Forms.Label();
             this.leo_ic_label = new System.Windows.Forms.Label();
             this.leo_etr_label = new System.Windows.Forms.Label();
@@ -681,13 +683,15 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(354, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.30389F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.69611F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(111, 283);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // groupBox_counter
             // 
+            this.groupBox_counter.Controls.Add(this.leo_event_label);
+            this.groupBox_counter.Controls.Add(this.label10);
             this.groupBox_counter.Controls.Add(this.leo_ref_label);
             this.groupBox_counter.Controls.Add(this.leo_ic_label);
             this.groupBox_counter.Controls.Add(this.leo_etr_label);
@@ -698,19 +702,36 @@
             this.groupBox_counter.Controls.Add(this.button_counter);
             this.groupBox_counter.Controls.Add(this.label_cnt_modes);
             this.groupBox_counter.Controls.Add(this.label18);
-            this.groupBox_counter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_counter.Location = new System.Drawing.Point(0, 0);
             this.groupBox_counter.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox_counter.Name = "groupBox_counter";
-            this.groupBox_counter.Size = new System.Drawing.Size(111, 141);
+            this.groupBox_counter.Size = new System.Drawing.Size(111, 164);
             this.groupBox_counter.TabIndex = 0;
             this.groupBox_counter.TabStop = false;
             this.groupBox_counter.Text = "Counter";
             // 
+            // leo_event_label
+            // 
+            this.leo_event_label.AutoSize = true;
+            this.leo_event_label.Location = new System.Drawing.Point(60, 114);
+            this.leo_event_label.Name = "leo_event_label";
+            this.leo_event_label.Size = new System.Drawing.Size(13, 13);
+            this.leo_event_label.TabIndex = 11;
+            this.leo_event_label.Text = "--";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 114);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(43, 13);
+            this.label10.TabIndex = 10;
+            this.label10.Text = "Events:";
+            // 
             // leo_ref_label
             // 
             this.leo_ref_label.AutoSize = true;
-            this.leo_ref_label.Location = new System.Drawing.Point(58, 93);
+            this.leo_ref_label.Location = new System.Drawing.Point(60, 99);
             this.leo_ref_label.Name = "leo_ref_label";
             this.leo_ref_label.Size = new System.Drawing.Size(13, 13);
             this.leo_ref_label.TabIndex = 9;
@@ -719,7 +740,7 @@
             // leo_ic_label
             // 
             this.leo_ic_label.AutoSize = true;
-            this.leo_ic_label.Location = new System.Drawing.Point(58, 79);
+            this.leo_ic_label.Location = new System.Drawing.Point(60, 84);
             this.leo_ic_label.Name = "leo_ic_label";
             this.leo_ic_label.Size = new System.Drawing.Size(13, 13);
             this.leo_ic_label.TabIndex = 8;
@@ -728,7 +749,7 @@
             // leo_etr_label
             // 
             this.leo_etr_label.AutoSize = true;
-            this.leo_etr_label.Location = new System.Drawing.Point(58, 65);
+            this.leo_etr_label.Location = new System.Drawing.Point(60, 69);
             this.leo_etr_label.Name = "leo_etr_label";
             this.leo_etr_label.Size = new System.Drawing.Size(13, 13);
             this.leo_etr_label.TabIndex = 7;
@@ -737,16 +758,16 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(13, 93);
+            this.label23.Location = new System.Drawing.Point(13, 99);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(39, 13);
+            this.label23.Size = new System.Drawing.Size(44, 13);
             this.label23.TabIndex = 6;
-            this.label23.Text = "Ref. F:";
+            this.label23.Text = "F Ratio:";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(13, 79);
+            this.label21.Location = new System.Drawing.Point(13, 84);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(39, 13);
             this.label21.TabIndex = 5;
@@ -755,7 +776,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 65);
+            this.label20.Location = new System.Drawing.Point(13, 69);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(41, 13);
             this.label20.TabIndex = 4;
@@ -764,7 +785,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(7, 49);
+            this.label19.Location = new System.Drawing.Point(7, 51);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(66, 13);
             this.label19.TabIndex = 3;
@@ -775,7 +796,7 @@
             this.button_counter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button_counter.Enabled = false;
-            this.button_counter.Location = new System.Drawing.Point(5, 112);
+            this.button_counter.Location = new System.Drawing.Point(5, 135);
             this.button_counter.Name = "button_counter";
             this.button_counter.Size = new System.Drawing.Size(101, 23);
             this.button_counter.TabIndex = 2;
@@ -786,7 +807,7 @@
             // label_cnt_modes
             // 
             this.label_cnt_modes.AutoSize = true;
-            this.label_cnt_modes.Location = new System.Drawing.Point(14, 32);
+            this.label_cnt_modes.Location = new System.Drawing.Point(14, 33);
             this.label_cnt_modes.Name = "label_cnt_modes";
             this.label_cnt_modes.Size = new System.Drawing.Size(13, 13);
             this.label_cnt_modes.TabIndex = 1;
@@ -803,19 +824,19 @@
             // 
             // groupBox_analysator
             // 
+            this.groupBox_analysator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox_analysator.Controls.Add(this.button_logic);
-            this.groupBox_analysator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_analysator.Location = new System.Drawing.Point(0, 141);
+            this.groupBox_analysator.Location = new System.Drawing.Point(0, 165);
             this.groupBox_analysator.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox_analysator.Name = "groupBox_analysator";
-            this.groupBox_analysator.Size = new System.Drawing.Size(111, 142);
+            this.groupBox_analysator.Size = new System.Drawing.Size(111, 118);
             this.groupBox_analysator.TabIndex = 1;
             this.groupBox_analysator.TabStop = false;
             this.groupBox_analysator.Text = "Logic analyzer";
             // 
             // button_logic
             // 
-            this.button_logic.Location = new System.Drawing.Point(5, 114);
+            this.button_logic.Location = new System.Drawing.Point(5, 91);
             this.button_logic.Name = "button_logic";
             this.button_logic.Size = new System.Drawing.Size(101, 23);
             this.button_logic.TabIndex = 0;
@@ -1257,6 +1278,8 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label leo_event_label;
+        private System.Windows.Forms.Label label10;
     }
 }
 

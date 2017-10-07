@@ -550,8 +550,12 @@ namespace LEO
                     if (new string(msg_char, 0, 4).Equals("CNT_"))
                     {
                         cntCfg.isCnt = true;
-                        cntCfg.modes = new string(msg_char, 4, toRead - 23);
-                        cntCfg.pins = new string(msg_char, 12, toRead - 17).Split(' ');
+                        cntCfg.modes = new string(msg_char, 4, toRead - 29);
+                        cntCfg.pins = new string(msg_char, 15, toRead - 11).Split(' ');
+
+
+                        //cntCfg.modes = new string(msg_char, 4, toRead - 23);
+                        //cntCfg.pins = new string(msg_char, 12, toRead - 17).Split(' ');
                     }
                     else
                     {
@@ -794,7 +798,7 @@ namespace LEO
                         /* -------------------------------------------------- COUNTER RECEIVED MESSAGES --------------------------------------------------- */
                         /* -------------------------------------------------------------------------------------------------------------------------------- */
                         /************************* ETR data *************************/
-                        case Commands.COUNTER_ETR_DATA:
+                        case Commands.CNT_ETR_DATA:
                             while (port.BytesToRead < 16) // 16
                             {
                                 wait_for_data(watchDog--);
@@ -816,7 +820,7 @@ namespace LEO
                             }
                             break;
                         /************************* ETR buffer *************************/
-                        case Commands.COUNTER_ETR_BUFFER:
+                        case Commands.CNT_ETR_BUFF:
                             while (port.BytesToRead < 4)
                             {
                                 wait_for_data(watchDog--);
@@ -827,7 +831,7 @@ namespace LEO
                             counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_BUFFER, "ETR_BUFFER", freq));
                             break;
                         /************************* IC1 data *************************/
-                        case Commands.COUNTER_IC1_DATA:
+                        case Commands.CNT_IC1_DATA:
                             while (port.BytesToRead < 16)
                             {
                                 wait_for_data(watchDog--);
@@ -847,7 +851,7 @@ namespace LEO
                             }
                             break;
                         /************************* IC2 data *************************/
-                        case Commands.COUNTER_IC2_DATA:
+                        case Commands.CNT_IC2_DATA:
                             while (port.BytesToRead < 16)
                             {
                                 wait_for_data(watchDog--);
@@ -868,7 +872,7 @@ namespace LEO
                             }
                             break;
                         /************************* REF data *************************/
-                        case Commands.COUNTER_REF_DATA:
+                        case Commands.CNT_REF_DATA:
                             while (port.BytesToRead < 10)
                             {
                                 wait_for_data(watchDog--);
@@ -890,7 +894,7 @@ namespace LEO
                             }
                             break;
                         /************************* REF warning *************************/
-                        case Commands.COUNTER_REF_WARN:
+                        case Commands.CNT_REF_WARN:
                             while (port.BytesToRead < 2)
                             {
                                 wait_for_data(watchDog--);
@@ -908,6 +912,90 @@ namespace LEO
                             catch (Exception ex)
                             {
                                 logRecieved("Counter buffer REF was not parsed  " + new string(inputValWarn, 0, 2));
+                            }
+                            break;
+                        /************************* TI TIMEOUT *************************/
+                        case Commands.CNT_TI_TIMEOUT_OCCURED:
+                            while (port.BytesToRead < 2)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
+                            char[] inputValTimout = new char[64];
+                            port.Read(inputValTimout, 0, 2);
+
+                            try
+                            {
+                                cntMessage = new string(inputValTimout, 0, 2);
+                                buff = Convert.ToInt32(cntMessage); //int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_TIMEOUT, "TI_TIMEOUT", buff));
+                            }
+                            catch (Exception ex)
+                            {
+                                logRecieved("Counter buffer TI was not parsed  " + new string(inputValTimout, 0, 2));
+                            }
+                            break;
+                        /************************* TI EQUAL *************************/
+                        case Commands.CNT_TI_VALUES_EQUAL:
+                            while (port.BytesToRead < 2)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
+                            char[] inputValEquals = new char[64];
+                            port.Read(inputValEquals, 0, 2);
+
+                            try
+                            {
+                                cntMessage = new string(inputValEquals, 0, 2);
+                                buff = Convert.ToInt32(cntMessage); //int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_EQUAL, "TI_EQUALS", buff));
+                            }
+                            catch (Exception ex)
+                            {
+                                logRecieved("Counter buffer TI was not parsed  " + new string(inputValEquals, 0, 2));
+                            }
+                            break;
+                        /************************* TI buffer 1 bigger *************************/
+                        case Commands.CNT_TI_BUFF1_BIGGER:
+                            while (port.BytesToRead < 16)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
+                            char[] inputValBuf1 = new char[64];
+                            port.Read(inputValBuf1, 0, 16);
+
+                            try
+                            {
+                                cntMessage = new string(inputValBuf1, 0, 16);
+                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_BIGGER_BUF1, "TI_BUF1_BIGGER", freq));
+                            }
+                            catch (Exception ex)
+                            {
+                                logRecieved("Counter time TI was not parsed  " + new string(inputValBuf1, 0, 4));
+                            }
+                            break;
+                        /************************* TI buffer 2 bigger *************************/
+                        case Commands.CNT_TI_BUFF2_BIGGER:
+                            while (port.BytesToRead < 16)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
+                            char[] inputValBuf2 = new char[64];
+                            port.Read(inputValBuf2, 0, 16);
+
+                            try
+                            {
+                                cntMessage = new string(inputValBuf2, 0, 16);
+                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_BIGGER_BUF2, "TI_BUF2_BIGGER", freq));
+                            }
+                            catch (Exception ex)
+                            {
+                                logRecieved("Counter time TI was not parsed  " + new string(inputValBuf2, 0, 4));
                             }
                             break;
                         default:

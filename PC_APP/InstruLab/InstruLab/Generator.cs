@@ -846,7 +846,7 @@ namespace LEO
 
                 double updateRatioLock = (odrFreq < realPwmFreq_ch2) ? realPwmFreq_ch2 / odrFreq : odrFreq / realPwmFreq_ch2;
                 double updateRatio = 0;
-                double absResol = pwmTimPeriphClock / realPwmFreq_ch2;
+                double absResol = (pwmTimPeriphClock / 2) / realPwmFreq_ch2;
                 UInt32 odrIndex = 0;
                 double nextPwmPulse = 0;
                 double paintVal = signal_ch2[0];
@@ -1390,7 +1390,7 @@ namespace LEO
                     this.label_real_pwmFreq_ch2.Text = /*realPwmFreq_ch2.ToString("F4")*/ String.Format("{0:n4}", realPwmFreq_ch2) + " Hz";
 
                     /***** Print PWM channel 2 resolution in GUI START *****/
-                    absResol = pwmTimPeriphClock / realPwmFreq_ch2;
+                    absResol = (pwmTimPeriphClock / 2) / realPwmFreq_ch2;
                     if (absResol <= 65536)
                     {
                         bitResol = Math.Log(absResol, 2);
@@ -2871,7 +2871,16 @@ namespace LEO
         private double genProcessPwmFrequency(uint chan, double freq)
         {
             UInt32 psc = 0, arr = 1;  // MCU TIM Prescaler and Auto Reload Register
-            UInt32 arrMultipliedByPsc = (uint)Math.Round(pwmTimPeriphClock / freq);
+            UInt32 arrMultipliedByPsc = 0;  
+            /* Application needs to ask the device for both values - do it later. */
+            if (chan == 1)
+            {
+                arrMultipliedByPsc = (uint)Math.Round(pwmTimPeriphClock / freq);
+            }
+            else
+            {
+                arrMultipliedByPsc = (uint)Math.Round((pwmTimPeriphClock / 2) / freq);
+            }            
 
             if (arrMultipliedByPsc <= 65536)
             {
@@ -2913,7 +2922,16 @@ namespace LEO
                 genPwm2Psc = (ushort)(psc - 1);
             }
 
-            double realPwmFreq = pwmTimPeriphClock / (double)(arr * psc);
+            double realPwmFreq = 0;
+            if (chan == 1)
+            {
+                realPwmFreq = pwmTimPeriphClock / (double)(arr * psc);
+            }
+            else
+            {
+                realPwmFreq = (pwmTimPeriphClock / 2) / (double)(arr * psc);
+            }
+            
             return realPwmFreq;
         }
 

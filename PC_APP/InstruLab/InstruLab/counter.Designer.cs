@@ -49,8 +49,8 @@
             this.groupBox24 = new System.Windows.Forms.GroupBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.label_cnt_ref_sec_input = new System.Windows.Forms.Label();
+            this.label_cnt_ref_input = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -70,6 +70,22 @@
             this.cnt_ref_trackBar2 = new System.Windows.Forms.TrackBar();
             this.cnt_ref_trackBar1 = new System.Windows.Forms.TrackBar();
             this.tabPage_IC = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label_cnt_icPulse_dutyCycle_ch2 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label_cnt_icPulse_dutyCycle_ch1 = new System.Windows.Forms.Label();
+            this.groupBox_cnt_ic2_pulse = new System.Windows.Forms.GroupBox();
+            this.cnt_ic_pulse_indic_ch2 = new System.Windows.Forms.Label();
+            this.label_cnt_ic2_acc_pulse = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label_cnt_ic2_pulse = new System.Windows.Forms.Label();
+            this.groupBox_cnt_ic1_pulse = new System.Windows.Forms.GroupBox();
+            this.cnt_ic_pulse_indic_ch1 = new System.Windows.Forms.Label();
+            this.label_cnt_ic1_acc_pulse = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label_cnt_ic1_pulse = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
@@ -86,14 +102,10 @@
             this.cnt_ic2_buffer_textBox = new System.Windows.Forms.TextBox();
             this.label_icCh2_min = new System.Windows.Forms.Label();
             this.cnt_ic2_trackBar = new System.Windows.Forms.TrackBar();
-            this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.groupBox_cnt_ic2_period = new System.Windows.Forms.GroupBox();
             this.label_cnt_ic2_acc_period = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label_cnt_ic2_period = new System.Windows.Forms.Label();
-            this.groupBox21 = new System.Windows.Forms.GroupBox();
-            this.label_cnt_ic1_acc_period = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label_cnt_ic1_period = new System.Windows.Forms.Label();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.checkBox_icMode_pulse_ch2 = new System.Windows.Forms.CheckBox();
             this.groupBox_icSampleCount1 = new System.Windows.Forms.GroupBox();
@@ -101,20 +113,24 @@
             this.label_icCh1_min = new System.Windows.Forms.Label();
             this.cnt_ic1_buffer_textBox = new System.Windows.Forms.TextBox();
             this.cnt_ic1_trackBar = new System.Windows.Forms.TrackBar();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox_cnt_ic2_freq = new System.Windows.Forms.GroupBox();
             this.label_cnt_ic2_acc_freq = new System.Windows.Forms.Label();
             this.cnt_ic_indication_ch2 = new System.Windows.Forms.Label();
             this.cnt_ic2_label = new System.Windows.Forms.Label();
             this.label_cnt_ic2_value = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox_cnt_ic1_freq = new System.Windows.Forms.GroupBox();
             this.cnt_ic1_label = new System.Windows.Forms.Label();
             this.label_cnt_ic1_acc_freq = new System.Windows.Forms.Label();
             this.cnt_ic_indication_ch1 = new System.Windows.Forms.Label();
             this.label_cnt_ic1_value = new System.Windows.Forms.Label();
+            this.groupBox_cnt_ic1_period = new System.Windows.Forms.GroupBox();
+            this.label_cnt_ic1_acc_period = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label_cnt_ic1_period = new System.Windows.Forms.Label();
             this.tabPage_ETR = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label_cnt_etr_acc_average = new System.Windows.Forms.Label();
             this.label_cnt_avrg_info = new System.Windows.Forms.Label();
+            this.label_cnt_etr_acc_average = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label_cnt_etr_avrg = new System.Windows.Forms.Label();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
@@ -146,7 +162,16 @@
             this.label_cnt_etr_value = new System.Windows.Forms.Label();
             this.cnt_mode_tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_TI = new System.Windows.Forms.TabPage();
-            this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.groupBox26 = new System.Windows.Forms.GroupBox();
+            this.button_cnt_ti_enable = new System.Windows.Forms.Button();
+            this.groupBox_ti_timeout = new System.Windows.Forms.GroupBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.textBox_cnt_ti_timeout = new System.Windows.Forms.TextBox();
+            this.trackBar_cnt_ti_timeout = new System.Windows.Forms.TrackBar();
+            this.groupBox_ti_eventSeq = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.pictureBox_ti_sequence = new System.Windows.Forms.PictureBox();
             this.richTextBox_it_ba = new System.Windows.Forms.RichTextBox();
             this.richTextBox_it_ab = new System.Windows.Forms.RichTextBox();
@@ -155,7 +180,7 @@
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox_ti_event_B = new System.Windows.Forms.GroupBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.radioButton_it_falling_ch2 = new System.Windows.Forms.RadioButton();
@@ -163,10 +188,10 @@
             this.radioButton_it_rising_ch2 = new System.Windows.Forms.RadioButton();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.label_cnt_ti_acc = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.cnt_ti_indication = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label_cnt_it_value = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox_ti_event_A = new System.Windows.Forms.GroupBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.radioButton_it_falling_ch1 = new System.Windows.Forms.RadioButton();
@@ -183,17 +208,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar1)).BeginInit();
             this.tabPage_IC.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox_cnt_ic2_pulse.SuspendLayout();
+            this.groupBox_cnt_ic1_pulse.SuspendLayout();
             this.groupBox23.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox_icSampleCount2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic2_trackBar)).BeginInit();
-            this.groupBox22.SuspendLayout();
-            this.groupBox21.SuspendLayout();
+            this.groupBox_cnt_ic2_period.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox_icSampleCount1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic1_trackBar)).BeginInit();
-            this.groupBox5.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.groupBox_cnt_ic2_freq.SuspendLayout();
+            this.groupBox_cnt_ic1_freq.SuspendLayout();
+            this.groupBox_cnt_ic1_period.SuspendLayout();
             this.tabPage_ETR.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox17.SuspendLayout();
@@ -205,15 +234,18 @@
             this.groupBox6.SuspendLayout();
             this.cnt_mode_tabControl.SuspendLayout();
             this.tabPage_TI.SuspendLayout();
-            this.groupBox20.SuspendLayout();
+            this.groupBox26.SuspendLayout();
+            this.groupBox_ti_timeout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_cnt_ti_timeout)).BeginInit();
+            this.groupBox_ti_eventSeq.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ti_sequence)).BeginInit();
             this.groupBox18.SuspendLayout();
-            this.groupBox10.SuspendLayout();
+            this.groupBox_ti_event_B.SuspendLayout();
             this.groupBox16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.groupBox13.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBox_ti_event_A.SuspendLayout();
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -251,10 +283,10 @@
             // 
             this.channel1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.signalDividersToolStripMenuItem});
-            this.channel1ToolStripMenuItem.Enabled = false;
             this.channel1ToolStripMenuItem.Name = "channel1ToolStripMenuItem";
             this.channel1ToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.channel1ToolStripMenuItem.Text = "Channel 1";
+            this.channel1ToolStripMenuItem.Visible = false;
             // 
             // signalDividersToolStripMenuItem
             // 
@@ -299,10 +331,10 @@
             // 
             this.channel2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sampleCountMultipliersToolStripMenuItem});
-            this.channel2ToolStripMenuItem.Enabled = false;
             this.channel2ToolStripMenuItem.Name = "channel2ToolStripMenuItem";
             this.channel2ToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.channel2ToolStripMenuItem.Text = "Channel 2";
+            this.channel2ToolStripMenuItem.Visible = false;
             // 
             // sampleCountMultipliersToolStripMenuItem
             // 
@@ -360,8 +392,8 @@
             // 
             this.groupBox24.Controls.Add(this.label25);
             this.groupBox24.Controls.Add(this.label19);
-            this.groupBox24.Controls.Add(this.label15);
-            this.groupBox24.Controls.Add(this.label14);
+            this.groupBox24.Controls.Add(this.label_cnt_ref_sec_input);
+            this.groupBox24.Controls.Add(this.label_cnt_ref_input);
             this.groupBox24.Location = new System.Drawing.Point(517, 169);
             this.groupBox24.Name = "groupBox24";
             this.groupBox24.Size = new System.Drawing.Size(250, 87);
@@ -389,23 +421,23 @@
             this.label19.TabIndex = 2;
             this.label19.Text = "244 MHz";
             // 
-            // label15
+            // label_cnt_ref_sec_input
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(19, 54);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(147, 13);
-            this.label15.TabIndex = 1;
-            this.label15.Text = "Max. frequency second input:";
+            this.label_cnt_ref_sec_input.AutoSize = true;
+            this.label_cnt_ref_sec_input.Location = new System.Drawing.Point(19, 54);
+            this.label_cnt_ref_sec_input.Name = "label_cnt_ref_sec_input";
+            this.label_cnt_ref_sec_input.Size = new System.Drawing.Size(147, 13);
+            this.label_cnt_ref_sec_input.TabIndex = 1;
+            this.label_cnt_ref_sec_input.Text = "Max. frequency second input:";
             // 
-            // label14
+            // label_cnt_ref_input
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(19, 32);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(157, 13);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "Max. frequency reference input:";
+            this.label_cnt_ref_input.AutoSize = true;
+            this.label_cnt_ref_input.Location = new System.Drawing.Point(19, 32);
+            this.label_cnt_ref_input.Name = "label_cnt_ref_input";
+            this.label_cnt_ref_input.Size = new System.Drawing.Size(157, 13);
+            this.label_cnt_ref_input.TabIndex = 0;
+            this.label_cnt_ref_input.Text = "Max. frequency reference input:";
             // 
             // groupBox9
             // 
@@ -655,21 +687,205 @@
             // tabPage_IC
             // 
             this.tabPage_IC.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage_IC.Controls.Add(this.groupBox4);
+            this.tabPage_IC.Controls.Add(this.groupBox2);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_pulse);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic1_pulse);
             this.tabPage_IC.Controls.Add(this.groupBox23);
             this.tabPage_IC.Controls.Add(this.groupBox11);
             this.tabPage_IC.Controls.Add(this.groupBox_icSampleCount2);
-            this.tabPage_IC.Controls.Add(this.groupBox22);
-            this.tabPage_IC.Controls.Add(this.groupBox21);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_period);
             this.tabPage_IC.Controls.Add(this.groupBox12);
             this.tabPage_IC.Controls.Add(this.groupBox_icSampleCount1);
-            this.tabPage_IC.Controls.Add(this.groupBox5);
-            this.tabPage_IC.Controls.Add(this.groupBox4);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_freq);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic1_freq);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic1_period);
             this.tabPage_IC.Location = new System.Drawing.Point(4, 22);
             this.tabPage_IC.Name = "tabPage_IC";
             this.tabPage_IC.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_IC.Size = new System.Drawing.Size(770, 259);
             this.tabPage_IC.TabIndex = 1;
             this.tabPage_IC.Text = "Low Frequency";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label_cnt_icPulse_dutyCycle_ch2);
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Location = new System.Drawing.Point(681, 123);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(83, 47);
+            this.groupBox4.TabIndex = 20;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Duty cycle";
+            // 
+            // label_cnt_icPulse_dutyCycle_ch2
+            // 
+            this.label_cnt_icPulse_dutyCycle_ch2.AutoSize = true;
+            this.label_cnt_icPulse_dutyCycle_ch2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_icPulse_dutyCycle_ch2.Location = new System.Drawing.Point(11, 19);
+            this.label_cnt_icPulse_dutyCycle_ch2.Name = "label_cnt_icPulse_dutyCycle_ch2";
+            this.label_cnt_icPulse_dutyCycle_ch2.Size = new System.Drawing.Size(27, 19);
+            this.label_cnt_icPulse_dutyCycle_ch2.TabIndex = 1;
+            this.label_cnt_icPulse_dutyCycle_ch2.Text = "---";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.Location = new System.Drawing.Point(58, 21);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(20, 16);
+            this.label35.TabIndex = 0;
+            this.label35.Text = "%";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label33);
+            this.groupBox2.Controls.Add(this.label_cnt_icPulse_dutyCycle_ch1);
+            this.groupBox2.Location = new System.Drawing.Point(681, 40);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(83, 47);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Duty cycle";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Location = new System.Drawing.Point(58, 21);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(20, 16);
+            this.label33.TabIndex = 1;
+            this.label33.Text = "%";
+            // 
+            // label_cnt_icPulse_dutyCycle_ch1
+            // 
+            this.label_cnt_icPulse_dutyCycle_ch1.AutoSize = true;
+            this.label_cnt_icPulse_dutyCycle_ch1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_icPulse_dutyCycle_ch1.Location = new System.Drawing.Point(11, 19);
+            this.label_cnt_icPulse_dutyCycle_ch1.Name = "label_cnt_icPulse_dutyCycle_ch1";
+            this.label_cnt_icPulse_dutyCycle_ch1.Size = new System.Drawing.Size(27, 19);
+            this.label_cnt_icPulse_dutyCycle_ch1.TabIndex = 0;
+            this.label_cnt_icPulse_dutyCycle_ch1.Text = "---";
+            // 
+            // groupBox_cnt_ic2_pulse
+            // 
+            this.groupBox_cnt_ic2_pulse.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox_cnt_ic2_pulse.Controls.Add(this.cnt_ic_pulse_indic_ch2);
+            this.groupBox_cnt_ic2_pulse.Controls.Add(this.label_cnt_ic2_acc_pulse);
+            this.groupBox_cnt_ic2_pulse.Controls.Add(this.label34);
+            this.groupBox_cnt_ic2_pulse.Controls.Add(this.label_cnt_ic2_pulse);
+            this.groupBox_cnt_ic2_pulse.Location = new System.Drawing.Point(5, 129);
+            this.groupBox_cnt_ic2_pulse.Name = "groupBox_cnt_ic2_pulse";
+            this.groupBox_cnt_ic2_pulse.Size = new System.Drawing.Size(448, 127);
+            this.groupBox_cnt_ic2_pulse.TabIndex = 18;
+            this.groupBox_cnt_ic2_pulse.TabStop = false;
+            this.groupBox_cnt_ic2_pulse.Visible = false;
+            // 
+            // cnt_ic_pulse_indic_ch2
+            // 
+            this.cnt_ic_pulse_indic_ch2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cnt_ic_pulse_indic_ch2.BackColor = System.Drawing.Color.Teal;
+            this.cnt_ic_pulse_indic_ch2.Location = new System.Drawing.Point(424, 11);
+            this.cnt_ic_pulse_indic_ch2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cnt_ic_pulse_indic_ch2.Name = "cnt_ic_pulse_indic_ch2";
+            this.cnt_ic_pulse_indic_ch2.Size = new System.Drawing.Size(19, 10);
+            this.cnt_ic_pulse_indic_ch2.TabIndex = 13;
+            // 
+            // label_cnt_ic2_acc_pulse
+            // 
+            this.label_cnt_ic2_acc_pulse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic2_acc_pulse.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ic2_acc_pulse.Location = new System.Drawing.Point(3, 95);
+            this.label_cnt_ic2_acc_pulse.Name = "label_cnt_ic2_acc_pulse";
+            this.label_cnt_ic2_acc_pulse.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic2_acc_pulse.TabIndex = 12;
+            this.label_cnt_ic2_acc_pulse.Text = "∓ 0.000000";
+            this.label_cnt_ic2_acc_pulse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label34.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label34.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label34.Location = new System.Drawing.Point(-1, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(161, 19);
+            this.label34.TabIndex = 4;
+            this.label34.Text = "Pulse length channel 1 [s]";
+            // 
+            // label_cnt_ic2_pulse
+            // 
+            this.label_cnt_ic2_pulse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic2_pulse.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic2_pulse.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic2_pulse.Name = "label_cnt_ic2_pulse";
+            this.label_cnt_ic2_pulse.Size = new System.Drawing.Size(442, 108);
+            this.label_cnt_ic2_pulse.TabIndex = 2;
+            this.label_cnt_ic2_pulse.Text = "0.000000";
+            this.label_cnt_ic2_pulse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox_cnt_ic1_pulse
+            // 
+            this.groupBox_cnt_ic1_pulse.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox_cnt_ic1_pulse.Controls.Add(this.cnt_ic_pulse_indic_ch1);
+            this.groupBox_cnt_ic1_pulse.Controls.Add(this.label_cnt_ic1_acc_pulse);
+            this.groupBox_cnt_ic1_pulse.Controls.Add(this.label4);
+            this.groupBox_cnt_ic1_pulse.Controls.Add(this.label_cnt_ic1_pulse);
+            this.groupBox_cnt_ic1_pulse.Location = new System.Drawing.Point(5, 3);
+            this.groupBox_cnt_ic1_pulse.Name = "groupBox_cnt_ic1_pulse";
+            this.groupBox_cnt_ic1_pulse.Size = new System.Drawing.Size(448, 127);
+            this.groupBox_cnt_ic1_pulse.TabIndex = 15;
+            this.groupBox_cnt_ic1_pulse.TabStop = false;
+            this.groupBox_cnt_ic1_pulse.Visible = false;
+            // 
+            // cnt_ic_pulse_indic_ch1
+            // 
+            this.cnt_ic_pulse_indic_ch1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cnt_ic_pulse_indic_ch1.BackColor = System.Drawing.Color.Teal;
+            this.cnt_ic_pulse_indic_ch1.Location = new System.Drawing.Point(424, 11);
+            this.cnt_ic_pulse_indic_ch1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cnt_ic_pulse_indic_ch1.Name = "cnt_ic_pulse_indic_ch1";
+            this.cnt_ic_pulse_indic_ch1.Size = new System.Drawing.Size(19, 10);
+            this.cnt_ic_pulse_indic_ch1.TabIndex = 13;
+            // 
+            // label_cnt_ic1_acc_pulse
+            // 
+            this.label_cnt_ic1_acc_pulse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic1_acc_pulse.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ic1_acc_pulse.Location = new System.Drawing.Point(3, 95);
+            this.label_cnt_ic1_acc_pulse.Name = "label_cnt_ic1_acc_pulse";
+            this.label_cnt_ic1_acc_pulse.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic1_acc_pulse.TabIndex = 12;
+            this.label_cnt_ic1_acc_pulse.Text = "∓ 0.000000";
+            this.label_cnt_ic1_acc_pulse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label4.Location = new System.Drawing.Point(-1, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(161, 19);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Pulse length channel 1 [s]";
+            // 
+            // label_cnt_ic1_pulse
+            // 
+            this.label_cnt_ic1_pulse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic1_pulse.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic1_pulse.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic1_pulse.Name = "label_cnt_ic1_pulse";
+            this.label_cnt_ic1_pulse.Size = new System.Drawing.Size(442, 108);
+            this.label_cnt_ic1_pulse.TabIndex = 2;
+            this.label_cnt_ic1_pulse.Text = "0.000000";
+            this.label_cnt_ic1_pulse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox23
             // 
@@ -692,7 +908,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(225, 70);
+            this.label29.Location = new System.Drawing.Point(225, 69);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(49, 13);
             this.label29.TabIndex = 9;
@@ -702,7 +918,7 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(225, 53);
+            this.label28.Location = new System.Drawing.Point(225, 52);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(66, 13);
             this.label28.TabIndex = 8;
@@ -711,7 +927,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(31, 70);
+            this.label27.Location = new System.Drawing.Point(31, 69);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(96, 13);
             this.label27.TabIndex = 7;
@@ -720,7 +936,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(31, 53);
+            this.label23.Location = new System.Drawing.Point(31, 52);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(99, 13);
             this.label23.TabIndex = 6;
@@ -730,7 +946,7 @@
             // 
             this.label_ic_min.AutoSize = true;
             this.label_ic_min.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ic_min.Location = new System.Drawing.Point(225, 35);
+            this.label_ic_min.Location = new System.Drawing.Point(225, 34);
             this.label_ic_min.Name = "label_ic_min";
             this.label_ic_min.Size = new System.Drawing.Size(64, 13);
             this.label_ic_min.TabIndex = 5;
@@ -739,7 +955,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(31, 35);
+            this.label26.Location = new System.Drawing.Point(31, 34);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(80, 13);
             this.label26.TabIndex = 4;
@@ -773,16 +989,16 @@
             this.groupBox11.Controls.Add(this.checkBox_icMode_pulse_ch1);
             this.groupBox11.Location = new System.Drawing.Point(681, 3);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(83, 84);
+            this.groupBox11.Size = new System.Drawing.Size(83, 39);
             this.groupBox11.TabIndex = 8;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Pulse length channel 1";
+            this.groupBox11.Text = "Pulse length";
             // 
             // checkBox_icMode_pulse_ch1
             // 
             this.checkBox_icMode_pulse_ch1.AutoSize = true;
             this.checkBox_icMode_pulse_ch1.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_icMode_pulse_ch1.Location = new System.Drawing.Point(35, 45);
+            this.checkBox_icMode_pulse_ch1.Location = new System.Drawing.Point(35, 19);
             this.checkBox_icMode_pulse_ch1.Name = "checkBox_icMode_pulse_ch1";
             this.checkBox_icMode_pulse_ch1.Size = new System.Drawing.Size(15, 14);
             this.checkBox_icMode_pulse_ch1.TabIndex = 0;
@@ -852,16 +1068,16 @@
             this.cnt_ic2_trackBar.Value = 1;
             this.cnt_ic2_trackBar.Scroll += new System.EventHandler(this.cnt_ic2_trackBar_Scroll);
             // 
-            // groupBox22
+            // groupBox_cnt_ic2_period
             // 
-            this.groupBox22.Controls.Add(this.label_cnt_ic2_acc_period);
-            this.groupBox22.Controls.Add(this.label20);
-            this.groupBox22.Controls.Add(this.label_cnt_ic2_period);
-            this.groupBox22.Location = new System.Drawing.Point(4, 192);
-            this.groupBox22.Name = "groupBox22";
-            this.groupBox22.Size = new System.Drawing.Size(448, 64);
-            this.groupBox22.TabIndex = 11;
-            this.groupBox22.TabStop = false;
+            this.groupBox_cnt_ic2_period.Controls.Add(this.label_cnt_ic2_acc_period);
+            this.groupBox_cnt_ic2_period.Controls.Add(this.label20);
+            this.groupBox_cnt_ic2_period.Controls.Add(this.label_cnt_ic2_period);
+            this.groupBox_cnt_ic2_period.Location = new System.Drawing.Point(4, 192);
+            this.groupBox_cnt_ic2_period.Name = "groupBox_cnt_ic2_period";
+            this.groupBox_cnt_ic2_period.Size = new System.Drawing.Size(448, 64);
+            this.groupBox_cnt_ic2_period.TabIndex = 11;
+            this.groupBox_cnt_ic2_period.TabStop = false;
             // 
             // label_cnt_ic2_acc_period
             // 
@@ -900,53 +1116,6 @@
             this.label_cnt_ic2_period.Text = "0.000000";
             this.label_cnt_ic2_period.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // groupBox21
-            // 
-            this.groupBox21.Controls.Add(this.label_cnt_ic1_acc_period);
-            this.groupBox21.Controls.Add(this.label18);
-            this.groupBox21.Controls.Add(this.label_cnt_ic1_period);
-            this.groupBox21.Location = new System.Drawing.Point(5, 66);
-            this.groupBox21.Name = "groupBox21";
-            this.groupBox21.Size = new System.Drawing.Size(448, 64);
-            this.groupBox21.TabIndex = 10;
-            this.groupBox21.TabStop = false;
-            // 
-            // label_cnt_ic1_acc_period
-            // 
-            this.label_cnt_ic1_acc_period.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label_cnt_ic1_acc_period.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic1_acc_period.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ic1_acc_period.Location = new System.Drawing.Point(3, 48);
-            this.label_cnt_ic1_acc_period.Name = "label_cnt_ic1_acc_period";
-            this.label_cnt_ic1_acc_period.Size = new System.Drawing.Size(442, 13);
-            this.label_cnt_ic1_acc_period.TabIndex = 10;
-            this.label_cnt_ic1_acc_period.Text = "∓ 0.000000";
-            this.label_cnt_ic1_acc_period.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label18.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label18.Location = new System.Drawing.Point(0, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(130, 19);
-            this.label18.TabIndex = 3;
-            this.label18.Text = "Period channel 1 [s]";
-            // 
-            // label_cnt_ic1_period
-            // 
-            this.label_cnt_ic1_period.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_cnt_ic1_period.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic1_period.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic1_period.Name = "label_cnt_ic1_period";
-            this.label_cnt_ic1_period.Size = new System.Drawing.Size(442, 45);
-            this.label_cnt_ic1_period.TabIndex = 1;
-            this.label_cnt_ic1_period.Text = "0.000000";
-            this.label_cnt_ic1_period.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // groupBox12
             // 
             this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -955,16 +1124,16 @@
             this.groupBox12.Controls.Add(this.checkBox_icMode_pulse_ch2);
             this.groupBox12.Location = new System.Drawing.Point(681, 86);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(83, 84);
+            this.groupBox12.Size = new System.Drawing.Size(83, 39);
             this.groupBox12.TabIndex = 9;
             this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Pulse length channel 2";
+            this.groupBox12.Text = "Pulse length";
             // 
             // checkBox_icMode_pulse_ch2
             // 
             this.checkBox_icMode_pulse_ch2.AutoSize = true;
             this.checkBox_icMode_pulse_ch2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_icMode_pulse_ch2.Location = new System.Drawing.Point(35, 47);
+            this.checkBox_icMode_pulse_ch2.Location = new System.Drawing.Point(35, 19);
             this.checkBox_icMode_pulse_ch2.Name = "checkBox_icMode_pulse_ch2";
             this.checkBox_icMode_pulse_ch2.Size = new System.Drawing.Size(15, 14);
             this.checkBox_icMode_pulse_ch2.TabIndex = 0;
@@ -1034,17 +1203,17 @@
             this.cnt_ic1_trackBar.Value = 1;
             this.cnt_ic1_trackBar.Scroll += new System.EventHandler(this.cnt_ic1_trackBar_Scroll);
             // 
-            // groupBox5
+            // groupBox_cnt_ic2_freq
             // 
-            this.groupBox5.Controls.Add(this.label_cnt_ic2_acc_freq);
-            this.groupBox5.Controls.Add(this.cnt_ic_indication_ch2);
-            this.groupBox5.Controls.Add(this.cnt_ic2_label);
-            this.groupBox5.Controls.Add(this.label_cnt_ic2_value);
-            this.groupBox5.Location = new System.Drawing.Point(5, 129);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(448, 64);
-            this.groupBox5.TabIndex = 6;
-            this.groupBox5.TabStop = false;
+            this.groupBox_cnt_ic2_freq.Controls.Add(this.label_cnt_ic2_acc_freq);
+            this.groupBox_cnt_ic2_freq.Controls.Add(this.cnt_ic_indication_ch2);
+            this.groupBox_cnt_ic2_freq.Controls.Add(this.cnt_ic2_label);
+            this.groupBox_cnt_ic2_freq.Controls.Add(this.label_cnt_ic2_value);
+            this.groupBox_cnt_ic2_freq.Location = new System.Drawing.Point(5, 129);
+            this.groupBox_cnt_ic2_freq.Name = "groupBox_cnt_ic2_freq";
+            this.groupBox_cnt_ic2_freq.Size = new System.Drawing.Size(448, 64);
+            this.groupBox_cnt_ic2_freq.TabIndex = 6;
+            this.groupBox_cnt_ic2_freq.TabStop = false;
             // 
             // label_cnt_ic2_acc_freq
             // 
@@ -1093,17 +1262,17 @@
             this.label_cnt_ic2_value.Text = "0.000000";
             this.label_cnt_ic2_value.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // groupBox4
+            // groupBox_cnt_ic1_freq
             // 
-            this.groupBox4.Controls.Add(this.cnt_ic1_label);
-            this.groupBox4.Controls.Add(this.label_cnt_ic1_acc_freq);
-            this.groupBox4.Controls.Add(this.cnt_ic_indication_ch1);
-            this.groupBox4.Controls.Add(this.label_cnt_ic1_value);
-            this.groupBox4.Location = new System.Drawing.Point(5, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(448, 64);
-            this.groupBox4.TabIndex = 5;
-            this.groupBox4.TabStop = false;
+            this.groupBox_cnt_ic1_freq.Controls.Add(this.cnt_ic1_label);
+            this.groupBox_cnt_ic1_freq.Controls.Add(this.label_cnt_ic1_acc_freq);
+            this.groupBox_cnt_ic1_freq.Controls.Add(this.cnt_ic_indication_ch1);
+            this.groupBox_cnt_ic1_freq.Controls.Add(this.label_cnt_ic1_value);
+            this.groupBox_cnt_ic1_freq.Location = new System.Drawing.Point(5, 3);
+            this.groupBox_cnt_ic1_freq.Name = "groupBox_cnt_ic1_freq";
+            this.groupBox_cnt_ic1_freq.Size = new System.Drawing.Size(448, 64);
+            this.groupBox_cnt_ic1_freq.TabIndex = 5;
+            this.groupBox_cnt_ic1_freq.TabStop = false;
             // 
             // cnt_ic1_label
             // 
@@ -1152,6 +1321,53 @@
             this.label_cnt_ic1_value.Text = "0.000000";
             this.label_cnt_ic1_value.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // groupBox_cnt_ic1_period
+            // 
+            this.groupBox_cnt_ic1_period.Controls.Add(this.label_cnt_ic1_acc_period);
+            this.groupBox_cnt_ic1_period.Controls.Add(this.label18);
+            this.groupBox_cnt_ic1_period.Controls.Add(this.label_cnt_ic1_period);
+            this.groupBox_cnt_ic1_period.Location = new System.Drawing.Point(5, 66);
+            this.groupBox_cnt_ic1_period.Name = "groupBox_cnt_ic1_period";
+            this.groupBox_cnt_ic1_period.Size = new System.Drawing.Size(448, 64);
+            this.groupBox_cnt_ic1_period.TabIndex = 10;
+            this.groupBox_cnt_ic1_period.TabStop = false;
+            // 
+            // label_cnt_ic1_acc_period
+            // 
+            this.label_cnt_ic1_acc_period.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label_cnt_ic1_acc_period.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic1_acc_period.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ic1_acc_period.Location = new System.Drawing.Point(3, 48);
+            this.label_cnt_ic1_acc_period.Name = "label_cnt_ic1_acc_period";
+            this.label_cnt_ic1_acc_period.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic1_acc_period.TabIndex = 10;
+            this.label_cnt_ic1_acc_period.Text = "∓ 0.000000";
+            this.label_cnt_ic1_acc_period.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label18.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label18.Location = new System.Drawing.Point(0, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(130, 19);
+            this.label18.TabIndex = 3;
+            this.label18.Text = "Period channel 1 [s]";
+            // 
+            // label_cnt_ic1_period
+            // 
+            this.label_cnt_ic1_period.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic1_period.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic1_period.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic1_period.Name = "label_cnt_ic1_period";
+            this.label_cnt_ic1_period.Size = new System.Drawing.Size(442, 45);
+            this.label_cnt_ic1_period.TabIndex = 1;
+            this.label_cnt_ic1_period.Text = "0.000000";
+            this.label_cnt_ic1_period.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // tabPage_ETR
             // 
             this.tabPage_ETR.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -1171,11 +1387,8 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox7.Controls.Add(this.label_cnt_etr_acc_average);
             this.groupBox7.Controls.Add(this.label_cnt_avrg_info);
+            this.groupBox7.Controls.Add(this.label_cnt_etr_acc_average);
             this.groupBox7.Controls.Add(this.label7);
             this.groupBox7.Controls.Add(this.label_cnt_etr_avrg);
             this.groupBox7.Location = new System.Drawing.Point(5, 87);
@@ -1183,6 +1396,15 @@
             this.groupBox7.Size = new System.Drawing.Size(457, 85);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
+            // 
+            // label_cnt_avrg_info
+            // 
+            this.label_cnt_avrg_info.AutoSize = true;
+            this.label_cnt_avrg_info.ForeColor = System.Drawing.Color.Teal;
+            this.label_cnt_avrg_info.Location = new System.Drawing.Point(376, 13);
+            this.label_cnt_avrg_info.Name = "label_cnt_avrg_info";
+            this.label_cnt_avrg_info.Size = new System.Drawing.Size(0, 13);
+            this.label_cnt_avrg_info.TabIndex = 9;
             // 
             // label_cnt_etr_acc_average
             // 
@@ -1195,15 +1417,6 @@
             this.label_cnt_etr_acc_average.TabIndex = 8;
             this.label_cnt_etr_acc_average.Text = "∓ 0.000000";
             this.label_cnt_etr_acc_average.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // label_cnt_avrg_info
-            // 
-            this.label_cnt_avrg_info.AutoSize = true;
-            this.label_cnt_avrg_info.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_cnt_avrg_info.Location = new System.Drawing.Point(376, 12);
-            this.label_cnt_avrg_info.Name = "label_cnt_avrg_info";
-            this.label_cnt_avrg_info.Size = new System.Drawing.Size(0, 13);
-            this.label_cnt_avrg_info.TabIndex = 7;
             // 
             // label7
             // 
@@ -1450,9 +1663,6 @@
             // 
             // groupBox15
             // 
-            this.groupBox15.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox15.Controls.Add(this.label_cnt_etr_acc_period);
             this.groupBox15.Controls.Add(this.label5);
             this.groupBox15.Controls.Add(this.label_cnt_etr_period);
@@ -1574,35 +1784,134 @@
             // tabPage_TI
             // 
             this.tabPage_TI.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage_TI.Controls.Add(this.groupBox20);
+            this.tabPage_TI.Controls.Add(this.groupBox26);
+            this.tabPage_TI.Controls.Add(this.groupBox_ti_timeout);
+            this.tabPage_TI.Controls.Add(this.groupBox_ti_eventSeq);
             this.tabPage_TI.Controls.Add(this.groupBox18);
-            this.tabPage_TI.Controls.Add(this.groupBox10);
+            this.tabPage_TI.Controls.Add(this.groupBox_ti_event_B);
             this.tabPage_TI.Controls.Add(this.groupBox13);
-            this.tabPage_TI.Controls.Add(this.groupBox2);
+            this.tabPage_TI.Controls.Add(this.groupBox_ti_event_A);
             this.tabPage_TI.Location = new System.Drawing.Point(4, 22);
             this.tabPage_TI.Name = "tabPage_TI";
             this.tabPage_TI.Size = new System.Drawing.Size(770, 259);
             this.tabPage_TI.TabIndex = 3;
-            this.tabPage_TI.Text = "Time Interval";
+            this.tabPage_TI.Text = "Events Time Interval";
             // 
-            // groupBox20
+            // groupBox26
             // 
-            this.groupBox20.Controls.Add(this.pictureBox_ti_sequence);
-            this.groupBox20.Controls.Add(this.richTextBox_it_ba);
-            this.groupBox20.Controls.Add(this.richTextBox_it_ab);
-            this.groupBox20.Controls.Add(this.radioButton_it_eventSequence_ba);
-            this.groupBox20.Controls.Add(this.radioButton_it_eventSequence_ab);
-            this.groupBox20.Location = new System.Drawing.Point(577, 3);
-            this.groupBox20.Name = "groupBox20";
-            this.groupBox20.Size = new System.Drawing.Size(187, 170);
-            this.groupBox20.TabIndex = 7;
-            this.groupBox20.TabStop = false;
-            this.groupBox20.Text = "Event sequence";
+            this.groupBox26.Controls.Add(this.button_cnt_ti_enable);
+            this.groupBox26.Location = new System.Drawing.Point(616, 172);
+            this.groupBox26.Name = "groupBox26";
+            this.groupBox26.Size = new System.Drawing.Size(148, 83);
+            this.groupBox26.TabIndex = 9;
+            this.groupBox26.TabStop = false;
+            this.groupBox26.Text = "Start/Stop";
+            // 
+            // button_cnt_ti_enable
+            // 
+            this.button_cnt_ti_enable.Location = new System.Drawing.Point(18, 37);
+            this.button_cnt_ti_enable.Name = "button_cnt_ti_enable";
+            this.button_cnt_ti_enable.Size = new System.Drawing.Size(114, 26);
+            this.button_cnt_ti_enable.TabIndex = 0;
+            this.button_cnt_ti_enable.Text = "Start";
+            this.button_cnt_ti_enable.UseVisualStyleBackColor = true;
+            this.button_cnt_ti_enable.Click += new System.EventHandler(this.button_cnt_ti_enable_Click);
+            // 
+            // groupBox_ti_timeout
+            // 
+            this.groupBox_ti_timeout.Controls.Add(this.label31);
+            this.groupBox_ti_timeout.Controls.Add(this.label30);
+            this.groupBox_ti_timeout.Controls.Add(this.textBox_cnt_ti_timeout);
+            this.groupBox_ti_timeout.Controls.Add(this.trackBar_cnt_ti_timeout);
+            this.groupBox_ti_timeout.Location = new System.Drawing.Point(409, 172);
+            this.groupBox_ti_timeout.Name = "groupBox_ti_timeout";
+            this.groupBox_ti_timeout.Size = new System.Drawing.Size(201, 83);
+            this.groupBox_ti_timeout.TabIndex = 8;
+            this.groupBox_ti_timeout.TabStop = false;
+            this.groupBox_ti_timeout.Text = "Timeout [ms]";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label31.Location = new System.Drawing.Point(170, 52);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(28, 13);
+            this.label31.TabIndex = 3;
+            this.label31.Text = "28 k";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label30.Location = new System.Drawing.Point(7, 51);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(25, 13);
+            this.label30.TabIndex = 2;
+            this.label30.Text = "500";
+            // 
+            // textBox_cnt_ti_timeout
+            // 
+            this.textBox_cnt_ti_timeout.Location = new System.Drawing.Point(56, 54);
+            this.textBox_cnt_ti_timeout.MaxLength = 5;
+            this.textBox_cnt_ti_timeout.Name = "textBox_cnt_ti_timeout";
+            this.textBox_cnt_ti_timeout.Size = new System.Drawing.Size(90, 20);
+            this.textBox_cnt_ti_timeout.TabIndex = 1;
+            this.textBox_cnt_ti_timeout.Text = "500";
+            this.textBox_cnt_ti_timeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_cnt_ti_timeout.Click += new System.EventHandler(this.textBox_cnt_ti_timeout_Click);
+            this.textBox_cnt_ti_timeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_cnt_ti_timeout_KeyPress);
+            this.textBox_cnt_ti_timeout.Leave += new System.EventHandler(this.textBox_cnt_ti_timeout_Leave);
+            // 
+            // trackBar_cnt_ti_timeout
+            // 
+            this.trackBar_cnt_ti_timeout.Location = new System.Drawing.Point(6, 20);
+            this.trackBar_cnt_ti_timeout.Maximum = 28000;
+            this.trackBar_cnt_ti_timeout.Minimum = 500;
+            this.trackBar_cnt_ti_timeout.Name = "trackBar_cnt_ti_timeout";
+            this.trackBar_cnt_ti_timeout.Size = new System.Drawing.Size(189, 45);
+            this.trackBar_cnt_ti_timeout.TabIndex = 0;
+            this.trackBar_cnt_ti_timeout.Value = 500;
+            this.trackBar_cnt_ti_timeout.Scroll += new System.EventHandler(this.trackBar_cnt_ti_timeout_Scroll);
+            // 
+            // groupBox_ti_eventSeq
+            // 
+            this.groupBox_ti_eventSeq.Controls.Add(this.label14);
+            this.groupBox_ti_eventSeq.Controls.Add(this.label15);
+            this.groupBox_ti_eventSeq.Controls.Add(this.pictureBox_ti_sequence);
+            this.groupBox_ti_eventSeq.Controls.Add(this.richTextBox_it_ba);
+            this.groupBox_ti_eventSeq.Controls.Add(this.richTextBox_it_ab);
+            this.groupBox_ti_eventSeq.Controls.Add(this.radioButton_it_eventSequence_ba);
+            this.groupBox_ti_eventSeq.Controls.Add(this.radioButton_it_eventSequence_ab);
+            this.groupBox_ti_eventSeq.Location = new System.Drawing.Point(571, 3);
+            this.groupBox_ti_eventSeq.Name = "groupBox_ti_eventSeq";
+            this.groupBox_ti_eventSeq.Size = new System.Drawing.Size(193, 170);
+            this.groupBox_ti_eventSeq.TabIndex = 7;
+            this.groupBox_ti_eventSeq.TabStop = false;
+            this.groupBox_ti_eventSeq.Text = "Event sequence";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1, 88);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(26, 13);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Ch1";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(1, 107);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(26, 13);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Ch2";
             // 
             // pictureBox_ti_sequence
             // 
             this.pictureBox_ti_sequence.Image = global::LEO.Properties.Resources.ab_rising_rising;
-            this.pictureBox_ti_sequence.Location = new System.Drawing.Point(10, 77);
+            this.pictureBox_ti_sequence.Location = new System.Drawing.Point(23, 77);
             this.pictureBox_ti_sequence.Name = "pictureBox_ti_sequence";
             this.pictureBox_ti_sequence.Size = new System.Drawing.Size(165, 82);
             this.pictureBox_ti_sequence.TabIndex = 4;
@@ -1612,7 +1921,7 @@
             // 
             this.richTextBox_it_ba.BackColor = System.Drawing.Color.WhiteSmoke;
             this.richTextBox_it_ba.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox_it_ba.Location = new System.Drawing.Point(139, 35);
+            this.richTextBox_it_ba.Location = new System.Drawing.Point(143, 35);
             this.richTextBox_it_ba.Name = "richTextBox_it_ba";
             this.richTextBox_it_ba.Size = new System.Drawing.Size(30, 28);
             this.richTextBox_it_ba.TabIndex = 3;
@@ -1622,7 +1931,7 @@
             // 
             this.richTextBox_it_ab.BackColor = System.Drawing.Color.WhiteSmoke;
             this.richTextBox_it_ab.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox_it_ab.Location = new System.Drawing.Point(57, 35);
+            this.richTextBox_it_ab.Location = new System.Drawing.Point(62, 35);
             this.richTextBox_it_ab.Name = "richTextBox_it_ab";
             this.richTextBox_it_ab.Size = new System.Drawing.Size(30, 28);
             this.richTextBox_it_ab.TabIndex = 2;
@@ -1631,7 +1940,7 @@
             // radioButton_it_eventSequence_ba
             // 
             this.radioButton_it_eventSequence_ba.AutoSize = true;
-            this.radioButton_it_eventSequence_ba.Location = new System.Drawing.Point(121, 37);
+            this.radioButton_it_eventSequence_ba.Location = new System.Drawing.Point(125, 37);
             this.radioButton_it_eventSequence_ba.Name = "radioButton_it_eventSequence_ba";
             this.radioButton_it_eventSequence_ba.Size = new System.Drawing.Size(14, 13);
             this.radioButton_it_eventSequence_ba.TabIndex = 1;
@@ -1642,7 +1951,7 @@
             // 
             this.radioButton_it_eventSequence_ab.AutoSize = true;
             this.radioButton_it_eventSequence_ab.Checked = true;
-            this.radioButton_it_eventSequence_ab.Location = new System.Drawing.Point(39, 37);
+            this.radioButton_it_eventSequence_ab.Location = new System.Drawing.Point(44, 37);
             this.radioButton_it_eventSequence_ab.Name = "radioButton_it_eventSequence_ab";
             this.radioButton_it_eventSequence_ab.Size = new System.Drawing.Size(14, 13);
             this.radioButton_it_eventSequence_ab.TabIndex = 0;
@@ -1656,7 +1965,7 @@
             this.groupBox18.Controls.Add(this.label3);
             this.groupBox18.Location = new System.Drawing.Point(5, 172);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(759, 83);
+            this.groupBox18.Size = new System.Drawing.Size(398, 83);
             this.groupBox18.TabIndex = 5;
             this.groupBox18.TabStop = false;
             // 
@@ -1667,7 +1976,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(246, 32);
+            this.label2.Location = new System.Drawing.Point(73, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(253, 26);
             this.label2.TabIndex = 4;
@@ -1685,15 +1994,15 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Info";
             // 
-            // groupBox10
+            // groupBox_ti_event_B
             // 
-            this.groupBox10.Controls.Add(this.groupBox16);
-            this.groupBox10.Location = new System.Drawing.Point(409, 88);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(162, 85);
-            this.groupBox10.TabIndex = 1;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Event B - channel 2";
+            this.groupBox_ti_event_B.Controls.Add(this.groupBox16);
+            this.groupBox_ti_event_B.Location = new System.Drawing.Point(409, 88);
+            this.groupBox_ti_event_B.Name = "groupBox_ti_event_B";
+            this.groupBox_ti_event_B.Size = new System.Drawing.Size(159, 85);
+            this.groupBox_ti_event_B.TabIndex = 1;
+            this.groupBox_ti_event_B.TabStop = false;
+            this.groupBox_ti_event_B.Text = "Event B - channel 2";
             // 
             // groupBox16
             // 
@@ -1704,7 +2013,7 @@
             this.groupBox16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox16.Location = new System.Drawing.Point(3, 16);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(156, 66);
+            this.groupBox16.Size = new System.Drawing.Size(153, 66);
             this.groupBox16.TabIndex = 4;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Rising/Falling edge";
@@ -1755,7 +2064,7 @@
             // groupBox13
             // 
             this.groupBox13.Controls.Add(this.label_cnt_ti_acc);
-            this.groupBox13.Controls.Add(this.label4);
+            this.groupBox13.Controls.Add(this.cnt_ti_indication);
             this.groupBox13.Controls.Add(this.label1);
             this.groupBox13.Controls.Add(this.label_cnt_it_value);
             this.groupBox13.Location = new System.Drawing.Point(5, 3);
@@ -1779,15 +2088,15 @@
             this.label_cnt_ti_acc.Text = "∓ 0.000000";
             this.label_cnt_ti_acc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // label4
+            // cnt_ti_indication
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.BackColor = System.Drawing.Color.Teal;
-            this.label4.Location = new System.Drawing.Point(374, 10);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(19, 10);
-            this.label4.TabIndex = 6;
+            this.cnt_ti_indication.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cnt_ti_indication.BackColor = System.Drawing.Color.Teal;
+            this.cnt_ti_indication.Location = new System.Drawing.Point(374, 10);
+            this.cnt_ti_indication.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cnt_ti_indication.Name = "cnt_ti_indication";
+            this.cnt_ti_indication.Size = new System.Drawing.Size(19, 10);
+            this.cnt_ti_indication.TabIndex = 6;
             // 
             // label1
             // 
@@ -1797,9 +2106,9 @@
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label1.Location = new System.Drawing.Point(-1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(116, 19);
+            this.label1.Size = new System.Drawing.Size(105, 19);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Time interval [ms]";
+            this.label1.Text = "Time interval [s]";
             // 
             // label_cnt_it_value
             // 
@@ -1812,15 +2121,15 @@
             this.label_cnt_it_value.Text = "0.000000";
             this.label_cnt_it_value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // groupBox2
+            // groupBox_ti_event_A
             // 
-            this.groupBox2.Controls.Add(this.groupBox14);
-            this.groupBox2.Location = new System.Drawing.Point(409, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(162, 85);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Event A -  channel 1";
+            this.groupBox_ti_event_A.Controls.Add(this.groupBox14);
+            this.groupBox_ti_event_A.Location = new System.Drawing.Point(409, 3);
+            this.groupBox_ti_event_A.Name = "groupBox_ti_event_A";
+            this.groupBox_ti_event_A.Size = new System.Drawing.Size(159, 85);
+            this.groupBox_ti_event_A.TabIndex = 0;
+            this.groupBox_ti_event_A.TabStop = false;
+            this.groupBox_ti_event_A.Text = "Event A -  channel 1";
             // 
             // groupBox14
             // 
@@ -1831,7 +2140,7 @@
             this.groupBox14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox14.Location = new System.Drawing.Point(3, 16);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(156, 66);
+            this.groupBox14.Size = new System.Drawing.Size(153, 66);
             this.groupBox14.TabIndex = 0;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Rising/Falling edge";
@@ -1883,6 +2192,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(778, 309);
             this.Controls.Add(this.cnt_mode_tabControl);
@@ -1909,6 +2219,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar1)).EndInit();
             this.tabPage_IC.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox_cnt_ic2_pulse.ResumeLayout(false);
+            this.groupBox_cnt_ic2_pulse.PerformLayout();
+            this.groupBox_cnt_ic1_pulse.ResumeLayout(false);
+            this.groupBox_cnt_ic1_pulse.PerformLayout();
             this.groupBox23.ResumeLayout(false);
             this.groupBox23.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -1916,19 +2234,19 @@
             this.groupBox_icSampleCount2.ResumeLayout(false);
             this.groupBox_icSampleCount2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic2_trackBar)).EndInit();
-            this.groupBox22.ResumeLayout(false);
-            this.groupBox22.PerformLayout();
-            this.groupBox21.ResumeLayout(false);
-            this.groupBox21.PerformLayout();
+            this.groupBox_cnt_ic2_period.ResumeLayout(false);
+            this.groupBox_cnt_ic2_period.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             this.groupBox_icSampleCount1.ResumeLayout(false);
             this.groupBox_icSampleCount1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic1_trackBar)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.groupBox_cnt_ic2_freq.ResumeLayout(false);
+            this.groupBox_cnt_ic2_freq.PerformLayout();
+            this.groupBox_cnt_ic1_freq.ResumeLayout(false);
+            this.groupBox_cnt_ic1_freq.PerformLayout();
+            this.groupBox_cnt_ic1_period.ResumeLayout(false);
+            this.groupBox_cnt_ic1_period.PerformLayout();
             this.tabPage_ETR.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -1947,19 +2265,23 @@
             this.groupBox6.PerformLayout();
             this.cnt_mode_tabControl.ResumeLayout(false);
             this.tabPage_TI.ResumeLayout(false);
-            this.groupBox20.ResumeLayout(false);
-            this.groupBox20.PerformLayout();
+            this.groupBox26.ResumeLayout(false);
+            this.groupBox_ti_timeout.ResumeLayout(false);
+            this.groupBox_ti_timeout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_cnt_ti_timeout)).EndInit();
+            this.groupBox_ti_eventSeq.ResumeLayout(false);
+            this.groupBox_ti_eventSeq.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ti_sequence)).EndInit();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
-            this.groupBox10.ResumeLayout(false);
+            this.groupBox_ti_event_B.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.groupBox_ti_event_A.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1997,8 +2319,8 @@
         private System.Windows.Forms.TextBox cnt_etr_avrg_textBox;
         private System.Windows.Forms.TrackBar cnt_etr_trackBar;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic2_freq;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic1_freq;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label label_cnt_ref_value;
@@ -2045,8 +2367,8 @@
         private System.Windows.Forms.CheckBox checkBox_icMode_pulse_ch2;
         private System.Windows.Forms.CheckBox checkBox_icMode_pulse_ch1;
         private System.Windows.Forms.TabPage tabPage_TI;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox_ti_event_B;
+        private System.Windows.Forms.GroupBox groupBox_ti_event_A;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_cnt_it_value;
@@ -2060,10 +2382,10 @@
         private System.Windows.Forms.GroupBox groupBox18;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label cnt_ti_indication;
         private System.Windows.Forms.GroupBox groupBox19;
         private System.Windows.Forms.Label label_cnt_etr_prescaler;
-        private System.Windows.Forms.GroupBox groupBox20;
+        private System.Windows.Forms.GroupBox groupBox_ti_eventSeq;
         private System.Windows.Forms.RadioButton radioButton_it_eventSequence_ba;
         private System.Windows.Forms.RadioButton radioButton_it_eventSequence_ab;
         private System.Windows.Forms.RichTextBox richTextBox_it_ba;
@@ -2078,10 +2400,10 @@
         private System.Windows.Forms.Label label_cnt_etr_period;
         private System.Windows.Forms.GroupBox groupBox17;
         private System.Windows.Forms.Label label_cnt_etr_maxFreq;
-        private System.Windows.Forms.GroupBox groupBox21;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic1_period;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label_cnt_ic1_period;
-        private System.Windows.Forms.GroupBox groupBox22;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic2_period;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label_cnt_ic2_period;
         private System.Windows.Forms.GroupBox groupBox23;
@@ -2107,13 +2429,38 @@
         private System.Windows.Forms.GroupBox groupBox24;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label_cnt_ref_sec_input;
+        private System.Windows.Forms.Label label_cnt_ref_input;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label_cnt_etr_acc_average;
-        private System.Windows.Forms.Label label_cnt_avrg_info;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label_cnt_etr_avrg;
+        private System.Windows.Forms.GroupBox groupBox_ti_timeout;
+        private System.Windows.Forms.GroupBox groupBox26;
+        private System.Windows.Forms.Button button_cnt_ti_enable;
+        private System.Windows.Forms.TextBox textBox_cnt_ti_timeout;
+        private System.Windows.Forms.TrackBar trackBar_cnt_ti_timeout;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic1_pulse;
+        private System.Windows.Forms.Label cnt_ic_pulse_indic_ch1;
+        private System.Windows.Forms.Label label_cnt_ic1_acc_pulse;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label_cnt_ic1_pulse;
+        private System.Windows.Forms.Label label_cnt_avrg_info;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic2_pulse;
+        private System.Windows.Forms.Label cnt_ic_pulse_indic_ch2;
+        private System.Windows.Forms.Label label_cnt_ic2_acc_pulse;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label_cnt_ic2_pulse;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label_cnt_icPulse_dutyCycle_ch1;
+        private System.Windows.Forms.Label label_cnt_icPulse_dutyCycle_ch2;
     }
 }

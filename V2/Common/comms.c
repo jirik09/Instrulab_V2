@@ -203,15 +203,13 @@ void CommTask(void const *argument){
 		}else if(message[0]=='G'){
 			#ifdef USE_COUNTER		
 			
-			/* is COUNTER ETR */
+			/* ETR mode configured */	
 			if(counter.state==COUNTER_ETR){
 				commsSendString(STR_CNT_ETR_DATA);
 				sprintf(cntMessage, "%016.6f", counter.counterEtr.freq);
-				commsSendString(cntMessage);
-				//commsSendString(STR_CNT_ETR_BUFF);
-				//commsSendUint32(counter.counterEtr.buffer);				
+				commsSendString(cntMessage);		
 				
-			/* is COUNTER REF */	
+			/* REF mode configured */		
 			}else if(counter.state==COUNTER_REF){
 				commsSendString(STR_CNT_REF_DATA);
 				/* Here only the buffer is sent - PC app calculates frequency ratio as:
@@ -220,7 +218,7 @@ void CommTask(void const *argument){
 				sprintf(cntMessage, "%010d", counter.counterEtr.buffer);
 				commsSendString(cntMessage);										
 				
-			/* is COUNTER IC */	
+			/* IC mode configured channel 1 */	
 			}else if(counter.state==COUNTER_IC){						
 				
 				if(counter.icChannel1==COUNTER_IRQ_IC1){												
@@ -228,9 +226,35 @@ void CommTask(void const *argument){
 					sprintf(cntMessage, "%016.6f", counter.counterIc.ic1freq);
 					commsSendString(cntMessage);	
 					counter.icChannel1=COUNTER_IRQ_IC1_PASS;
-				}				
-			}	
+				}		
+
+			/* TI mode configured */		
+			}else if(counter.state==COUNTER_TI){						
+				switch(counter.tiState){
+					case TIMEOUT:
+						commsSendString(STR_CNT_TI_TIMEOUT);
+						sprintf(cntMessage, "%02d", 2);						
+						break;
+					case EQUAL:						
+						commsSendString(STR_CNT_TI_EQUAL);
+						sprintf(cntMessage, "%02d", 2);														
+						break;					
+					case BIGGER_BUFF_CH1:
+						commsSendString(STR_CNT_TI_BUF1);
+						sprintf(cntMessage, "%016.12f", counter.counterIc.ic1freq);						
+						break;
+					case BIGGER_BUFF_CH2:
+						commsSendString(STR_CNT_TI_BUF2);
+						sprintf(cntMessage, "%016.12f", counter.counterIc.ic2freq);																		
+						break;
+					case CLEAR:
+						break;
+				}
+				commsSendString(cntMessage);					
+				counter.tiState = CLEAR;
+			}				
 			
+		/* IC mode configured channel 2 */	
 		}else if(message[0]=='L'){
 
 			if(counter.icChannel2==COUNTER_IRQ_IC2){							
@@ -531,6 +555,9 @@ void sendCounterConf(){
 	commsSendString(CNT_IC_CH2_PIN);
 	commsSendString(CNT_REF1_PIN);
 	commsSendString(CNT_REF2_PIN);
+	/* Timer Interval pins (Events) */
+	commsSendString(CNT_IC_CH1_PIN);
+	commsSendString(CNT_IC_CH2_PIN);
 }
 #endif //USE_COUNTER
 

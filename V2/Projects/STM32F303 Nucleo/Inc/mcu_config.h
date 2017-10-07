@@ -137,9 +137,9 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 	#define IC_THRESHOLD			20	
 	
 	/* Instead send for. ex. "HF      " or "LF RF   " */
-	#define COUNTER_MODES			"HF LF RF"
+	#define COUNTER_MODES			"HF LF FR EV"
 	
-	/* When porting && less pins -> send "NA " */
+	/* When porting && less pins -> send "-- " */
 	#define CNT_ETR_PIN				"A0 "
 	#define CNT_IC_CH1_PIN		"A0 "	// PA0
 	#define CNT_IC_CH2_PIN		"A1 "	// PA1

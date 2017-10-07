@@ -25,6 +25,8 @@ namespace LEO
         ushort cntIcPresc1 = 1, cntIcPresc2 = 1;
         int trackVal1, trackVal2;
         bool trackIc1Rec = false, trackIc2Rec = false;
+        /* Keep values of periods from ic channels to calculate duty cycle in the swapped groupBox */
+        double periodForDutyCycle_icCh1, periodForDutyCycle_icCh2;
 
         private const string ETR_MIN = "Min val. 2";
         private const string ETR_MAX = "Max val. 200";
@@ -42,15 +44,16 @@ namespace LEO
         private const string NUMS_ONLY = "Numbers only";
         private const string NUM_ENTER = "Enter a number";
 
-        public enum CNT_MODES { IC = 0, ETR, REF };
+        public enum CNT_MODES { IC = 0, ETR, REF, TI };
+        CNT_MODES counterMode;
 
         /* REF/ETR/IC trackBars scrolling */
-        public enum CNT_TIMER { TIM_SCROLL_REF1 = 0, TIM_SCROLL_REF2, TIM_SCROLL_IC1, TIM_SCROLL_IC2, TIM_SCROLL_ETR };
+        public enum CNT_TIMER { TIM_SCROLL_REF1 = 0, TIM_SCROLL_REF2, TIM_SCROLL_IC1, TIM_SCROLL_IC2, TIM_SCROLL_ETR, TIM_SCROLL_TI };
         CNT_TIMER timScroll;
 
         /* IC pulse mode */
-        public enum CNT_PULSE_PULSE { PULSE_MODE_DISABLED = 0, PULSE_MODE_ENABLED };
-        CNT_PULSE_PULSE ic1PulseMode, ic2PulseMode;
+        public enum CNT_PULSE { PULSE_MODE_DISABLED = 0, PULSE_MODE_ENABLED };
+        CNT_PULSE ic1PulseMode, ic2PulseMode;
 
         public enum KEY_PRESS { YES = 0, NO };
         KEY_PRESS keyPress;
@@ -71,6 +74,11 @@ namespace LEO
         {
             InitializeComponent();
             InitializeTIComponent();
+            /* There is a problem when the check box is enabled and some 
+            other freq. meas. tab is chosen. After ETR random numbers appear,
+            for others application freezes.  */
+            //checkBox_icMode_pulse_ch1.Enabled = false;
+            //checkBox_icMode_pulse_ch2.Enabled = false;
 
             device = dev;
 
@@ -79,9 +87,16 @@ namespace LEO
             GUITimer.Start();
 
             scrollTimerConfig();
+            mcuTypeSetLabels();
 
             cnt_init_mode(CNT_MODES.ETR);
             cnt_start();
+        }
+
+        private void mcuTypeSetLabels()
+        {
+            label_cnt_ref_input.Text = "Max. freq. reference input (" + refPins[1].ToString() + ") :";
+            label_cnt_ref_sec_input.Text = "Max. freq. second input (" + refPins[0].ToString() + ") :";
         }
 
         private void InitializeTIComponent()
@@ -120,10 +135,13 @@ namespace LEO
                 }
                 switch (req = messg.GetRequest())
                 {
+                    /* ETR messages */
                     case Message.MsgRequest.COUNTER_ETR_DATA:
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
+
+                    /* REF messages */
                     case Message.MsgRequest.COUNTER_REF_DATA:
                         cntPaint = messg.GetNum();
                         this.Invalidate();
@@ -131,6 +149,8 @@ namespace LEO
                     case Message.MsgRequest.COUNTER_REF_WARN:
                         this.Invalidate();
                         break;
+
+                    /* IC messages */
                     case Message.MsgRequest.COUNTER_IC1_DATA:
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
@@ -139,8 +159,20 @@ namespace LEO
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
-                    case Message.MsgRequest.COUNTER_ETR_BUFFER:
-                        cntPaint = messg.GetNum();
+
+                    /* TI messages */
+                    case Message.MsgRequest.COUNTER_TI_TIMEOUT:
+                        this.Invalidate();
+                        break;
+                    case Message.MsgRequest.COUNTER_TI_EQUAL:
+                        this.Invalidate();
+                        break;
+                    case Message.MsgRequest.COUNTER_TI_BIGGER_BUF1:
+                        cntPaint = messg.GetFlt();
+                        this.Invalidate();
+                        break;
+                    case Message.MsgRequest.COUNTER_TI_BIGGER_BUF2:
+                        cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
                 }
@@ -211,15 +243,15 @@ namespace LEO
                 /************************************** IC1 DATA PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_IC1_DATA)
                 {
-                    if (ic1PulseMode == CNT_PULSE_PULSE.PULSE_MODE_DISABLED)
+                    if (ic1PulseMode == CNT_PULSE.PULSE_MODE_DISABLED)
                     {
                         if (cntPaint > 10000000)
                         {
-                            label_cnt_ic1_value.ForeColor = Color.DarkRed;
+                            label_cnt_ic1_value.ForeColor = SystemColors.WindowFrame;
                             label_cnt_ic1_value.Font = new Font("Times New Roman", 13);
-                            label_cnt_ic1_value.Text = "Frequency > 10 MHz";
+                            label_cnt_ic1_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
                         }
-                        /* Threshold */
+                        /* Hysterezis */
                         //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic1_value.Text == "Frequency > 10 MHz"))
                         //{
                         //    label_cnt_ic1_value.Text = "Frequency > 10 MHz";
@@ -228,41 +260,42 @@ namespace LEO
                         {
                             if (cntPaint != 0)
                             {
-                                label_cnt_ic1_value.ForeColor = SystemColors.ControlText;
-                                label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);                                
+                                label_cnt_ic1_value.ForeColor = Color.Black;
+                                label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);
                                 label_cnt_ic1_value.Text = String.Format("{0:n9}", cntPaint);
-                                label_cnt_ic1_period.ForeColor = SystemColors.ControlText;
-                                label_cnt_ic1_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", 1 / cntPaint) : "0.000000";
+                                periodForDutyCycle_icCh1 = 1 / cntPaint;
+                                label_cnt_ic1_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", periodForDutyCycle_icCh1) : "0.000000";
                             }
                             com_ic1_indication();
                         }
+                        label_cnt_icPulse_dutyCycle_ch1.Text = "----";
                     }
                     else
-                    {
-                        label_cnt_ic1_value.ForeColor = SystemColors.ControlText;
-                        label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);
+                    {                                             
                         double printTime = (1 / cntPaint);
                         if (!double.IsInfinity(printTime))
-                        {                            
-                            label_cnt_ic1_value.Text = String.Format("{0:n9}", printTime);
-                            label_cnt_ic1_period.ForeColor = SystemColors.ControlDarkDark;
-                            label_cnt_ic1_period.Text = "NA";
+                        {
+                            label_cnt_ic1_value.ForeColor = Color.Black;
+                            label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);
+                            label_cnt_ic1_pulse.Text = String.Format("{0:n9}", printTime);
+                            double dutyCycle = printTime / periodForDutyCycle_icCh1 * 100;
+                            label_cnt_icPulse_dutyCycle_ch1.Text = (dutyCycle < 100) ? dutyCycle.ToString("F2") : "100";                                                    
                         }
-                        com_ic1_indication();
+                        com_ic1_pulse_indication();
                     }
                 }
                 /************************************** IC2 DATA PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_IC2_DATA)
                 {
-                    if (ic2PulseMode == CNT_PULSE_PULSE.PULSE_MODE_DISABLED)
+                    if (ic2PulseMode == CNT_PULSE.PULSE_MODE_DISABLED)
                     {
                         if (cntPaint > 10000000)
                         {
-                            label_cnt_ic2_value.ForeColor = Color.DarkRed;
+                            label_cnt_ic2_value.ForeColor = SystemColors.WindowFrame;
                             label_cnt_ic2_value.Font = new Font("Times New Roman", 13);
-                            label_cnt_ic2_value.Text = "Frequency > 10 MHz";
+                            label_cnt_ic2_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
                         }
-                        /* Threshold */
+                        /* Hysterezis */
                         //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic2_value.Text == "Frequency > 10 MHz"))
                         //{
                         //    label_cnt_ic2_value.Text = "Frequency > 10 MHz";
@@ -271,27 +304,28 @@ namespace LEO
                         {
                             if (cntPaint != 0)
                             {
-                                label_cnt_ic2_value.ForeColor = SystemColors.ControlText;
-                                label_cnt_ic2_value.Font = new Font("Times New Roman", 21.75F);                                
+                                label_cnt_ic2_value.ForeColor = Color.Black;
+                                label_cnt_ic2_value.Font = new Font("Times New Roman", 21.75F);
                                 label_cnt_ic2_value.Text = String.Format("{0:n9}", cntPaint);
-                                label_cnt_ic2_period.ForeColor = SystemColors.ControlText;
-                                label_cnt_ic2_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", 1 / cntPaint) : "0.000000";
+                                periodForDutyCycle_icCh2 = 1 / cntPaint;
+                                label_cnt_ic2_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", periodForDutyCycle_icCh2) : "0.000000";
                             }
                             com_ic2_indication();
                         }
+                        label_cnt_icPulse_dutyCycle_ch2.Text = "----";
                     }
                     else
                     {
-                        label_cnt_ic2_value.ForeColor = SystemColors.ControlText;
-                        label_cnt_ic2_value.Font = new Font("Times New Roman", 21.75F);
                         double printTime = (1 / cntPaint);
                         if (!double.IsInfinity(printTime))
-                        {                            
-                            label_cnt_ic2_value.Text = String.Format("{0:n9}", printTime);
-                            label_cnt_ic2_period.ForeColor = SystemColors.ControlDarkDark;
-                            label_cnt_ic2_period.Text = "NA";
+                        {
+                            label_cnt_ic2_value.ForeColor = Color.Black;
+                            label_cnt_ic2_value.Font = new Font("Times New Roman", 21.75F);
+                            label_cnt_ic2_pulse.Text = String.Format("{0:n9}", printTime);
+                            double dutyCycle = printTime / periodForDutyCycle_icCh2 * 100;
+                            label_cnt_icPulse_dutyCycle_ch2.Text = (dutyCycle < 100) ? dutyCycle.ToString("F2") : "100";
                         }
-                        com_ic2_indication();
+                        com_ic2_pulse_indication();
                     }
                 }
                 /************************************** REF DATA PRINT **************************************/
@@ -307,7 +341,7 @@ namespace LEO
                 else if (req == Message.MsgRequest.COUNTER_REF_WAIT)
                 {
                     label_cnt_ref_value.ForeColor = SystemColors.WindowFrame;
-                    label_cnt_ref_value.Font = new Font("Times New Roman", 16);
+                    label_cnt_ref_value.Font = new Font("Times New Roman", 14);
                     label_cnt_ref_value.Text = "Sampling!";
                 }
                 /************************************** REF WARNING PRINT **************************************/
@@ -317,6 +351,62 @@ namespace LEO
                     label_cnt_ref_value.Font = new Font("Times New Roman", 14);
                     label_cnt_ref_value.Text = "Sample count too low!";
                 }
+                /************************************** TI TIMEOUT PRINT **************************************/
+                else if (req == Message.MsgRequest.COUNTER_TI_TIMEOUT)
+                {
+                    label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
+                    label_cnt_it_value.Font = new Font("Times New Roman", 13.4F);
+                    label_cnt_it_value.Text = "Timeout occurred!";
+                    tiEnableGroupBoxes();
+                    com_ti_indication();
+                }
+                /************************************** TI EQUAL PRINT **************************************/
+                else if (req == Message.MsgRequest.COUNTER_TI_EQUAL)
+                {
+                    label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
+                    label_cnt_it_value.Font = new Font("Times New Roman", 13);
+                    label_cnt_it_value.Text = "Delay too short to differentiate!";
+                    tiEnableGroupBoxes();
+                    com_ti_indication();
+                }
+                /************************************** TI BUFF1 BIGGER PRINT **************************************/
+                /* Buffer 1 is bigger - meaning, the event A on channel 1 occurred after event B on channel 2 (B came first) */
+                else if (req == Message.MsgRequest.COUNTER_TI_BIGGER_BUF1)
+                {
+                    if(radioButton_it_eventSequence_ba.Checked == true)
+                    {
+                        label_cnt_it_value.ForeColor = Color.Black;
+                        label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
+                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);                        
+                    }
+                    else
+                    {
+                        label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
+                        label_cnt_it_value.Font = new Font("Times New Roman", 12);
+                        label_cnt_it_value.Text = "Event B on channel 2 occurred first.\nData does not match the request.\nCheck Tba or swap wires.";
+                    }
+                    tiEnableGroupBoxes();
+                    com_ti_indication();
+                }
+                /************************************** TI BUFF2 BIGGER PRINT **************************************/
+                else if (req == Message.MsgRequest.COUNTER_TI_BIGGER_BUF2)
+                {
+                    if (radioButton_it_eventSequence_ab.Checked == true)
+                    {
+                        label_cnt_it_value.ForeColor = Color.Black;
+                        label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
+                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);                        
+                    }
+                    else
+                    {
+                        label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
+                        label_cnt_it_value.Font = new Font("Times New Roman", 12);
+                        label_cnt_it_value.Text = "Event A on channel 1 occurred first.\nData does not match the request.\nCheck Tab or swap wires.";
+                    }
+                    tiEnableGroupBoxes();
+                    com_ti_indication();
+                }
+
 
                 base.OnPaint(e);
                 req = Message.MsgRequest.NULL_MESSAGE;
@@ -329,6 +419,15 @@ namespace LEO
 
         }
 
+        private void tiEnableGroupBoxes()
+        {
+            button_cnt_ti_enable.Text = "Start";
+            groupBox_ti_event_A.Enabled = true;
+            groupBox_ti_event_B.Enabled = true;
+            groupBox_ti_eventSeq.Enabled = true;
+            groupBox_ti_timeout.Enabled = true;
+        }
+
         /************************************** ETR DATA PRINT **************************************/
         private void etrPainting()
         {
@@ -337,7 +436,7 @@ namespace LEO
 
             if (((avrgList.Count < trackBar) && (trackBar != 2)) && (keyPress == KEY_PRESS.YES))
             {
-                label_cnt_etr_avrg.ForeColor = Color.DarkCyan;
+                label_cnt_etr_avrg.ForeColor = SystemColors.WindowFrame;
                 label_cnt_etr_avrg.Font = new Font("Times New Roman", 15);
 
                 Int32 difference = cnt_etr_trackBar.Value - (int)(avrgList.Count);
@@ -369,14 +468,29 @@ namespace LEO
             cnt_ic_indication_ch1.BackColor = (cnt_ic_indication_ch1.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
         }
 
+        public void com_ic1_pulse_indication()
+        {
+            cnt_ic_pulse_indic_ch1.BackColor = (cnt_ic_pulse_indic_ch1.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
+        }
+
         public void com_ic2_indication()
         {
             cnt_ic_indication_ch2.BackColor = (cnt_ic_indication_ch2.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
         }
 
+        public void com_ic2_pulse_indication()
+        {
+            cnt_ic_pulse_indic_ch2.BackColor = (cnt_ic_pulse_indic_ch2.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
+        }
+
         public void com_ref_indication()
         {
             cnt_ref_indication.BackColor = (cnt_ref_indication.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
+        }
+
+        public void com_ti_indication()
+        {
+            cnt_ti_indication.BackColor = (cnt_ti_indication.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
         }
 
         private void exitCounterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -426,6 +540,10 @@ namespace LEO
             {
                 device.send(Commands.CNT_REF + ";");
             }
+            else if (mode == CNT_MODES.TI)
+            {
+                device.send(Commands.CNT_TI + ";");
+            }
             device.giveCommsSemaphore();
         }
 
@@ -436,25 +554,43 @@ namespace LEO
 
         private void cnt_mode_tabControl_SelectedIndexchanged(object sender, EventArgs e)
         {
+            /* Set IC values to default */
+            if (counterMode == CNT_MODES.IC)
+            {
+                icGuiReinit();
+            }
+
             switch ((sender as TabControl).SelectedIndex)
             {
-                case 0:                    
-                    cnt_stop();
+                case 0:                  
+                    cnt_stop();                    
                     cnt_init_mode(CNT_MODES.ETR);
+                    counterMode = CNT_MODES.ETR;
                     cnt_start();
                     ETR_appReinit();
+                    icPulseModeValidate();
                     break;
                 case 1:
                     cnt_stop();
                     cnt_init_mode(CNT_MODES.IC);
+                    counterMode = CNT_MODES.IC;
                     cnt_start();
-                    IC_appReinit();
+                    IC_appReinit();                    
                     break;
                 case 2:
                     cnt_stop();
                     cnt_init_mode(CNT_MODES.REF);
+                    counterMode = CNT_MODES.REF;
                     cnt_start();
                     REF_appReinit();
+                    icPulseModeValidate();
+                    break;
+                case 3:
+                    cnt_stop();
+                    cnt_init_mode(CNT_MODES.TI);
+                    counterMode = CNT_MODES.TI;
+                    TI_appReinit();
+                    icPulseModeValidate();
                     break;
             }
         }
@@ -472,12 +608,12 @@ namespace LEO
             cnt_etr_avrg_textBox.Text = "2";
             label_cnt_etr_avrg.Text = "0.000000";
             label_cnt_etr_value.Text = "0.000000";
-
-            /* Set IC values to default */
-            icGuiReinit();
-
-            channel1ToolStripMenuItem.Enabled = false;
-            channel2ToolStripMenuItem.Enabled = false;
+            label_cnt_etr_period.Text = "0.000000";
+            label_cnt_etr_acc_freq.Text = "∓ 0.000000";
+            label_cnt_etr_acc_average.Text = "∓ 0.000000";
+            label_cnt_etr_acc_period.Text = "∓ 0.000000";
+            label_cnt_etr_prescaler.Text = "1";
+            label_cnt_etr_minFreq.Text = "10 Hz";
         }
 
         private void REF_appReinit()
@@ -492,15 +628,10 @@ namespace LEO
             label_cnt_ref_value.ForeColor = SystemColors.WindowFrame;
             label_cnt_ref_value.Font = new Font("Times New Roman", 14);
             label_cnt_ref_value.Text = "Change the sample count first.";
-            label_cnt_refRatio_pins.Text = "Frequency ratio [" + refPins[0] + " / " + refPins[1] + "]";    
+            label_cnt_refRatio_pins.Text = "Frequency ratio [" + refPins[0] + " / " + refPins[1] + "]";
+            label_cnt_ref_acc.Text = "∓ 0.000000";
 
-            cnt_etr_trackBar.Value = 2;
-
-            /* Set IC values to default */
-            icGuiReinit();
-
-            channel1ToolStripMenuItem.Enabled = false;
-            channel2ToolStripMenuItem.Enabled = false;
+            cnt_etr_trackBar.Value = 2; 
         }
 
         private void IC_appReinit()
@@ -509,16 +640,58 @@ namespace LEO
             cnt_ic2_buffer_textBox.ForeColor = Color.Black;
             cnt_ic1_buffer_textBox.Text = "1";
             cnt_ic2_buffer_textBox.Text = "1";
-            label_cnt_ic1_value.Text = "0.000000";
-            label_cnt_ic2_value.Text = "0.000000";
             cnt_ic1_trackBar.Value = 1;
             cnt_ic2_trackBar.Value = 1;
             cnt_etr_trackBar.Value = 2;
 
+            label_cnt_ic1_value.Text = "0.000000";
+            label_cnt_ic2_value.Text = "0.000000";
+            label_cnt_ic1_period.Text = "0.000000";
+            label_cnt_ic2_period.Text = "0.000000";
+            label_cnt_ic1_acc_freq.Text = "∓ 0.000000";
+            label_cnt_ic2_acc_freq.Text = "∓ 0.000000";
+            label_cnt_ic1_acc_period.Text = "∓ 0.000000";
+            label_cnt_ic2_acc_period.Text = "∓ 0.000000";
+            label_cnt_ic1_acc_pulse.Text = "∓ 0.000000";
+            label_cnt_ic2_acc_pulse.Text = "∓ 0.000000";
+
+            groupBox_cnt_ic1_freq.Visible = true;
+            groupBox_cnt_ic1_period.Visible = true;
+            groupBox_cnt_ic1_pulse.Visible = false;
+
+            groupBox_cnt_ic2_freq.Visible = true;
+            groupBox_cnt_ic2_period.Visible = true;
+            groupBox_cnt_ic2_pulse.Visible = false;
+
             xToolStripMenu_icCh1_1x.Checked = true;
             xToolStripMenu_icCh2_1x.Checked = true;
-            channel1ToolStripMenuItem.Enabled = true;
-            channel2ToolStripMenuItem.Enabled = true;            
+
+            channel1ToolStripMenuItem.Visible = true;
+            channel2ToolStripMenuItem.Visible = true;       
+        }
+
+        private void TI_appReinit()
+        {
+            button_cnt_ti_enable.Text = "Start";
+            groupBox_ti_event_A.Enabled = true;
+            groupBox_ti_event_B.Enabled = true;
+            groupBox_ti_eventSeq.Enabled = true;
+            groupBox_ti_timeout.Enabled = true;
+
+            radioButton_it_rising_ch1.Checked = true;
+            radioButton_it_rising_ch2.Checked = true;
+            radioButton_it_eventSequence_ab.Checked = true;
+
+            this.pictureBox_ti_sequence.Image = Properties.Resources.ab_rising_rising;
+
+            trackBar_cnt_ti_timeout.Value = 500;
+            textBox_cnt_ti_timeout.Text = "500";
+
+            label_cnt_it_value.ForeColor = Color.Black;
+            label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
+
+            label_cnt_it_value.Text = "0.000000";
+            label_cnt_ti_acc.Text = "∓ 0.000000";
         }
 
         private void icGuiReinit()
@@ -535,11 +708,24 @@ namespace LEO
             cnt_ic2_trackBar.Minimum = cntIcPresc2;
             cnt_ic2_trackBar.Maximum = cntIcPresc2 * 100;
 
-            checkBox_icMode_pulse_ch1.Checked = false;
-            checkBox_icMode_pulse_ch2.Checked = false;
+            icPulseModeValidate();
+
+            icMenuHideChannels();
 
             negateToolStrip1Check();
             negateToolStrip2Check();
+        }
+        
+        public void icPulseModeValidate()
+        {
+            checkBox_icMode_pulse_ch1.Checked = false;
+            checkBox_icMode_pulse_ch2.Checked = false;
+        }
+
+        public void icMenuHideChannels()
+        {
+            channel1ToolStripMenuItem.Visible = false;
+            channel2ToolStripMenuItem.Visible = false;
         }
 
         public static void setRefPins(string[] pins)
@@ -875,7 +1061,7 @@ namespace LEO
 
         void sendIc1SampleCount(ushort sampleCount)
         {
-            device.takeCommsSemaphore(semaphoreTimeout + 121);
+            device.takeCommsSemaphore(semaphoreTimeout + 101);
             device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLE_COUNT_CH1 + " ");
             device.send_short(sampleCount);
             device.send(";");
@@ -993,69 +1179,87 @@ namespace LEO
         {
             bool checkCheck = (checkBox_icMode_pulse_ch1.Checked == true) ? false : true;
 
+            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_STOP_CH1);            
+
+            /* Pulse mode disable : restore the previous configuration */
+            if (checkCheck)
+            {
+                pulseModeDisable_ch1();
+            }
+            /* Pulse mode enable : set the pusle measuring mode configuration */
+            else
+            {
+                pulseModeEnable_ch1();
+            }
+
             groupBox_icSampleCount1.Enabled = checkCheck;
             cnt_ic1_trackBar.Enabled = checkCheck;
             cnt_ic1_buffer_textBox.Enabled = checkCheck;
             label_icCh1_min.Enabled = checkCheck;
             label_icCh1_max.Enabled = checkCheck;
             signalDividersToolStripMenuItem.Enabled = checkCheck;
+        }
 
-            /* Pulse mode == disabled : restore the previous configuration */
-            if (checkCheck)
+        private void pulseModeDisable_ch1()
+        {
+            /* Set the previous value of IC prescaler */
+            switch (cntIcPresc1)
             {
-                /* Set the previous value of IC prescaler */
-                switch (cntIcPresc1)
-                {
-                    case 1:
-                        sendIc1Multiplier(Commands.CNT_IC_PSC_1x);
-                        break;
-                    case 2:
-                        sendIc1Multiplier(Commands.CNT_IC_PSC_2x);
-                        break;                        
-                    case 4:
-                        sendIc1Multiplier(Commands.CNT_IC_PSC_4x);
-                        break;                        
-                    case 8:
-                        sendIc1Multiplier(Commands.CNT_IC_PSC_8x);
-                        break;
-                }
-
-                /* Return IC channel 1 into Input Capture frequency measurement */
-                sendIc1SampleCount((ushort)(cnt_ic1_trackBar.Value / cntIcPresc1));                
-
-                /* Reinitialize IC channel 1 into previous configuration */
-                device.takeCommsSemaphore(semaphoreTimeout + 121);
-                device.send(Commands.COUNTER + ":" + Commands.CNT_IC_PULSE + " ");
-                device.send(Commands.CNT_IC_PULSE_CH1_DEINIT + ";");
-                device.giveCommsSemaphore();
-
-                cnt_ic1_label.Text = "Input Capture channel 1 [Hz]";
-                label_cnt_ic1_period.ForeColor = SystemColors.ControlText;
-                label_cnt_ic1_period.Text = "0.000000";
-
-                ic1PulseMode = CNT_PULSE_PULSE.PULSE_MODE_DISABLED;                
+                case 1:
+                    sendIc1Multiplier(Commands.CNT_IC_PSC_1x);
+                    break;
+                case 2:
+                    sendIc1Multiplier(Commands.CNT_IC_PSC_2x);
+                    break;
+                case 4:
+                    sendIc1Multiplier(Commands.CNT_IC_PSC_4x);
+                    break;
+                case 8:
+                    sendIc1Multiplier(Commands.CNT_IC_PSC_8x);
+                    break;
             }
-            /* Pulse mode == enabled : set the pusle measuring mode configuration */
-            else
-            {
-                /* Set IC prescaler to 1 */
-                sendIc1Multiplier(Commands.CNT_IC_PSC_1x);
+            /* Return IC channel 1 into Input Capture frequency measurement */
+            sendIc1SampleCount((ushort)(cnt_ic1_trackBar.Value / cntIcPresc1));
+            /* Reinitialize IC channel 1 into previous configuration */
+            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_ONLY_CH1);
+            //Thread.Sleep(100);
+            /* Start frequency measurement on channel 1 */
+            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH1);
+            /* Disable pulse mode on channel 1 */
+            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_DISABLE_CH1);
 
-                /* Set DMA to transfer only two samples/edges - rising and falling (+1 added in MCU firmware) */
-                sendIc1SampleCount(1);
+            /* Show both freq. and period groupBoxes */
+            groupBox_cnt_ic1_freq.Visible = true;
+            groupBox_cnt_ic1_period.Visible = true;
 
-                /* Initialize IC channel 1 to measure one pulse */
-                device.takeCommsSemaphore(semaphoreTimeout + 121);
-                device.send(Commands.COUNTER + ":" + Commands.CNT_IC_PULSE + " ");
-                device.send(Commands.CNT_IC_PULSE_CH1_INIT + ";");
-                device.giveCommsSemaphore();
+            /* Hide pulse measurement groupBox */
+            groupBox_cnt_ic1_pulse.Visible = false;
 
-                cnt_ic1_label.Text = "Pulse length channel 1 [ms]";
-                label_cnt_ic1_period.ForeColor = SystemColors.ControlDarkDark;
-                label_cnt_ic1_period.Text = "NA";
+            ic1PulseMode = CNT_PULSE.PULSE_MODE_DISABLED;
+        }
 
-                ic1PulseMode = CNT_PULSE_PULSE.PULSE_MODE_ENABLED;
-            }
+        private void pulseModeEnable_ch1()
+        {
+            /* Enable editing features due to Pulse mode  */
+            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_ENABLE_CH1);
+            /* Initialize IC channel 1 to measure one pulse */
+            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_FALLING_CH1);
+            //Thread.Sleep(100);
+            /* Set IC prescaler to 1 */
+            sendIc1Multiplier(Commands.CNT_IC_PSC_1x);
+            /* Set DMA to transfer only two samples/edges - rising and falling (+1 added in MCU firmware) */
+            sendIc1SampleCount(1);
+            /* Start Pulse measurement on channel 1 */
+            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH1);
+
+            /* Hide both freq. and period groupBoxes */
+            groupBox_cnt_ic1_freq.Visible = false;
+            groupBox_cnt_ic1_period.Visible = false;
+
+            /* Show pulse measurement groupBox */
+            groupBox_cnt_ic1_pulse.Visible = true;
+
+            ic1PulseMode = CNT_PULSE.PULSE_MODE_ENABLED;
         }
 
         private void checkBox_icMode_pulse_ch2_CheckedChanged(object sender, EventArgs e)
@@ -1067,64 +1271,91 @@ namespace LEO
             cnt_ic2_buffer_textBox.Enabled = checkCheck;
             label_icCh2_min.Enabled = checkCheck;
             label_icCh2_max.Enabled = checkCheck;
-            sampleCountMultipliersToolStripMenuItem.Enabled = checkCheck;            
+            sampleCountMultipliersToolStripMenuItem.Enabled = checkCheck;
 
-            /* Pulse mode == disabled : restore the previous configuration */
+            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_STOP_CH2);
+
+            /* Pulse mode disable : restore the previous configuration */
             if (checkCheck)
             {
-                /* Set the previous value of IC prescaler */
-                switch (cntIcPresc2)
-                {
-                    case 1:
-                        sendIc2Multiplier(Commands.CNT_IC_PSC_1x);
-                        break;
-                    case 2:
-                        sendIc2Multiplier(Commands.CNT_IC_PSC_2x);
-                        break;
-                    case 4:
-                        sendIc2Multiplier(Commands.CNT_IC_PSC_4x);
-                        break;
-                    case 8:
-                        sendIc2Multiplier(Commands.CNT_IC_PSC_8x);
-                        break;
-                }
-
-                /* Return IC channel 1 into Input Capture frequency measurement */
-                sendIc2SampleCount((ushort)(cnt_ic2_trackBar.Value / cntIcPresc2));
-
-                /* Reinitialize IC channel 1 into previous configuration */
-                device.takeCommsSemaphore(semaphoreTimeout + 121);
-                device.send(Commands.COUNTER + ":" + Commands.CNT_IC_PULSE + " ");
-                device.send(Commands.CNT_IC_PULSE_CH2_DEINIT + ";");
-                device.giveCommsSemaphore();
-
-                cnt_ic2_label.Text = "Input Capture channel 2 [Hz]";
-                label_cnt_ic2_period.ForeColor = SystemColors.ControlText;
-                label_cnt_ic2_period.Text = "0.000000";
-
-                ic2PulseMode = CNT_PULSE_PULSE.PULSE_MODE_DISABLED;
+                pulseModeDisable_ch2();
             }
-            /* Pulse mode == enabled : set the pusle measuring mode configuration */
+            /* Pulse mode enable : set the pusle measuring mode configuration */
             else
             {
-                /* Set IC prescaler to 1 */
-                sendIc2Multiplier(Commands.CNT_IC_PSC_1x);
-
-                /* Set DMA to transfer only two samples/edges - rising and falling (+1 added in MCU firmware) */
-                sendIc2SampleCount(1);
-
-                /* Initialize IC channel 1 to measure one pulse */
-                device.takeCommsSemaphore(semaphoreTimeout + 121);
-                device.send(Commands.COUNTER + ":" + Commands.CNT_IC_PULSE + " ");
-                device.send(Commands.CNT_IC_PULSE_CH2_INIT + ";");
-                device.giveCommsSemaphore();
-
-                cnt_ic2_label.Text = "Pulse length channel 2 [ms]";
-                label_cnt_ic2_period.ForeColor = SystemColors.ControlDarkDark;
-                label_cnt_ic2_period.Text = "NA";
-
-                ic2PulseMode = CNT_PULSE_PULSE.PULSE_MODE_ENABLED;
+                pulseModeEnable_ch2();
             }
+        }
+
+        private void pulseModeDisable_ch2()
+        {
+            /* Set the previous value of IC prescaler */
+            switch (cntIcPresc2)
+            {
+                case 1:
+                    sendIc2Multiplier(Commands.CNT_IC_PSC_1x);
+                    break;
+                case 2:
+                    sendIc2Multiplier(Commands.CNT_IC_PSC_2x);
+                    break;
+                case 4:
+                    sendIc2Multiplier(Commands.CNT_IC_PSC_4x);
+                    break;
+                case 8:
+                    sendIc2Multiplier(Commands.CNT_IC_PSC_8x);
+                    break;
+            }
+            /* Return IC channel 1 into Input Capture frequency measurement */
+            sendIc2SampleCount((ushort)(cnt_ic2_trackBar.Value / cntIcPresc2));
+            /* Reinitialize IC channel 1 into previous configuration */
+            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_ONLY_CH2);
+            Thread.Sleep(100);
+            /* Start frequency measurement on channel 1 */
+            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH2);
+            /* Disable pulse mode on channel 1 */
+            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_DISABLE_CH2);
+
+            /* Show both freq. and period groupBoxes */
+            groupBox_cnt_ic2_freq.Visible = true;
+            groupBox_cnt_ic2_period.Visible = true;
+
+            /* Hide pulse measurement groupBox */
+            groupBox_cnt_ic2_pulse.Visible = false;
+
+            ic2PulseMode = CNT_PULSE.PULSE_MODE_DISABLED;
+        }
+
+        private void pulseModeEnable_ch2()
+        {
+            /* Enable editing features due to Pulse mode  */
+            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_ENABLE_CH2);
+            /* Set IC prescaler to 1 */
+            sendIc2Multiplier(Commands.CNT_IC_PSC_1x);
+            /* Set DMA to transfer only two samples/edges - rising and falling (+1 added in MCU firmware) */
+            sendIc2SampleCount(1);
+            /* Initialize IC channel 1 to measure one pulse */
+            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_FALLING_CH2);
+            Thread.Sleep(100);
+            /* Start Pulse measurement on channel 1 */
+            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH2);
+
+            /* Hide both freq. and period groupBoxes */
+            groupBox_cnt_ic2_freq.Visible = false;
+            groupBox_cnt_ic2_period.Visible = false;
+
+            /* Show pulse measurement groupBox */
+            groupBox_cnt_ic2_pulse.Visible = true;
+
+            ic2PulseMode = CNT_PULSE.PULSE_MODE_ENABLED;
+        }
+
+
+        public void icPulseCommand(string generalComm, string specificComm)
+        {
+            device.takeCommsSemaphore(semaphoreTimeout + 110);
+            device.send(Commands.COUNTER + ":" + generalComm + " ");
+            device.send(specificComm + ";");
+            device.giveCommsSemaphore();
         }
 
         /* -------------------------------------------------------------------------------------------------------------------------------- */
@@ -1495,6 +1726,12 @@ namespace LEO
                     device.send(";");
                     req = Message.MsgRequest.COUNTER_REF_WAIT;
                     this.Invalidate();
+                    break;
+                case CNT_TIMER.TIM_SCROLL_TI:
+                    scrollTimer.Stop();
+                    device.send(Commands.COUNTER + ":" + Commands.CNT_TI_TIMEOUT_VALUE + " ");
+                    device.send_short(Convert.ToUInt16(textBox_cnt_ti_timeout.Text));
+                    device.send(";");                                        
                     break;
                 case CNT_TIMER.TIM_SCROLL_ETR:
                     req = Message.MsgRequest.COUNTER_ETR_DATA;
@@ -1891,43 +2128,35 @@ namespace LEO
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         private void radioButton_it_rising_ch1_CheckedChanged(object sender, EventArgs e)
         {
-            //radioButton_it_rising_ch1.Checked = true;
-            //radioButton_it_falling_ch1.Checked = false;
             selectPicture();
+            sendEventCommand(Commands.CNT_EVENT_RISING_ONLY_CH1);
         }
 
         private void radioButton_it_falling_ch1_CheckedChanged(object sender, EventArgs e)
         {
-            //radioButton_it_falling_ch1.Checked = true;
-            //radioButton_it_rising_ch1.Checked = false;
             selectPicture();
+            sendEventCommand(Commands.CNT_EVENT_FALLING_ONLY_CH1);
         }
 
         private void radioButton_it_rising_ch2_CheckedChanged(object sender, EventArgs e)
         {
-            //radioButton_it_rising_ch2.Checked = true;
-            //radioButton_it_falling_ch2.Checked = false;
             selectPicture();
+            sendEventCommand(Commands.CNT_EVENT_RISING_ONLY_CH2);
         }
 
         private void radioButton_it_falling_ch2_CheckedChanged(object sender, EventArgs e)
         {
-            //radioButton_it_falling_ch2.Checked = true;
-            //radioButton_it_rising_ch2.Checked = false;
             selectPicture();
+            sendEventCommand(Commands.CNT_EVENT_FALLING_ONLY_CH2);
         }
 
         private void radioButton_it_eventSequence_ab_CheckedChanged(object sender, EventArgs e)
         {
-            //radioButton_it_eventSequence_ab.Checked = true;
-            //radioButton_it_eventSequence_ba.Checked = false;
             selectPicture();
         }
 
         private void radioButton_it_eventSequence_ba_CheckedChanged(object sender, EventArgs e)
         {
-            //radioButton_it_eventSequence_ba.Checked = true;
-            //radioButton_it_eventSequence_ab.Checked = false;
             selectPicture();
         }
 
@@ -1942,77 +2171,186 @@ namespace LEO
 
             if(AB_seq && evA_ris && evB_ris)
             {
-                AB_RisingRising_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ab_rising_rising;
             }
             else if (AB_seq && evA_ris && evB_fall)
             {
-                AB_RisingFalling_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ab_rising_falling;
             }
             else if(AB_seq && evA_fall && evB_fall)
             {
-                AB_FallingFalling_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ab_falling_falling;
             }
             else if (AB_seq && evA_fall && evB_ris)
             {
-                AB_FallingRising_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ab_falling_rising;
             }
             else if (BA_seq && evB_ris && evA_ris)
             {
-                BA_RisingRising_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ba_rising_rising;
             }
             else if (BA_seq && evB_ris && evA_fall)
             {
-                BA_RisingFalling_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ba_rising_falling;
             }
             else if (BA_seq && evB_fall && evA_fall)
             {
-                BA_FallingFalling_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ba_falling_falling;
             }
             else if (BA_seq && evB_fall && evA_ris)
             {
-                BA_FallingRising_picChange();
+                this.pictureBox_ti_sequence.Image = Properties.Resources.ba_falling_rising;
             }
         }
 
-        /* Picture changing functions */
-        private void AB_RisingRising_picChange()
+        private void trackBar_cnt_ti_timeout_Scroll(object sender, EventArgs e)
         {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ab_rising_rising;
+            textBox_cnt_ti_timeout.ForeColor = Color.Black;
+            textBox_cnt_ti_timeout.Text = trackBar_cnt_ti_timeout.Value.ToString();
+
+            scrollTimer.Stop();
+            scrollTimer.Start();
+
+            timScroll = CNT_TIMER.TIM_SCROLL_TI;
         }
 
-        private void AB_RisingFalling_picChange()
+        private void textBox_cnt_ti_timeout_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ab_rising_falling;
+            textBox_cnt_ti_timeout.ForeColor = Color.Black;
+
+            TextBox textBox = (TextBox)sender;
+
+            if (!string.IsNullOrEmpty(textBox_cnt_ti_timeout.Text))
+            {
+                if (e.KeyChar == (char)Keys.Enter)
+                {
+                    e.Handled = true;
+                    int timeout = Convert.ToInt32(textBox.Text);                    
+
+                    if (timeout < 500)
+                    {
+                        textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
+                        textBox_cnt_ti_timeout.Text = IC_MIN + "500";
+                        this.ActiveControl = null;
+                    }
+                    else if (timeout > 28000)
+                    {
+                        textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
+                        textBox_cnt_ti_timeout.Text = IC_MAX + "28000";
+                        this.ActiveControl = null;
+                    }
+                    else
+                    {
+                        trackBar_cnt_ti_timeout.Value = timeout;
+                        textBox_cnt_ti_timeout.Text = timeout.ToString();
+
+                        device.takeCommsSemaphore(semaphoreTimeout + 120);
+                        device.send(Commands.COUNTER + ":" + Commands.CNT_TI_TIMEOUT_VALUE + " ");
+                        device.send_short((ushort)timeout);
+                        device.send(";");
+                        device.giveCommsSemaphore();
+                        
+                        //req = Message.MsgRequest.COUNTER_IC1_BUFF_WAIT;
+                        //this.Invalidate();
+                    }
+                }
+            }
+
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.KeyChar = (char)Keys.Enter;
+                textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
+                textBox_cnt_ti_timeout.Text = NUMS_ONLY;
+                this.ActiveControl = null;
+            }
         }
 
-        private void AB_FallingFalling_picChange()
+        private void textBox_cnt_ti_timeout_Leave(object sender, EventArgs e)
         {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ab_falling_falling;
+            int boole;
+            int timeout = 0;
+            bool isNumeric = int.TryParse(textBox_cnt_ti_timeout.Text, out boole);
+
+            if (textBox_cnt_ti_timeout.Text.Length == 0)
+            {
+                textBox_cnt_ti_timeout.ForeColor = Color.Black;
+                textBox_cnt_ti_timeout.Text = trackBar_cnt_ti_timeout.Value.ToString();
+            }
+
+            if (isNumeric)
+            {
+                timeout = Convert.ToUInt16(textBox_cnt_ti_timeout.Text);                
+
+                if (timeout < 500)
+                {
+                    textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
+                    textBox_cnt_ti_timeout.Text = IC_MIN + "500";
+                }
+                else if (timeout > 28000)
+                {
+                    textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
+                    textBox_cnt_ti_timeout.Text = IC_MAX + "28000";
+                }
+                else if (!textBox_cnt_ti_timeout.Text.Equals(trackBar_cnt_ti_timeout.Value.ToString()))
+                {
+                    trackBar_cnt_ti_timeout.Value = Convert.ToInt16(textBox_cnt_ti_timeout.Text);
+                    textBox_cnt_ti_timeout.Text = timeout.ToString();
+
+                    device.takeCommsSemaphore(semaphoreTimeout + 120);
+                    device.send(Commands.COUNTER + ":" + Commands.CNT_TI_TIMEOUT_VALUE + " ");
+                    device.send_short((ushort)timeout);
+                    device.send(";");
+                    device.giveCommsSemaphore();
+                }
+            }
         }
 
-        private void AB_FallingRising_picChange()
+        private void textBox_cnt_ti_timeout_Click(object sender, EventArgs e)
         {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ab_falling_rising;
+            int boole;
+            bool isNumeric = int.TryParse(textBox_cnt_ti_timeout.Text, out boole);
+            if (string.IsNullOrEmpty(textBox_cnt_ti_timeout.Text) || !isNumeric)
+            {
+                textBox_cnt_ti_timeout.Text = "";
+            }
         }
 
-        private void BA_RisingRising_picChange()
+        private void button_cnt_ti_enable_Click(object sender, EventArgs e)
         {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ba_rising_rising;
+            if (button_cnt_ti_enable.Text == "Start")
+            {                
+                cnt_start();
+                button_cnt_ti_enable.Text = "Stop";
+                groupBox_ti_event_A.Enabled = false;
+                groupBox_ti_event_B.Enabled = false;
+                groupBox_ti_eventSeq.Enabled = false;
+                groupBox_ti_timeout.Enabled = false;
+
+                label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
+                label_cnt_it_value.Font = new Font("Times New Roman", 14);
+                label_cnt_it_value.Text = "Waiting for events.";
+            }
+            else
+            {
+                cnt_stop();
+                button_cnt_ti_enable.Text = "Start";
+                groupBox_ti_event_A.Enabled = true;
+                groupBox_ti_event_B.Enabled = true;
+                groupBox_ti_eventSeq.Enabled = true;
+                groupBox_ti_timeout.Enabled = true;
+
+                label_cnt_it_value.ForeColor = Color.Black;
+                label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
+                label_cnt_it_value.Text = "0.000000";
+            }
         }
 
-        private void BA_RisingFalling_picChange()
+        private void sendEventCommand(String command)
         {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ba_rising_falling;
-        }
-
-        private void BA_FallingFalling_picChange()
-        {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ba_falling_falling;
-        }
-
-        private void BA_FallingRising_picChange()
-        {
-            this.pictureBox_ti_sequence.Image = Properties.Resources.ba_falling_rising;
+            device.takeCommsSemaphore(semaphoreTimeout + 105);
+            device.send(Commands.COUNTER + ":" + Commands.CNT_EVENT + " ");
+            device.send(command + ";");
+            device.giveCommsSemaphore();
         }
     }
 }

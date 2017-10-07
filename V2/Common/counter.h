@@ -21,14 +21,16 @@
 typedef enum{
 	ETR = 0,
 	IC,
-	REF	
+	TI,
+	REF
 }counterMode;
 
 typedef enum{
 	COUNTER_IDLE = 0,
 	COUNTER_ETR,
 	COUNTER_IC,
-	COUNTER_REF,	
+	COUNTER_TI,
+	COUNTER_REF		
 }counterState;
 
 typedef enum{
@@ -41,25 +43,10 @@ typedef enum{
 	COUNTER_IRQ_IC2_PASS
 }counterIcChannel2;
 
-//typedef enum{
-//	COUNTER_PRESC1_CHANGED = 0,
-//	COUNTER_PRESC1_NOT_CHANGED
-//}counterIcPresc1;
-
-//typedef enum{
-//	COUNTER_PRESC2_CHANGED = 0,
-//	COUNTER_PRESC2_NOT_CHANGED
-//}counterIcPresc2;
-
-//typedef enum{
-//	BUFF1_CHANGED = 0,
-//	BUFF1_NOT_CHANGED
-//}counterIc1BuffChange;
-
-//typedef enum{
-//	BUFF2_CHANGED = 0,
-//	BUFF2_NOT_CHANGED
-//}counterIc2BuffChange;
+typedef enum{
+	PULSE_MODE_ENABLED = 0,
+	PULSE_MODE_DISABLED
+}counterIcPulse;
 
 typedef enum{
 	SAMPLE_COUNT_CHANGED = 0,
@@ -70,6 +57,14 @@ typedef enum{
 	BIN0 = 0,
 	BIN1
 }counterIcBin;
+
+typedef enum{
+	CLEAR = 0,
+	TIMEOUT,
+	EQUAL,
+	BIGGER_BUFF_CH1,
+	BIGGER_BUFF_CH2
+}counterTiState;
 
 /* ETR struct is also used for REF mode as only the difference 
 	 is the clock feeding of timer 4 and the data sent to PC app */
@@ -99,6 +94,7 @@ typedef struct{
 	uint8_t ic2psc;
 	uint8_t ic1pscTemp;
 	uint8_t ic2pscTemp;
+	uint16_t tiTimeout; // TI timeout part of IC struct
 }counterIcTypeDef;
 
 typedef struct{
@@ -107,15 +103,13 @@ typedef struct{
 //  counterRefTypeDef counterRef;	-> ETR structure used for REF	
 	counterState state;
 	
+	counterRefSmplCntChange sampleCntChange;
 	counterIcChannel1 icChannel1;
 	counterIcChannel2 icChannel2;
-//	counterIc1BuffChange buff1Change;
-//	counterIc2BuffChange buff2Change;
-//	counterIcPresc1 icPresc1;
-//	counterIcPresc2 icPresc2;
-	counterIcBin icBin;
-	counterRefSmplCntChange sampleCntChange;
-
+	counterIcBin icBin;	
+	counterIcPulse ic1Pulse;
+	counterIcPulse ic2Pulse;
+	counterTiState tiState;	
 }counterTypeDef;
 
 // Exported functions =========================================================
@@ -125,6 +119,7 @@ void CounterTask(void const *argument);
 void counterInitETR(void);
 void counterInitIC(void);
 void counterInitREF(void);
+void counterInitTI(void);
 void counter_deinit(void);
 void counterSendStart(void);
 void counterSendStop(void);
@@ -143,12 +138,29 @@ void counterSetIc1SampleCount(uint16_t buffer);
 void counterSetIc2SampleCount(uint16_t buffer);
 void counterSetIc1Prescaler(uint16_t presc);
 void counterSetIc2Prescaler(uint16_t presc);
-void counterSetIc1PulseMeas(void);
-void counterSetIc2PulseMeas(void);
-void counterResetIc1PulseMeas(void);
-void counterResetIc2PulseMeas(void);
+void counterSetIcTi1_RisingFalling(void);
+void counterSetIcTi2_RisingFalling(void);
+void counterSetIcTi1_Rising(void);
+void counterSetIcTi2_Rising(void);
+void counterSetIcTi1_Falling(void);
+void counterSetIcTi2_Falling(void);
 void counterIc1BufferConfig(uint16_t ic1buffSize);
 void counterIc2BufferConfig(uint16_t ic2buffSize);
+void counterIcProcess(void);
+
+void counterIc1PulseStart(void);
+void counterIc2PulseStart(void);
+void counterIc1PulseStop(void);
+void counterIc2PulseStop(void);
+
+void counterIc1PulseModeEnable(void);
+void counterIc2PulseModeEnable(void);
+void counterIc1PulseModeDisable(void);
+void counterIc2PulseModeDisable(void);
+
+/* TI mode functions */
+void counterTiProcess(void);
+void counterSetTiTimeout(uint16_t timeout);
 
 /* REF mode functions */
 void counterSetRefPsc(uint16_t psc);

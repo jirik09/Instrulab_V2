@@ -72,11 +72,11 @@ void TIMGenDacDeinit(void);
 
 #ifdef USE_GEN_PWM
 /* PWM generatin timers */
-void MX_TIM1_Init(void);
-void MX_TIM3_Init(void);
+static void MX_TIM1_GEN_PWM_Init(void);
+static void MX_TIM3_GEN_PWM_Init(void);
 /* DMA update timers */
-void MX_TIM6_Init(void);
-void MX_TIM7_Init(void);
+static void MX_TIM6_GEN_PWM_Init(void);
+static void MX_TIM7_GEN_PWM_Init(void);
 
 void TIM_DMA_Reconfig(uint8_t chan);
 void TIM_GEN_PWM_PSC_Config(uint16_t pscVal, uint8_t chan);
@@ -102,22 +102,36 @@ extern DMA_HandleTypeDef hdma_tim2_up;
 extern DMA_HandleTypeDef hdma_tim2_ch1;
 extern DMA_HandleTypeDef hdma_tim2_ch2_ch4;
 
-void MX_TIM4_Init(void);
-void MX_TIM2_ETRorREF_Init(void);
-void MX_TIM2_IC_Init(void);
-void TIM_counter_etr_init(void);
-void TIM_counter_ic_init(void);
-void TIM_counter_ref_init(void);
 void TIM_doubleClockVal(void);
+
+static void MX_TIM4_Init(void);
+static void MX_TIM2_ETRorREF_Init(void);
+static void MX_TIM2_ICorTI_Init(void);
+
+void TIM_counter_etr_init(void);
+void TIM_counter_ref_init(void);
+void TIM_counter_ic_init(void);
+void TIM_counter_ti_init(void);
+
 void TIM_etr_deinit(void);
-void TIM_ic_deinit(void);
 void TIM_ref_deinit(void);
+void TIM_ic_deinit(void);
+void TIM_ti_deinit(void);
+
 void TIM_ETR_Start(void);
-void TIM_IC_Start(void);
 void TIM_REF_Start(void);
+void TIM_IC_Start(void);
+void TIM_TI_Start(void);
+
 void TIM_ETR_Stop(void);
-void TIM_IC_Stop(void);
 void TIM_REF_Stop(void);
+void TIM_IC_Stop(void);
+void TIM_TI_Stop(void);
+
+void TIM_IC1_PULSE_Start(void);
+void TIM_IC2_PULSE_Start(void);
+void TIM_IC1_PULSE_Stop(void);
+void TIM_IC2_PULSE_Stop(void);
 
 /* counter specific */
 void TIM_ETRP_Config(double freq);
@@ -126,12 +140,17 @@ void TIM_IC2PSC_Config(double freq);
 void TIM_IC1_PSC_Config(uint8_t prescVal);
 void TIM_IC2_PSC_Config(uint8_t prescVal);
 void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc);
+
 void TIM_IC1_RisingFalling(void);
 void TIM_IC2_RisingFalling(void);
 void TIM_IC1_RisingOnly(void);
 void TIM_IC2_RisingOnly(void);
+void TIM_IC1_FallingOnly(void);
+void TIM_IC2_FallingOnly(void);
 
-void TIM_Disable(void);
+void TIM_REF_SecondInputDisable(void);
+void TIM_TI_Clear(void);
+
 uint8_t TIM_ETPS_GetPrescaler(void);
 uint8_t TIM_IC1PSC_GetPrescaler(void);
 uint8_t TIM_IC2PSC_GetPrescaler(void);
@@ -139,6 +158,7 @@ uint8_t TIM_GetPrescaler(uint32_t regPrescValue);
 
 bool DMA_TransferComplete(DMA_HandleTypeDef *dmah);
 void DMA_Restart(DMA_HandleTypeDef *dmah);
+
 extern void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);	
 extern void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);
 extern void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah);

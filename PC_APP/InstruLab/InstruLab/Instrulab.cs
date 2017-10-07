@@ -216,21 +216,14 @@ namespace LEO
                         this.label_scope_pins.Text = tmpStr.Substring(0, tmpStr.Length - 2);                       
                     }
 
-                    /* counter */
+                    /* Counter */
                     if (comms.get_connected_device().cntCfg.isCnt) {
 
                         this.label_cnt_modes.Text = comms.get_connected_device().cntCfg.modes;
 
-                        if (comms.get_connected_device().cntCfg.pins[0] != "NA")
-                        {
-                            this.leo_etr_label.Text = (comms.get_connected_device().cntCfg.pins[0]).ToString();
-                        }
-                        else
-                        {
-                            this.leo_etr_label.Text = "NA";
-                        }
+                        this.leo_etr_label.Text = (comms.get_connected_device().cntCfg.pins[0] != "--") ? (comms.get_connected_device().cntCfg.pins[0]).ToString() : "--";
 
-                        if (comms.get_connected_device().cntCfg.pins[2] != "NA")
+                        if (comms.get_connected_device().cntCfg.pins[2] != "--")
                         {
                             this.leo_ic_label.Text = (comms.get_connected_device().cntCfg.pins[1]).ToString() + ", " + (comms.get_connected_device().cntCfg.pins[2]).ToString();
                         }
@@ -240,6 +233,11 @@ namespace LEO
                         }                        
                         this.leo_ref_label.Text = (comms.get_connected_device().cntCfg.pins[3]).ToString() + ", " + (comms.get_connected_device().cntCfg.pins[4]).ToString();
                         setCounterRefPins(comms.get_connected_device().cntCfg.pins);
+
+                        if(comms.get_connected_device().cntCfg.pins[5] != "--")
+                        {
+                            this.leo_event_label.Text = (comms.get_connected_device().cntCfg.pins[5]).ToString() + ", " + (comms.get_connected_device().cntCfg.pins[6]).ToString();
+                        }
                     }
 
 

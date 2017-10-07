@@ -196,6 +196,8 @@ command parseCounterCmd(void)
 					counterSetMode(IC);
 				}else if(cmdIn == CMD_MODE_REF){
 					counterSetMode(REF);
+				}else if(cmdIn == CMD_MODE_TI){
+					counterSetMode(TI);
 				}
 			}
 			break;		
@@ -215,20 +217,51 @@ command parseCounterCmd(void)
 				}					
 			}
 			break;
+		case CMD_CNT_EVENT:			
+			cmdIn = giveNextCmd();
+			if(isCounterIcTiEvent(cmdIn)){
+				if(cmdIn == CMD_EVENT_RF1){
+					counterSetIcTi1_RisingFalling();
+				}else if(cmdIn == CMD_EVENT_RF2){
+					counterSetIcTi2_RisingFalling();
+				}else if(cmdIn == CMD_EVENT_RO1){
+					counterSetIcTi1_Rising();
+				}else if(cmdIn == CMD_EVENT_RO2){
+					counterSetIcTi2_Rising();
+				}else if(cmdIn == CMD_EVENT_FO1){
+					counterSetIcTi1_Falling();
+				}else if(cmdIn == CMD_EVENT_FO2){
+					counterSetIcTi2_Falling();
+				}
+			}				
+			break;	
 		case CMD_CNT_PULSE:			
 			cmdIn = giveNextCmd();
 			if(isCounterIcPulse(cmdIn)){
-				if(cmdIn == CMD_PULSE_PLI1){
-					counterSetIc1PulseMeas();
-				}else if(cmdIn == CMD_PULSE_PLI2){
-					counterSetIc2PulseMeas();
-				}else if(cmdIn == CMD_PULSE_PLD1){
-					counterResetIc1PulseMeas();
-				}else if(cmdIn == CMD_PULSE_PLD2){
-					counterResetIc2PulseMeas();
+				if(cmdIn == CMD_PULSE_START_CH1){
+					counterIc1PulseStart();
+				}else if(cmdIn == CMD_PULSE_START_CH2){
+					counterIc2PulseStart();
+				}else if(cmdIn == CMD_PULSE_STOP_CH1){
+					counterIc1PulseStop();
+				}else if(cmdIn == CMD_PULSE_STOP_CH2){
+					counterIc2PulseStop();
+				}
+			}		
+		case CMD_CNT_PMODE:			
+			cmdIn = giveNextCmd();
+			if(isCounterIcPulseMode(cmdIn)){
+				if(cmdIn == CMD_PMODE_ENABLE_CH1){
+					counterIc1PulseModeEnable();
+				}else if(cmdIn == CMD_PMODE_ENABLE_CH2){
+					counterIc2PulseModeEnable();
+				}else if(cmdIn == CMD_PMODE_DISABLE_CH1){
+					counterIc1PulseModeDisable();
+				}else if(cmdIn == CMD_PMODE_DISABLE_CH2){
+					counterIc2PulseModeDisable();
 				}
 			}				
-			break;			
+			break;	
 		case CMD_CNT_PRESC1:			
 			cmdIn = giveNextCmd();
 			if(isCounterIcPresc1(cmdIn)){
@@ -288,6 +321,16 @@ command parseCounterCmd(void)
 			cmdIn = giveNextCmd();	
 			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
 				counterSetRefArr((uint16_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}				
+			break;	
+		/* TI set timout */
+		case CMD_CNT_TIMEOUT_TIM:		
+			cmdIn = giveNextCmd();	
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
+				counterSetTiTimeout((uint16_t)cmdIn);
 			}else{
 				cmdIn = CMD_ERR;
 				error = COUNTER_INVALID_FEATURE_PARAM;

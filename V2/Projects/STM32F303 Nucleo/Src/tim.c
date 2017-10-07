@@ -41,6 +41,8 @@
 #include "mcu_config.h"
 #include "stdlib.h"
 #include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -61,6 +63,8 @@ TIM_HandleTypeDef htim7;
 
 #ifdef USE_COUNTER
 uint32_t tim2clk, tim4clk;
+extern portTickType xStartTime;
+extern xSemaphoreHandle counterMutex;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
@@ -308,7 +312,7 @@ static void MX_TIM7_GEN_PWM_Init(void)
 /* ************************************************************************************** */
 
 /* Timer TIM4 initialization - used for time gating of Counter TIM2 */
-void MX_TIM4_Init(void)
+static void MX_TIM4_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
@@ -322,7 +326,7 @@ void MX_TIM4_Init(void)
 		/* ETR mode - 100 ms gate time by default */
 		htim4.Init.Prescaler = TIM4_PSC;			// by default 7199 for ETR mode
 		htim4.Init.Period = TIM4_ARR;					// by default 999 for ETR mode
-	}else if(counter.state == COUNTER_IC){
+	}else if((counter.state == COUNTER_IC) || counter.state == COUNTER_TI){
 		/* IC mode - 100 ms interrupt event to send data */
 		htim4.Init.Prescaler = TIM4_PSC;			
 		htim4.Init.Period = TIM4_ARR;			
@@ -344,7 +348,7 @@ void MX_TIM4_Init(void)
   HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig);
 
 	sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;	 // TIM_TRGO_OC1 // TIM_TRGO_RESET // TIM_TRGO_UPDATE
-	if(counter.state == COUNTER_IC){
+	if((counter.state == COUNTER_IC) || (counter.state == COUNTER_TI)){
 		sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
 	}else{
 		sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
@@ -353,7 +357,7 @@ void MX_TIM4_Init(void)
 }
 
 /* TIM2 mode ETR init function */
-void MX_TIM2_ETRorREF_Init(void)
+static void MX_TIM2_ETRorREF_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_SlaveConfigTypeDef sSlaveConfig;
@@ -386,11 +390,11 @@ void MX_TIM2_ETRorREF_Init(void)
 	TIM2 -> DIER |= TIM_DIER_UDE;					/* __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE); */			
 	TIM2 -> CCMR1 |= TIM_CCMR1_CC1S_Msk;  	/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TRC	*/
 	TIM2 -> CCER |= TIM_CCER_CC1E;					/* CC1 channel configured as input: This bit determines if a capture of the counter value can
-																					 actually be done into the input capture/compare register 1 (TIMx_CCR1) or not.  */
+																					 actually be done into the input capture/compare register 1 (TIMx_CCR1) or not.  */																			 
 }
 
 /* TIM2 mode IC init function */
-void MX_TIM2_IC_Init(void)
+static void MX_TIM2_ICorTI_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
@@ -421,15 +425,19 @@ void MX_TIM2_IC_Init(void)
 	HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_2);
 	
 	TIM2 -> DIER |= TIM_DIER_UDE;					/* __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE); */			
-	TIM2 -> CCMR1 |= TIM_CCMR1_CC1S_0;  		/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TI1	*/
-	TIM2 -> CCMR1 |= TIM_CCMR1_CC2S_0;			/* IC2 is mapped on TI2 */		
+	TIM2 -> CCMR1 |= TIM_CCMR1_CC1S_0;  	/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TI1	*/
+	TIM2 -> CCMR1 |= TIM_CCMR1_CC2S_0;		/* IC2 is mapped on TI2 */		
 	
-	TIM2 -> CCER |= TIM_CCER_CC1E;					/* CC1 channel configured as input: This bit determines if a capture of the counter value can
+	TIM2 -> CCER |= TIM_CCER_CC1E;				/* CC1 channel configured as input: This bit determines if a capture of the counter value can
 																					 actually be done into the input capture/compare register 1 (TIMx_CCR1) or not.  */
 	TIM2 -> CCER |= TIM_CCER_CC2E;		
 	
 	TIM2 -> DIER |= TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request */
 	TIM2 -> DIER |= TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request */
+	
+	if(counter.state == COUNTER_TI){			/* If TI counter configured, initialize one-pulse timer mode */
+		TIM2->CR1 |= TIM_CR1_OPM;
+	}
 }
 
 /* ************************************************************************************** */
@@ -451,8 +459,15 @@ void TIM_counter_ref_init(void){
 void TIM_counter_ic_init(void){
 	TIM_doubleClockVal();	
 	MX_TIM4_Init();
-	MX_TIM2_IC_Init();
-//tim4clk = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_TIM34); 	
+	MX_TIM2_ICorTI_Init();
+}
+
+void TIM_counter_ti_init(void){
+	TIM_doubleClockVal();	
+	MX_TIM4_Init();	
+	MX_TIM2_ICorTI_Init();
+	/* Do not run timer after initialization, wait for start command */
+	TIM2->CR1 &= ~(TIM_CR1_CEN);
 }
 
 /* HAL_RCCEx_GetPeriphCLKFreq function does not count with PLL clock source for TIM2 */
@@ -479,7 +494,11 @@ void TIM_ref_deinit(void){
 
 void TIM_ic_deinit(void){
 	HAL_TIM_Base_DeInit(&htim2);	
-	HAL_TIM_Base_DeInit(&htim4);	
+	HAL_TIM_Base_DeInit(&htim4);			
+}
+
+void TIM_ti_deinit(void){
+	TIM_ic_deinit();
 }
 
 /* ************************************************************************************** */
@@ -487,8 +506,9 @@ void TIM_ic_deinit(void){
 /* ************************************************************************************** */
 void TIM_ETR_Start(void){
 	HAL_TIM_Base_Start(&htim2);			
-	HAL_TIM_Base_Start(&htim4);
+	HAL_TIM_Base_Start(&htim4);	
 	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);	
+	
 	/* Uncomment to get rid of the first random number */
 	if(counter.state == COUNTER_ETR){
 		counter.sampleCntChange = SAMPLE_COUNT_CHANGED;	
@@ -497,24 +517,81 @@ void TIM_ETR_Start(void){
 	}
 }
 
-void TIM_IC_Start(void){
-	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
-	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);
-	HAL_TIM_Base_Start(&htim2);	
-	HAL_TIM_Base_Start_IT(&htim4);	
-}
-
 void TIM_ETR_Stop(void){
-	HAL_DMA_Abort_IT(&hdma_tim2_up);
+	HAL_DMA_Abort_IT(&hdma_tim2_up);		
 	HAL_TIM_Base_Stop(&htim2);	
 	HAL_TIM_Base_Stop(&htim4);		
 }
 
+void TIM_IC_Start(void){
+	TIM2->DIER |= TIM_DIER_CC1DE;
+	TIM2->DIER |= TIM_DIER_CC2DE;
+	
+	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
+	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);
+	
+	HAL_TIM_Base_Start(&htim2);	
+	HAL_TIM_Base_Start_IT(&htim4);	
+}
+
 void TIM_IC_Stop(void){
-	HAL_DMA_Abort(&hdma_tim2_ch1);
+	HAL_DMA_Abort(&hdma_tim2_ch1);	
+	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);	
+	
+	TIM2->DIER &= ~TIM_DIER_CC1DE;	
+	TIM2->DIER &= ~TIM_DIER_CC2DE;	
+	
+	HAL_TIM_Base_Stop_IT(&htim4);		
+	HAL_TIM_Base_Stop(&htim2);		
+}
+
+void TIM_IC1_PULSE_Start(void){
+	TIM2->DIER |= TIM_DIER_CC1DE;	
+	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
+}
+
+void TIM_IC1_PULSE_Stop(void){
+	TIM2->DIER &= ~TIM_DIER_CC1DE;	
+	HAL_DMA_Abort(&hdma_tim2_ch1);		
+}
+
+void TIM_IC2_PULSE_Start(void){		
+	TIM2->DIER |= TIM_DIER_CC2DE;	
+	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);			
+}
+
+void TIM_IC2_PULSE_Stop(void){
+	TIM2->DIER &= ~TIM_DIER_CC2DE;	
 	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
+}
+
+void TIM_TI_Start(void){
+	/* Get systick value to handle timout */
+	xStartTime = xTaskGetTickCount();
+	
+	HAL_TIM_Base_Start(&htim2);	
+	/* Set counter to zero after start command */
+	TIM2->CNT = 0x00;
+	HAL_TIM_Base_Start_IT(&htim4);	
+	
+	/* Enable Capture/Compare 1/2 DMA request */
+	TIM2->DIER |= TIM_DIER_CC1DE;
+	TIM2->DIER |= TIM_DIER_CC2DE;	
+	
+	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
+	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);			
+}
+
+void TIM_TI_Stop(void){
+	HAL_DMA_Abort(&hdma_tim2_ch1);
+	/* Disable Capture/Compare 1 DMA request */
+	TIM2->DIER &= ~TIM_DIER_CC1DE;
+	
+	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
+	TIM2->DIER &= ~ TIM_DIER_CC2DE;
+	
 	HAL_TIM_Base_Stop_IT(&htim4);	
-	HAL_TIM_Base_Stop(&htim2);	
+	HAL_TIM_Base_Stop(&htim2);
 }
 
 /* ************************************************************************************** */
@@ -660,7 +737,8 @@ void TIM_IC2_PSC_Config(uint8_t prescVal)
 }
 
 /**
-	* @brief  Functions used to select active adges - dedicated to Pulse measurement configuration. 						
+	* @brief  Functions used to select active adges - dedicated to Pulse measurement configuration 
+						of IC mode and TI events. 						
 	* @param  none
   * @retval none 
   */
@@ -674,6 +752,12 @@ void TIM_IC1_RisingOnly(void)
 	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1P | TIM_CCER_CC1NP);	
 }
 
+void TIM_IC1_FallingOnly(void)
+{
+	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1NP);	
+	TIM2->CCER |= (uint16_t)(TIM_CCER_CC1P);	
+}
+
 void TIM_IC2_RisingFalling(void)
 {
 	TIM2->CCER |= (TIM_CCER_CC2P | TIM_CCER_CC2NP);
@@ -682,6 +766,12 @@ void TIM_IC2_RisingFalling(void)
 void TIM_IC2_RisingOnly(void)
 {
 	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2P | TIM_CCER_CC2NP);	
+}
+
+void TIM_IC2_FallingOnly(void)
+{
+	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2NP);	
+	TIM2->CCER |= (uint16_t)(TIM_CCER_CC2P);	
 }
 
 /**
@@ -703,7 +793,7 @@ void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc)
 	TIM4->EGR |= TIM_EGR_UG;			
 }
 
-void TIM_Disable(void){
+void TIM_REF_SecondInputDisable(void){
 	TIM4->CR1 &= ~TIM_CR1_CEN;
 }
 
@@ -765,7 +855,10 @@ bool DMA_TransferComplete(DMA_HandleTypeDef *dmah)
 	uint32_t dmaIsrReg = dmah->DmaBaseAddress->ISR;	
 		
 	if(dmaIsrReg & (uint32_t)(DMA_FLAG_TC1 << dmah->ChannelIndex)){		
-		dmah->DmaBaseAddress->IFCR = DMA_FLAG_TC1 << dmah->ChannelIndex;		/* Clear the transfer complete flag */
+		if(counter.state == COUNTER_IC){
+			/* Clear the transfer complete flag */
+			dmah->DmaBaseAddress->IFCR = DMA_FLAG_TC1 << dmah->ChannelIndex;						
+		}		
 		return true;		
 	} else {		
 		return false;
@@ -776,14 +869,13 @@ bool DMA_TransferComplete(DMA_HandleTypeDef *dmah)
 void DMA_Restart(DMA_HandleTypeDef *dmah)
 {
 	if(dmah == &hdma_tim2_ch1){
-		HAL_DMA_Abort(&hdma_tim2_ch1);		
+		HAL_DMA_Abort(&hdma_tim2_ch1);				
 		HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);	
 	}else{
-		HAL_DMA_Abort(&hdma_tim2_ch2_ch4);		
+		HAL_DMA_Abort(&hdma_tim2_ch2_ch4);				
 		HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);	
 	}
 }
-
 
 /* ---------------------------- END OF COUNTER DEFINITIONS ------------------------------ */
 /* ************************************************************************************** */
@@ -934,7 +1026,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			counter.counterEtr.buffer = 0;
 			counter.sampleCntChange = SAMPLE_COUNT_CHANGED;					
 			
-		}else if(counter.state==COUNTER_IC){
+		}else if(counter.state==COUNTER_IC||counter.state==COUNTER_TI){
 		
 			__HAL_RCC_TIM2_CLK_ENABLE();
 		
@@ -954,7 +1046,11 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			hdma_tim2_ch2_ch4.Instance = DMA1_Channel7;
 			hdma_tim2_ch2_ch4.Init.Direction = DMA_PERIPH_TO_MEMORY;
 			hdma_tim2_ch2_ch4.Init.PeriphInc = DMA_PINC_DISABLE;
-			hdma_tim2_ch2_ch4.Init.MemInc = DMA_MINC_ENABLE;
+			if(counter.state==COUNTER_IC){
+				hdma_tim2_ch2_ch4.Init.MemInc = DMA_MINC_ENABLE;
+			}else{
+				hdma_tim2_ch2_ch4.Init.MemInc = DMA_MINC_DISABLE;
+			}
 			hdma_tim2_ch2_ch4.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
 			hdma_tim2_ch2_ch4.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
 			hdma_tim2_ch2_ch4.Init.Mode = DMA_NORMAL;
@@ -964,12 +1060,16 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			/* Several peripheral DMA handle pointers point to the same DMA handle.
 			 Be aware that there is only one channel to perform all the requested DMAs. */
 			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC2],hdma_tim2_ch2_ch4);
-//			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
+			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
 
 			hdma_tim2_ch1.Instance = DMA1_Channel5;
 			hdma_tim2_ch1.Init.Direction = DMA_PERIPH_TO_MEMORY;
 			hdma_tim2_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
-			hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
+			if(counter.state==COUNTER_IC){
+				hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
+			}else{
+				hdma_tim2_ch1.Init.MemInc = DMA_MINC_DISABLE;
+			}
 			hdma_tim2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
 			hdma_tim2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
 			hdma_tim2_ch1.Init.Mode = DMA_NORMAL;
@@ -989,14 +1089,23 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 //			HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 9, 0);
 //			HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);								
 			
-			counter.counterIc.psc = 0;		
-			counter.counterIc.arr = 0xFFFFFFFF;
-			counter.counterIc.ic1BufferSize = 2;			/* the lowest value of icxBufferSize is 2! - 1 sample */
-			counter.counterIc.ic2BufferSize = 2;
+			if(counter.state == COUNTER_IC){
+				counter.counterIc.ic1BufferSize = 2;			/* the lowest value of icxBufferSize is 2! - 1 sample for IC frequency measuring */
+				counter.counterIc.ic2BufferSize = 2;
+				counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
+				counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
+				counter.ic1Pulse = PULSE_MODE_DISABLED;
+				counter.ic2Pulse = PULSE_MODE_DISABLED;
+			}else{
+				counter.counterIc.ic1BufferSize = 1;			/* only 1 sample for one event that occurs on one single channel */
+				counter.counterIc.ic2BufferSize = 1;
+			}
 			counter.counterIc.ic1psc = 1;
 			counter.counterIc.ic2psc = 1;
-			counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
-			counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
+			TIM_IC1_PSC_Config(1);
+			TIM_IC2_PSC_Config(1);	
+			counter.counterIc.psc = 0;		
+			counter.counterIc.arr = 0xFFFFFFFF;
 			
 //			counter.counterIc.ic1buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic1BufferSize*sizeof(uint32_t));
 //			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));	
@@ -1018,7 +1127,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			GPIO_InitStruct.Alternate = GPIO_AF10_TIM4;
 			HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);	
 	
-		}else if(counter.state==COUNTER_IC){
+		}else if(counter.state==COUNTER_IC||counter.state==COUNTER_TI){
 			
 			HAL_NVIC_SetPriority(TIM4_IRQn, 9, 0);
 			HAL_NVIC_EnableIRQ(TIM4_IRQn);			
@@ -1096,7 +1205,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 			TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S_Msk;
 			TIM2 -> CCER &= ~TIM_CCER_CC1E;
 			
-		}else if(counter.state==COUNTER_IC){		
+		}else if(counter.state==COUNTER_IC||counter.state == COUNTER_TI){		
 			
 			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1);
 //			HAL_NVIC_DisableIRQ(DMA1_Channel5_IRQn);	
@@ -1113,6 +1222,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 			TIM2 -> CCER &= ~TIM_CCER_CC2E;			
 			TIM2 -> DIER &= ~TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request deinit */
 			TIM2 -> DIER &= ~TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request deinit */			
+			TIM2->CR1 &= ~TIM_CR1_OPM;							/* Deactivate one pulse mode */
 			
 	//		vPortFree(counter.counterIc.ic1buffer);
 	//		vPortFree(counter.counterIc.ic2buffer);
@@ -1129,7 +1239,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 		if(counter.state==COUNTER_REF){
 			HAL_GPIO_DeInit(GPIOA, GPIO_PIN_8);
 			
-		} else if(counter.state==COUNTER_IC){
+		} else if(counter.state==COUNTER_IC||counter.state==COUNTER_TI){
 			HAL_NVIC_DisableIRQ(TIM4_IRQn);
 			
 		}	else if(counter.state==COUNTER_ETR){
@@ -1259,7 +1369,6 @@ void TIMGenPWMDisable(void){
 void TIMGenDacDeinit(void){
 	HAL_TIM_Base_DeInit(&htim6);
 	HAL_TIM_Base_DeInit(&htim7);
-//	GEN_DAC_DMA_deinit();
 }
 
 void TIM_GEN_PWM_PSC_Config(uint16_t pscVal, uint8_t chan){

@@ -25,10 +25,17 @@ typedef uint32_t command;
 
 #define STR_CNT_ETR_DATA "ETRD"		// data from ETR measurement
 #define STR_CNT_ETR_BUFF "ETRB"		// buffer itself
+
 #define STR_CNT_REF_DATA "REFD"		// data from REF measurement
+#define STR_CNT_REF_WARN "WARN"		// reference counter sample count warning
+
 #define STR_CNT_IC1_DATA "IC1D"		// data from IC1 channel meas.
 #define STR_CNT_IC2_DATA "IC2D"		// data from IC2 channel meas.
-#define STR_CNT_REF_WARN "WARN"		// reference counter sample count warning
+
+#define STR_CNT_TI_BUF1  "BUF1"		// Buf1 bigger than Buf2
+#define STR_CNT_TI_BUF2  "BUF2"		// Buf2 bigger than Buf1
+#define STR_CNT_TI_EQUAL "EQUL"		// Buffers equal
+#define STR_CNT_TI_TIMEOUT "TMOT"	// Timeout occured
 
 #endif //USE_COUNTER
 
@@ -127,7 +134,12 @@ REGISTER_CMD(CNT_SAMPLE_COUNT2,BUF2),
 REGISTER_CMD(CNT_PRESC1,PRE1),
 REGISTER_CMD(CNT_PRESC2,PRE2),
 
-REGISTER_CMD(CNT_PULSE,PULS),
+REGISTER_CMD(CNT_PMODE,PMOD),						// Command to set mode
+REGISTER_CMD(CNT_PULSE,PULS),						// Start stop pulse measurement channels independent
+
+//Counter IC and TI commands
+REGISTER_CMD(CNT_EVENT,EVNT),
+REGISTER_CMD(CNT_TIMEOUT_TIM,TIMO),
 
 //Counter REF commands
 REGISTER_CMD(CNT_MULT_PSC,PSC_),						
@@ -139,12 +151,14 @@ REGISTER_CMD(CNT_MULT_ARR,ARR_),				// set PSC x ARR number of ticks to count fr
 enum{
 REGISTER_CMD(MODE_ETR,ETR_),
 REGISTER_CMD(MODE_IC,IC__),
-REGISTER_CMD(MODE_REF,REF_)
+REGISTER_CMD(MODE_REF,REF_),
+REGISTER_CMD(MODE_TI,TI__)
 };
 
 #define isCounterMode(CMD) (((CMD) == CMD_MODE_ETR) || \
                            ((CMD) == CMD_MODE_IC) || \
-													 ((CMD) == CMD_MODE_REF))
+													 ((CMD) == CMD_MODE_REF) || \
+													 ((CMD) == CMD_MODE_TI))
 
 //Counter ETR sampling times
 enum{
@@ -187,18 +201,48 @@ REGISTER_CMD(PRESC2_8x,8x__),
 																((CMD) == CMD_PRESC2_4x) || \
 																((CMD) == CMD_PRESC2_8x))		
 
-//Counter IC pulse mode change configuration
+//Counter IC pulse mode change configuration + TI (time interval)
 enum{
-REGISTER_CMD(PULSE_PLI1,PLI1), // Pulse measurement channel 1 init
-REGISTER_CMD(PULSE_PLI2,PLI2), // Pulse measurement channel 2 init
-REGISTER_CMD(PULSE_PLD1,PLD1), // Pulse measurement channel 1 deinit
-REGISTER_CMD(PULSE_PLD2,PLD2), // Pulse measurement channel 2 deinit
+REGISTER_CMD(EVENT_RF1,RF1_),  // Rising Falling event channel 1 (Pulse measurement channel 1 init)
+REGISTER_CMD(EVENT_RF2,RF2_),  // Rising Falling event channel 2 (Pulse measurement channel 2 init) PULSE_PLI2
+REGISTER_CMD(EVENT_RO1,RO1_),  // Rising only event channel 1 (Pulse measurement channel 1 deinit)
+REGISTER_CMD(EVENT_RO2,RO2_),  // Rising only event channel 2 (Pulse measurement channel 2 deinit)
+REGISTER_CMD(EVENT_FO1,FO1_),  // Falling only event channel 1
+REGISTER_CMD(EVENT_FO2,FO2_),	 // Falling only event channel 2
 };
 
-#define isCounterIcPulse(CMD) (((CMD) == CMD_PULSE_PLI1) || \
-																((CMD) == CMD_PULSE_PLI2) || \
-																((CMD) == CMD_PULSE_PLD1) || \
-																((CMD) == CMD_PULSE_PLD2))		
+#define isCounterIcTiEvent(CMD) (((CMD) == CMD_EVENT_RF1) || \
+																((CMD) == CMD_EVENT_RF2) || \
+																((CMD) == CMD_EVENT_RO1) || \
+																((CMD) == CMD_EVENT_RO2)	|| \
+																((CMD) == CMD_EVENT_FO1)	|| \
+																((CMD) == CMD_EVENT_FO2))
+
+//Counter IC pulse channels start/stopg
+enum{
+REGISTER_CMD(PULSE_START_CH1,PST1), 
+REGISTER_CMD(PULSE_START_CH2,PST2), 
+REGISTER_CMD(PULSE_STOP_CH1,PSP1), 
+REGISTER_CMD(PULSE_STOP_CH2,PSP2), 
+};
+
+#define isCounterIcPulse(CMD) (((CMD) == CMD_PULSE_START_CH1) || \
+															((CMD) == CMD_PULSE_START_CH2) || \
+															((CMD) == CMD_PULSE_STOP_CH1) || \
+															((CMD) == CMD_PULSE_STOP_CH2))
+
+//Counter IC pulse channels start/stopg
+enum{
+REGISTER_CMD(PMODE_ENABLE_CH1,PEN1), 
+REGISTER_CMD(PMODE_ENABLE_CH2,PEN2), 
+REGISTER_CMD(PMODE_DISABLE_CH1,PDI1), 
+REGISTER_CMD(PMODE_DISABLE_CH2,PDI2), 
+};
+
+#define isCounterIcPulseMode(CMD) (((CMD) == CMD_PMODE_ENABLE_CH1) || \
+																	((CMD) == CMD_PMODE_ENABLE_CH2) || \
+																	((CMD) == CMD_PMODE_DISABLE_CH1) || \
+																	((CMD) == CMD_PMODE_DISABLE_CH2))
 
 //Generator modes
 enum{
