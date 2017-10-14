@@ -59,19 +59,18 @@ namespace LEO
         public const string CNT_EVENT_FALLING_ONLY_CH1 = "FO1_";
         public const string CNT_EVENT_FALLING_ONLY_CH2 = "FO2_";
 
-        // Counter IC Pulse start/stop channel x
-        public const string CNT_PULSE = "PULS";
-        public const string CNT_PULSE_START_CH1 = "PST1";
-        public const string CNT_PULSE_START_CH2 = "PST2";
-        public const string CNT_PULSE_STOP_CH1 = "PSP1";
-        public const string CNT_PULSE_STOP_CH2 = "PSP2";
+        // Counter IC Duty cycle measurement init/deinit channel x
+        public const string CNT_DUTY_CYCLE = "DUCY";
+        public const string CNT_DUTY_CYCLE_INIT_CH1 = "DCI1";
+        public const string CNT_DUTY_CYCLE_INIT_CH2 = "DCI2";
+        public const string CNT_DUTY_CYCLE_DEINIT_CH1 = "DCD1";
+        public const string CNT_DUTY_CYCLE_DEINIT_CH2 = "DCD2";
+        public const string CNT_DUTY_CYCLE_ENABLE = "DCE_";
+        public const string CNT_DUTY_CYCLE_DISABLE = "DCX_";
 
-        // Counter IC Pulse enable/disable channel x
-        public const string CNT_PMODE = "PMOD";
-        public const string CNT_PMODE_ENABLE_CH1 = "PEN1";
-        public const string CNT_PMODE_ENABLE_CH2 = "PEN2";
-        public const string CNT_PMODE_DISABLE_CH1 = "PDI1";
-        public const string CNT_PMODE_DISABLE_CH2 = "PDI2";
+        // Counter IC receive Duty cycle andpulse width
+        public const string CNT_DUTY_CYCLE_RECEIVE = "DUT1";
+        public const string CNT_PULSE_WIDTH_RECEIVE = "PWD1";
 
         // Counter IC prescalers configuration
         public const string CNT_IC_PSC_CH1 = "PRE1";

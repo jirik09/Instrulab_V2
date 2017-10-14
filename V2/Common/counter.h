@@ -44,11 +44,12 @@ typedef enum{
 }counterIcChannel2;
 
 typedef enum{
-	PULSE_MODE_ENABLED = 0,
-	PULSE_MODE_DISABLED
-}counterIcPulse;
+	DUTY_CYCLE_DISABLED = 0,
+	DUTY_CYCLE_CH1_ENABLED,
+	DUTY_CYCLE_CH2_ENABLED
+}counterIcDutyCycle;
 
-typedef enum{
+typedef enum{	
 	SAMPLE_COUNT_CHANGED = 0,
 	SAMPLE_COUNT_NOT_CHANGED
 }counterRefSmplCntChange;
@@ -107,8 +108,7 @@ typedef struct{
 	counterIcChannel1 icChannel1;
 	counterIcChannel2 icChannel2;
 	counterIcBin icBin;	
-	counterIcPulse ic1Pulse;
-	counterIcPulse ic2Pulse;
+	counterIcDutyCycle icDutyCycle;
 	counterTiState tiState;	
 }counterTypeDef;
 
@@ -147,16 +147,14 @@ void counterSetIcTi2_Falling(void);
 void counterIc1BufferConfig(uint16_t ic1buffSize);
 void counterIc2BufferConfig(uint16_t ic2buffSize);
 void counterIcProcess(void);
+void counterIcDutyCycleProcess(void);
 
-void counterIc1PulseStart(void);
-void counterIc2PulseStart(void);
-void counterIc1PulseStop(void);
-void counterIc2PulseStop(void);
-
-void counterIc1PulseModeEnable(void);
-void counterIc2PulseModeEnable(void);
-void counterIc1PulseModeDisable(void);
-void counterIc2PulseModeDisable(void);
+void counterIc1DutyCycleInit(void);
+void counterIc1DutyCycleDeinit(void);
+void counterIc2DutyCycleInit(void);
+void counterIc2DutyCycleDeinit(void);
+void counterIcDutyCycleEnable(void);
+void counterIcDutyCycleDisable(void);
 
 /* TI mode functions */
 void counterTiProcess(void);

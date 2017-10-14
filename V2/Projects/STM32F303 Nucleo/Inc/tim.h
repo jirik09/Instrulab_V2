@@ -108,6 +108,7 @@ static void MX_TIM4_Init(void);
 static void MX_TIM2_ETRorREF_Init(void);
 static void MX_TIM2_ICorTI_Init(void);
 
+/* Modes initialization functions */
 void TIM_counter_etr_init(void);
 void TIM_counter_ref_init(void);
 void TIM_counter_ic_init(void);
@@ -128,11 +129,6 @@ void TIM_REF_Stop(void);
 void TIM_IC_Stop(void);
 void TIM_TI_Stop(void);
 
-void TIM_IC1_PULSE_Start(void);
-void TIM_IC2_PULSE_Start(void);
-void TIM_IC1_PULSE_Stop(void);
-void TIM_IC2_PULSE_Stop(void);
-
 /* counter specific */
 void TIM_ETRP_Config(double freq);
 void TIM_IC1PSC_Config(double freq);
@@ -147,6 +143,12 @@ void TIM_IC1_RisingOnly(void);
 void TIM_IC2_RisingOnly(void);
 void TIM_IC1_FallingOnly(void);
 void TIM_IC2_FallingOnly(void);
+
+void TIM_IC_DutyCycle_Start(void);
+void TIM_IC_DutyCycle_Stop(void);
+void TIM_IC_DutyCycle_Init(void);
+void TIM_IC_DutyCycle_Deinit(void);
+void TIM_IC_DutyCycleDmaRestart(void);
 
 void TIM_REF_SecondInputDisable(void);
 void TIM_TI_Clear(void);

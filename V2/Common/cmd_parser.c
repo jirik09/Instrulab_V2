@@ -235,32 +235,27 @@ command parseCounterCmd(void)
 				}
 			}				
 			break;	
-		case CMD_CNT_PULSE:			
+		case CMD_CNT_DUTY_CYCLE:			
 			cmdIn = giveNextCmd();
-			if(isCounterIcPulse(cmdIn)){
-				if(cmdIn == CMD_PULSE_START_CH1){
-					counterIc1PulseStart();
-				}else if(cmdIn == CMD_PULSE_START_CH2){
-					counterIc2PulseStart();
-				}else if(cmdIn == CMD_PULSE_STOP_CH1){
-					counterIc1PulseStop();
-				}else if(cmdIn == CMD_PULSE_STOP_CH2){
-					counterIc2PulseStop();
+			if(isCounterIcDutyCycle(cmdIn)){
+				if(cmdIn == CMD_DUTY_CYCLE_INIT_CH1){
+					counterIc1DutyCycleInit();
+				}else if(cmdIn == CMD_DUTY_CYCLE_DEINIT_CH1){
+					counterIc1DutyCycleDeinit();
+				}else if(cmdIn == CMD_DUTY_CYCLE_ENABLE){
+					counterIcDutyCycleEnable();
+				}else if(cmdIn == CMD_DUTY_CYCLE_DISABLE){
+					counterIcDutyCycleDisable();
+				}else if(cmdIn == CMD_DUTY_CYCLE_INIT_CH2){
+					counterIc2DutyCycleInit();
+				}else if(cmdIn == CMD_DUTY_CYCLE_DEINIT_CH2){
+					counterIc2DutyCycleDeinit();
+				}else if(cmdIn == CMD_DUTY_CYCLE_ENABLE){
+					counterIcDutyCycleEnable();
+				}else if(cmdIn == CMD_DUTY_CYCLE_DISABLE){
+					counterIcDutyCycleDisable();
 				}
-			}		
-		case CMD_CNT_PMODE:			
-			cmdIn = giveNextCmd();
-			if(isCounterIcPulseMode(cmdIn)){
-				if(cmdIn == CMD_PMODE_ENABLE_CH1){
-					counterIc1PulseModeEnable();
-				}else if(cmdIn == CMD_PMODE_ENABLE_CH2){
-					counterIc2PulseModeEnable();
-				}else if(cmdIn == CMD_PMODE_DISABLE_CH1){
-					counterIc1PulseModeDisable();
-				}else if(cmdIn == CMD_PMODE_DISABLE_CH2){
-					counterIc2PulseModeDisable();
-				}
-			}				
+			}					
 			break;	
 		case CMD_CNT_PRESC1:			
 			cmdIn = giveNextCmd();

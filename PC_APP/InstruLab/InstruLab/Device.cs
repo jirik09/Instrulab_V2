@@ -658,7 +658,7 @@ namespace LEO
                                     ushort depth = (ushort)Math.Pow(2, res);
                                     for (i = 0; i < leng / 2; i++)
                                     {
-                                        scopeCfg.samples[currChan - 1, i] = (ushort)(depth - BitConverter.ToUInt16(scopeCfg.buffer, i * 2));
+                                        scopeCfg.samples[currChan - 1, i] = (ushort)(depth - BitConverter.ToUInt16(scopeCfg.buffer, i * 2));                                       
                                     }
                                 }
                                 else {
@@ -849,6 +849,8 @@ namespace LEO
                             {
                                 logRecieved("Counter freq IC1 was not parsed  " + new string(inputValIc1, 0, 4));
                             }
+
+                            port.DiscardInBuffer();
                             break;
                         /************************* IC2 data *************************/
                         case Commands.CNT_IC2_DATA:
@@ -869,6 +871,48 @@ namespace LEO
                             catch (Exception ex)
                             {
                                 logRecieved("Counter freq IC2 was not parsed  " + new string(inputValIc2, 0, 4));
+                            }
+                            break;
+                        /************************* IC1 Duty Cycle *************************/
+                        case Commands.CNT_DUTY_CYCLE_RECEIVE:
+                            while (port.BytesToRead < 6)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+                            char[] inputValIcDc1 = new char[64];
+                            port.Read(inputValIcDc1, 0, 6);
+
+                            try
+                            {
+                                cntMessage = new string(inputValIcDc1, 0, 6);
+                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DUTY_CYCLE, "IC_DUTY_CYCLE", freq));
+                            }
+                            catch (Exception ex)
+                            {
+                                logRecieved("Counter IC1 duty cycle was not parsed  " + new string(inputValIcDc1, 0, 4));
+                            }
+
+                            port.DiscardInBuffer();
+                            break;
+                        /************************* IC1 Pulse Width  *************************/
+                        case Commands.CNT_PULSE_WIDTH_RECEIVE:
+                            while (port.BytesToRead < 15)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+                            char[] inputValIcPw1 = new char[64];
+                            port.Read(inputValIcPw1, 0, 15);
+
+                            try
+                            {
+                                cntMessage = new string(inputValIcPw1, 0, 15);
+                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_PULSE_WIDTH, "IC_PULSE_WIDTH", freq));
+                            }
+                            catch (Exception ex)
+                            {
+                                logRecieved("Counter pulse width was not parsed  " + new string(inputValIcPw1, 0, 4));
                             }
                             break;
                         /************************* REF data *************************/

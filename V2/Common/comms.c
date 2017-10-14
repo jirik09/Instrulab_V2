@@ -29,7 +29,7 @@ xQueueHandle messageQueue;
 static xSemaphoreHandle commsMutex ;
 static uint8_t commBuffMem[COMM_BUFFER_SIZE];
 static commBuffer comm;
-
+	char cntMessage[30];
 void sendSystConf(void);
 void sendCommsConf(void);
 void sendScopeConf(void);
@@ -63,7 +63,7 @@ void CommTask(void const *argument){
 	messageQueue = xQueueCreate(5, 30);
 	commsMutex = xSemaphoreCreateRecursiveMutex();
 	char message[30];
-	char cntMessage[30];
+
 	#ifdef USE_SCOPE
 	uint8_t header[16]="OSC_yyyyxxxxCH0x";
 	uint8_t *pointer;
@@ -219,14 +219,34 @@ void CommTask(void const *argument){
 				commsSendString(cntMessage);										
 				
 			/* IC mode configured channel 1 */	
-			}else if(counter.state==COUNTER_IC){						
+			}else if(counter.state==COUNTER_IC){		
 				
-				if(counter.icChannel1==COUNTER_IRQ_IC1){												
-					commsSendString(STR_CNT_IC1_DATA);
-					sprintf(cntMessage, "%016.6f", counter.counterIc.ic1freq);
-					commsSendString(cntMessage);	
-					counter.icChannel1=COUNTER_IRQ_IC1_PASS;
-				}		
+				if(counter.icDutyCycle == DUTY_CYCLE_DISABLED){	
+					
+					if(counter.icChannel1==COUNTER_IRQ_IC1){												
+						commsSendString(STR_CNT_IC1_DATA);
+						sprintf(cntMessage, "%016.6f", counter.counterIc.ic1freq);
+						commsSendString(cntMessage);	
+						counter.icChannel1=COUNTER_IRQ_IC1_PASS;
+					}	
+
+					if(counter.icChannel2==COUNTER_IRQ_IC2){							
+						commsSendString(STR_CNT_IC2_DATA);	
+						sprintf(cntMessage, "%016.6f", counter.counterIc.ic2freq);
+						commsSendString(cntMessage);															
+						counter.icChannel2=COUNTER_IRQ_IC2_PASS;
+					}						
+
+				}else{		
+					
+					commsSendString(STR_CNT_DUTY_CYCLE);
+					sprintf(cntMessage, "%06.3f", counter.counterIc.ic1freq);
+					commsSendString(cntMessage);		
+				
+//					commsSendString(STR_CNT_PULSE_WIDTH);
+//					sprintf(cntMessage, "%015.12f", counter.counterIc.ic2freq);
+//					commsSendString(cntMessage);	
+				}					
 
 			/* TI mode configured */		
 			}else if(counter.state==COUNTER_TI){						
@@ -252,23 +272,13 @@ void CommTask(void const *argument){
 				}
 				commsSendString(cntMessage);					
 				counter.tiState = CLEAR;
-			}				
-			
-		/* IC mode configured channel 2 */	
-		}else if(message[0]=='L'){
-
-			if(counter.icChannel2==COUNTER_IRQ_IC2){							
-				commsSendString(STR_CNT_IC2_DATA);	
-				sprintf(cntMessage, "%016.6f", counter.counterIc.ic2freq);
-				commsSendString(cntMessage);															
-				counter.icChannel2=COUNTER_IRQ_IC2_PASS;
-			}		
-			
+			}								
+	
 		}else if(message[0]=='O'){
-				commsSendString(STR_CNT_REF_WARN);			
-				sprintf(cntMessage, "%02d", 2);
-				commsSendString(cntMessage);			
-
+			commsSendString(STR_CNT_REF_WARN);			
+			sprintf(cntMessage, "%02d", 2);
+			commsSendString(cntMessage);			
+			
 			#endif //USE_COUNTER			
 		/* ---------------------------------------------------- */	
 		/* ------------------ END OF COUNTER ------------------ */
@@ -346,7 +356,7 @@ void CommTask(void const *argument){
 			commsSendString(message);
 			/////commsSendString("\r\n");
 		}
-		xSemaphoreGiveRecursive(commsMutex);
+		xSemaphoreGiveRecursive(commsMutex);		
 	}
 }
 

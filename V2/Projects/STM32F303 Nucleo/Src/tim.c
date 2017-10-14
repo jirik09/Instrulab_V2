@@ -334,7 +334,7 @@ static void MX_TIM4_Init(void)
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-
+	
 	HAL_TIM_Base_Init(&htim4);
 
 	if(counter.state == COUNTER_REF){
@@ -347,7 +347,7 @@ static void MX_TIM4_Init(void)
 	}
   HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig);
 
-	sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;	 // TIM_TRGO_OC1 // TIM_TRGO_RESET // TIM_TRGO_UPDATE
+	sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
 	if((counter.state == COUNTER_IC) || (counter.state == COUNTER_TI)){
 		sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
 	}else{
@@ -387,10 +387,11 @@ static void MX_TIM2_ETRorREF_Init(void)
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig);
 
-	TIM2 -> DIER |= TIM_DIER_UDE;					/* __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE); */			
-	TIM2 -> CCMR1 |= TIM_CCMR1_CC1S_Msk;  	/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TRC	*/
-	TIM2 -> CCER |= TIM_CCER_CC1E;					/* CC1 channel configured as input: This bit determines if a capture of the counter value can
-																					 actually be done into the input capture/compare register 1 (TIMx_CCR1) or not.  */																			 
+	TIM2 -> CCMR1 &= ~TIM_CCMR1_CC1S;
+	TIM2 -> CCMR1 &= ~TIM_CCMR1_CC2S;
+
+	TIM2 -> DIER  |= TIM_DIER_UDE;					/* __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE); */			
+	TIM2 -> CCMR1 |= TIM_CCMR1_CC1S;  			/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TRC	*/																		 
 }
 
 /* TIM2 mode IC init function */
@@ -467,7 +468,7 @@ void TIM_counter_ti_init(void){
 	MX_TIM4_Init();	
 	MX_TIM2_ICorTI_Init();
 	/* Do not run timer after initialization, wait for start command */
-	TIM2->CR1 &= ~(TIM_CR1_CEN);
+	TIM2->CR1 &= ~TIM_CR1_CEN;
 }
 
 /* HAL_RCCEx_GetPeriphCLKFreq function does not count with PLL clock source for TIM2 */
@@ -504,26 +505,34 @@ void TIM_ti_deinit(void){
 /* ************************************************************************************** */
 /* ------------------------- Counter timer START STOP functions ------------------------- */
 /* ************************************************************************************** */
-void TIM_ETR_Start(void){
+void TIM_ETR_Start(void)
+{		
 	HAL_TIM_Base_Start(&htim2);			
 	HAL_TIM_Base_Start(&htim4);	
-	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);	
+	HAL_DMA_Start_IT(&hdma_tim2_up, (uint32_t)&(TIM2->CCR1), (uint32_t)&counter.counterEtr.buffer, 1);
 	
-	/* Uncomment to get rid of the first random number */
-	if(counter.state == COUNTER_ETR){
-		counter.sampleCntChange = SAMPLE_COUNT_CHANGED;	
-		startTime = HAL_GetTick();	
-		TIM4->EGR |= TIM_EGR_UG;	
-	}
+	/* DMA requests enable */
+	TIM2->DIER |= TIM_DIER_CC1DE;		
+	TIM2->CCER |= TIM_CCER_CC1E;
+	TIM4->EGR |= TIM_EGR_UG;	
+	
+	counter.sampleCntChange = SAMPLE_COUNT_CHANGED;
 }
 
-void TIM_ETR_Stop(void){
+void TIM_ETR_Stop(void)
+{
 	HAL_DMA_Abort_IT(&hdma_tim2_up);		
 	HAL_TIM_Base_Stop(&htim2);	
-	HAL_TIM_Base_Stop(&htim4);		
+	HAL_TIM_Base_Stop(&htim4);
+
+	/* DMA requests disable */
+	TIM2->DIER &= ~TIM_DIER_CC1DE;	
+	TIM2->DIER &= ~TIM_DIER_CC2DE;	
 }
 
-void TIM_IC_Start(void){
+void TIM_IC_Start(void)
+{
+	/* DMA requests enable */
 	TIM2->DIER |= TIM_DIER_CC1DE;
 	TIM2->DIER |= TIM_DIER_CC2DE;
 	
@@ -532,41 +541,34 @@ void TIM_IC_Start(void){
 	
 	HAL_TIM_Base_Start(&htim2);	
 	HAL_TIM_Base_Start_IT(&htim4);	
+	
+	/* Enable capturing */
+	TIM2->CCER |= TIM_CCER_CC2E;
+	TIM2->CCER |= TIM_CCER_CC1E;
 }
 
-void TIM_IC_Stop(void){
+void TIM_IC_Stop(void)
+{
+	/* Disable capturing*/
+	TIM2->CCER &= ~TIM_CCER_CC1E; 	
+	TIM2->CCER &= ~TIM_CCER_CC2E; 	
+	
+	/* Abort DMA transfers */
 	HAL_DMA_Abort(&hdma_tim2_ch1);	
 	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);	
 	
+	/* DMA requests disable */
 	TIM2->DIER &= ~TIM_DIER_CC1DE;	
 	TIM2->DIER &= ~TIM_DIER_CC2DE;	
 	
+	/* Stop timers */
 	HAL_TIM_Base_Stop_IT(&htim4);		
-	HAL_TIM_Base_Stop(&htim2);		
+	HAL_TIM_Base_Stop(&htim2);	
 }
 
-void TIM_IC1_PULSE_Start(void){
-	TIM2->DIER |= TIM_DIER_CC1DE;	
-	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
-}
-
-void TIM_IC1_PULSE_Stop(void){
-	TIM2->DIER &= ~TIM_DIER_CC1DE;	
-	HAL_DMA_Abort(&hdma_tim2_ch1);		
-}
-
-void TIM_IC2_PULSE_Start(void){		
-	TIM2->DIER |= TIM_DIER_CC2DE;	
-	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);			
-}
-
-void TIM_IC2_PULSE_Stop(void){
-	TIM2->DIER &= ~TIM_DIER_CC2DE;	
-	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
-}
-
-void TIM_TI_Start(void){
-	/* Get systick value to handle timout */
+void TIM_TI_Start(void)
+{
+	/* Get systick value to handle timeout */
 	xStartTime = xTaskGetTickCount();
 	
 	HAL_TIM_Base_Start(&htim2);	
@@ -582,7 +584,8 @@ void TIM_TI_Start(void){
 	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);			
 }
 
-void TIM_TI_Stop(void){
+void TIM_TI_Stop(void)
+{
 	HAL_DMA_Abort(&hdma_tim2_ch1);
 	/* Disable Capture/Compare 1 DMA request */
 	TIM2->DIER &= ~TIM_DIER_CC1DE;
@@ -592,6 +595,137 @@ void TIM_TI_Stop(void){
 	
 	HAL_TIM_Base_Stop_IT(&htim4);	
 	HAL_TIM_Base_Stop(&htim2);
+}
+
+
+/* ************************************************************************************** */
+/* ------------------------------ IC duty cycle functions ------------------------------- */
+/* ************************************************************************************** */
+
+void TIM_IC_DutyCycleDmaRestart(void)
+{	
+	HAL_DMA_Abort(&hdma_tim2_ch1);
+	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
+	
+	/* Set DMA CNDTR buffer count */
+	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, 1);  //
+	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, 1);				
+}
+
+void TIM_IC_DutyCycle_Init(void)
+{	
+	/* Stop timer elapse event interrupt first */
+	HAL_TIM_Base_Stop_IT(&htim4);	
+	
+	/* Disable capturing to configure CCxS */
+	TIM2->CCER &= ~TIM_CCER_CC1E; 	
+	TIM2->CCER &= ~TIM_CCER_CC2E; 
+
+	if(counter.icDutyCycle == DUTY_CYCLE_CH1_ENABLED){	
+		/* Set IC1 prescaler to 1 */
+		TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;		
+		/* Select the active input for CCR1 */
+		TIM2->CCMR1 &= ~TIM_CCMR1_CC1S;
+		TIM2->CCMR1 |= TIM_CCMR1_CC1S_0;	
+		/* Select the active polarity for TI1FP1 (rising edge) */
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1P | TIM_CCER_CC1NP);
+		/* Select the active input for CCR2 */
+		TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;
+		TIM2->CCMR1 |= TIM_CCMR1_CC2S_1;	
+		/* Select the active polarity for TI1FP2 (falling edge) */
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2NP);	
+		TIM2->CCER |= (uint16_t)(TIM_CCER_CC2P);		
+		/* Select the valid trigger input */
+		TIM2->SMCR &= ~TIM_SMCR_TS;
+		TIM2->SMCR |= TIM_SMCR_TS_0 | TIM_SMCR_TS_2;
+	}else{
+		/* Set IC2 prescaler to 1 */
+		TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+		/* Select the active input for CCR1 */
+		TIM2->CCMR1 &= ~TIM_CCMR1_CC1S;
+		TIM2->CCMR1 |= TIM_CCMR1_CC1S_1;	
+		/* Select the active polarity for TI1FP1 (falling edge) */
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1NP);	
+		TIM2->CCER |= (uint16_t)(TIM_CCER_CC1P);
+		/* Select the active input for CCR2 */
+		TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;
+		TIM2->CCMR1 |= TIM_CCMR1_CC2S_0;	
+		/* Select the active polarity for TI1FP2 (rising edge) */			
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2P | TIM_CCER_CC2NP);
+		/* Select the valid trigger input */
+		TIM2->SMCR &= ~TIM_SMCR_TS;
+		TIM2->SMCR |= TIM_SMCR_TS_1 | TIM_SMCR_TS_2;		
+	}
+	
+	/* Configure the slave mode controller in reset mode */
+	TIM2->SMCR &= ~TIM_SMCR_SMS;
+	TIM2->SMCR |= TIM_SMCR_SMS_2;
+}
+
+void TIM_IC_DutyCycle_Deinit(void)
+{			
+	/* Select the active input for CCR1 */
+	TIM2->CCMR1 &= ~TIM_CCMR1_CC1S;
+	TIM2->CCMR1 |= TIM_CCMR1_CC1S_0;			
+	/* Select the active polarity for TI1FP1 (rising edge) */
+	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1P | TIM_CCER_CC1NP);		
+	/* Select the active input for CCR2 */
+	TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;
+	TIM2->CCMR1 |= TIM_CCMR1_CC2S_0;	
+	/* Select the active polarity for TI1FP2 (rising edge) */
+	TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2P | TIM_CCER_CC2NP);	
+	/* Unselect the trigger input */
+	TIM2->SMCR &= ~TIM_SMCR_TS;		
+	/* Disable the slave mode controller */
+	TIM2->SMCR &= ~TIM_SMCR_SMS;
+	/* Start DMAs */
+	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, counter.counterIc.ic1BufferSize);
+	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, counter.counterIc.ic2BufferSize);	
+	/* DMA requests enable */
+	TIM2->DIER |= TIM_DIER_CC1DE;
+	TIM2->DIER |= TIM_DIER_CC2DE;	
+	HAL_TIM_Base_Start_IT(&htim4);		
+	/* Enable capturing */
+	TIM2->CCER |= TIM_CCER_CC1E;
+	TIM2->CCER |= TIM_CCER_CC2E;		
+}
+
+void TIM_IC_DutyCycle_Start(void)
+{	
+	/* Set DMA CNDTR buffer count */
+	HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, 1);
+	HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, 1);				
+
+	
+	HAL_TIM_Base_Start(&htim2);	
+	HAL_TIM_Base_Start_IT(&htim4);		
+	
+	/* DMA requests enable */
+	TIM2->DIER |= TIM_DIER_CC1DE;
+	TIM2->DIER |= TIM_DIER_CC2DE;
+
+	/* Enable capturing */
+	TIM2->CCER |= TIM_CCER_CC2E;
+	TIM2->CCER |= TIM_CCER_CC1E;	
+
+	/* The very first number transfered by DMA on first event (timer triggered)
+		 is random number (who knows why) -> throw away */
+	counter.icBin = BIN0;	
+}
+
+void TIM_IC_DutyCycle_Stop(void)
+{
+	/* Abort DMA transfers */
+	HAL_DMA_Abort(&hdma_tim2_ch1);	
+	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);	
+	
+	/* Disable capture to configure CCxS */
+	TIM2->CCER &= ~TIM_CCER_CC1E; 	
+	TIM2->CCER &= ~TIM_CCER_CC2E; 	
+	
+	/* DMA requests disable */
+	TIM2->DIER &= ~TIM_DIER_CC1DE;
+	TIM2->DIER &= ~TIM_DIER_CC2DE;
 }
 
 /* ************************************************************************************** */
@@ -775,22 +909,23 @@ void TIM_IC2_FallingOnly(void)
 }
 
 /**
-	* @brief  Function setting ARR and PSC values of TIM4 (gate time). 
+	* @brief  Function settings ARR and PSC values of TIM4 (gate time) - ETR, REF
 	* @params arr, psc
   * @retval none 
   */
 void TIM_ARR_PSC_Config(uint16_t arr, uint16_t psc)
-{			
+{					
 	TIM4->ARR = arr;
 	TIM4->PSC = psc;
 	
-	if(counter.state!=COUNTER_IC){
+	if(counter.state!=COUNTER_IC){							
+		xStartTime = xTaskGetTickCount();		
+		TIM4->CR1 |= TIM_CR1_CEN;				
 		counter.sampleCntChange = SAMPLE_COUNT_CHANGED;
-		TIM4->CR1 |= TIM_CR1_CEN;			
-		startTime = HAL_GetTick();			
-	}
-	/* Generate an update event to reload the Prescaler and the repetition counter immediately */
-	TIM4->EGR |= TIM_EGR_UG;			
+	}		
+	
+	/* Generate an update event to reload the Prescaler and the repetition counter immediately */		
+	TIM4->EGR |= TIM_EGR_UG;
 }
 
 void TIM_REF_SecondInputDisable(void){
@@ -1093,9 +1228,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				counter.counterIc.ic1BufferSize = 2;			/* the lowest value of icxBufferSize is 2! - 1 sample for IC frequency measuring */
 				counter.counterIc.ic2BufferSize = 2;
 				counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
-				counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
-				counter.ic1Pulse = PULSE_MODE_DISABLED;
-				counter.ic2Pulse = PULSE_MODE_DISABLED;
+				counter.icChannel2 = COUNTER_IRQ_IC2_PASS;				
 			}else{
 				counter.counterIc.ic1BufferSize = 1;			/* only 1 sample for one event that occurs on one single channel */
 				counter.counterIc.ic2BufferSize = 1;

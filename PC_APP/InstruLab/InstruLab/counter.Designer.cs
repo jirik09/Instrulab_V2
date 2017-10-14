@@ -34,13 +34,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitCounterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channel1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.signalDividersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.signalDividersToolStripMenuItem_ch1 = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh1_1x = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh1_2x = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh1_4x = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh1_8x = new System.Windows.Forms.ToolStripMenuItem();
             this.channel2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sampleCountMultipliersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.signalDividersToolStripMenuItem_ch2 = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh2_1x = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh2_2x = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh2_4x = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +48,7 @@
             this.tabPage_REF = new System.Windows.Forms.TabPage();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
+            this.label_cnt_ref_maxFreq = new System.Windows.Forms.Label();
             this.label_cnt_ref_sec_input = new System.Windows.Forms.Label();
             this.label_cnt_ref_input = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -70,22 +70,18 @@
             this.cnt_ref_trackBar2 = new System.Windows.Forms.TrackBar();
             this.cnt_ref_trackBar1 = new System.Windows.Forms.TrackBar();
             this.tabPage_IC = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label_cnt_icPulse_dutyCycle_ch2 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label_cnt_icPulse_dutyCycle_ch1 = new System.Windows.Forms.Label();
-            this.groupBox_cnt_ic2_pulse = new System.Windows.Forms.GroupBox();
+            this.groupBox_cnt_ic_dutyCycle_ch2 = new System.Windows.Forms.GroupBox();
+            this.checkBox_icMode_dutyCycle_ch2 = new System.Windows.Forms.CheckBox();
+            this.groupBox_cnt_ic_pulseWidth = new System.Windows.Forms.GroupBox();
             this.cnt_ic_pulse_indic_ch2 = new System.Windows.Forms.Label();
-            this.label_cnt_ic2_acc_pulse = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label_cnt_ic2_pulse = new System.Windows.Forms.Label();
-            this.groupBox_cnt_ic1_pulse = new System.Windows.Forms.GroupBox();
+            this.label_cnt_ic_acc_pulseWidth = new System.Windows.Forms.Label();
+            this.label_pulseWidth_groupBoxName = new System.Windows.Forms.Label();
+            this.label_cnt_ic_pulseWidth = new System.Windows.Forms.Label();
+            this.groupBox_cnt_ic_dutyCycle = new System.Windows.Forms.GroupBox();
             this.cnt_ic_pulse_indic_ch1 = new System.Windows.Forms.Label();
-            this.label_cnt_ic1_acc_pulse = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label_cnt_ic1_pulse = new System.Windows.Forms.Label();
+            this.label_cnt_ic_acc_dutyCycle = new System.Windows.Forms.Label();
+            this.label_dutyCycle_groupBoxName = new System.Windows.Forms.Label();
+            this.label_cnt_ic_dutyCycle = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
@@ -95,8 +91,8 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label_ic_max = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.checkBox_icMode_pulse_ch1 = new System.Windows.Forms.CheckBox();
+            this.groupBox_cnt_ic_dutyCycle_ch1 = new System.Windows.Forms.GroupBox();
+            this.checkBox_icMode_dutyCycle_ch1 = new System.Windows.Forms.CheckBox();
             this.groupBox_icSampleCount2 = new System.Windows.Forms.GroupBox();
             this.label_icCh2_max = new System.Windows.Forms.Label();
             this.cnt_ic2_buffer_textBox = new System.Windows.Forms.TextBox();
@@ -106,8 +102,6 @@
             this.label_cnt_ic2_acc_period = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label_cnt_ic2_period = new System.Windows.Forms.Label();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.checkBox_icMode_pulse_ch2 = new System.Windows.Forms.CheckBox();
             this.groupBox_icSampleCount1 = new System.Windows.Forms.GroupBox();
             this.label_icCh1_max = new System.Windows.Forms.Label();
             this.label_icCh1_min = new System.Windows.Forms.Label();
@@ -208,16 +202,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar1)).BeginInit();
             this.tabPage_IC.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox_cnt_ic2_pulse.SuspendLayout();
-            this.groupBox_cnt_ic1_pulse.SuspendLayout();
+            this.groupBox_cnt_ic_dutyCycle_ch2.SuspendLayout();
+            this.groupBox_cnt_ic_pulseWidth.SuspendLayout();
+            this.groupBox_cnt_ic_dutyCycle.SuspendLayout();
             this.groupBox23.SuspendLayout();
-            this.groupBox11.SuspendLayout();
+            this.groupBox_cnt_ic_dutyCycle_ch1.SuspendLayout();
             this.groupBox_icSampleCount2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic2_trackBar)).BeginInit();
             this.groupBox_cnt_ic2_period.SuspendLayout();
-            this.groupBox12.SuspendLayout();
             this.groupBox_icSampleCount1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic1_trackBar)).BeginInit();
             this.groupBox_cnt_ic2_freq.SuspendLayout();
@@ -282,22 +274,22 @@
             // channel1ToolStripMenuItem
             // 
             this.channel1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.signalDividersToolStripMenuItem});
+            this.signalDividersToolStripMenuItem_ch1});
             this.channel1ToolStripMenuItem.Name = "channel1ToolStripMenuItem";
             this.channel1ToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.channel1ToolStripMenuItem.Text = "Channel 1";
             this.channel1ToolStripMenuItem.Visible = false;
             // 
-            // signalDividersToolStripMenuItem
+            // signalDividersToolStripMenuItem_ch1
             // 
-            this.signalDividersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.signalDividersToolStripMenuItem_ch1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.xToolStripMenu_icCh1_1x,
             this.xToolStripMenu_icCh1_2x,
             this.xToolStripMenu_icCh1_4x,
             this.xToolStripMenu_icCh1_8x});
-            this.signalDividersToolStripMenuItem.Name = "signalDividersToolStripMenuItem";
-            this.signalDividersToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.signalDividersToolStripMenuItem.Text = "Sample count multipliers";
+            this.signalDividersToolStripMenuItem_ch1.Name = "signalDividersToolStripMenuItem_ch1";
+            this.signalDividersToolStripMenuItem_ch1.Size = new System.Drawing.Size(206, 22);
+            this.signalDividersToolStripMenuItem_ch1.Text = "Sample count multipliers";
             // 
             // xToolStripMenu_icCh1_1x
             // 
@@ -330,22 +322,22 @@
             // channel2ToolStripMenuItem
             // 
             this.channel2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sampleCountMultipliersToolStripMenuItem});
+            this.signalDividersToolStripMenuItem_ch2});
             this.channel2ToolStripMenuItem.Name = "channel2ToolStripMenuItem";
             this.channel2ToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.channel2ToolStripMenuItem.Text = "Channel 2";
             this.channel2ToolStripMenuItem.Visible = false;
             // 
-            // sampleCountMultipliersToolStripMenuItem
+            // signalDividersToolStripMenuItem_ch2
             // 
-            this.sampleCountMultipliersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.signalDividersToolStripMenuItem_ch2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.xToolStripMenu_icCh2_1x,
             this.xToolStripMenu_icCh2_2x,
             this.xToolStripMenu_icCh2_4x,
             this.xToolStripMenu_icCh2_8x});
-            this.sampleCountMultipliersToolStripMenuItem.Name = "sampleCountMultipliersToolStripMenuItem";
-            this.sampleCountMultipliersToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.sampleCountMultipliersToolStripMenuItem.Text = "Sample count multipliers";
+            this.signalDividersToolStripMenuItem_ch2.Name = "signalDividersToolStripMenuItem_ch2";
+            this.signalDividersToolStripMenuItem_ch2.Size = new System.Drawing.Size(206, 22);
+            this.signalDividersToolStripMenuItem_ch2.Text = "Sample count multipliers";
             // 
             // xToolStripMenu_icCh2_1x
             // 
@@ -391,7 +383,7 @@
             // groupBox24
             // 
             this.groupBox24.Controls.Add(this.label25);
-            this.groupBox24.Controls.Add(this.label19);
+            this.groupBox24.Controls.Add(this.label_cnt_ref_maxFreq);
             this.groupBox24.Controls.Add(this.label_cnt_ref_sec_input);
             this.groupBox24.Controls.Add(this.label_cnt_ref_input);
             this.groupBox24.Location = new System.Drawing.Point(517, 169);
@@ -411,15 +403,15 @@
             this.label25.TabIndex = 3;
             this.label25.Text = "36 MHz";
             // 
-            // label19
+            // label_cnt_ref_maxFreq
             // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(190, 32);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(50, 13);
-            this.label19.TabIndex = 2;
-            this.label19.Text = "244 MHz";
+            this.label_cnt_ref_maxFreq.AutoSize = true;
+            this.label_cnt_ref_maxFreq.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ref_maxFreq.Location = new System.Drawing.Point(190, 32);
+            this.label_cnt_ref_maxFreq.Name = "label_cnt_ref_maxFreq";
+            this.label_cnt_ref_maxFreq.Size = new System.Drawing.Size(50, 13);
+            this.label_cnt_ref_maxFreq.TabIndex = 2;
+            this.label_cnt_ref_maxFreq.Text = "244 MHz";
             // 
             // label_cnt_ref_sec_input
             // 
@@ -521,9 +513,9 @@
             this.label_cnt_refRatio_pins.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label_cnt_refRatio_pins.Location = new System.Drawing.Point(0, 0);
             this.label_cnt_refRatio_pins.Name = "label_cnt_refRatio_pins";
-            this.label_cnt_refRatio_pins.Size = new System.Drawing.Size(184, 19);
+            this.label_cnt_refRatio_pins.Size = new System.Drawing.Size(124, 19);
             this.label_cnt_refRatio_pins.TabIndex = 1;
-            this.label_cnt_refRatio_pins.Text = "Frequency ratio [PA8 / PA0]";
+            this.label_cnt_refRatio_pins.Text = "Frequency ratio [-]";
             // 
             // label_cnt_ref_value
             // 
@@ -687,15 +679,13 @@
             // tabPage_IC
             // 
             this.tabPage_IC.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage_IC.Controls.Add(this.groupBox4);
-            this.tabPage_IC.Controls.Add(this.groupBox2);
-            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_pulse);
-            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic1_pulse);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_dutyCycle_ch2);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_pulseWidth);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_dutyCycle);
             this.tabPage_IC.Controls.Add(this.groupBox23);
-            this.tabPage_IC.Controls.Add(this.groupBox11);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_dutyCycle_ch1);
             this.tabPage_IC.Controls.Add(this.groupBox_icSampleCount2);
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_period);
-            this.tabPage_IC.Controls.Add(this.groupBox12);
             this.tabPage_IC.Controls.Add(this.groupBox_icSampleCount1);
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_freq);
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic1_freq);
@@ -707,81 +697,45 @@
             this.tabPage_IC.TabIndex = 1;
             this.tabPage_IC.Text = "Low Frequency";
             // 
-            // groupBox4
+            // groupBox_cnt_ic_dutyCycle_ch2
             // 
-            this.groupBox4.Controls.Add(this.label_cnt_icPulse_dutyCycle_ch2);
-            this.groupBox4.Controls.Add(this.label35);
-            this.groupBox4.Location = new System.Drawing.Point(681, 123);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(83, 47);
-            this.groupBox4.TabIndex = 20;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Duty cycle";
+            this.groupBox_cnt_ic_dutyCycle_ch2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox_cnt_ic_dutyCycle_ch2.Controls.Add(this.checkBox_icMode_dutyCycle_ch2);
+            this.groupBox_cnt_ic_dutyCycle_ch2.Location = new System.Drawing.Point(691, 86);
+            this.groupBox_cnt_ic_dutyCycle_ch2.Name = "groupBox_cnt_ic_dutyCycle_ch2";
+            this.groupBox_cnt_ic_dutyCycle_ch2.Size = new System.Drawing.Size(71, 84);
+            this.groupBox_cnt_ic_dutyCycle_ch2.TabIndex = 19;
+            this.groupBox_cnt_ic_dutyCycle_ch2.TabStop = false;
+            this.groupBox_cnt_ic_dutyCycle_ch2.Text = "Duty cycle";
+            this.toolTip1.SetToolTip(this.groupBox_cnt_ic_dutyCycle_ch2, "Channel 1 only");
             // 
-            // label_cnt_icPulse_dutyCycle_ch2
+            // checkBox_icMode_dutyCycle_ch2
             // 
-            this.label_cnt_icPulse_dutyCycle_ch2.AutoSize = true;
-            this.label_cnt_icPulse_dutyCycle_ch2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_icPulse_dutyCycle_ch2.Location = new System.Drawing.Point(11, 19);
-            this.label_cnt_icPulse_dutyCycle_ch2.Name = "label_cnt_icPulse_dutyCycle_ch2";
-            this.label_cnt_icPulse_dutyCycle_ch2.Size = new System.Drawing.Size(27, 19);
-            this.label_cnt_icPulse_dutyCycle_ch2.TabIndex = 1;
-            this.label_cnt_icPulse_dutyCycle_ch2.Text = "---";
+            this.checkBox_icMode_dutyCycle_ch2.AutoSize = true;
+            this.checkBox_icMode_dutyCycle_ch2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_icMode_dutyCycle_ch2.Location = new System.Drawing.Point(29, 42);
+            this.checkBox_icMode_dutyCycle_ch2.Name = "checkBox_icMode_dutyCycle_ch2";
+            this.checkBox_icMode_dutyCycle_ch2.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_icMode_dutyCycle_ch2.TabIndex = 0;
+            this.checkBox_icMode_dutyCycle_ch2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_icMode_dutyCycle_ch2.UseVisualStyleBackColor = true;
+            this.checkBox_icMode_dutyCycle_ch2.CheckedChanged += new System.EventHandler(this.checkBox_icMode_dutyCycle_ch2_CheckedChanged);
             // 
-            // label35
+            // groupBox_cnt_ic_pulseWidth
             // 
-            this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label35.Location = new System.Drawing.Point(58, 21);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(20, 16);
-            this.label35.TabIndex = 0;
-            this.label35.Text = "%";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label33);
-            this.groupBox2.Controls.Add(this.label_cnt_icPulse_dutyCycle_ch1);
-            this.groupBox2.Location = new System.Drawing.Point(681, 40);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(83, 47);
-            this.groupBox2.TabIndex = 19;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Duty cycle";
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(58, 21);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(20, 16);
-            this.label33.TabIndex = 1;
-            this.label33.Text = "%";
-            // 
-            // label_cnt_icPulse_dutyCycle_ch1
-            // 
-            this.label_cnt_icPulse_dutyCycle_ch1.AutoSize = true;
-            this.label_cnt_icPulse_dutyCycle_ch1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_icPulse_dutyCycle_ch1.Location = new System.Drawing.Point(11, 19);
-            this.label_cnt_icPulse_dutyCycle_ch1.Name = "label_cnt_icPulse_dutyCycle_ch1";
-            this.label_cnt_icPulse_dutyCycle_ch1.Size = new System.Drawing.Size(27, 19);
-            this.label_cnt_icPulse_dutyCycle_ch1.TabIndex = 0;
-            this.label_cnt_icPulse_dutyCycle_ch1.Text = "---";
-            // 
-            // groupBox_cnt_ic2_pulse
-            // 
-            this.groupBox_cnt_ic2_pulse.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox_cnt_ic2_pulse.Controls.Add(this.cnt_ic_pulse_indic_ch2);
-            this.groupBox_cnt_ic2_pulse.Controls.Add(this.label_cnt_ic2_acc_pulse);
-            this.groupBox_cnt_ic2_pulse.Controls.Add(this.label34);
-            this.groupBox_cnt_ic2_pulse.Controls.Add(this.label_cnt_ic2_pulse);
-            this.groupBox_cnt_ic2_pulse.Location = new System.Drawing.Point(5, 129);
-            this.groupBox_cnt_ic2_pulse.Name = "groupBox_cnt_ic2_pulse";
-            this.groupBox_cnt_ic2_pulse.Size = new System.Drawing.Size(448, 127);
-            this.groupBox_cnt_ic2_pulse.TabIndex = 18;
-            this.groupBox_cnt_ic2_pulse.TabStop = false;
-            this.groupBox_cnt_ic2_pulse.Visible = false;
+            this.groupBox_cnt_ic_pulseWidth.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.cnt_ic_pulse_indic_ch2);
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_cnt_ic_acc_pulseWidth);
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_pulseWidth_groupBoxName);
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_cnt_ic_pulseWidth);
+            this.groupBox_cnt_ic_pulseWidth.Location = new System.Drawing.Point(5, 129);
+            this.groupBox_cnt_ic_pulseWidth.Name = "groupBox_cnt_ic_pulseWidth";
+            this.groupBox_cnt_ic_pulseWidth.Size = new System.Drawing.Size(448, 127);
+            this.groupBox_cnt_ic_pulseWidth.TabIndex = 18;
+            this.groupBox_cnt_ic_pulseWidth.TabStop = false;
+            this.groupBox_cnt_ic_pulseWidth.Visible = false;
             // 
             // cnt_ic_pulse_indic_ch2
             // 
@@ -793,54 +747,54 @@
             this.cnt_ic_pulse_indic_ch2.Size = new System.Drawing.Size(19, 10);
             this.cnt_ic_pulse_indic_ch2.TabIndex = 13;
             // 
-            // label_cnt_ic2_acc_pulse
+            // label_cnt_ic1_acc_pulseWidth
             // 
-            this.label_cnt_ic2_acc_pulse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic2_acc_pulse.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ic2_acc_pulse.Location = new System.Drawing.Point(3, 95);
-            this.label_cnt_ic2_acc_pulse.Name = "label_cnt_ic2_acc_pulse";
-            this.label_cnt_ic2_acc_pulse.Size = new System.Drawing.Size(442, 13);
-            this.label_cnt_ic2_acc_pulse.TabIndex = 12;
-            this.label_cnt_ic2_acc_pulse.Text = "∓ 0.000000";
-            this.label_cnt_ic2_acc_pulse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.label_cnt_ic_acc_pulseWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_acc_pulseWidth.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ic_acc_pulseWidth.Location = new System.Drawing.Point(3, 95);
+            this.label_cnt_ic_acc_pulseWidth.Name = "label_cnt_ic1_acc_pulseWidth";
+            this.label_cnt_ic_acc_pulseWidth.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic_acc_pulseWidth.TabIndex = 12;
+            this.label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
+            this.label_cnt_ic_acc_pulseWidth.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // label34
+            // label_pulseWidth_groupBoxName
             // 
-            this.label34.AutoSize = true;
-            this.label34.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label34.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label34.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label34.Location = new System.Drawing.Point(-1, 0);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(161, 19);
-            this.label34.TabIndex = 4;
-            this.label34.Text = "Pulse length channel 1 [s]";
+            this.label_pulseWidth_groupBoxName.AutoSize = true;
+            this.label_pulseWidth_groupBoxName.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label_pulseWidth_groupBoxName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_pulseWidth_groupBoxName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_pulseWidth_groupBoxName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_pulseWidth_groupBoxName.Location = new System.Drawing.Point(-1, 0);
+            this.label_pulseWidth_groupBoxName.Name = "label_pulseWidth_groupBoxName";
+            this.label_pulseWidth_groupBoxName.Size = new System.Drawing.Size(159, 19);
+            this.label_pulseWidth_groupBoxName.TabIndex = 4;
+            this.label_pulseWidth_groupBoxName.Text = "Pulse width channel 1 [s]";
             // 
-            // label_cnt_ic2_pulse
+            // label_cnt_ic1_pulseWidth
             // 
-            this.label_cnt_ic2_pulse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_cnt_ic2_pulse.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic2_pulse.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic2_pulse.Name = "label_cnt_ic2_pulse";
-            this.label_cnt_ic2_pulse.Size = new System.Drawing.Size(442, 108);
-            this.label_cnt_ic2_pulse.TabIndex = 2;
-            this.label_cnt_ic2_pulse.Text = "0.000000";
-            this.label_cnt_ic2_pulse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_cnt_ic_pulseWidth.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic_pulseWidth.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_pulseWidth.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic_pulseWidth.Name = "label_cnt_ic1_pulseWidth";
+            this.label_cnt_ic_pulseWidth.Size = new System.Drawing.Size(442, 108);
+            this.label_cnt_ic_pulseWidth.TabIndex = 2;
+            this.label_cnt_ic_pulseWidth.Text = "0.000000";
+            this.label_cnt_ic_pulseWidth.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // groupBox_cnt_ic1_pulse
+            // groupBox_cnt_ic_dutyCycle
             // 
-            this.groupBox_cnt_ic1_pulse.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox_cnt_ic1_pulse.Controls.Add(this.cnt_ic_pulse_indic_ch1);
-            this.groupBox_cnt_ic1_pulse.Controls.Add(this.label_cnt_ic1_acc_pulse);
-            this.groupBox_cnt_ic1_pulse.Controls.Add(this.label4);
-            this.groupBox_cnt_ic1_pulse.Controls.Add(this.label_cnt_ic1_pulse);
-            this.groupBox_cnt_ic1_pulse.Location = new System.Drawing.Point(5, 3);
-            this.groupBox_cnt_ic1_pulse.Name = "groupBox_cnt_ic1_pulse";
-            this.groupBox_cnt_ic1_pulse.Size = new System.Drawing.Size(448, 127);
-            this.groupBox_cnt_ic1_pulse.TabIndex = 15;
-            this.groupBox_cnt_ic1_pulse.TabStop = false;
-            this.groupBox_cnt_ic1_pulse.Visible = false;
+            this.groupBox_cnt_ic_dutyCycle.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.cnt_ic_pulse_indic_ch1);
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_cnt_ic_acc_dutyCycle);
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_dutyCycle_groupBoxName);
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_cnt_ic_dutyCycle);
+            this.groupBox_cnt_ic_dutyCycle.Location = new System.Drawing.Point(5, 3);
+            this.groupBox_cnt_ic_dutyCycle.Name = "groupBox_cnt_ic_dutyCycle";
+            this.groupBox_cnt_ic_dutyCycle.Size = new System.Drawing.Size(448, 127);
+            this.groupBox_cnt_ic_dutyCycle.TabIndex = 15;
+            this.groupBox_cnt_ic_dutyCycle.TabStop = false;
+            this.groupBox_cnt_ic_dutyCycle.Visible = false;
             // 
             // cnt_ic_pulse_indic_ch1
             // 
@@ -852,40 +806,40 @@
             this.cnt_ic_pulse_indic_ch1.Size = new System.Drawing.Size(19, 10);
             this.cnt_ic_pulse_indic_ch1.TabIndex = 13;
             // 
-            // label_cnt_ic1_acc_pulse
+            // label_cnt_ic1_acc_dutyCycle
             // 
-            this.label_cnt_ic1_acc_pulse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic1_acc_pulse.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ic1_acc_pulse.Location = new System.Drawing.Point(3, 95);
-            this.label_cnt_ic1_acc_pulse.Name = "label_cnt_ic1_acc_pulse";
-            this.label_cnt_ic1_acc_pulse.Size = new System.Drawing.Size(442, 13);
-            this.label_cnt_ic1_acc_pulse.TabIndex = 12;
-            this.label_cnt_ic1_acc_pulse.Text = "∓ 0.000000";
-            this.label_cnt_ic1_acc_pulse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.label_cnt_ic_acc_dutyCycle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_acc_dutyCycle.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ic_acc_dutyCycle.Location = new System.Drawing.Point(3, 95);
+            this.label_cnt_ic_acc_dutyCycle.Name = "label_cnt_ic1_acc_dutyCycle";
+            this.label_cnt_ic_acc_dutyCycle.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic_acc_dutyCycle.TabIndex = 12;
+            this.label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
+            this.label_cnt_ic_acc_dutyCycle.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // label4
+            // label_dutyCycle_groupBoxName
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label4.Location = new System.Drawing.Point(-1, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(161, 19);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Pulse length channel 1 [s]";
+            this.label_dutyCycle_groupBoxName.AutoSize = true;
+            this.label_dutyCycle_groupBoxName.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label_dutyCycle_groupBoxName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_dutyCycle_groupBoxName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_dutyCycle_groupBoxName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_dutyCycle_groupBoxName.Location = new System.Drawing.Point(-1, 0);
+            this.label_dutyCycle_groupBoxName.Name = "label_dutyCycle_groupBoxName";
+            this.label_dutyCycle_groupBoxName.Size = new System.Drawing.Size(161, 19);
+            this.label_dutyCycle_groupBoxName.TabIndex = 4;
+            this.label_dutyCycle_groupBoxName.Text = "Duty cycle channel 1 [%]";
             // 
-            // label_cnt_ic1_pulse
+            // label_cnt_ic1_dutyCycle
             // 
-            this.label_cnt_ic1_pulse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_cnt_ic1_pulse.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic1_pulse.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic1_pulse.Name = "label_cnt_ic1_pulse";
-            this.label_cnt_ic1_pulse.Size = new System.Drawing.Size(442, 108);
-            this.label_cnt_ic1_pulse.TabIndex = 2;
-            this.label_cnt_ic1_pulse.Text = "0.000000";
-            this.label_cnt_ic1_pulse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_cnt_ic_dutyCycle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic_dutyCycle.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_dutyCycle.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic_dutyCycle.Name = "label_cnt_ic1_dutyCycle";
+            this.label_cnt_ic_dutyCycle.Size = new System.Drawing.Size(442, 108);
+            this.label_cnt_ic_dutyCycle.TabIndex = 2;
+            this.label_cnt_ic_dutyCycle.Text = "0.000";
+            this.label_cnt_ic_dutyCycle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox23
             // 
@@ -981,30 +935,30 @@
             this.label22.TabIndex = 2;
             this.label22.Text = "Max. frequency:";
             // 
-            // groupBox11
+            // groupBox_cnt_ic_dutyCycle_ch1
             // 
-            this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.groupBox_cnt_ic_dutyCycle_ch1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox11.Controls.Add(this.checkBox_icMode_pulse_ch1);
-            this.groupBox11.Location = new System.Drawing.Point(681, 3);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(83, 39);
-            this.groupBox11.TabIndex = 8;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Pulse length";
+            this.groupBox_cnt_ic_dutyCycle_ch1.Controls.Add(this.checkBox_icMode_dutyCycle_ch1);
+            this.groupBox_cnt_ic_dutyCycle_ch1.Location = new System.Drawing.Point(692, 3);
+            this.groupBox_cnt_ic_dutyCycle_ch1.Name = "groupBox_cnt_ic_dutyCycle_ch1";
+            this.groupBox_cnt_ic_dutyCycle_ch1.Size = new System.Drawing.Size(71, 84);
+            this.groupBox_cnt_ic_dutyCycle_ch1.TabIndex = 8;
+            this.groupBox_cnt_ic_dutyCycle_ch1.TabStop = false;
+            this.groupBox_cnt_ic_dutyCycle_ch1.Text = "Duty cycle";
             // 
-            // checkBox_icMode_pulse_ch1
+            // checkBox_icMode_dutyCycle_ch1
             // 
-            this.checkBox_icMode_pulse_ch1.AutoSize = true;
-            this.checkBox_icMode_pulse_ch1.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_icMode_pulse_ch1.Location = new System.Drawing.Point(35, 19);
-            this.checkBox_icMode_pulse_ch1.Name = "checkBox_icMode_pulse_ch1";
-            this.checkBox_icMode_pulse_ch1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_icMode_pulse_ch1.TabIndex = 0;
-            this.checkBox_icMode_pulse_ch1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_icMode_pulse_ch1.UseVisualStyleBackColor = true;
-            this.checkBox_icMode_pulse_ch1.CheckedChanged += new System.EventHandler(this.checkBox_icMode_pulse_ch1_CheckedChanged);
+            this.checkBox_icMode_dutyCycle_ch1.AutoSize = true;
+            this.checkBox_icMode_dutyCycle_ch1.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_icMode_dutyCycle_ch1.Location = new System.Drawing.Point(29, 42);
+            this.checkBox_icMode_dutyCycle_ch1.Name = "checkBox_icMode_dutyCycle_ch1";
+            this.checkBox_icMode_dutyCycle_ch1.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_icMode_dutyCycle_ch1.TabIndex = 0;
+            this.checkBox_icMode_dutyCycle_ch1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_icMode_dutyCycle_ch1.UseVisualStyleBackColor = true;
+            this.checkBox_icMode_dutyCycle_ch1.CheckedChanged += new System.EventHandler(this.checkBox_icMode_dutyCycle_ch1_CheckedChanged);
             // 
             // groupBox_icSampleCount2
             // 
@@ -1014,7 +968,7 @@
             this.groupBox_icSampleCount2.Controls.Add(this.cnt_ic2_trackBar);
             this.groupBox_icSampleCount2.Location = new System.Drawing.Point(459, 86);
             this.groupBox_icSampleCount2.Name = "groupBox_icSampleCount2";
-            this.groupBox_icSampleCount2.Size = new System.Drawing.Size(216, 84);
+            this.groupBox_icSampleCount2.Size = new System.Drawing.Size(227, 84);
             this.groupBox_icSampleCount2.TabIndex = 7;
             this.groupBox_icSampleCount2.TabStop = false;
             this.groupBox_icSampleCount2.Text = "Sample count channel 2";
@@ -1023,7 +977,7 @@
             // 
             this.label_icCh2_max.AutoSize = true;
             this.label_icCh2_max.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label_icCh2_max.Location = new System.Drawing.Point(185, 43);
+            this.label_icCh2_max.Location = new System.Drawing.Point(196, 43);
             this.label_icCh2_max.Name = "label_icCh2_max";
             this.label_icCh2_max.Size = new System.Drawing.Size(25, 13);
             this.label_icCh2_max.TabIndex = 13;
@@ -1032,7 +986,7 @@
             // cnt_ic2_buffer_textBox
             // 
             this.cnt_ic2_buffer_textBox.ForeColor = System.Drawing.Color.Black;
-            this.cnt_ic2_buffer_textBox.Location = new System.Drawing.Point(68, 56);
+            this.cnt_ic2_buffer_textBox.Location = new System.Drawing.Point(72, 54);
             this.cnt_ic2_buffer_textBox.MaxLength = 3;
             this.cnt_ic2_buffer_textBox.Name = "cnt_ic2_buffer_textBox";
             this.cnt_ic2_buffer_textBox.Size = new System.Drawing.Size(84, 20);
@@ -1048,7 +1002,7 @@
             // 
             this.label_icCh2_min.AutoSize = true;
             this.label_icCh2_min.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label_icCh2_min.Location = new System.Drawing.Point(9, 43);
+            this.label_icCh2_min.Location = new System.Drawing.Point(10, 43);
             this.label_icCh2_min.Name = "label_icCh2_min";
             this.label_icCh2_min.Size = new System.Drawing.Size(13, 13);
             this.label_icCh2_min.TabIndex = 12;
@@ -1057,12 +1011,12 @@
             // cnt_ic2_trackBar
             // 
             this.cnt_ic2_trackBar.LargeChange = 10;
-            this.cnt_ic2_trackBar.Location = new System.Drawing.Point(2, 14);
+            this.cnt_ic2_trackBar.Location = new System.Drawing.Point(3, 14);
             this.cnt_ic2_trackBar.Margin = new System.Windows.Forms.Padding(1);
             this.cnt_ic2_trackBar.Maximum = 100;
             this.cnt_ic2_trackBar.Minimum = 1;
             this.cnt_ic2_trackBar.Name = "cnt_ic2_trackBar";
-            this.cnt_ic2_trackBar.Size = new System.Drawing.Size(208, 45);
+            this.cnt_ic2_trackBar.Size = new System.Drawing.Size(219, 45);
             this.cnt_ic2_trackBar.SmallChange = 5;
             this.cnt_ic2_trackBar.TabIndex = 9;
             this.cnt_ic2_trackBar.Value = 1;
@@ -1116,31 +1070,6 @@
             this.label_cnt_ic2_period.Text = "0.000000";
             this.label_cnt_ic2_period.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // groupBox12
-            // 
-            this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox12.Controls.Add(this.checkBox_icMode_pulse_ch2);
-            this.groupBox12.Location = new System.Drawing.Point(681, 86);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(83, 39);
-            this.groupBox12.TabIndex = 9;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Pulse length";
-            // 
-            // checkBox_icMode_pulse_ch2
-            // 
-            this.checkBox_icMode_pulse_ch2.AutoSize = true;
-            this.checkBox_icMode_pulse_ch2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_icMode_pulse_ch2.Location = new System.Drawing.Point(35, 19);
-            this.checkBox_icMode_pulse_ch2.Name = "checkBox_icMode_pulse_ch2";
-            this.checkBox_icMode_pulse_ch2.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_icMode_pulse_ch2.TabIndex = 0;
-            this.checkBox_icMode_pulse_ch2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_icMode_pulse_ch2.UseVisualStyleBackColor = true;
-            this.checkBox_icMode_pulse_ch2.CheckedChanged += new System.EventHandler(this.checkBox_icMode_pulse_ch2_CheckedChanged);
-            // 
             // groupBox_icSampleCount1
             // 
             this.groupBox_icSampleCount1.Controls.Add(this.label_icCh1_max);
@@ -1149,7 +1078,7 @@
             this.groupBox_icSampleCount1.Controls.Add(this.cnt_ic1_trackBar);
             this.groupBox_icSampleCount1.Location = new System.Drawing.Point(459, 3);
             this.groupBox_icSampleCount1.Name = "groupBox_icSampleCount1";
-            this.groupBox_icSampleCount1.Size = new System.Drawing.Size(216, 84);
+            this.groupBox_icSampleCount1.Size = new System.Drawing.Size(227, 84);
             this.groupBox_icSampleCount1.TabIndex = 0;
             this.groupBox_icSampleCount1.TabStop = false;
             this.groupBox_icSampleCount1.Text = "Sample count channel 1";
@@ -1159,7 +1088,7 @@
             // 
             this.label_icCh1_max.AutoSize = true;
             this.label_icCh1_max.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label_icCh1_max.Location = new System.Drawing.Point(184, 43);
+            this.label_icCh1_max.Location = new System.Drawing.Point(197, 43);
             this.label_icCh1_max.Name = "label_icCh1_max";
             this.label_icCh1_max.Size = new System.Drawing.Size(25, 13);
             this.label_icCh1_max.TabIndex = 11;
@@ -1169,7 +1098,7 @@
             // 
             this.label_icCh1_min.AutoSize = true;
             this.label_icCh1_min.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label_icCh1_min.Location = new System.Drawing.Point(9, 43);
+            this.label_icCh1_min.Location = new System.Drawing.Point(11, 43);
             this.label_icCh1_min.Name = "label_icCh1_min";
             this.label_icCh1_min.Size = new System.Drawing.Size(13, 13);
             this.label_icCh1_min.TabIndex = 10;
@@ -1178,7 +1107,7 @@
             // cnt_ic1_buffer_textBox
             // 
             this.cnt_ic1_buffer_textBox.ForeColor = System.Drawing.Color.Black;
-            this.cnt_ic1_buffer_textBox.Location = new System.Drawing.Point(67, 55);
+            this.cnt_ic1_buffer_textBox.Location = new System.Drawing.Point(72, 54);
             this.cnt_ic1_buffer_textBox.MaxLength = 3;
             this.cnt_ic1_buffer_textBox.Name = "cnt_ic1_buffer_textBox";
             this.cnt_ic1_buffer_textBox.Size = new System.Drawing.Size(84, 20);
@@ -1193,11 +1122,11 @@
             // cnt_ic1_trackBar
             // 
             this.cnt_ic1_trackBar.LargeChange = 10;
-            this.cnt_ic1_trackBar.Location = new System.Drawing.Point(2, 14);
+            this.cnt_ic1_trackBar.Location = new System.Drawing.Point(4, 14);
             this.cnt_ic1_trackBar.Maximum = 100;
             this.cnt_ic1_trackBar.Minimum = 1;
             this.cnt_ic1_trackBar.Name = "cnt_ic1_trackBar";
-            this.cnt_ic1_trackBar.Size = new System.Drawing.Size(207, 45);
+            this.cnt_ic1_trackBar.Size = new System.Drawing.Size(219, 45);
             this.cnt_ic1_trackBar.SmallChange = 5;
             this.cnt_ic1_trackBar.TabIndex = 8;
             this.cnt_ic1_trackBar.Value = 1;
@@ -2219,25 +2148,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar1)).EndInit();
             this.tabPage_IC.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox_cnt_ic2_pulse.ResumeLayout(false);
-            this.groupBox_cnt_ic2_pulse.PerformLayout();
-            this.groupBox_cnt_ic1_pulse.ResumeLayout(false);
-            this.groupBox_cnt_ic1_pulse.PerformLayout();
+            this.groupBox_cnt_ic_dutyCycle_ch2.ResumeLayout(false);
+            this.groupBox_cnt_ic_dutyCycle_ch2.PerformLayout();
+            this.groupBox_cnt_ic_pulseWidth.ResumeLayout(false);
+            this.groupBox_cnt_ic_pulseWidth.PerformLayout();
+            this.groupBox_cnt_ic_dutyCycle.ResumeLayout(false);
+            this.groupBox_cnt_ic_dutyCycle.PerformLayout();
             this.groupBox23.ResumeLayout(false);
             this.groupBox23.PerformLayout();
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
+            this.groupBox_cnt_ic_dutyCycle_ch1.ResumeLayout(false);
+            this.groupBox_cnt_ic_dutyCycle_ch1.PerformLayout();
             this.groupBox_icSampleCount2.ResumeLayout(false);
             this.groupBox_icSampleCount2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic2_trackBar)).EndInit();
             this.groupBox_cnt_ic2_period.ResumeLayout(false);
             this.groupBox_cnt_ic2_period.PerformLayout();
-            this.groupBox12.ResumeLayout(false);
-            this.groupBox12.PerformLayout();
             this.groupBox_icSampleCount1.ResumeLayout(false);
             this.groupBox_icSampleCount1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic1_trackBar)).EndInit();
@@ -2350,22 +2275,20 @@
         private System.Windows.Forms.Label cnt_ref_indication;
         private System.Windows.Forms.ToolStripMenuItem exitCounterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem channel1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem signalDividersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem signalDividersToolStripMenuItem_ch1;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh1_2x;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh1_4x;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh1_8x;
         private System.Windows.Forms.ToolStripMenuItem channel2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sampleCountMultipliersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem signalDividersToolStripMenuItem_ch2;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh2_2x;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh2_4x;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh2_8x;
         private System.Windows.Forms.GroupBox groupBox_icSampleCount2;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh1_1x;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenu_icCh2_1x;
-        private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.CheckBox checkBox_icMode_pulse_ch2;
-        private System.Windows.Forms.CheckBox checkBox_icMode_pulse_ch1;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic_dutyCycle_ch1;
+        private System.Windows.Forms.CheckBox checkBox_icMode_dutyCycle_ch1;
         private System.Windows.Forms.TabPage tabPage_TI;
         private System.Windows.Forms.GroupBox groupBox_ti_event_B;
         private System.Windows.Forms.GroupBox groupBox_ti_event_A;
@@ -2428,7 +2351,7 @@
         private System.Windows.Forms.Label label_cnt_ref_acc;
         private System.Windows.Forms.GroupBox groupBox24;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label_cnt_ref_maxFreq;
         private System.Windows.Forms.Label label_cnt_ref_sec_input;
         private System.Windows.Forms.Label label_cnt_ref_input;
         private System.Windows.Forms.Label label16;
@@ -2445,22 +2368,18 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.GroupBox groupBox_cnt_ic1_pulse;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic_dutyCycle;
         private System.Windows.Forms.Label cnt_ic_pulse_indic_ch1;
-        private System.Windows.Forms.Label label_cnt_ic1_acc_pulse;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label_cnt_ic1_pulse;
+        private System.Windows.Forms.Label label_cnt_ic_acc_dutyCycle;
+        private System.Windows.Forms.Label label_dutyCycle_groupBoxName;
+        private System.Windows.Forms.Label label_cnt_ic_dutyCycle;
         private System.Windows.Forms.Label label_cnt_avrg_info;
-        private System.Windows.Forms.GroupBox groupBox_cnt_ic2_pulse;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic_pulseWidth;
         private System.Windows.Forms.Label cnt_ic_pulse_indic_ch2;
-        private System.Windows.Forms.Label label_cnt_ic2_acc_pulse;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label label_cnt_ic2_pulse;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.Label label_cnt_icPulse_dutyCycle_ch1;
-        private System.Windows.Forms.Label label_cnt_icPulse_dutyCycle_ch2;
+        private System.Windows.Forms.Label label_cnt_ic_acc_pulseWidth;
+        private System.Windows.Forms.Label label_pulseWidth_groupBoxName;
+        private System.Windows.Forms.Label label_cnt_ic_pulseWidth;
+        private System.Windows.Forms.GroupBox groupBox_cnt_ic_dutyCycle_ch2;
+        private System.Windows.Forms.CheckBox checkBox_icMode_dutyCycle_ch2;
     }
 }

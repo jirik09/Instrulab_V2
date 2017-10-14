@@ -163,57 +163,52 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>generator,0x0A</ItemText>
+          <ItemText>counter,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>scope</ItemText>
+          <ItemText>cntMessage</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>*realfreq</ItemText>
+          <ItemText>tick,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>header</ItemText>
+          <ItemText>startTime,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>MAX_SAMPLING_FREQ</ItemText>
+          <ItemText>counter.counterIc.ic1buffer[1],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>message</ItemText>
+          <ItemText>counter.counterIc.ic2buffer[0],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>taskCheck</ItemText>
+          <ItemText>counter.counterIc.ic1buffer[0],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>counter,0x0A</ItemText>
+          <ItemText>counter.counterIc.ic1freq</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>cntMessage</ItemText>
+          <ItemText>counter.counterEtr.buffer,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>tick,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>10</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>startTime,0x0A</ItemText>
+          <ItemText>counter.sampleCntChange</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -274,13 +269,17 @@
           <Name>System Viewer\TIM4</Name>
           <WinId>35904</WinId>
         </Entry>
+        <Entry>
+          <Name>System Viewer\USART2</Name>
+          <WinId>35902</WinId>
+        </Entry>
       </SystemViewers>
     </TargetOption>
   </Target>
 
   <Group>
     <GroupName>Application/User</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -472,7 +471,7 @@
 
   <Group>
     <GroupName>Drivers/CMSIS</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -856,7 +855,7 @@
 
   <Group>
     <GroupName>Common</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

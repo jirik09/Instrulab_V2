@@ -25,8 +25,7 @@ namespace LEO
         ushort cntIcPresc1 = 1, cntIcPresc2 = 1;
         int trackVal1, trackVal2;
         bool trackIc1Rec = false, trackIc2Rec = false;
-        /* Keep values of periods from ic channels to calculate duty cycle in the swapped groupBox */
-        double periodForDutyCycle_icCh1, periodForDutyCycle_icCh2;
+        uint ic2buffer;
 
         private const string ETR_MIN = "Min val. 2";
         private const string ETR_MAX = "Max val. 200";
@@ -44,7 +43,7 @@ namespace LEO
         private const string NUMS_ONLY = "Numbers only";
         private const string NUM_ENTER = "Enter a number";
 
-        public enum CNT_MODES { IC = 0, ETR, REF, TI };
+        public enum CNT_MODES { ETR = 0, IC, REF, TI };
         CNT_MODES counterMode;
 
         /* REF/ETR/IC trackBars scrolling */
@@ -52,8 +51,8 @@ namespace LEO
         CNT_TIMER timScroll;
 
         /* IC pulse mode */
-        public enum CNT_PULSE { PULSE_MODE_DISABLED = 0, PULSE_MODE_ENABLED };
-        CNT_PULSE ic1PulseMode, ic2PulseMode;
+        public enum CNT_DUTY_CYCLE { DUTY_CYCLE_DISABLED = 0, DUTY_CYCLE_ENABLED };
+        CNT_DUTY_CYCLE ic1DutyCycle, ic2DutyCycle;
 
         public enum KEY_PRESS { YES = 0, NO };
         KEY_PRESS keyPress;
@@ -74,12 +73,7 @@ namespace LEO
         {
             InitializeComponent();
             InitializeTIComponent();
-            /* There is a problem when the check box is enabled and some 
-            other freq. meas. tab is chosen. After ETR random numbers appear,
-            for others application freezes.  */
-            //checkBox_icMode_pulse_ch1.Enabled = false;
-            //checkBox_icMode_pulse_ch2.Enabled = false;
-
+            
             device = dev;
 
             GUITimer = new System.Timers.Timer(50);
@@ -95,8 +89,14 @@ namespace LEO
 
         private void mcuTypeSetLabels()
         {
+            /* ETR labels */
+            label_cnt_etr_maxFreq.Text = (timEtrPeriphClock / 4 * 8 / 1000000).ToString() + " MHz";            // 1/4 periph clock = max ETR input frequency * 8 (prescaler)
+
+            /* REF labels */
+            label_cnt_refRatio_pins.Text = "Frequency ratio (" + refPins[0] + " / " + refPins[1] + ")" + " [-]";
             label_cnt_ref_input.Text = "Max. freq. reference input (" + refPins[1].ToString() + ") :";
             label_cnt_ref_sec_input.Text = "Max. freq. second input (" + refPins[0].ToString() + ") :";
+            label_cnt_ref_maxFreq.Text = (timEtrPeriphClock / 4 * 8 / 1000000).ToString() + " MHz";
         }
 
         private void InitializeTIComponent()
@@ -156,6 +156,14 @@ namespace LEO
                         this.Invalidate();
                         break;
                     case Message.MsgRequest.COUNTER_IC2_DATA:
+                        cntPaint = messg.GetFlt();
+                        this.Invalidate();
+                        break;
+                    case Message.MsgRequest.COUNTER_IC1_DUTY_CYCLE:
+                        cntPaint = messg.GetFlt();
+                        this.Invalidate();
+                        break;
+                    case Message.MsgRequest.COUNTER_IC1_PULSE_WIDTH:
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
@@ -235,104 +243,75 @@ namespace LEO
                     etrPainting();
                     com_etr_indication();                  
                 }
-                else if (req == Message.MsgRequest.COUNTER_ETR_BUFFER)
-                {
-                    
-                }
-                /************************************* ETR BUFFER PRINT *************************************/
                 /************************************** IC1 DATA PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_IC1_DATA)
                 {
-                    if (ic1PulseMode == CNT_PULSE.PULSE_MODE_DISABLED)
+                    if (cntPaint > 10000000)
                     {
-                        if (cntPaint > 10000000)
-                        {
-                            label_cnt_ic1_value.ForeColor = SystemColors.WindowFrame;
-                            label_cnt_ic1_value.Font = new Font("Times New Roman", 13);
-                            label_cnt_ic1_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
-                        }
-                        /* Hysterezis */
-                        //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic1_value.Text == "Frequency > 10 MHz"))
-                        //{
-                        //    label_cnt_ic1_value.Text = "Frequency > 10 MHz";
-                        //}
-                        else
-                        {
-                            if (cntPaint != 0)
-                            {
-                                label_cnt_ic1_value.ForeColor = Color.Black;
-                                label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);
-                                label_cnt_ic1_value.Text = String.Format("{0:n9}", cntPaint);
-                                periodForDutyCycle_icCh1 = 1 / cntPaint;
-                                label_cnt_ic1_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", periodForDutyCycle_icCh1) : "0.000000";
-                            }
-                            com_ic1_indication();
-                        }
-                        label_cnt_icPulse_dutyCycle_ch1.Text = "----";
+                        label_cnt_ic1_value.ForeColor = SystemColors.WindowFrame;
+                        label_cnt_ic1_value.Font = new Font("Times New Roman", 13);
+                        label_cnt_ic1_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
                     }
+                    /* Hysterezis */
+                    //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic1_value.Text == "Frequency > 10 MHz"))
+                    //{
+                    //    label_cnt_ic1_value.Text = "Frequency > 10 MHz";
+                    //}
                     else
-                    {                                             
-                        double printTime = (1 / cntPaint);
-                        if (!double.IsInfinity(printTime))
+                    {
+                        if (cntPaint != 0)
                         {
                             label_cnt_ic1_value.ForeColor = Color.Black;
                             label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);
-                            label_cnt_ic1_pulse.Text = String.Format("{0:n9}", printTime);
-                            double dutyCycle = printTime / periodForDutyCycle_icCh1 * 100;
-                            label_cnt_icPulse_dutyCycle_ch1.Text = (dutyCycle < 100) ? dutyCycle.ToString("F2") : "100";                                                    
+                            label_cnt_ic1_value.Text = String.Format("{0:n9}", cntPaint);
+                            label_cnt_ic1_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", 1 / cntPaint) : "0.000000";
                         }
-                        com_ic1_pulse_indication();
+                        com_ic1_indication();
                     }
                 }
                 /************************************** IC2 DATA PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_IC2_DATA)
                 {
-                    if (ic2PulseMode == CNT_PULSE.PULSE_MODE_DISABLED)
+                    if (cntPaint > 10000000)
                     {
-                        if (cntPaint > 10000000)
-                        {
-                            label_cnt_ic2_value.ForeColor = SystemColors.WindowFrame;
-                            label_cnt_ic2_value.Font = new Font("Times New Roman", 13);
-                            label_cnt_ic2_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
-                        }
-                        /* Hysterezis */
-                        //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic2_value.Text == "Frequency > 10 MHz"))
-                        //{
-                        //    label_cnt_ic2_value.Text = "Frequency > 10 MHz";
-                        //}
-                        else
-                        {
-                            if (cntPaint != 0)
-                            {
-                                label_cnt_ic2_value.ForeColor = Color.Black;
-                                label_cnt_ic2_value.Font = new Font("Times New Roman", 21.75F);
-                                label_cnt_ic2_value.Text = String.Format("{0:n9}", cntPaint);
-                                periodForDutyCycle_icCh2 = 1 / cntPaint;
-                                label_cnt_ic2_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", periodForDutyCycle_icCh2) : "0.000000";
-                            }
-                            com_ic2_indication();
-                        }
-                        label_cnt_icPulse_dutyCycle_ch2.Text = "----";
+                        label_cnt_ic2_value.ForeColor = SystemColors.WindowFrame;
+                        label_cnt_ic2_value.Font = new Font("Times New Roman", 13);
+                        label_cnt_ic2_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
                     }
+                    /* Hysterezis */
+                    //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic2_value.Text == "Frequency > 10 MHz"))
+                    //{
+                    //    label_cnt_ic2_value.Text = "Frequency > 10 MHz";
+                    //}
                     else
                     {
-                        double printTime = (1 / cntPaint);
-                        if (!double.IsInfinity(printTime))
+                        if (cntPaint != 0)
                         {
                             label_cnt_ic2_value.ForeColor = Color.Black;
                             label_cnt_ic2_value.Font = new Font("Times New Roman", 21.75F);
-                            label_cnt_ic2_pulse.Text = String.Format("{0:n9}", printTime);
-                            double dutyCycle = printTime / periodForDutyCycle_icCh2 * 100;
-                            label_cnt_icPulse_dutyCycle_ch2.Text = (dutyCycle < 100) ? dutyCycle.ToString("F2") : "100";
+                            label_cnt_ic2_value.Text = String.Format("{0:n9}", cntPaint);
+                            label_cnt_ic2_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", 1 / cntPaint) : "0.000000";
                         }
-                        com_ic2_pulse_indication();
+                        com_ic2_indication();
                     }
+                }
+                /************************************** IC1 DUTY CYCLE PRINT **************************************/
+                else if (req == Message.MsgRequest.COUNTER_IC1_DUTY_CYCLE)
+                {
+                    label_cnt_ic_dutyCycle.Text = cntPaint.ToString("F3");
+                    com_ic_dutyCycle_indication();
+                }
+                /************************************** IC1 PULSE WIDTH PRINT **************************************/
+                else if (req == Message.MsgRequest.COUNTER_IC1_PULSE_WIDTH)
+                {
+                    label_cnt_ic_pulseWidth.Text = cntPaint.ToString("F12");
+                    com_ic_pulseWidth_indication();
                 }
                 /************************************** REF DATA PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_REF_DATA)
                 {
                     label_cnt_ref_value.ForeColor = SystemColors.ControlText;
-                    label_cnt_ref_value.Font = new Font("Times New Roman", 21.75F);                    
+                    label_cnt_ref_value.Font = new Font("Times New Roman", 21.75F);
                     label_cnt_ref_value.Text = String.Format("{0:n10}", (refSamples / cntPaint));
 
                     com_ref_indication();
@@ -373,11 +352,11 @@ namespace LEO
                 /* Buffer 1 is bigger - meaning, the event A on channel 1 occurred after event B on channel 2 (B came first) */
                 else if (req == Message.MsgRequest.COUNTER_TI_BIGGER_BUF1)
                 {
-                    if(radioButton_it_eventSequence_ba.Checked == true)
+                    if (radioButton_it_eventSequence_ba.Checked == true)
                     {
                         label_cnt_it_value.ForeColor = Color.Black;
                         label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
-                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);                        
+                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);
                     }
                     else
                     {
@@ -395,7 +374,7 @@ namespace LEO
                     {
                         label_cnt_it_value.ForeColor = Color.Black;
                         label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
-                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);                        
+                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);
                     }
                     else
                     {
@@ -468,19 +447,19 @@ namespace LEO
             cnt_ic_indication_ch1.BackColor = (cnt_ic_indication_ch1.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
         }
 
-        public void com_ic1_pulse_indication()
+        public void com_ic_dutyCycle_indication()
         {
             cnt_ic_pulse_indic_ch1.BackColor = (cnt_ic_pulse_indic_ch1.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
+        }
+
+        public void com_ic_pulseWidth_indication()
+        {
+            cnt_ic_pulse_indic_ch2.BackColor = (cnt_ic_pulse_indic_ch2.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
         }
 
         public void com_ic2_indication()
         {
             cnt_ic_indication_ch2.BackColor = (cnt_ic_indication_ch2.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
-        }
-
-        public void com_ic2_pulse_indication()
-        {
-            cnt_ic_pulse_indic_ch2.BackColor = (cnt_ic_pulse_indic_ch2.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
         }
 
         public void com_ref_indication()
@@ -556,8 +535,9 @@ namespace LEO
         {
             /* Set IC values to default */
             if (counterMode == CNT_MODES.IC)
-            {
+            {                
                 icGuiReinit();
+                restoreIcMode();
             }
 
             switch ((sender as TabControl).SelectedIndex)
@@ -567,8 +547,7 @@ namespace LEO
                     cnt_init_mode(CNT_MODES.ETR);
                     counterMode = CNT_MODES.ETR;
                     cnt_start();
-                    ETR_appReinit();
-                    icPulseModeValidate();
+                    ETR_appReinit();                    
                     break;
                 case 1:
                     cnt_stop();
@@ -582,15 +561,13 @@ namespace LEO
                     cnt_init_mode(CNT_MODES.REF);
                     counterMode = CNT_MODES.REF;
                     cnt_start();
-                    REF_appReinit();
-                    icPulseModeValidate();
+                    REF_appReinit();                    
                     break;
                 case 3:
                     cnt_stop();
                     cnt_init_mode(CNT_MODES.TI);
                     counterMode = CNT_MODES.TI;
-                    TI_appReinit();
-                    icPulseModeValidate();
+                    TI_appReinit();                    
                     break;
             }
         }
@@ -627,8 +604,7 @@ namespace LEO
             refSamples = 10000000;
             label_cnt_ref_value.ForeColor = SystemColors.WindowFrame;
             label_cnt_ref_value.Font = new Font("Times New Roman", 14);
-            label_cnt_ref_value.Text = "Change the sample count first.";
-            label_cnt_refRatio_pins.Text = "Frequency ratio [" + refPins[0] + " / " + refPins[1] + "]";
+            label_cnt_ref_value.Text = "Change the sample count first.";            
             label_cnt_ref_acc.Text = "∓ 0.000000";
 
             cnt_etr_trackBar.Value = 2; 
@@ -652,16 +628,16 @@ namespace LEO
             label_cnt_ic2_acc_freq.Text = "∓ 0.000000";
             label_cnt_ic1_acc_period.Text = "∓ 0.000000";
             label_cnt_ic2_acc_period.Text = "∓ 0.000000";
-            label_cnt_ic1_acc_pulse.Text = "∓ 0.000000";
-            label_cnt_ic2_acc_pulse.Text = "∓ 0.000000";
+            label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
+            label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
 
             groupBox_cnt_ic1_freq.Visible = true;
             groupBox_cnt_ic1_period.Visible = true;
-            groupBox_cnt_ic1_pulse.Visible = false;
+            groupBox_cnt_ic_dutyCycle.Visible = false;
 
             groupBox_cnt_ic2_freq.Visible = true;
             groupBox_cnt_ic2_period.Visible = true;
-            groupBox_cnt_ic2_pulse.Visible = false;
+            groupBox_cnt_ic_pulseWidth.Visible = false;
 
             xToolStripMenu_icCh1_1x.Checked = true;
             xToolStripMenu_icCh2_1x.Checked = true;
@@ -706,9 +682,7 @@ namespace LEO
             label_icCh2_min.Text = "1";
             label_icCh2_max.Text = "100";
             cnt_ic2_trackBar.Minimum = cntIcPresc2;
-            cnt_ic2_trackBar.Maximum = cntIcPresc2 * 100;
-
-            icPulseModeValidate();
+            cnt_ic2_trackBar.Maximum = cntIcPresc2 * 100;            
 
             icMenuHideChannels();
 
@@ -716,16 +690,36 @@ namespace LEO
             negateToolStrip2Check();
         }
         
-        public void icPulseModeValidate()
-        {
-            checkBox_icMode_pulse_ch1.Checked = false;
-            checkBox_icMode_pulse_ch2.Checked = false;
-        }
-
         public void icMenuHideChannels()
         {
             channel1ToolStripMenuItem.Visible = false;
             channel2ToolStripMenuItem.Visible = false;
+        }
+
+        /* Any counter mode tab can be selected when Duty Cycle measurement is still 
+           selected, so have to be reconfigured back to IC frequency measurement mode. */
+        public void restoreIcMode()
+        {
+            if(ic1DutyCycle == CNT_DUTY_CYCLE.DUTY_CYCLE_ENABLED)
+            {
+                checkBox_icMode_dutyCycle_ch1.Checked = false;
+            }
+            else
+            {
+                dutyCycleDisable_ch1();                                     
+            }
+
+            if (ic2DutyCycle == CNT_DUTY_CYCLE.DUTY_CYCLE_ENABLED)
+            {
+                checkBox_icMode_dutyCycle_ch2.Checked = false;
+            }
+            else
+            {
+                dutyCycleDisable_ch2();
+            }
+
+            ic1DutyCycle = CNT_DUTY_CYCLE.DUTY_CYCLE_DISABLED;
+            ic2DutyCycle = CNT_DUTY_CYCLE.DUTY_CYCLE_DISABLED;
         }
 
         public static void setRefPins(string[] pins)
@@ -1175,33 +1169,73 @@ namespace LEO
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         /* ------------------------------------------------ COUNTER IC1/IC2 CHECK BOXES --------------------------------------------------- */
         /* -------------------------------------------------------------------------------------------------------------------------------- */
-        private void checkBox_icMode_pulse_ch1_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_icMode_dutyCycle_ch1_CheckedChanged(object sender, EventArgs e)
         {
-            bool checkCheck = (checkBox_icMode_pulse_ch1.Checked == true) ? false : true;
+            bool checkCheck = (checkBox_icMode_dutyCycle_ch1.Checked == true) ? false : true;
 
-            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_STOP_CH1);            
+            checkCheckDutyCycle_ch1(checkCheck);
 
-            /* Pulse mode disable : restore the previous configuration */
+            /* Duty Cycle disable : restore the previous configuration */
             if (checkCheck)
             {
-                pulseModeDisable_ch1();
+                dutyCycleDisable_ch1();
             }
-            /* Pulse mode enable : set the pusle measuring mode configuration */
+            /* Duty Cycle enable : set duty cycle measuring mode configuration */
             else
             {
-                pulseModeEnable_ch1();
+                cnt_stop();
+                dutyCycleEnable_ch1();
             }
+        }
 
+        private void checkCheckDutyCycle_ch1(bool checkCheck)
+        {
             groupBox_icSampleCount1.Enabled = checkCheck;
             cnt_ic1_trackBar.Enabled = checkCheck;
             cnt_ic1_buffer_textBox.Enabled = checkCheck;
             label_icCh1_min.Enabled = checkCheck;
             label_icCh1_max.Enabled = checkCheck;
-            signalDividersToolStripMenuItem.Enabled = checkCheck;
+
+            groupBox_icSampleCount2.Enabled = checkCheck;
+            cnt_ic2_trackBar.Enabled = checkCheck;
+            cnt_ic2_buffer_textBox.Enabled = checkCheck;
+            label_icCh2_min.Enabled = checkCheck;
+            label_icCh2_max.Enabled = checkCheck;
+
+            groupBox_cnt_ic_dutyCycle_ch2.Enabled = checkCheck;
+
+            channel1ToolStripMenuItem.Enabled = checkCheck;
+            channel2ToolStripMenuItem.Enabled = checkCheck;
+
+            //signalDividersToolStripMenuItem_ch1.Enabled = checkCheck;
+            //signalDividersToolStripMenuItem_ch2.Enabled = checkCheck;
         }
 
-        private void pulseModeDisable_ch1()
+        private void dutyCycleEnable_ch1()
         {
+            /* Show duty cycle and pulse width measurement groupBox */
+            groupBox_cnt_ic_dutyCycle.Visible = true;
+            groupBox_cnt_ic_pulseWidth.Visible = true;
+            label_dutyCycle_groupBoxName.Text = "Duty cycle channel 1 [%]";
+            label_pulseWidth_groupBoxName.Text = "Pulse width channel 1 [s]";
+            label_cnt_ic_dutyCycle.Text = "0.000";
+            label_cnt_ic_pulseWidth.Text = "0.000000";
+            label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
+            label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
+
+            /* Initialize duty cycle and pulse width measurement  */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_INIT_CH1);
+            /* Initiate measuring */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_ENABLE);
+
+            ic1DutyCycle = CNT_DUTY_CYCLE.DUTY_CYCLE_ENABLED;
+        }
+
+        private void dutyCycleDisable_ch1()
+        {
+            /* Initiate measuring */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_DISABLE);
+
             /* Set the previous value of IC prescaler */
             switch (cntIcPresc1)
             {
@@ -1218,77 +1252,88 @@ namespace LEO
                     sendIc1Multiplier(Commands.CNT_IC_PSC_8x);
                     break;
             }
-            /* Return IC channel 1 into Input Capture frequency measurement */
-            sendIc1SampleCount((ushort)(cnt_ic1_trackBar.Value / cntIcPresc1));
-            /* Reinitialize IC channel 1 into previous configuration */
-            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_ONLY_CH1);
-            //Thread.Sleep(100);
-            /* Start frequency measurement on channel 1 */
-            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH1);
-            /* Disable pulse mode on channel 1 */
-            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_DISABLE_CH1);
 
-            /* Show both freq. and period groupBoxes */
-            groupBox_cnt_ic1_freq.Visible = true;
-            groupBox_cnt_ic1_period.Visible = true;
+            /* Set the previous sample count */
+            sendIc1SampleCount((ushort)(cnt_ic1_trackBar.Value / cntIcPresc1));            
+            sendIc2SampleCount((ushort)(cnt_ic2_trackBar.Value / cntIcPresc2));
 
-            /* Hide pulse measurement groupBox */
-            groupBox_cnt_ic1_pulse.Visible = false;
+            /* Deinitialize duty cycle and pulse width measurement  */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_DEINIT_CH1);
 
-            ic1PulseMode = CNT_PULSE.PULSE_MODE_DISABLED;
+            /* Hide duty cycle and pulse width measurement groupBox */
+            groupBox_cnt_ic_dutyCycle.Visible = false;
+            groupBox_cnt_ic_pulseWidth.Visible = false;
+
+            ic1DutyCycle = CNT_DUTY_CYCLE.DUTY_CYCLE_DISABLED;
         }
 
-        private void pulseModeEnable_ch1()
+        private void checkBox_icMode_dutyCycle_ch2_CheckedChanged(object sender, EventArgs e)
         {
-            /* Enable editing features due to Pulse mode  */
-            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_ENABLE_CH1);
-            /* Initialize IC channel 1 to measure one pulse */
-            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_FALLING_CH1);
-            //Thread.Sleep(100);
-            /* Set IC prescaler to 1 */
-            sendIc1Multiplier(Commands.CNT_IC_PSC_1x);
-            /* Set DMA to transfer only two samples/edges - rising and falling (+1 added in MCU firmware) */
-            sendIc1SampleCount(1);
-            /* Start Pulse measurement on channel 1 */
-            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH1);
+            bool checkCheck = (checkBox_icMode_dutyCycle_ch2.Checked == true) ? false : true;
 
-            /* Hide both freq. and period groupBoxes */
-            groupBox_cnt_ic1_freq.Visible = false;
-            groupBox_cnt_ic1_period.Visible = false;
+            checkCheckDutyCycle_ch2(checkCheck);
 
-            /* Show pulse measurement groupBox */
-            groupBox_cnt_ic1_pulse.Visible = true;
-
-            ic1PulseMode = CNT_PULSE.PULSE_MODE_ENABLED;
+            /* Duty Cycle disable : restore the previous configuration */
+            if (checkCheck)
+            {
+                dutyCycleDisable_ch2();
+            }
+            /* Duty Cycle enable : set duty cycle measuring mode configuration */
+            else
+            {
+                cnt_stop();
+                dutyCycleEnable_ch2();
+            }
         }
 
-        private void checkBox_icMode_pulse_ch2_CheckedChanged(object sender, EventArgs e)
+        private void checkCheckDutyCycle_ch2(bool checkCheck)
         {
-            bool checkCheck = (checkBox_icMode_pulse_ch2.Checked == true) ? false : true;
+            groupBox_icSampleCount1.Enabled = checkCheck;
+            cnt_ic1_trackBar.Enabled = checkCheck;
+            cnt_ic1_buffer_textBox.Enabled = checkCheck;
+            label_icCh1_min.Enabled = checkCheck;
+            label_icCh1_max.Enabled = checkCheck;
 
             groupBox_icSampleCount2.Enabled = checkCheck;
             cnt_ic2_trackBar.Enabled = checkCheck;
             cnt_ic2_buffer_textBox.Enabled = checkCheck;
             label_icCh2_min.Enabled = checkCheck;
             label_icCh2_max.Enabled = checkCheck;
-            sampleCountMultipliersToolStripMenuItem.Enabled = checkCheck;
 
-            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_STOP_CH2);
+            groupBox_cnt_ic_dutyCycle_ch1.Enabled = checkCheck;
 
-            /* Pulse mode disable : restore the previous configuration */
-            if (checkCheck)
-            {
-                pulseModeDisable_ch2();
-            }
-            /* Pulse mode enable : set the pusle measuring mode configuration */
-            else
-            {
-                pulseModeEnable_ch2();
-            }
+            channel1ToolStripMenuItem.Enabled = checkCheck;
+            channel2ToolStripMenuItem.Enabled = checkCheck;
+
+            //signalDividersToolStripMenuItem_ch1.Enabled = checkCheck;
+            //signalDividersToolStripMenuItem_ch2.Enabled = checkCheck;
         }
 
-        private void pulseModeDisable_ch2()
+        private void dutyCycleEnable_ch2()
         {
+            /* Show duty cycle and pulse width measurement groupBox */
+            groupBox_cnt_ic_dutyCycle.Visible = true;
+            groupBox_cnt_ic_pulseWidth.Visible = true;
+            label_dutyCycle_groupBoxName.Text = "Duty cycle channel 2 [%]";
+            label_pulseWidth_groupBoxName.Text = "Pulse width channel 2 [s]";
+            label_cnt_ic_dutyCycle.Text = "0.000";
+            label_cnt_ic_pulseWidth.Text = "0.000000";
+            label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
+            label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
+
+            /* Initialize duty cycle and pulse width measurement  */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_INIT_CH2);            
+            /* Initiate measuring */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_ENABLE);
+
+            ic2DutyCycle = CNT_DUTY_CYCLE.DUTY_CYCLE_ENABLED;
+        }
+
+        private void dutyCycleDisable_ch2()
+        {
+            /* Initiate measuring */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_DISABLE);
+
             /* Set the previous value of IC prescaler */
             switch (cntIcPresc2)
             {
@@ -1305,52 +1350,22 @@ namespace LEO
                     sendIc2Multiplier(Commands.CNT_IC_PSC_8x);
                     break;
             }
-            /* Return IC channel 1 into Input Capture frequency measurement */
+
+            /* Set the previous sample count */
+            sendIc1SampleCount((ushort)(cnt_ic1_trackBar.Value / cntIcPresc1));
             sendIc2SampleCount((ushort)(cnt_ic2_trackBar.Value / cntIcPresc2));
-            /* Reinitialize IC channel 1 into previous configuration */
-            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_ONLY_CH2);
-            Thread.Sleep(100);
-            /* Start frequency measurement on channel 1 */
-            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH2);
-            /* Disable pulse mode on channel 1 */
-            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_DISABLE_CH2);
 
-            /* Show both freq. and period groupBoxes */
-            groupBox_cnt_ic2_freq.Visible = true;
-            groupBox_cnt_ic2_period.Visible = true;
+            /* Deinitialize duty cycle and pulse width measurement  */
+            sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_DEINIT_CH2);
 
-            /* Hide pulse measurement groupBox */
-            groupBox_cnt_ic2_pulse.Visible = false;
+            /* Hide duty cycle and pulse width measurement groupBox */
+            groupBox_cnt_ic_dutyCycle.Visible = false;
+            groupBox_cnt_ic_pulseWidth.Visible = false;
 
-            ic2PulseMode = CNT_PULSE.PULSE_MODE_DISABLED;
+            ic2DutyCycle = CNT_DUTY_CYCLE.DUTY_CYCLE_DISABLED;
         }
 
-        private void pulseModeEnable_ch2()
-        {
-            /* Enable editing features due to Pulse mode  */
-            icPulseCommand(Commands.CNT_PMODE, Commands.CNT_PMODE_ENABLE_CH2);
-            /* Set IC prescaler to 1 */
-            sendIc2Multiplier(Commands.CNT_IC_PSC_1x);
-            /* Set DMA to transfer only two samples/edges - rising and falling (+1 added in MCU firmware) */
-            sendIc2SampleCount(1);
-            /* Initialize IC channel 1 to measure one pulse */
-            icPulseCommand(Commands.CNT_EVENT, Commands.CNT_EVENT_RISING_FALLING_CH2);
-            Thread.Sleep(100);
-            /* Start Pulse measurement on channel 1 */
-            icPulseCommand(Commands.CNT_PULSE, Commands.CNT_PULSE_START_CH2);
-
-            /* Hide both freq. and period groupBoxes */
-            groupBox_cnt_ic2_freq.Visible = false;
-            groupBox_cnt_ic2_period.Visible = false;
-
-            /* Show pulse measurement groupBox */
-            groupBox_cnt_ic2_pulse.Visible = true;
-
-            ic2PulseMode = CNT_PULSE.PULSE_MODE_ENABLED;
-        }
-
-
-        public void icPulseCommand(string generalComm, string specificComm)
+        public void sendCounterCommand(string generalComm, string specificComm)
         {
             device.takeCommsSemaphore(semaphoreTimeout + 110);
             device.send(Commands.COUNTER + ":" + generalComm + " ");
@@ -1603,6 +1618,7 @@ namespace LEO
                 cnt_ref_sampleCount_textBox.ForeColor = Color.DarkRed;
                 cnt_ref_sampleCount_textBox.Text = "A prime number > 64000";
                 this.ActiveControl = null;
+                return;
             }
             else if (sampleCount <= 64000)
             {
@@ -1625,8 +1641,9 @@ namespace LEO
                 if (arr > 64000)
                 {
                     cnt_ref_sampleCount_textBox.ForeColor = Color.DarkRed;
-                    cnt_ref_sampleCount_textBox.Text = "Can't be devided.";
+                    cnt_ref_sampleCount_textBox.Text = "Can't be devided.";                    
                     this.ActiveControl = null;
+                    return;
                 }
             }
 
@@ -1639,7 +1656,7 @@ namespace LEO
                 device.send_short((ushort)psc);
                 device.send(";");
 
-                Thread.Sleep(120);
+                //Thread.Sleep(120);
 
                 device.send(Commands.COUNTER + ":" + Commands.CNT_SAMPLES_ARR + " ");
                 device.send_short((ushort)arr);
@@ -1686,7 +1703,7 @@ namespace LEO
 
         private void scrollTimerConfig()
         {
-            scrollTimer = new System.Timers.Timer(200);
+            scrollTimer = new System.Timers.Timer(100);
             scrollTimer.Elapsed += new ElapsedEventHandler(scrollTimeElapseEvent);
             scrollTimer.AutoReset = false;
         }
@@ -1896,10 +1913,12 @@ namespace LEO
                     {
                         cnt_ref_sampleCount_textBox.ForeColor = Color.Black;
                         splitAndSend((UInt32)refSampleCount);
-                        refSamples = (UInt32)refSampleCount;
-
-                        req = Message.MsgRequest.COUNTER_REF_WAIT;
-                        this.Invalidate();
+                        if (!cnt_ref_sampleCount_textBox.Text.Equals("Can't be devided.") && !cnt_ref_sampleCount_textBox.Text.Equals("A prime number > 64000"))
+                        {                            
+                            refSamples = (UInt32)refSampleCount;
+                            req = Message.MsgRequest.COUNTER_REF_WAIT;
+                            this.Invalidate();
+                        }
                     }
                 }
             }

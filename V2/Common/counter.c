@@ -211,6 +211,22 @@ void counterSetEtrGate(uint16_t gateTime){
 }
 
 /**
+  * @brief  Setters for REF counter (TIM4) - PSC and REF numbers to be multiplied (number of REF clock ticks to be counted).
+						Note the REF mode uses ETR struct, some ETR functions...
+	* @param  buffer - psc or arr: range between 1 - 65536
+  * @retval None
+  */
+void counterSetRefPsc(uint16_t psc){	
+	counter.counterEtr.psc = psc - 1;
+	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);		
+}
+
+void counterSetRefArr(uint16_t arr){		
+	counter.counterEtr.arr = arr - 1;
+	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);			
+}
+
+/**
   * @brief  Setters for counters' IC buffer sizes (number of edges counted)
 	* @param  buffer: range between 2 - xxx (max. value depends on free memory availability)
   * @retval None
@@ -218,62 +234,15 @@ void counterSetEtrGate(uint16_t gateTime){
 void counterSetIc1SampleCount(uint16_t buffer){
 	xSemaphoreTakeRecursive(counterMutex, portMAX_DELAY);
 	counter.counterIc.ic1BufferSize = buffer + 1;						 // PC app sends number of samples but IC needs the number of edges, therefore "buffer + 1";		
-	if(counter.ic1Pulse == PULSE_MODE_DISABLED){
-		DMA_Restart(&hdma_tim2_ch1);
-	}	
+	DMA_Restart(&hdma_tim2_ch1);	
 	xSemaphoreGiveRecursive(counterMutex);
 }
 
 void counterSetIc2SampleCount(uint16_t buffer){
 	xSemaphoreTakeRecursive(counterMutex, portMAX_DELAY);	
-	counter.counterIc.ic2BufferSize = buffer + 1;
-	if(counter.ic2Pulse == PULSE_MODE_DISABLED){
-		DMA_Restart(&hdma_tim2_ch2_ch4);
-	}	
+	counter.counterIc.ic2BufferSize = buffer + 1;	
+	DMA_Restart(&hdma_tim2_ch2_ch4);	
 	xSemaphoreGiveRecursive(counterMutex);		
-}
-
-/**
-  * @brief  Starters/Soppers for pulse measuring under input capture (IC) mode.
-	* @param  None
-  * @retval None
-  */
-void counterIc1PulseStart(void){
-	TIM_IC1_PULSE_Start();
-}
-
-void counterIc1PulseStop(void){
-	TIM_IC1_PULSE_Stop();
-}
-
-void counterIc2PulseStart(void){
-	TIM_IC2_PULSE_Start();
-}
-
-void counterIc2PulseStop(void){
-	TIM_IC2_PULSE_Stop();
-}
-
-/**
-  * @brief  Enable/Disable pulse mode measuring under input capture (IC) mode.
-						Used for decision purposes.
-	* @param  None
-  * @retval None
-  */
-void counterIc1PulseModeEnable(void){
-	counter.ic1Pulse = PULSE_MODE_ENABLED;
-}
-
-void counterIc2PulseModeEnable(void){
-	counter.ic2Pulse = PULSE_MODE_ENABLED;
-}
-
-void counterIc1PulseModeDisable(void){
-	counter.ic1Pulse = PULSE_MODE_DISABLED;
-}
-
-void counterIc2PulseModeDisable(void){
-	counter.ic2Pulse = PULSE_MODE_DISABLED;
 }
 
 /**
@@ -283,30 +252,55 @@ void counterIc2PulseModeDisable(void){
   */
 void counterSetIc1Prescaler(uint16_t presc){	
 	TIM_IC1_PSC_Config(presc);
-	if(counter.ic1Pulse == PULSE_MODE_DISABLED){
-		DMA_Restart(&hdma_tim2_ch1);
-	}		
+	DMA_Restart(&hdma_tim2_ch1);
 }
 
 void counterSetIc2Prescaler(uint16_t presc){		
-	TIM_IC2_PSC_Config(presc);
-	if(counter.ic2Pulse == PULSE_MODE_DISABLED){
-		DMA_Restart(&hdma_tim2_ch2_ch4);
-	}	
+	TIM_IC2_PSC_Config(presc);	
+	DMA_Restart(&hdma_tim2_ch2_ch4);	
 }
 
 /**
-  * @brief  Setter for counter TI timeout
-	* @param  timeout: 500 - 28000 [ms]
+  * @brief  Enable/Disable Duty Cycle measuring under input capture (IC) mode.
+						Used for decision purposes.
+	* @param  None
   * @retval None
   */
-void counterSetTiTimeout(uint16_t timeout){
-	counter.counterIc.tiTimeout = timeout;				
+
+/* Cahnnel 1 */
+void counterIc1DutyCycleInit(void){	
+	counter.icDutyCycle = DUTY_CYCLE_CH1_ENABLED;
+	TIM_IC_DutyCycle_Init();	
+}
+
+void counterIc1DutyCycleDeinit(void){	
+	TIM_IC_DutyCycle_Deinit();		
+	counter.icDutyCycle = DUTY_CYCLE_DISABLED;
+}
+
+/* Channel 2 */
+void counterIc2DutyCycleInit(void){	
+	counter.icDutyCycle = DUTY_CYCLE_CH2_ENABLED;
+	TIM_IC_DutyCycle_Init();	
+}
+
+void counterIc2DutyCycleDeinit(void){		
+	TIM_IC_DutyCycle_Deinit();		
+	counter.icDutyCycle = DUTY_CYCLE_DISABLED;
+}
+
+/* Common for both channels */
+void counterIcDutyCycleEnable(void){
+	TIM_IC_DutyCycle_Start();
+}
+
+void counterIcDutyCycleDisable(void){
+	TIM_IC_DutyCycle_Stop();
 }
 
 /**
-	* @brief  Functions used to select active adges (events) - dedicated to Pulse 
-						measurement configuration of IC and events of TI mode. 						
+	* @brief  Functions used to select active adges (events) - dedicated to Duty Cycle 
+						measurement configuration of IC and to events of TI mode. 						
 	* @param  none
   * @retval none 
   */
@@ -337,19 +331,12 @@ void counterSetIcTi2_Falling(void){
 }
 
 /**
-  * @brief  Setters for REF counter (TIM4) - PSC and REF numbers to be multiplied (number of REF clock ticks to be counted).
-						Note the REF mode uses ETR struct, some ETR functions...
-	* @param  buffer - psc or arr: range between 1 - 65536
+  * @brief  Setter for counter TI timeout
+	* @param  timeout: 500 - 28000 [ms]
   * @retval None
   */
-void counterSetRefPsc(uint16_t psc){
-	counter.counterEtr.psc = psc - 1;
-	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);
-}
-
-void counterSetRefArr(uint16_t arr){	
-	counter.counterEtr.arr = arr - 1;
-	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);	
+void counterSetTiTimeout(uint16_t timeout){
+	counter.counterIc.tiTimeout = timeout;				
 }
 
 /* ************************************************************************************** */
@@ -360,7 +347,7 @@ void counterSetRefArr(uint16_t arr){
 	*					DMA transfer complete event is triggered after TIM4 gate time elapse.
   * @param  Pointer to DMA handle structure.
   * @retval None
-  * @state  USED
+  * @state  VERY USED
   */
 void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 {			
@@ -374,7 +361,7 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 		counter.counterEtr.freq = ((double)counter.counterEtr.buffer * gateFreq * counter.counterEtr.etrp);								/* Sampled frequency */
 		TIM_ETRP_Config(counter.counterEtr.freq);	
 		
-		if((counter.sampleCntChange != SAMPLE_COUNT_CHANGED) && ((HAL_GetTick() - startTime) > 210)){
+		if(counter.sampleCntChange != SAMPLE_COUNT_CHANGED){
 			xQueueSendToBackFromISR(messageQueue, "GEtrDataSend", &xHigherPriorityTaskWoken);
 		}else{
 			counter.sampleCntChange = SAMPLE_COUNT_NOT_CHANGED;
@@ -382,7 +369,7 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 		
 	/***** Counter REF handle *****/
 	}else if(counter.state == COUNTER_REF){		
-		if((counter.sampleCntChange != SAMPLE_COUNT_CHANGED) && (HAL_GetTick() - startTime) < 100){
+		if((counter.sampleCntChange != SAMPLE_COUNT_CHANGED) && (xTaskGetTickCount() - xStartTime) < 100){
 			xQueueSendToBackFromISR(messageQueue, "ORefWarning", &xHigherPriorityTaskWoken);
 			TIM_REF_SecondInputDisable();				
 		}else if(counter.sampleCntChange != SAMPLE_COUNT_CHANGED){	
@@ -397,31 +384,35 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 
 /**
   * @brief  This function is executed in case of TIM4 period elapse event. This function accompanies 
-						IC (freq. meas.) and TI (time interval between 2 events meas.) modes.
+						IC (freq. meas. + Duty Cycle) and TI (time interval between 2 events meas.) modes.
   * @param  Pointer to TIM handle structure.
   * @retval None
-  * @state  USED
+  * @state  VERY USED
   */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(counter.state == COUNTER_IC){
-		counterIcProcess();
-	}else{
-		counterTiProcess();
+	if(counter.icDutyCycle == DUTY_CYCLE_DISABLED){
+		if(counter.state == COUNTER_IC){
+			counterIcProcess();
+		}else{
+			counterTiProcess();
+		}						
+	}else{		
+		counterIcDutyCycleProcess();
 	}
 }
 
 /**
-  * @brief  Function colaborating with HAL_TIM_PeriodElapsedCallback to handle every 100 ms capture events if the required samples transfered.
-						Frequency of IC1 or IC2 channel (depending on BIN "semaphore" and DMA_TransferComplete event) is computed and sent to PC app. 
-						This approach replaces DMA data transfer	complete interrupts	of both channels - the higher frequencies 
-						measured the CPU more heavy loaded, therefore replaced.
+  * @brief  Function colaborating with HAL_TIM_PeriodElapsedCallback to handle every 100 ms captured events if the required samples were transfered.
+						Frequency of IC1 or IC2 channel is computed and sent to PC app. This approach replaces DMA data transfercomplete interrupts	of both 
+						channels - the higher frequencies measured the CPU more heavy loaded, therefore replaced.
+						BIN "semaphore" implemented due to communication issue when data send to PC. (too slow)
   * @param  None
   * @retval None
   * @state  VERY USED
   */
 void counterIcProcess(void)
-{
+{	
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);	
 	
@@ -439,7 +430,7 @@ void counterIcProcess(void)
 			
 			DMA_Restart(&hdma_tim2_ch1);
 			counter.icChannel1 = COUNTER_IRQ_IC1;
-			xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);					
+			xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);									
 		}
 		
 	}else if(counter.icBin != BIN1){
@@ -454,7 +445,7 @@ void counterIcProcess(void)
 						
 			DMA_Restart(&hdma_tim2_ch2_ch4);		
 			counter.icChannel2 = COUNTER_IRQ_IC2;		
-			xQueueSendToBackFromISR(messageQueue, "LIcDataSend", &xHigherPriorityTaskWoken);	
+			xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);	
 		}
 	}
 	
@@ -506,6 +497,53 @@ void counterTiProcess(void)
 	xSemaphoreGiveFromISR(counterMutex, &xHigherPriorityTaskWoken);			
 }
 
+/**
+  * @brief  Function colaborating with HAL_TIM_PeriodElapsedCallback to handle 
+						one input (TI1 or TI2) that is feeding two IC registers to calculate pulse width
+						and duty cycle. BIN implemented due to UART speed issue when sending data to PC.
+  * @param  None
+  * @retval None
+  * @state  VERY USED
+  */
+void counterIcDutyCycleProcess(void)
+{
+	portBASE_TYPE xHigherPriorityTaskWoken;
+	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);	
+
+	if(counter.icDutyCycle == DUTY_CYCLE_CH1_ENABLED){	
+		if(DMA_TransferComplete(&hdma_tim2_ch1)){
+			/* Calculate duty cycle and pulse width. Frequency struct variables temporarily used. */
+			counter.counterIc.ic1freq = (counter.counterIc.ic2buffer[0] / (double)counter.counterIc.ic1buffer[0]) * 100;
+			counter.counterIc.ic2freq = counter.counterIc.ic2buffer[0] / (double)tim2clk;
+				
+			TIM_IC_DutyCycleDmaRestart();		
+			
+			/* DMA transfers some unspecified number immediately after 
+				 Duty Cycle start - getting rid of it. */
+			if(counter.icBin == BIN0){
+				counter.icBin = BIN1;
+			}else{
+				xQueueSendToBackFromISR(messageQueue, "GIc1DutyCycle", &xHigherPriorityTaskWoken);		
+			}								
+		}
+	}else if(counter.icDutyCycle == DUTY_CYCLE_CH2_ENABLED){
+		if(DMA_TransferComplete(&hdma_tim2_ch2_ch4)){			
+			counter.counterIc.ic1freq = (counter.counterIc.ic1buffer[0] / (double)counter.counterIc.ic2buffer[0]) * 100;
+			counter.counterIc.ic2freq = counter.counterIc.ic1buffer[0] / (double)tim2clk;
+			
+			TIM_IC_DutyCycleDmaRestart();			
+			
+			if(counter.icBin == BIN0){
+				counter.icBin = BIN1;
+			}else{
+				xQueueSendToBackFromISR(messageQueue, "GIc2DutyCycle", &xHigherPriorityTaskWoken);		
+			}					
+		}
+	}	
+			
+	xSemaphoreGiveFromISR(counterMutex, &xHigherPriorityTaskWoken);			
+}
+
 /* ************************************************************************************** */
 /* ----------------------------- Counter specific functions ----------------------------- */
 /* ************************************************************************************** */
@@ -515,7 +553,7 @@ void counterTiProcess(void)
   * @retval none 
   */
 void counterGateConfig(uint16_t gateTime)
-{			
+{				
 	switch(gateTime){
 		case 100:														/* min.	gate time 00.10 second */
 			counter.counterEtr.psc = 7199;

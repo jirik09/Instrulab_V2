@@ -121,7 +121,7 @@ int main(void)
   /* Create Start thread */
 	osThreadDef(CMD_PARSER_TASK, CmdParserTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(USER_TASK, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-	osThreadDef(COMM_TASK, CommTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+	osThreadDef(COMM_TASK, CommTask, osPriorityAboveNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#ifdef USE_SCOPE
 	osThreadDef(SCOPE_TASK, ScopeTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(SCOPE_TRIG_TASK, ScopeTriggerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);

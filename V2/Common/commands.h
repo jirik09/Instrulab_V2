@@ -37,6 +37,9 @@ typedef uint32_t command;
 #define STR_CNT_TI_EQUAL "EQUL"		// Buffers equal
 #define STR_CNT_TI_TIMEOUT "TMOT"	// Timeout occured
 
+#define STR_CNT_DUTY_CYCLE  "DUT1"
+#define STR_CNT_PULSE_WIDTH "PWD1"
+
 #endif //USE_COUNTER
 
 
@@ -134,8 +137,7 @@ REGISTER_CMD(CNT_SAMPLE_COUNT2,BUF2),
 REGISTER_CMD(CNT_PRESC1,PRE1),
 REGISTER_CMD(CNT_PRESC2,PRE2),
 
-REGISTER_CMD(CNT_PMODE,PMOD),						// Command to set mode
-REGISTER_CMD(CNT_PULSE,PULS),						// Start stop pulse measurement channels independent
+REGISTER_CMD(CNT_DUTY_CYCLE,DUCY),						// Command to initialize/deinitialize duty cycle measurement under input capture mode (Low Frequency measuring)
 
 //Counter IC and TI commands
 REGISTER_CMD(CNT_EVENT,EVNT),
@@ -218,31 +220,23 @@ REGISTER_CMD(EVENT_FO2,FO2_),	 // Falling only event channel 2
 																((CMD) == CMD_EVENT_FO1)	|| \
 																((CMD) == CMD_EVENT_FO2))
 
-//Counter IC pulse channels start/stopg
+//Counter IC duty cycle init/deinit
 enum{
-REGISTER_CMD(PULSE_START_CH1,PST1), 
-REGISTER_CMD(PULSE_START_CH2,PST2), 
-REGISTER_CMD(PULSE_STOP_CH1,PSP1), 
-REGISTER_CMD(PULSE_STOP_CH2,PSP2), 
+REGISTER_CMD(DUTY_CYCLE_INIT_CH1,DCI1), 
+REGISTER_CMD(DUTY_CYCLE_INIT_CH2,DCI2), 
+REGISTER_CMD(DUTY_CYCLE_DEINIT_CH1,DCD1), 
+REGISTER_CMD(DUTY_CYCLE_DEINIT_CH2,DCD2),
+REGISTER_CMD(DUTY_CYCLE_ENABLE,DCE_), 
+REGISTER_CMD(DUTY_CYCLE_DISABLE,DCX_), 
 };
 
-#define isCounterIcPulse(CMD) (((CMD) == CMD_PULSE_START_CH1) || \
-															((CMD) == CMD_PULSE_START_CH2) || \
-															((CMD) == CMD_PULSE_STOP_CH1) || \
-															((CMD) == CMD_PULSE_STOP_CH2))
+#define isCounterIcDutyCycle(CMD) (((CMD) == CMD_DUTY_CYCLE_INIT_CH1) || \
+																	((CMD) == CMD_DUTY_CYCLE_INIT_CH2) || \
+																	((CMD) == CMD_DUTY_CYCLE_DEINIT_CH1) || \
+																	((CMD) == CMD_DUTY_CYCLE_DEINIT_CH2) || \
+																	((CMD) == CMD_DUTY_CYCLE_ENABLE) || \
+																	((CMD) == CMD_DUTY_CYCLE_DISABLE))
 
-//Counter IC pulse channels start/stopg
-enum{
-REGISTER_CMD(PMODE_ENABLE_CH1,PEN1), 
-REGISTER_CMD(PMODE_ENABLE_CH2,PEN2), 
-REGISTER_CMD(PMODE_DISABLE_CH1,PDI1), 
-REGISTER_CMD(PMODE_DISABLE_CH2,PDI2), 
-};
-
-#define isCounterIcPulseMode(CMD) (((CMD) == CMD_PMODE_ENABLE_CH1) || \
-																	((CMD) == CMD_PMODE_ENABLE_CH2) || \
-																	((CMD) == CMD_PMODE_DISABLE_CH1) || \
-																	((CMD) == CMD_PMODE_DISABLE_CH2))
 
 //Generator modes
 enum{
