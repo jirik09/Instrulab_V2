@@ -58,6 +58,8 @@ namespace LEO
         public const string CNT_EVENT_RISING_ONLY_CH2 = "RO2_";
         public const string CNT_EVENT_FALLING_ONLY_CH1 = "FO1_";
         public const string CNT_EVENT_FALLING_ONLY_CH2 = "FO2_";
+        public const string CNT_EVENT_SEQUENCE_AB = "SQAB";
+        public const string CNT_EVENT_SEQUENCE_BA = "SQBA";
 
         // Counter IC Duty cycle measurement init/deinit channel x
         public const string CNT_DUTY_CYCLE = "DUCY";
@@ -85,9 +87,7 @@ namespace LEO
 
         // Counter TI receive data
         public const string CNT_TI_TIMEOUT_OCCURED = "TMOT";
-        public const string CNT_TI_VALUES_EQUAL = "EQUL";
-        public const string CNT_TI_BUFF1_BIGGER = "BUF1";
-        public const string CNT_TI_BUFF2_BIGGER = "BUF2";
+        public const string CNT_TI_DATA = "TIDA";
 
         // Counter REF SAMPLE count
         public const string CNT_SAMPLES_PSC = "PSC_";

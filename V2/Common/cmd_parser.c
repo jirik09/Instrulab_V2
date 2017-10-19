@@ -232,6 +232,10 @@ command parseCounterCmd(void)
 					counterSetIcTi1_Falling();
 				}else if(cmdIn == CMD_EVENT_FO2){
 					counterSetIcTi2_Falling();
+				}else if(cmdIn == CMD_EVENT_SEQ_AB){
+					counterSetTiSequence_AB();
+				}else if(cmdIn == CMD_EVENT_SEQ_BA){
+					counterSetTiSequence_BA();
 				}
 			}				
 			break;	

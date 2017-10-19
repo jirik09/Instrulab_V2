@@ -32,9 +32,7 @@ typedef uint32_t command;
 #define STR_CNT_IC1_DATA "IC1D"		// data from IC1 channel meas.
 #define STR_CNT_IC2_DATA "IC2D"		// data from IC2 channel meas.
 
-#define STR_CNT_TI_BUF1  "BUF1"		// Buf1 bigger than Buf2
-#define STR_CNT_TI_BUF2  "BUF2"		// Buf2 bigger than Buf1
-#define STR_CNT_TI_EQUAL "EQUL"		// Buffers equal
+#define STR_CNT_TI_DATA  "TIDA"		// data from TI
 #define STR_CNT_TI_TIMEOUT "TMOT"	// Timeout occured
 
 #define STR_CNT_DUTY_CYCLE  "DUT1"
@@ -211,6 +209,8 @@ REGISTER_CMD(EVENT_RO1,RO1_),  // Rising only event channel 1 (Pulse measurement
 REGISTER_CMD(EVENT_RO2,RO2_),  // Rising only event channel 2 (Pulse measurement channel 2 deinit)
 REGISTER_CMD(EVENT_FO1,FO1_),  // Falling only event channel 1
 REGISTER_CMD(EVENT_FO2,FO2_),	 // Falling only event channel 2
+REGISTER_CMD(EVENT_SEQ_AB,SQAB),
+REGISTER_CMD(EVENT_SEQ_BA,SQBA),
 };
 
 #define isCounterIcTiEvent(CMD) (((CMD) == CMD_EVENT_RF1) || \
@@ -218,7 +218,9 @@ REGISTER_CMD(EVENT_FO2,FO2_),	 // Falling only event channel 2
 																((CMD) == CMD_EVENT_RO1) || \
 																((CMD) == CMD_EVENT_RO2)	|| \
 																((CMD) == CMD_EVENT_FO1)	|| \
-																((CMD) == CMD_EVENT_FO2))
+																((CMD) == CMD_EVENT_FO2)	|| \
+																((CMD) == CMD_EVENT_SEQ_AB)	|| \
+																((CMD) == CMD_EVENT_SEQ_BA))
 
 //Counter IC duty cycle init/deinit
 enum{

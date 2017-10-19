@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace LEO
 {
-    public partial class PwmGenerator : Form
+    public partial class SyncPwmGenerator : Form
     {
         Device device;
         int semaphoreTimeout = 4000;
@@ -19,7 +19,7 @@ namespace LEO
         Message.MsgRequest req;
         Message messg;
 
-        public PwmGenerator(Device dev)
+        public SyncPwmGenerator(Device dev)
         {
             InitializeComponent();
 

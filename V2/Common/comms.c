@@ -223,18 +223,18 @@ void CommTask(void const *argument){
 				
 				if(counter.icDutyCycle == DUTY_CYCLE_DISABLED){	
 					
-					if(counter.icChannel1==COUNTER_IRQ_IC1){												
+					if(counter.icChannel1==COUNTER_IRQ_IC){												
 						commsSendString(STR_CNT_IC1_DATA);
 						sprintf(cntMessage, "%016.6f", counter.counterIc.ic1freq);
 						commsSendString(cntMessage);	
-						counter.icChannel1=COUNTER_IRQ_IC1_PASS;
+						counter.icChannel1=COUNTER_IRQ_IC_PASS;
 					}	
 
-					if(counter.icChannel2==COUNTER_IRQ_IC2){							
+					if(counter.icChannel2==COUNTER_IRQ_IC){							
 						commsSendString(STR_CNT_IC2_DATA);	
 						sprintf(cntMessage, "%016.6f", counter.counterIc.ic2freq);
 						commsSendString(cntMessage);															
-						counter.icChannel2=COUNTER_IRQ_IC2_PASS;
+						counter.icChannel2=COUNTER_IRQ_IC_PASS;
 					}						
 
 				}else{		
@@ -255,17 +255,9 @@ void CommTask(void const *argument){
 						commsSendString(STR_CNT_TI_TIMEOUT);
 						sprintf(cntMessage, "%02d", 2);						
 						break;
-					case EQUAL:						
-						commsSendString(STR_CNT_TI_EQUAL);
-						sprintf(cntMessage, "%02d", 2);														
-						break;					
-					case BIGGER_BUFF_CH1:
-						commsSendString(STR_CNT_TI_BUF1);
-						sprintf(cntMessage, "%016.12f", counter.counterIc.ic1freq);						
-						break;
-					case BIGGER_BUFF_CH2:
-						commsSendString(STR_CNT_TI_BUF2);
-						sprintf(cntMessage, "%016.12f", counter.counterIc.ic2freq);																		
+					case SEND_TI_DATA:
+						commsSendString(STR_CNT_TI_DATA);
+						sprintf(cntMessage, "%016.12f", counter.counterIc.ic1freq);																		
 						break;
 					case CLEAR:
 						break;

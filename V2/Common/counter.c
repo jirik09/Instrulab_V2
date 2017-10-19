@@ -330,6 +330,15 @@ void counterSetIcTi2_Falling(void){
 	TIM_IC2_FallingOnly();	
 }
 
+void counterSetTiSequence_AB(void){
+	TIM_TI_Sequence_AB();
+}
+
+void counterSetTiSequence_BA(void){
+	TIM_TI_Sequence_BA();
+}
+
+
 /**
   * @brief  Setter for counter TI timeout
 	* @param  timeout: 500 - 28000 [ms]
@@ -416,11 +425,11 @@ void counterIcProcess(void)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);	
 	
-	if(counter.icBin != BIN0){
+	if(counter.bin != BIN0){
 		/* BINx is used to alternate data sending from IC1 and IC2. Thanks to DMA_TransferComplete function
 			 if there's still no data available from one source (ICx) the second one is not stalled. Meaning,
 			 IC channels don't have to necessarilly rotate/alternate if the difference of frequencies is big. */
-		counter.icBin = BIN0;
+		counter.bin = BIN0;
 		
 		if(DMA_TransferComplete(&hdma_tim2_ch1)){				
 
@@ -429,13 +438,13 @@ void counterIcProcess(void)
 			counter.counterIc.ic1freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic1psc)*((double)(counter.counterIc.ic1BufferSize-1)/(double)capture1);				
 			
 			DMA_Restart(&hdma_tim2_ch1);
-			counter.icChannel1 = COUNTER_IRQ_IC1;
+			counter.icChannel1 = COUNTER_IRQ_IC;
 			xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);									
 		}
 		
-	}else if(counter.icBin != BIN1){
+	}else if(counter.bin != BIN1){
 		
-		counter.icBin = BIN1;
+		counter.bin = BIN1;
 		
 		if(DMA_TransferComplete(&hdma_tim2_ch2_ch4)){
 						
@@ -444,7 +453,7 @@ void counterIcProcess(void)
 			counter.counterIc.ic2freq = (double)(tim2clk*(counter.counterIc.psc+1)*counter.counterIc.ic2psc)*((double)(counter.counterIc.ic2BufferSize-1)/(double)capture2);					
 						
 			DMA_Restart(&hdma_tim2_ch2_ch4);		
-			counter.icChannel2 = COUNTER_IRQ_IC2;		
+			counter.icChannel2 = COUNTER_IRQ_IC;		
 			xQueueSendToBackFromISR(messageQueue, "GIcDataSend", &xHigherPriorityTaskWoken);	
 		}
 	}
@@ -464,37 +473,47 @@ void counterTiProcess(void)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);	
-		
+	
 	/* Check timeout. */
 	if((xTaskGetTickCountFromISR() - xStartTime) <= counter.counterIc.tiTimeout){
-		/* Check both events occured, if not, continue. */		
-		if(DMA_TransferComplete(&hdma_tim2_ch1) && DMA_TransferComplete(&hdma_tim2_ch2_ch4)){		
-			
-			TIM_TI_Stop();
-			if(counter.counterIc.ic1buffer[0] > counter.counterIc.ic2buffer[0]){
-				/* ic1freq represents time delay in this case */
-				counter.counterIc.ic1freq = (counter.counterIc.ic1buffer[0] - counter.counterIc.ic2buffer[0]) / (double)tim2clk;
-				counter.tiState = BIGGER_BUFF_CH1;	
-			}else if(counter.counterIc.ic1buffer[0] < counter.counterIc.ic2buffer[0]){
-				/* ic1freq represents time delay in this case */
-				counter.counterIc.ic2freq = (counter.counterIc.ic2buffer[0] - counter.counterIc.ic1buffer[0]) / (double)tim2clk;
-				counter.tiState = BIGGER_BUFF_CH2;
-			}else{
-				counter.tiState = EQUAL;
+		/* Check the event sequence - AB or BA */
+		if(counter.abba == BIN0){
+			/* Check DMA transfer channel 1 occured */			
+			if(DMA_TransferComplete(&hdma_tim2_ch2_ch4)){			
+				counter.counterIc.ic1freq = counter.counterIc.ic2buffer[0] / (double)tim2clk;
+								
+				if(counter.bin == BIN0){
+					counter.bin = BIN1;
+				}else{														
+					TIM_TI_Stop();		
+					counter.tiState = SEND_TI_DATA;						
+					xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);
+				}				
+				TIM_IC_DutyCycleDmaRestart();							
 			}
-			
-			xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);	
-		}		
-		
-	/* If timeout occured stop TI counter and send alert to PC application. */
-	}else{		
-		
-		counter.tiState = TIMEOUT;		
+		/* If timeout occured stop TI counter and send alert to PC application. */		
+		}else{				
+			/* Check DMA transfer channel 2 occured */			
+			if(DMA_TransferComplete(&hdma_tim2_ch1)){					
+				counter.counterIc.ic1freq = counter.counterIc.ic1buffer[0] / (double)tim2clk;
+							
+				if(counter.bin == BIN0){
+					counter.bin = BIN1;
+				}else{														
+					TIM_TI_Stop();					
+					counter.tiState = SEND_TI_DATA;						
+					xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);
+				}			
+				TIM_IC_DutyCycleDmaRestart();							
+			}
+		}
+	}else{
 		TIM_TI_Stop();					
-		xQueueSendToBackFromISR(messageQueue, "GTiTimoutOccured", &xHigherPriorityTaskWoken);	
+		counter.tiState = TIMEOUT;	
+		xQueueSendToBackFromISR(messageQueue, "GTiTimoutOccurred", &xHigherPriorityTaskWoken);			
 	}
-	
-	xSemaphoreGiveFromISR(counterMutex, &xHigherPriorityTaskWoken);			
+		
+	xSemaphoreGiveFromISR(counterMutex, &xHigherPriorityTaskWoken);		
 }
 
 /**
@@ -520,8 +539,8 @@ void counterIcDutyCycleProcess(void)
 			
 			/* DMA transfers some unspecified number immediately after 
 				 Duty Cycle start - getting rid of it. */
-			if(counter.icBin == BIN0){
-				counter.icBin = BIN1;
+			if(counter.bin == BIN0){
+				counter.bin = BIN1;
 			}else{
 				xQueueSendToBackFromISR(messageQueue, "GIc1DutyCycle", &xHigherPriorityTaskWoken);		
 			}								
@@ -533,8 +552,8 @@ void counterIcDutyCycleProcess(void)
 			
 			TIM_IC_DutyCycleDmaRestart();			
 			
-			if(counter.icBin == BIN0){
-				counter.icBin = BIN1;
+			if(counter.bin == BIN0){
+				counter.bin = BIN1;
 			}else{
 				xQueueSendToBackFromISR(messageQueue, "GIc2DutyCycle", &xHigherPriorityTaskWoken);		
 			}					
@@ -597,7 +616,7 @@ void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);
 	
-	counter.icChannel1 = COUNTER_IRQ_IC1;
+	counter.icChannel1 = COUNTER_IRQ_IC;
 	counter.counterIc.ic1psc = TIM_IC1PSC_GetPrescaler();
 	
 	uint32_t capture1 = counter.counterIc.ic1buffer[counter.counterIc.ic1BufferSize-1] - counter.counterIc.ic1buffer[0];
@@ -631,7 +650,7 @@ void COUNTER_IC2_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreTakeFromISR(counterMutex, &xHigherPriorityTaskWoken);
 	
-	counter.icChannel2 = COUNTER_IRQ_IC2;	
+	counter.icChannel2 = COUNTER_IRQ_IC;	
 	counter.counterIc.ic2psc = TIM_IC2PSC_GetPrescaler();
 		
 	uint32_t capture2 = counter.counterIc.ic2buffer[counter.counterIc.ic2BufferSize-1] - counter.counterIc.ic2buffer[0];
@@ -710,8 +729,8 @@ void counterSetDefault(void)
 	counter.counterIc.ic2BufferSize = 2;			/* 1 sample by default */
 	counter.counterIc.ic1psc = 1;
 	counter.counterIc.ic2psc = 1;
-	counter.icChannel1 = COUNTER_IRQ_IC1_PASS;
-	counter.icChannel2 = COUNTER_IRQ_IC2_PASS;
+	counter.icChannel1 = COUNTER_IRQ_IC_PASS;
+	counter.icChannel2 = COUNTER_IRQ_IC_PASS;
 	counter.sampleCntChange = SAMPLE_COUNT_CHANGED;
 }
 

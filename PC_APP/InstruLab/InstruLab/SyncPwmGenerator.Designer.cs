@@ -1,6 +1,6 @@
 namespace LEO
 {
-    partial class PwmGenerator
+    partial class SyncPwmGenerator
     {
         /// <summary>
         /// Required designer variable.

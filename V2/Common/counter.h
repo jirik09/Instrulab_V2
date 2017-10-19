@@ -34,14 +34,9 @@ typedef enum{
 }counterState;
 
 typedef enum{
-	COUNTER_IRQ_IC1 = 0,
-	COUNTER_IRQ_IC1_PASS
-}counterIcChannel1;
-
-typedef enum{
-	COUNTER_IRQ_IC2 = 0,
-	COUNTER_IRQ_IC2_PASS
-}counterIcChannel2;
+	COUNTER_IRQ_IC = 0,
+	COUNTER_IRQ_IC_PASS
+}counterIcChannel;
 
 typedef enum{
 	DUTY_CYCLE_DISABLED = 0,
@@ -55,20 +50,19 @@ typedef enum{
 }counterRefSmplCntChange;
 
 typedef enum{
-	BIN0 = 0,
-	BIN1
-}counterIcBin;
-
-typedef enum{
 	CLEAR = 0,
 	TIMEOUT,
-	EQUAL,
-	BIGGER_BUFF_CH1,
-	BIGGER_BUFF_CH2
+	SEND_TI_DATA
 }counterTiState;
 
-/* ETR struct is also used for REF mode as only the difference 
-	 is the clock feeding of timer 4 and the data sent to PC app */
+typedef enum{
+	BIN0 = 0,
+	BIN1
+}counterBin;
+
+/* ETR struct (High frequency meas.) is also used for REF mode as only 
+	 the difference is in clock feeding of timer 4 and in the data sent 
+	 to PC app */
 typedef struct{
 	uint16_t arr;		// TIM4 ARR
 	uint16_t psc;		// TIM4 PSC
@@ -80,6 +74,7 @@ typedef struct{
 	double freq;
 }counterEtrTypeDef;
 
+/* IC mode (Low frequency) struct */
 typedef struct{
 	uint32_t arr;		// TIM2 ARR
 	uint16_t psc;		// TIM2 PSC
@@ -98,18 +93,20 @@ typedef struct{
 	uint16_t tiTimeout; // TI timeout part of IC struct
 }counterIcTypeDef;
 
+/* Common struct */
 typedef struct{
 	counterIcTypeDef counterIc;
 	counterEtrTypeDef counterEtr;	
-//  counterRefTypeDef counterRef;	-> ETR structure used for REF	
+//  counterRefTypeDef counterRef;	-> ETR structure used for REF	counter
 	counterState state;
 	
 	counterRefSmplCntChange sampleCntChange;
-	counterIcChannel1 icChannel1;
-	counterIcChannel2 icChannel2;
-	counterIcBin icBin;	
+	counterIcChannel icChannel1;
+	counterIcChannel icChannel2;	
 	counterIcDutyCycle icDutyCycle;
 	counterTiState tiState;	
+	counterBin bin;
+	counterBin abba; 		// TI mode events sequence t_AB or t_BA
 }counterTypeDef;
 
 // Exported functions =========================================================
@@ -144,6 +141,8 @@ void counterSetIcTi1_Rising(void);
 void counterSetIcTi2_Rising(void);
 void counterSetIcTi1_Falling(void);
 void counterSetIcTi2_Falling(void);
+void counterSetTiSequence_AB(void);
+void counterSetTiSequence_BA(void);
 void counterIc1BufferConfig(uint16_t ic1buffSize);
 void counterIc2BufferConfig(uint16_t ic2buffSize);
 void counterIcProcess(void);

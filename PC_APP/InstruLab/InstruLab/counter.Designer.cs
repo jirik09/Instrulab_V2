@@ -181,7 +181,6 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.radioButton_it_rising_ch2 = new System.Windows.Forms.RadioButton();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.label_cnt_ti_acc = new System.Windows.Forms.Label();
             this.cnt_ti_indication = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label_cnt_it_value = new System.Windows.Forms.Label();
@@ -193,6 +192,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label_cnt_ti_acc = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabPage_REF.SuspendLayout();
             this.groupBox24.SuspendLayout();
@@ -491,9 +491,9 @@
             this.label_cnt_ref_acc.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label_cnt_ref_acc.Location = new System.Drawing.Point(222, 128);
             this.label_cnt_ref_acc.Name = "label_cnt_ref_acc";
-            this.label_cnt_ref_acc.Size = new System.Drawing.Size(70, 15);
+            this.label_cnt_ref_acc.Size = new System.Drawing.Size(69, 15);
             this.label_cnt_ref_acc.TabIndex = 12;
-            this.label_cnt_ref_acc.Text = "∓ 0.000000";
+            this.label_cnt_ref_acc.Text = "± 0.000000";
             this.label_cnt_ref_acc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // cnt_ref_indication
@@ -747,15 +747,15 @@
             this.cnt_ic_pulse_indic_ch2.Size = new System.Drawing.Size(19, 10);
             this.cnt_ic_pulse_indic_ch2.TabIndex = 13;
             // 
-            // label_cnt_ic1_acc_pulseWidth
+            // label_cnt_ic_acc_pulseWidth
             // 
             this.label_cnt_ic_acc_pulseWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_ic_acc_pulseWidth.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label_cnt_ic_acc_pulseWidth.Location = new System.Drawing.Point(3, 95);
-            this.label_cnt_ic_acc_pulseWidth.Name = "label_cnt_ic1_acc_pulseWidth";
+            this.label_cnt_ic_acc_pulseWidth.Name = "label_cnt_ic_acc_pulseWidth";
             this.label_cnt_ic_acc_pulseWidth.Size = new System.Drawing.Size(442, 13);
             this.label_cnt_ic_acc_pulseWidth.TabIndex = 12;
-            this.label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
+            this.label_cnt_ic_acc_pulseWidth.Text = "± 0.000000";
             this.label_cnt_ic_acc_pulseWidth.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // label_pulseWidth_groupBoxName
@@ -771,12 +771,12 @@
             this.label_pulseWidth_groupBoxName.TabIndex = 4;
             this.label_pulseWidth_groupBoxName.Text = "Pulse width channel 1 [s]";
             // 
-            // label_cnt_ic1_pulseWidth
+            // label_cnt_ic_pulseWidth
             // 
             this.label_cnt_ic_pulseWidth.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_cnt_ic_pulseWidth.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_ic_pulseWidth.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic_pulseWidth.Name = "label_cnt_ic1_pulseWidth";
+            this.label_cnt_ic_pulseWidth.Name = "label_cnt_ic_pulseWidth";
             this.label_cnt_ic_pulseWidth.Size = new System.Drawing.Size(442, 108);
             this.label_cnt_ic_pulseWidth.TabIndex = 2;
             this.label_cnt_ic_pulseWidth.Text = "0.000000";
@@ -806,15 +806,15 @@
             this.cnt_ic_pulse_indic_ch1.Size = new System.Drawing.Size(19, 10);
             this.cnt_ic_pulse_indic_ch1.TabIndex = 13;
             // 
-            // label_cnt_ic1_acc_dutyCycle
+            // label_cnt_ic_acc_dutyCycle
             // 
             this.label_cnt_ic_acc_dutyCycle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_ic_acc_dutyCycle.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label_cnt_ic_acc_dutyCycle.Location = new System.Drawing.Point(3, 95);
-            this.label_cnt_ic_acc_dutyCycle.Name = "label_cnt_ic1_acc_dutyCycle";
+            this.label_cnt_ic_acc_dutyCycle.Name = "label_cnt_ic_acc_dutyCycle";
             this.label_cnt_ic_acc_dutyCycle.Size = new System.Drawing.Size(442, 13);
             this.label_cnt_ic_acc_dutyCycle.TabIndex = 12;
-            this.label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
+            this.label_cnt_ic_acc_dutyCycle.Text = "± 0.000000";
             this.label_cnt_ic_acc_dutyCycle.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // label_dutyCycle_groupBoxName
@@ -830,12 +830,12 @@
             this.label_dutyCycle_groupBoxName.TabIndex = 4;
             this.label_dutyCycle_groupBoxName.Text = "Duty cycle channel 1 [%]";
             // 
-            // label_cnt_ic1_dutyCycle
+            // label_cnt_ic_dutyCycle
             // 
             this.label_cnt_ic_dutyCycle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_cnt_ic_dutyCycle.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_ic_dutyCycle.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic_dutyCycle.Name = "label_cnt_ic1_dutyCycle";
+            this.label_cnt_ic_dutyCycle.Name = "label_cnt_ic_dutyCycle";
             this.label_cnt_ic_dutyCycle.Size = new System.Drawing.Size(442, 108);
             this.label_cnt_ic_dutyCycle.TabIndex = 2;
             this.label_cnt_ic_dutyCycle.Text = "0.000";
@@ -1344,7 +1344,7 @@
             this.label_cnt_etr_acc_average.Name = "label_cnt_etr_acc_average";
             this.label_cnt_etr_acc_average.Size = new System.Drawing.Size(451, 15);
             this.label_cnt_etr_acc_average.TabIndex = 8;
-            this.label_cnt_etr_acc_average.Text = "∓ 0.000000";
+            this.label_cnt_etr_acc_average.Text = "± 0.000000";
             this.label_cnt_etr_acc_average.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // label7
@@ -1610,7 +1610,7 @@
             this.label_cnt_etr_acc_period.Name = "label_cnt_etr_acc_period";
             this.label_cnt_etr_acc_period.Size = new System.Drawing.Size(451, 15);
             this.label_cnt_etr_acc_period.TabIndex = 5;
-            this.label_cnt_etr_acc_period.Text = "∓ 0.000000";
+            this.label_cnt_etr_acc_period.Text = "± 0e-00";
             this.label_cnt_etr_acc_period.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // label5
@@ -1620,9 +1620,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label5.Location = new System.Drawing.Point(1, -1);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 19);
+            this.label5.Size = new System.Drawing.Size(122, 19);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Period [s]";
+            this.label5.Text = "Average period [s]";
             this.toolTip1.SetToolTip(this.label5, "PA0 max. frequency 100 MHz.");
             // 
             // label_cnt_etr_period
@@ -1633,7 +1633,7 @@
             this.label_cnt_etr_period.Name = "label_cnt_etr_period";
             this.label_cnt_etr_period.Size = new System.Drawing.Size(451, 66);
             this.label_cnt_etr_period.TabIndex = 0;
-            this.label_cnt_etr_period.Text = "0.000000";
+            this.label_cnt_etr_period.Text = "0e-00";
             this.label_cnt_etr_period.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox6
@@ -1657,7 +1657,7 @@
             this.label_cnt_etr_acc_freq.Name = "label_cnt_etr_acc_freq";
             this.label_cnt_etr_acc_freq.Size = new System.Drawing.Size(451, 19);
             this.label_cnt_etr_acc_freq.TabIndex = 4;
-            this.label_cnt_etr_acc_freq.Text = "∓ 0.000000";
+            this.label_cnt_etr_acc_freq.Text = "± 0.000000";
             this.label_cnt_etr_acc_freq.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // cnt_etr_indication
@@ -1786,7 +1786,7 @@
             this.textBox_cnt_ti_timeout.Name = "textBox_cnt_ti_timeout";
             this.textBox_cnt_ti_timeout.Size = new System.Drawing.Size(90, 20);
             this.textBox_cnt_ti_timeout.TabIndex = 1;
-            this.textBox_cnt_ti_timeout.Text = "500";
+            this.textBox_cnt_ti_timeout.Text = "4000";
             this.textBox_cnt_ti_timeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_cnt_ti_timeout.Click += new System.EventHandler(this.textBox_cnt_ti_timeout_Click);
             this.textBox_cnt_ti_timeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_cnt_ti_timeout_KeyPress);
@@ -1800,7 +1800,7 @@
             this.trackBar_cnt_ti_timeout.Name = "trackBar_cnt_ti_timeout";
             this.trackBar_cnt_ti_timeout.Size = new System.Drawing.Size(189, 45);
             this.trackBar_cnt_ti_timeout.TabIndex = 0;
-            this.trackBar_cnt_ti_timeout.Value = 500;
+            this.trackBar_cnt_ti_timeout.Value = 4000;
             this.trackBar_cnt_ti_timeout.Scroll += new System.EventHandler(this.trackBar_cnt_ti_timeout_Scroll);
             // 
             // groupBox_ti_eventSeq
@@ -2002,21 +2002,6 @@
             this.groupBox13.TabIndex = 2;
             this.groupBox13.TabStop = false;
             // 
-            // label_cnt_ti_acc
-            // 
-            this.label_cnt_ti_acc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label_cnt_ti_acc.AutoSize = true;
-            this.label_cnt_ti_acc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ti_acc.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ti_acc.Location = new System.Drawing.Point(165, 132);
-            this.label_cnt_ti_acc.Name = "label_cnt_ti_acc";
-            this.label_cnt_ti_acc.Size = new System.Drawing.Size(70, 15);
-            this.label_cnt_ti_acc.TabIndex = 11;
-            this.label_cnt_ti_acc.Text = "∓ 0.000000";
-            this.label_cnt_ti_acc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
             // cnt_ti_indication
             // 
             this.cnt_ti_indication.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2117,11 +2102,25 @@
             this.pictureBox2.TabIndex = 10;
             this.pictureBox2.TabStop = false;
             // 
+            // label_cnt_ti_acc
+            // 
+            this.label_cnt_ti_acc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_cnt_ti_acc.AutoSize = true;
+            this.label_cnt_ti_acc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ti_acc.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ti_acc.Location = new System.Drawing.Point(165, 132);
+            this.label_cnt_ti_acc.Name = "label_cnt_ti_acc";
+            this.label_cnt_ti_acc.Size = new System.Drawing.Size(69, 15);
+            this.label_cnt_ti_acc.TabIndex = 11;
+            this.label_cnt_ti_acc.Text = "± 0.000000";
+            this.label_cnt_ti_acc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
             // counter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(778, 309);
             this.Controls.Add(this.cnt_mode_tabControl);
@@ -2129,7 +2128,8 @@
             this.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(771, 231);
+            this.MaximumSize = new System.Drawing.Size(794, 348);
+            this.MinimumSize = new System.Drawing.Size(794, 348);
             this.Name = "counter";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "Counter";
@@ -2347,7 +2347,6 @@
         private System.Windows.Forms.Label label_cnt_ic2_acc_period;
         private System.Windows.Forms.Label label_cnt_ic1_acc_period;
         private System.Windows.Forms.Label label_cnt_ic2_acc_freq;
-        private System.Windows.Forms.Label label_cnt_ti_acc;
         private System.Windows.Forms.Label label_cnt_ref_acc;
         private System.Windows.Forms.GroupBox groupBox24;
         private System.Windows.Forms.Label label25;
@@ -2381,5 +2380,6 @@
         private System.Windows.Forms.Label label_cnt_ic_pulseWidth;
         private System.Windows.Forms.GroupBox groupBox_cnt_ic_dutyCycle_ch2;
         private System.Windows.Forms.CheckBox checkBox_icMode_dutyCycle_ch2;
+        private System.Windows.Forms.Label label_cnt_ti_acc;
     }
 }

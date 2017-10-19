@@ -159,11 +159,11 @@ namespace LEO
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
-                    case Message.MsgRequest.COUNTER_IC1_DUTY_CYCLE:
+                    case Message.MsgRequest.COUNTER_IC_DUTY_CYCLE:
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
-                    case Message.MsgRequest.COUNTER_IC1_PULSE_WIDTH:
+                    case Message.MsgRequest.COUNTER_IC_PULSE_WIDTH:
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
@@ -172,14 +172,7 @@ namespace LEO
                     case Message.MsgRequest.COUNTER_TI_TIMEOUT:
                         this.Invalidate();
                         break;
-                    case Message.MsgRequest.COUNTER_TI_EQUAL:
-                        this.Invalidate();
-                        break;
-                    case Message.MsgRequest.COUNTER_TI_BIGGER_BUF1:
-                        cntPaint = messg.GetFlt();
-                        this.Invalidate();
-                        break;
-                    case Message.MsgRequest.COUNTER_TI_BIGGER_BUF2:
+                    case Message.MsgRequest.COUNTER_TI_DATA:
                         cntPaint = messg.GetFlt();
                         this.Invalidate();
                         break;
@@ -195,51 +188,6 @@ namespace LEO
                 if (req == Message.MsgRequest.COUNTER_ETR_DATA)
                 {
                     avrgCircBuffer();
-                    label_cnt_etr_value.ForeColor = SystemColors.ControlText;                    
-                    label_cnt_etr_value.Text = String.Format("{0:n6}", cntPaint);                    
-
-                    if(cntPaint != 0)
-                    {
-                        uint prescaler = 1;
-                        if (cntPaint < timEtrPeriphClock / 4)
-                        {
-                            prescaler = 1;                            
-                        }
-                        else if ((cntPaint >= timEtrPeriphClock / 4) && (cntPaint < timEtrPeriphClock / 2))
-                        {
-                            prescaler = 2;                            
-                        }
-                        else if ((cntPaint >= timEtrPeriphClock / 2) && (cntPaint < timEtrPeriphClock))
-                        {
-                            prescaler = 4;                            
-                        }
-                        else if ((cntPaint >= timEtrPeriphClock) && (cntPaint < timEtrPeriphClock * 2))
-                        {
-                            prescaler = 8;                            
-                        }
-
-                        label_cnt_etr_prescaler.Text = prescaler.ToString();
-
-                        /* Nucleo On-board crystal 20 ppm accuracy, Higher the frequency - Quantiz. error masked by Time Base error (and vice versa) */
-                        /* Accuracy:
-                        Relative Frequency Quantization Error = 1 / freq (-+ 1), but if ETRP input prescaler is set, then: prescaler / freq
-                        Time Base Error = (ppm / 1000000) * freq */
-
-                        label_cnt_etr_period.Text = String.Format("{0:0.##e-00}", 1 / cntPaint);
-                        double relQuantError = (prescaler * (double)(1000 / getRadioNumber())) / cntPaint;
-                        double timBaseError = (double)((20 * cntPaint) / 1000000);
-                        double freqError = relQuantError + timBaseError;
-                        label_cnt_etr_acc_freq.Text = String.Format("∓ {0:n6}", freqError);
-                        label_cnt_etr_acc_period.Text = String.Format("∓ {0:0.##e-00}", (freqError / (cntPaint * cntPaint)));
-                        label_cnt_etr_acc_average.Text = String.Format("∓ {0:n6}", relQuantError / cnt_etr_trackBar.Value + timBaseError);                    
-                    }
-                    else
-                    {
-                        label_cnt_etr_period.Text = "0.000000";
-                        label_cnt_etr_acc_freq.Text = "∓ 0.000000";
-                        label_cnt_etr_acc_period.Text = "∓ 0.000000";
-                    }
-
                     etrPainting();
                     com_etr_indication();                  
                 }
@@ -259,12 +207,15 @@ namespace LEO
                     //}
                     else
                     {
+                        //double freqError = 
+
                         if (cntPaint != 0)
                         {
                             label_cnt_ic1_value.ForeColor = Color.Black;
                             label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);
                             label_cnt_ic1_value.Text = String.Format("{0:n9}", cntPaint);
                             label_cnt_ic1_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", 1 / cntPaint) : "0.000000";
+                            //label_cnt_ic1_acc_freq.Text = String.Format("± {0:n12}", freqError);
                         }
                         com_ic1_indication();
                     }
@@ -296,13 +247,13 @@ namespace LEO
                     }
                 }
                 /************************************** IC1 DUTY CYCLE PRINT **************************************/
-                else if (req == Message.MsgRequest.COUNTER_IC1_DUTY_CYCLE)
+                else if (req == Message.MsgRequest.COUNTER_IC_DUTY_CYCLE)
                 {
                     label_cnt_ic_dutyCycle.Text = cntPaint.ToString("F3");
                     com_ic_dutyCycle_indication();
                 }
                 /************************************** IC1 PULSE WIDTH PRINT **************************************/
-                else if (req == Message.MsgRequest.COUNTER_IC1_PULSE_WIDTH)
+                else if (req == Message.MsgRequest.COUNTER_IC_PULSE_WIDTH)
                 {
                     label_cnt_ic_pulseWidth.Text = cntPaint.ToString("F12");
                     com_ic_pulseWidth_indication();
@@ -313,6 +264,9 @@ namespace LEO
                     label_cnt_ref_value.ForeColor = SystemColors.ControlText;
                     label_cnt_ref_value.Font = new Font("Times New Roman", 21.75F);
                     label_cnt_ref_value.Text = String.Format("{0:n10}", (refSamples / cntPaint));
+                    /* Ratio A/B measurement error: ± Freq B / (freq A * N) -> 
+                    http://www.sophphx.caltech.edu/Lab_Equipment/Fluke_7261a_manual.pdf */
+                    //label_cnt_ref_acc.Text = String.Format("± {0:n6}", refSamples / (cntPaint * cntPaint));
 
                     com_ref_indication();
                 }
@@ -339,49 +293,12 @@ namespace LEO
                     tiEnableGroupBoxes();
                     com_ti_indication();
                 }
-                /************************************** TI EQUAL PRINT **************************************/
-                else if (req == Message.MsgRequest.COUNTER_TI_EQUAL)
+                /************************************** TI DATA received **************************************/
+                else if (req == Message.MsgRequest.COUNTER_TI_DATA)
                 {
-                    label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
-                    label_cnt_it_value.Font = new Font("Times New Roman", 13);
-                    label_cnt_it_value.Text = "Delay too short to differentiate!";
-                    tiEnableGroupBoxes();
-                    com_ti_indication();
-                }
-                /************************************** TI BUFF1 BIGGER PRINT **************************************/
-                /* Buffer 1 is bigger - meaning, the event A on channel 1 occurred after event B on channel 2 (B came first) */
-                else if (req == Message.MsgRequest.COUNTER_TI_BIGGER_BUF1)
-                {
-                    if (radioButton_it_eventSequence_ba.Checked == true)
-                    {
-                        label_cnt_it_value.ForeColor = Color.Black;
-                        label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
-                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);
-                    }
-                    else
-                    {
-                        label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
-                        label_cnt_it_value.Font = new Font("Times New Roman", 12);
-                        label_cnt_it_value.Text = "Event B on channel 2 occurred first.\nData does not match the request.\nCheck Tba or swap wires.";
-                    }
-                    tiEnableGroupBoxes();
-                    com_ti_indication();
-                }
-                /************************************** TI BUFF2 BIGGER PRINT **************************************/
-                else if (req == Message.MsgRequest.COUNTER_TI_BIGGER_BUF2)
-                {
-                    if (radioButton_it_eventSequence_ab.Checked == true)
-                    {
-                        label_cnt_it_value.ForeColor = Color.Black;
-                        label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
-                        label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);
-                    }
-                    else
-                    {
-                        label_cnt_it_value.ForeColor = SystemColors.WindowFrame;
-                        label_cnt_it_value.Font = new Font("Times New Roman", 12);
-                        label_cnt_it_value.Text = "Event A on channel 1 occurred first.\nData does not match the request.\nCheck Tab or swap wires.";
-                    }
+                    label_cnt_it_value.ForeColor = Color.Black;
+                    label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
+                    label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);
                     tiEnableGroupBoxes();
                     com_ti_indication();
                 }
@@ -410,31 +327,96 @@ namespace LEO
         /************************************** ETR DATA PRINT **************************************/
         private void etrPainting()
         {
+            label_cnt_etr_value.ForeColor = SystemColors.ControlText;
+            label_cnt_etr_value.Text = String.Format("{0:n6}", cntPaint);
+
+            uint prescaler = 1;
+            if (cntPaint < timEtrPeriphClock / 4)
+            {
+                prescaler = 1;
+            }
+            else if ((cntPaint >= timEtrPeriphClock / 4) && (cntPaint < timEtrPeriphClock / 2))
+            {
+                prescaler = 2;
+            }
+            else if ((cntPaint >= timEtrPeriphClock / 2) && (cntPaint < timEtrPeriphClock))
+            {
+                prescaler = 4;
+            }
+            else if ((cntPaint >= timEtrPeriphClock) && (cntPaint < timEtrPeriphClock * 2))
+            {
+                prescaler = 8;
+            }
+            /* Display automatic ETRP prescaler value */
+            label_cnt_etr_prescaler.Text = prescaler.ToString();
+
+            /* Nucleo On-board crystal 20 ppm accuracy, Higher the frequency - Quantiz. error masked by Time Base error (and vice versa) */
+            double quantFreqError = prescaler * 1000 / (float)getRadioNumber();   // [Hz] Quantization Frequency Error = f_gate * prescaler (RESOLUTION)                                                                                                                                                        
+            double timBaseError = 20 * cntPaint / 1000000;                        // [Hz] Time Base Error = (ppm / 1000000) * f_in
+
+            double freqError = quantFreqError + timBaseError;
+            double relativeFreqError = freqError / cntPaint * 100;                // (freqError / f_in) * 100 [%]  
+            double freqErrorAverage = quantFreqError / cnt_etr_trackBar.Value + timBaseError;
+            double relativeFreqErrorAverage = freqErrorAverage / average * 100;   // (freqErrorAverage / f_in_average) * 100 [%]  
+             
+            double periodErrorAverage = 1 / (average - freqErrorAverage) - 1 / average;          
+
+            if (cntPaint != 0)            
+            { 
+                label_cnt_etr_acc_freq.Text = String.Format("± {0:n6}", freqError);                
+            }
+            else
+            {
+                label_cnt_etr_period.Text = "0e-00";
+            }
+
+
             ushort gateTime = getRadioNumber();
             Int16 trackBar = (Int16)cnt_etr_trackBar.Value;
 
             if (((avrgList.Count < trackBar) && (trackBar != 2)) && (keyPress == KEY_PRESS.YES))
             {
+                /* Average frequency */
                 label_cnt_etr_avrg.ForeColor = SystemColors.WindowFrame;
                 label_cnt_etr_avrg.Font = new Font("Times New Roman", 15);
+                /* Average period */
+                label_cnt_etr_period.ForeColor = SystemColors.WindowFrame;
+                label_cnt_etr_period.Font = new Font("Times New Roman", 15);
 
                 Int32 difference = cnt_etr_trackBar.Value - (int)(avrgList.Count);
                 if ((gateTime != 5000) && (gateTime != 10000))
                 {
                     label_cnt_etr_avrg.Text = "Wait " + ((difference * gateTime / 1000) + 1).ToString() + " seconds.";
+                    label_cnt_etr_period.Text = "Wait " + ((difference * gateTime / 1000) + 1).ToString() + " seconds.";
+                    label_cnt_etr_acc_period.Text = "± 0.000000";
+                    label_cnt_etr_acc_average.Text = "± 0.000000";
                 }
                 else
                 {
                     label_cnt_etr_avrg.Text = "Wait " + (difference * gateTime / 1000).ToString() + " seconds.";
+                    label_cnt_etr_period.Text = "Wait " + (difference * gateTime / 1000).ToString() + " seconds.";
+                    label_cnt_etr_acc_period.Text = "± 0.000000";
+                    label_cnt_etr_acc_average.Text = "± 0.000000";
                 }
             }
             else
             {
+                /* Average frequency */
                 label_cnt_etr_avrg.ForeColor = SystemColors.ControlText;
                 label_cnt_etr_avrg.Font = new Font("Times New Roman", 21.75F);                
                 label_cnt_etr_avrg.Text = String.Format("{0:n6}", average);
+                /* Average period */
+                label_cnt_etr_period.ForeColor = SystemColors.ControlText;
+                label_cnt_etr_period.Font = new Font("Times New Roman", 21.75F);
+                if (average != 0 && !Double.IsInfinity(freqErrorAverage))
+                {                       
+                    label_cnt_etr_period.Text = String.Format("{0:0.##e-00}", 1 / average);
+                    label_cnt_etr_acc_average.Text = String.Format("± {0:n6}", freqErrorAverage);
+                    label_cnt_etr_acc_period.Text = String.Format("± {0:0.##e-00}", periodErrorAverage);
+                }                
+
                 keyPress = KEY_PRESS.NO;
-            }
+            }            
         }
 
         public void com_etr_indication()
@@ -624,12 +606,12 @@ namespace LEO
             label_cnt_ic2_value.Text = "0.000000";
             label_cnt_ic1_period.Text = "0.000000";
             label_cnt_ic2_period.Text = "0.000000";
-            label_cnt_ic1_acc_freq.Text = "∓ 0.000000";
-            label_cnt_ic2_acc_freq.Text = "∓ 0.000000";
-            label_cnt_ic1_acc_period.Text = "∓ 0.000000";
-            label_cnt_ic2_acc_period.Text = "∓ 0.000000";
-            label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
-            label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
+            label_cnt_ic1_acc_freq.Text = "± 0.000000";
+            label_cnt_ic2_acc_freq.Text = "± 0.000000";
+            label_cnt_ic1_acc_period.Text = "± 0.000000";
+            label_cnt_ic2_acc_period.Text = "± 0.000000";
+            label_cnt_ic_acc_dutyCycle.Text = "± 0.000000";
+            label_cnt_ic_acc_pulseWidth.Text = "± 0.000000";
 
             groupBox_cnt_ic1_freq.Visible = true;
             groupBox_cnt_ic1_period.Visible = true;
@@ -660,14 +642,14 @@ namespace LEO
 
             this.pictureBox_ti_sequence.Image = Properties.Resources.ab_rising_rising;
 
-            trackBar_cnt_ti_timeout.Value = 500;
-            textBox_cnt_ti_timeout.Text = "500";
+            trackBar_cnt_ti_timeout.Value = 4000;
+            textBox_cnt_ti_timeout.Text = "4000";
 
             label_cnt_it_value.ForeColor = Color.Black;
             label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
 
             label_cnt_it_value.Text = "0.000000";
-            label_cnt_ti_acc.Text = "∓ 0.000000";
+            label_cnt_ti_acc.Text = "± 0.000000";
         }
 
         private void icGuiReinit()
@@ -702,6 +684,7 @@ namespace LEO
         {
             if(ic1DutyCycle == CNT_DUTY_CYCLE.DUTY_CYCLE_ENABLED)
             {
+                /* Function CheckedChanged is called after check change. */
                 checkBox_icMode_dutyCycle_ch1.Checked = false;
             }
             else
@@ -1206,9 +1189,6 @@ namespace LEO
 
             channel1ToolStripMenuItem.Enabled = checkCheck;
             channel2ToolStripMenuItem.Enabled = checkCheck;
-
-            //signalDividersToolStripMenuItem_ch1.Enabled = checkCheck;
-            //signalDividersToolStripMenuItem_ch2.Enabled = checkCheck;
         }
 
         private void dutyCycleEnable_ch1()
@@ -1220,8 +1200,8 @@ namespace LEO
             label_pulseWidth_groupBoxName.Text = "Pulse width channel 1 [s]";
             label_cnt_ic_dutyCycle.Text = "0.000";
             label_cnt_ic_pulseWidth.Text = "0.000000";
-            label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
-            label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
+            label_cnt_ic_acc_dutyCycle.Text = "± 0.000000";
+            label_cnt_ic_acc_pulseWidth.Text = "± 0.000000";
 
             /* Initialize duty cycle and pulse width measurement  */
             sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_INIT_CH1);
@@ -1304,9 +1284,6 @@ namespace LEO
 
             channel1ToolStripMenuItem.Enabled = checkCheck;
             channel2ToolStripMenuItem.Enabled = checkCheck;
-
-            //signalDividersToolStripMenuItem_ch1.Enabled = checkCheck;
-            //signalDividersToolStripMenuItem_ch2.Enabled = checkCheck;
         }
 
         private void dutyCycleEnable_ch2()
@@ -1318,8 +1295,8 @@ namespace LEO
             label_pulseWidth_groupBoxName.Text = "Pulse width channel 2 [s]";
             label_cnt_ic_dutyCycle.Text = "0.000";
             label_cnt_ic_pulseWidth.Text = "0.000000";
-            label_cnt_ic_acc_dutyCycle.Text = "∓ 0.000000";
-            label_cnt_ic_acc_pulseWidth.Text = "∓ 0.000000";
+            label_cnt_ic_acc_dutyCycle.Text = "± 0.000000";
+            label_cnt_ic_acc_pulseWidth.Text = "± 0.000000";
 
             /* Initialize duty cycle and pulse width measurement  */
             sendCounterCommand(Commands.CNT_DUTY_CYCLE, Commands.CNT_DUTY_CYCLE_INIT_CH2);            
@@ -2172,11 +2149,13 @@ namespace LEO
         private void radioButton_it_eventSequence_ab_CheckedChanged(object sender, EventArgs e)
         {
             selectPicture();
+            sendEventCommand(Commands.CNT_EVENT_SEQUENCE_AB);
         }
 
         private void radioButton_it_eventSequence_ba_CheckedChanged(object sender, EventArgs e)
         {
             selectPicture();
+            sendEventCommand(Commands.CNT_EVENT_SEQUENCE_BA);
         }
 
         private void selectPicture()

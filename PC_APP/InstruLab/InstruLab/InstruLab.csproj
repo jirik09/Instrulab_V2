@@ -151,11 +151,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PwmGenerator.cs">
+    <Compile Include="SyncPwmGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PwmGenerator.Designer.cs">
-      <DependentUpon>PwmGenerator.cs</DependentUpon>
+    <Compile Include="SyncPwmGenerator.Designer.cs">
+      <DependentUpon>SyncPwmGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="Reporting.cs" />
     <Compile Include="Scope.cs">
@@ -203,8 +203,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="PwmGenerator.resx">
-      <DependentUpon>PwmGenerator.cs</DependentUpon>
+    <EmbeddedResource Include="SyncPwmGenerator.resx">
+      <DependentUpon>SyncPwmGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scope.resx">
       <DependentUpon>Scope.cs</DependentUpon>

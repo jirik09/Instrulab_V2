@@ -128,7 +128,7 @@ namespace LEO
         VoltageSource Source_form;
         BodePlot FreqAnalysis_form;
         counter counter_form;
-        PwmGenerator PwmGen_form;
+        SyncPwmGenerator PwmGen_form;
 
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
@@ -886,7 +886,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIcDc1, 0, 6);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DUTY_CYCLE, "IC_DUTY_CYCLE", freq));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_DUTY_CYCLE, "IC_DUTY_CYCLE", freq));
                             }
                             catch (Exception ex)
                             {
@@ -908,7 +908,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIcPw1, 0, 15);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_PULSE_WIDTH, "IC_PULSE_WIDTH", freq));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_PULSE_WIDTH, "IC_PULSE_WIDTH", freq));
                             }
                             catch (Exception ex)
                             {
@@ -979,50 +979,8 @@ namespace LEO
                                 logRecieved("Counter buffer TI was not parsed  " + new string(inputValTimout, 0, 2));
                             }
                             break;
-                        /************************* TI EQUAL *************************/
-                        case Commands.CNT_TI_VALUES_EQUAL:
-                            while (port.BytesToRead < 2)
-                            {
-                                wait_for_data(watchDog--);
-                            }
-
-                            char[] inputValEquals = new char[64];
-                            port.Read(inputValEquals, 0, 2);
-
-                            try
-                            {
-                                cntMessage = new string(inputValEquals, 0, 2);
-                                buff = Convert.ToInt32(cntMessage); //int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_EQUAL, "TI_EQUALS", buff));
-                            }
-                            catch (Exception ex)
-                            {
-                                logRecieved("Counter buffer TI was not parsed  " + new string(inputValEquals, 0, 2));
-                            }
-                            break;
-                        /************************* TI buffer 1 bigger *************************/
-                        case Commands.CNT_TI_BUFF1_BIGGER:
-                            while (port.BytesToRead < 16)
-                            {
-                                wait_for_data(watchDog--);
-                            }
-
-                            char[] inputValBuf1 = new char[64];
-                            port.Read(inputValBuf1, 0, 16);
-
-                            try
-                            {
-                                cntMessage = new string(inputValBuf1, 0, 16);
-                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_BIGGER_BUF1, "TI_BUF1_BIGGER", freq));
-                            }
-                            catch (Exception ex)
-                            {
-                                logRecieved("Counter time TI was not parsed  " + new string(inputValBuf1, 0, 4));
-                            }
-                            break;
-                        /************************* TI buffer 2 bigger *************************/
-                        case Commands.CNT_TI_BUFF2_BIGGER:
+                        /************************* TI DATA *************************/
+                        case Commands.CNT_TI_DATA:
                             while (port.BytesToRead < 16)
                             {
                                 wait_for_data(watchDog--);
@@ -1035,7 +993,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValBuf2, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_BIGGER_BUF2, "TI_BUF2_BIGGER", freq));
+                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_DATA, "TI_BUF2_BIGGER", freq));
                             }
                             catch (Exception ex)
                             {

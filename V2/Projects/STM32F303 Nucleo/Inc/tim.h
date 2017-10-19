@@ -128,6 +128,8 @@ void TIM_ETR_Stop(void);
 void TIM_REF_Stop(void);
 void TIM_IC_Stop(void);
 void TIM_TI_Stop(void);
+void TIM_TI_Init(void);
+void TIM_TI_Deinit(void);
 
 /* counter specific */
 void TIM_ETRP_Config(double freq);
@@ -143,6 +145,8 @@ void TIM_IC1_RisingOnly(void);
 void TIM_IC2_RisingOnly(void);
 void TIM_IC1_FallingOnly(void);
 void TIM_IC2_FallingOnly(void);
+void TIM_TI_Sequence_AB(void);
+void TIM_TI_Sequence_BA(void);
 
 void TIM_IC_DutyCycle_Start(void);
 void TIM_IC_DutyCycle_Stop(void);
