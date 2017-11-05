@@ -74,7 +74,8 @@ void SystemClock_Config(void)
 
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_ADC34| \
 																			 RCC_PERIPHCLK_TIM2|RCC_PERIPHCLK_TIM34| \
-																			 RCC_PERIPHCLK_TIM1|RCC_PERIPHCLK_TIM15; 
+																			 RCC_PERIPHCLK_TIM1|RCC_PERIPHCLK_TIM15| \
+																			 RCC_PERIPHCLK_TIM8; 
 																			 // RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_ADC34| \ RCC_PERIPHCLK_TIM2|RCC_PERIPHCLK_TIM34; (before gen. implem.)
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV1;
@@ -82,6 +83,11 @@ void SystemClock_Config(void)
 		PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_PLLCLK;
 		PeriphClkInit.Tim34ClockSelection = RCC_TIM34CLK_HCLK;	// if COUNTER defined the	RCC_TIM34CLK clocked by HCLK (not PLL)
 	#endif //USE_GEN_PWM	
+	
+	#ifdef USE_SYNC_PWM		
+		PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
+	#endif //USE_SYNC_PWM
+	
 	#ifdef USE_COUNTER	
 		PeriphClkInit.Tim2ClockSelection = RCC_TIM2CLK_PLLCLK;
 		PeriphClkInit.Tim34ClockSelection = RCC_TIM34CLK_HCLK;		

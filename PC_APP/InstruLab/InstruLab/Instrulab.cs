@@ -107,7 +107,7 @@ namespace LEO
                     this.btn_voltage_source_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.button_counter.Enabled = comms.get_connected_device().cntCfg.isCnt ? true : false;
                     this.button_PWM.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
-                    //this.button_PWM.Enabled = comms.get_connected_device().pwmGenCfg.isPwmGen ? true : false;    this.button_PWM.Enabled  
+                    this.button_syncPwmGenerator.Enabled = comms.get_connected_device().syncPwmCfg.isSyncPwm ? true : false;                    
 
                     ////this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_connect.Text = "Disconnect";
@@ -240,6 +240,21 @@ namespace LEO
                         }
                     }
 
+                    /* Synchronized PWM channels */
+                    if (comms.get_connected_device().syncPwmCfg.isSyncPwm)
+                    {
+                        this.label_syncPwm_freq.Text = (comms.get_connected_device().syncPwmCfg.maxFreq / 1000) + " kHz";
+                        this.label_syncPwm_chanNum.Text = comms.get_connected_device().syncPwmCfg.numOfChannels + "";
+                        this.label_syncPwm_resol.Text = (1 / (double)comms.get_connected_device().syncPwmCfg.periphClock * 1000000000).ToString("F4") + " ns";
+                        string syncPwmPinCh1 = "Channel 1:  " + comms.get_connected_device().syncPwmCfg.pins[0].Replace("_", "") + "\n";
+                        string syncPwmPinCh2 = "Channel 2:  " + comms.get_connected_device().syncPwmCfg.pins[1].Replace("_", "") + "\n";
+                        string syncPwmPinCh3 = "Channel 3:  " + comms.get_connected_device().syncPwmCfg.pins[2].Replace("_", "") + "\n";
+                        string syncPwmPinCh4 = "Channel 4:  " + comms.get_connected_device().syncPwmCfg.pins[3].Replace("_", "");
+
+                        this.label_syncPwm_pins.Text = syncPwmPinCh1 + syncPwmPinCh2 + syncPwmPinCh3 + syncPwmPinCh4;
+                        setSyncPwm(comms.get_connected_device().syncPwmCfg.pins, comms.get_connected_device().syncPwmCfg.periphClock);
+                    }
+
 
                     break;
                 case Comms_thread.CommsStates.DISCONNECTED:
@@ -272,6 +287,10 @@ namespace LEO
                     this.leo_etr_label.Text = "--";
                     this.leo_ref_label.Text = "--";
                     this.leo_ic_label.Text = "--";
+                    this.label_syncPwm_freq.Text = "--";
+                    this.label_syncPwm_chanNum.Text = "--";
+                    this.label_syncPwm_resol.Text = "--";
+                    this.label_syncPwm_pins.Text = "--";
 
                     this.btn_scope_open.Enabled = false;
                     this.btn_voltmeter_open.Enabled = false;
@@ -282,6 +301,7 @@ namespace LEO
                     this.button_counter.Enabled = false;
                     this.button_PWM.Enabled = false;
                     this.button_logic.Enabled = false;
+                    this.button_syncPwmGenerator.Enabled = false;
 
                     break;
                 case Comms_thread.CommsStates.ERROR:
@@ -330,6 +350,10 @@ namespace LEO
             comms.get_connected_device().open_counter();
         }
 
+        private void button_syncPwmGenerator_Click(object sender, EventArgs e)
+        {
+            comms.get_connected_device().open_syncPwm_gen();
+        }
 
         private void Instrulab_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -340,7 +364,7 @@ namespace LEO
                 comms.get_connected_device().close_source();
                 comms.get_connected_device().close_volt();
                 comms.get_connected_device().close_counter();
-                comms.get_connected_device().close_pwm_gen();
+                comms.get_connected_device().close_syncPwm_gen();
             }
 
             if (comm_th.IsAlive) {
@@ -424,9 +448,17 @@ namespace LEO
             return comms.get_connected_device();
         }
 
+        /* Sent COUNTER pins to show it in Counter GUI */
         public static void setCounterRefPins(string[] pins)
         {
-            counter.setRefPins(pins);
+            Counter.setRefPins(pins);
+        }
+
+        /* Sent SYNC PWM pins to gui */
+        public static void setSyncPwm(string[] pins, int periphClock)
+        {
+            SyncPwmGenerator.setPins(pins);
+            SyncPwmGenerator.setPeriphClock(periphClock);
         }
     }
 }

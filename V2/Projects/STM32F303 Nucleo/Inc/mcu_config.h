@@ -132,28 +132,47 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 // Counter constatnts =======================================================
 #ifdef USE_COUNTER
 	/* TIM4 -> ARR & PSC set to gate 100 ms */
-	#define TIM4_ARR					999			
-	#define TIM4_PSC					7199
-	#define IC_THRESHOLD			20	
+	#define TIM4_ARR										999			
+	#define TIM4_PSC										7199
+	#define IC_THRESHOLD								20	
 	
 	/* Instead send for. ex. "HF      " or "LF RF   " */
-	#define COUNTER_MODES			"HF LF FR EV"
+	#define COUNTER_MODES								"HF LF FR EV"
 	
 	/* When porting && less pins -> send "-- " */
-	#define CNT_ETR_PIN				"A0 "
-	#define CNT_IC_CH1_PIN		"A0 "	// PA0
-	#define CNT_IC_CH2_PIN		"A1 "	// PA1
-	#define CNT_REF1_PIN			"D7 "	// PA8
-	#define CNT_REF2_PIN			"A0 "	
+	#define CNT_ETR_PIN									"A0 "
+	#define CNT_IC_CH1_PIN							"A0 "	// PA0
+	#define CNT_IC_CH2_PIN							"A1 "	// PA1
+	#define CNT_REF1_PIN								"D7 "	// PA8
+	#define CNT_REF2_PIN								"A0 "	
+	
+	/* Define frequencies to send to PC application to process correct calculations. */
+	#define CNT_TIM2_PERIPH_CLOCK			  (uint32_t) 144000000
+	#define CNT_TIM4_PERIPH_CLOCK			  (uint32_t) 72000000
 #endif //USE_COUNTER
 
 // PWM generator constants =================================================
 #ifdef USE_GEN_PWM
-	#define GEN_PWM_CH1_PIN		"D5__"	// PB4
-	#define GEN_PWM_CH2_PIN 	"D8__" // PA9
+	#define GEN_PWM_CH1_PIN							"D8__" // PA9		
+	#define GEN_PWM_CH2_PIN							"D5__" // PB4
 	
 	#define MAX_GEN_PWM_CHANNELS 	2	
+	
+	#define GEN_PWM_TIM1_PERIPH_CLOCK	  (uint32_t) 144000000
+	#define GEN_PWM_TIM3_PERIPH_CLOCK	  (uint32_t) 72000000
 #endif //USE_GEN_PWM
+
+// Synchronized PWM generator constants ====================================
+#ifdef USE_SYNC_PWM
+	#define SYNC_PWM_TIM_PERIPH_CLOCK	  (uint32_t) 72000000
+	#define MAX_SYNC_PWM_FREQ						(uint32_t) 100000	
+	#define MAX_SYNC_PWM_CHANNELS				(uint32_t) 4	
+	
+	#define SYNC_PWM_CH1_PIN						"PC6_"
+	#define SYNC_PWM_CH2_PIN						"PC7_"
+	#define SYNC_PWM_CH3_PIN						"PC8_"
+	#define SYNC_PWM_CH4_PIN						"PC9_"
+#endif //USE_SYNC_PWM
 
 //Definition of assert to check length of strings
 #define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}

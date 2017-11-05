@@ -115,11 +115,11 @@
     </Compile>
     <Compile Include="Commands.cs" />
     <Compile Include="Comms_thread.cs" />
-    <Compile Include="counter.cs">
+    <Compile Include="Counter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="counter.Designer.cs">
-      <DependentUpon>counter.cs</DependentUpon>
+    <Compile Include="Counter.Designer.cs">
+      <DependentUpon>Counter.cs</DependentUpon>
     </Compile>
     <Compile Include="Device.cs" />
     <Compile Include="feedback.cs">
@@ -187,8 +187,8 @@
     <EmbeddedResource Include="BodePlot.resx">
       <DependentUpon>BodePlot.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="counter.resx">
-      <DependentUpon>counter.cs</DependentUpon>
+    <EmbeddedResource Include="Counter.resx">
+      <DependentUpon>Counter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="feedback.resx">
       <DependentUpon>feedback.cs</DependentUpon>

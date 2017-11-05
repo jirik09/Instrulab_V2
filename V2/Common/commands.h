@@ -69,6 +69,7 @@ REGISTER_CMD(RESET_DEVICE,RES!),
 //Peripherals access commands
 REGISTER_CMD(SCOPE,OSCP),
 REGISTER_CMD(GENERATOR,GEN_),
+REGISTER_CMD(SYNC_PWM,SYNP),	
 REGISTER_CMD(COUNTER,CNT_),
 REGISTER_CMD(COMMS,COMS),
 REGISTER_CMD(SYSTEM,SYST),	
@@ -79,6 +80,9 @@ REGISTER_CMD(ACK,ACK_),
 REGISTER_CMD(NACK,NACK),
 REGISTER_CMD(END,END_),
 
+/*******************************************************/
+/******************** Scope commands *******************/
+/*******************************************************/
 //Scope specific commands flags
 REGISTER_CMD(SCOPE_TRIG_MODE,TRIG),
 REGISTER_CMD(SCOPE_TRIG_EDGE,EDGE),
@@ -97,20 +101,15 @@ REGISTER_CMD(SCOPE_ADC_CHANNEL_SET,A_CH),
 REGISTER_CMD(SCOPE_ADC_CHANNEL_SET_DEFAULT,ADEF),
 REGISTER_CMD(SCOPE_ADC_CHANNEL_SET_VREF,AREF),
 
+/*******************************************************/
+/****************** Generator commands *****************/
+/*******************************************************/
 //Generator specific commands
 REGISTER_CMD(GEN_MODE,MODE),
 REGISTER_CMD(GEN_DATA,DATA),
 REGISTER_CMD(GEN_SAMPLING_FREQ,FREQ),
 REGISTER_CMD(GEN_OUTBUFF_ON,B_ON),
 REGISTER_CMD(GEN_OUTBUFF_OFF,B_OF),
-
-//PWM generator specific commands
-REGISTER_CMD(GET_PWM_CONFIG,PCF?),
-
-REGISTER_CMD(GEN_PWM_FREQ_PSC,FPWP),	// setting PWM frequency by configuration of timer's PSC register
-REGISTER_CMD(GEN_PWM_FREQ_ARR,FPWA),	// setting PWM frequency by configuration of timer's ARR register
-
-REGISTER_CMD(GEN_DAC_VAL,DAC_),
 
 //REGISTER_CMD(GEN_DATA_LENGTH,LENG),   // number of samples
 REGISTER_CMD(GEN_DATA_LENGTH_CH1,LCH1),
@@ -119,7 +118,34 @@ REGISTER_CMD(GEN_CHANNELS,CHAN),
 REGISTER_CMD(GEN_START,STRT),
 REGISTER_CMD(GEN_STOP,STOP),
 
-//Counter general commands
+/*******************************************************/
+/**************** PWM generator commands ***************/
+/*******************************************************/
+//PWM generator specific commands
+REGISTER_CMD(GET_PWM_CONFIG,PCF?),
+
+REGISTER_CMD(GEN_PWM_FREQ_PSC,FPWP),	// setting PWM frequency by configuration of timer's PSC register
+REGISTER_CMD(GEN_PWM_FREQ_ARR,FPWA),	// setting PWM frequency by configuration of timer's ARR register
+
+REGISTER_CMD(GEN_DAC_VAL,DAC_),
+
+/*******************************************************/
+/************* Sync PWM generator commands *************/
+/*******************************************************/
+REGISTER_CMD(SYNC_PWM_COMMAND,SCOM),
+
+REGISTER_CMD(SYNC_PWM_CHAN_CONFIG,CCON),
+REGISTER_CMD(SYNC_PWM_CHAN_NUM,CNUM),
+
+REGISTER_CMD(SYNC_PWM_FREQ,SFRQ),				// Set frequency command
+REGISTER_CMD(SYNC_PWM_CHAN_STATE,SSTA),	// Channel state
+
+REGISTER_CMD(SYNC_PWM_STEP,STEP),				// Step mode command (init, deinit)
+
+/*******************************************************/
+/******************* Counter commands ******************/
+/*******************************************************/
+//General commands
 REGISTER_CMD(CNT_MODE,MODE),						// CNT_MODE command be of three values: MODE == ETR / IC / REF
 REGISTER_CMD(CNT_START,STRT),
 REGISTER_CMD(CNT_STOP,STOP),
@@ -135,7 +161,7 @@ REGISTER_CMD(CNT_SAMPLE_COUNT2,BUF2),
 REGISTER_CMD(CNT_PRESC1,PRE1),
 REGISTER_CMD(CNT_PRESC2,PRE2),
 
-REGISTER_CMD(CNT_DUTY_CYCLE,DUCY),						// Command to initialize/deinitialize duty cycle measurement under input capture mode (Low Frequency measuring)
+REGISTER_CMD(CNT_DUTY_CYCLE,DUCY),			// Command to initialize/deinitialize duty cycle measurement under input capture mode (Low Frequency measuring)
 
 //Counter IC and TI commands
 REGISTER_CMD(CNT_EVENT,EVNT),
@@ -240,7 +266,7 @@ REGISTER_CMD(DUTY_CYCLE_DISABLE,DCX_),
 																	((CMD) == CMD_DUTY_CYCLE_DISABLE))
 
 
-//Generator modes
+//Generator modes (NORMAL - DAC, ABNORMAL - PWM)
 enum{
 REGISTER_CMD(MODE_PWM,PWM_),
 REGISTER_CMD(MODE_DAC,DAC_),
@@ -249,6 +275,27 @@ REGISTER_CMD(MODE_DAC,DAC_),
 #define isGeneratorMode(CMD) (((CMD) == CMD_MODE_PWM) || \
 															((CMD) == CMD_MODE_DAC))
 
+//Sync PWM general commands
+enum{
+REGISTER_CMD(SYNC_PWM_INIT,INIT),
+REGISTER_CMD(SYNC_PWM_DEINIT,DINI),
+REGISTER_CMD(SYNC_PWM_START,STRT),
+REGISTER_CMD(SYNC_PWM_STOP,STOP),
+};
+
+#define isSyncPwm(CMD) (((CMD) == CMD_SYNC_PWM_INIT) || \
+												((CMD) == CMD_SYNC_PWM_DEINIT) || \
+												((CMD) == CMD_SYNC_PWM_START) || \
+												((CMD) == CMD_SYNC_PWM_STOP))						
+
+//Sync PWM general commands
+enum{
+REGISTER_CMD(SYNC_PWM_STEP_ENABLE,STEE),
+REGISTER_CMD(SYNC_PWM_STEP_DISABLE,STED),
+};
+
+#define isSyncPwmStepMode(CMD) (((CMD) == CMD_SYNC_PWM_STEP_ENABLE) || \
+																((CMD) == CMD_SYNC_PWM_STEP_DISABLE))		
 
 //Scope tigger modes
 enum{

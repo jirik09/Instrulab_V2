@@ -22,12 +22,23 @@ namespace LEO
 
         public const string GENERATOR = "GEN_";
         public const string PWM_GENERATOR = "GENP";
+        public const string SYNC_PWM_GEN = "SYNP";
         public const string COUNTER = "CNT_";
         public const string SCOPE = "OSCP";
         public const string SCOPE_INCOME = "OSC_";
         public const string COMMS = "COMS";
         public const string SYSTEM = "SYST";
 
+        //general
+        public const string ACKNOWLEDGE = "ACK_";
+        public const char ERROR = 'E';
+
+        public const string START = "STRT";
+        public const string STOP = "STOP";
+
+        /******************************************************/
+        /*********************** COUNTER **********************/
+        /******************************************************/
         // Counter modes
         public const string CNT_MODE = "MODE";
         public const string CNT_ETR = "ETR_";
@@ -95,22 +106,83 @@ namespace LEO
         public const string CNT_REF_WARN = "WARN";
 
         // Counter messages received
-        public const string CNT_ETR_DATA = "ETRD";
-        public const string CNT_ETR_BUFF = "ETRB";
+        public const string CNT_ETR_DATA = "ETRD";        
         public const string CNT_REF_DATA = "REFD";
         public const string CNT_IC1_DATA = "IC1D";
         public const string CNT_IC2_DATA = "IC2D";
-        public const string CNT_IC1_BUFF = "IC1B";
-        public const string CNT_IC2_BUFF = "IC2B";
 
-        //general
-        public const string ACKNOWLEDGE = "ACK_";
-        public const char ERROR = 'E';
+        /******************************************************/
+        /********************** GENERATOR *********************/
+        /******************************************************/
+        //Generator
+        public const string GEN_PWM_CONFIGRequest = "PCF?";
 
-        public const string START = "STRT";
-        public const string STOP = "STOP";        
+        public const string GEN_DATA = "DATA";
+        public const string GEN_PWM_FREQ_PSC = "FPWP";
+        public const string GEN_PWM_FREQ_ARR = "FPWA";
 
-        //scope
+        public const string GEN_OK = "G_OK";
+        public const string GEN_NEXT = "G_NX";
+
+        public const string GEN_BUFF_ON = "B_ON";
+        public const string GEN_BUFF_OFF = "B_OF";
+
+        public const string GEN_DAC_VAL = "DAC_";
+
+        //Generator modes        
+        public const string GEN_MODE = "MODE";
+        public const string GEN_MODE_PWM = "PWM_";
+        public const string GEN_MODE_DAC = "DAC_";
+
+        /******************************************************/
+        /***************** SYNC PWM GENERATOR *****************/
+        /******************************************************/
+        public const string SYNC_PWM_GEN_CONFIGRequest = "SPW?";
+
+        //Syncronized PWM generator general commands
+        public const string SYNC_PWM_COMMAND = "SCOM";
+
+        public const string SYNC_PWM_INIT = "INIT";
+        public const string SYNC_PWM_DEINIT = "DINI";
+        public const string SYNC_PWM_START = "STRT";
+        public const string SYNC_PWM_STOP = "STOP";
+
+        //Sync PWM generator channels commands
+        public const string SYNC_PWM_CHANNEL = "SCHA";
+
+        public const string SYNC_PWM_CHAN_CONFIG = "CCON";
+        public const string SYNC_PWM_CHAN_NUM = "CNUM";
+        
+        //Set frequency command
+        public const string SYNC_PWM_FREQ = "SFRQ";
+
+        //Individual channels run or not
+        public const string SYNC_PWM_CHANNEL_STATE = "SSTA";
+        public const byte SYNC_PWM_CHANNEL_ENABLE = 1;
+        public const byte SYNC_PWM_CHANNEL_DISABLE = 0;
+        public const byte SYNC_PWM_CHANNEL1 = 1;
+        public const byte SYNC_PWM_CHANNEL2 = 2;
+        public const byte SYNC_PWM_CHANNEL3 = 3;
+        public const byte SYNC_PWM_CHANNEL4 = 4;
+
+        // One pulse mode to let the timer disable after overflow
+        public const string SYNC_PWM_STEP_MODE = "STEP";
+        public const string SYNC_PWM_STEP_ENABLE = "STEE";
+        public const string SYNC_PWM_STEP_DISABLE = "STED";
+
+        //public const string SYNC_PWM_CHAN1_ENABLE = "SCE1";
+        //public const string SYNC_PWM_CHAN1_DISABLE = "SCD1";
+        //public const string SYNC_PWM_CHAN2_ENABLE = "SCE2";
+        //public const string SYNC_PWM_CHAN2_DISABLE = "SCD2";
+        //public const string SYNC_PWM_CHAN3_ENABLE = "SCE3";
+        //public const string SYNC_PWM_CHAN3_DISABLE = "SCD3";
+        //public const string SYNC_PWM_CHAN4_ENABLE = "SCE4";
+        //public const string SYNC_PWM_CHAN4_DISABLE = "SCD4";
+
+        /******************************************************/
+        /************************ SCOPE ***********************/
+        /******************************************************/
+        //Scope
         public const string CHANNELS = "CHAN";
         public const string DATA_LENGTH = "LENG";  //number of samples
 
@@ -133,27 +205,7 @@ namespace LEO
         public const string SCOPE_FREQ = "OSCF";
         public const string SCOPE_ADC_CHANNEL = "A_CH";
         public const string SCOPE_ADC_CHANNEL_DEAFULT = "ADEF";
-        public const string SCOPE_ADC_CHANNEL_VREF = "AREF";
-
-        //Generator
-        public const string GEN_PWM_CONFIGRequest = "PCF?";
-
-        public const string GEN_DATA = "DATA";
-        public const string GEN_PWM_FREQ_PSC = "FPWP";
-        public const string GEN_PWM_FREQ_ARR = "FPWA";
-
-        public const string GEN_OK = "G_OK";
-        public const string GEN_NEXT = "G_NX";
-
-        public const string GEN_BUFF_ON = "B_ON";
-        public const string GEN_BUFF_OFF = "B_OF";
-
-        public const string GEN_DAC_VAL = "DAC_";
-
-        //Generator modes        
-        public const string GEN_MODE = "MODE";
-        public const string GEN_MODE_PWM = "PWM_";
-        public const string GEN_MODE_DAC = "DAC_";        
+        public const string SCOPE_ADC_CHANNEL_VREF = "AREF";    
 
         //scope modes
         public const string MODE_NORMAL = "NORM";
@@ -165,9 +217,6 @@ namespace LEO
 
         public const string EDGE_RISING = "RISE";
         public const string EDGE_FALLING = "FALL";
-
-
-
 
         //Scope sampling frequencies
 
@@ -186,9 +235,6 @@ namespace LEO
         public const string FREQ_10M = "10M_";
         public const string FREQ_MAX = "MAX_";
 
-
-
-
         //Scope data lengths
 
         public const string SAMPLES_100 = "100_";
@@ -202,16 +248,12 @@ namespace LEO
         public const string SAMPLES_50K = "50K_";
         public const string SAMPLES_100K = "100K";
 
-
-
         //Scope Data depths
 
         public const string DATA_DEPTH_12B = "12B_";
         public const string DATA_DEPTH_10B = "10B_";
         public const string DATA_DEPTH_8B = "8B__";
         public const string DATA_DEPTH_6B = "6B__";
-
-
 
         //Number of channels
 

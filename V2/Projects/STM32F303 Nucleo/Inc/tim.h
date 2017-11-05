@@ -51,13 +51,21 @@ uint8_t TIM_Reconfig_scope(uint32_t samplingFreq,uint32_t* realFreq);
 #if defined(USE_GEN) || defined(USE_GEN_PWM)
 uint8_t TIM_Reconfig_gen(uint32_t samplingFreq,uint8_t chan,uint32_t* realFreq);
 #endif //USE_GEN || USE_GEN_PWM
+	 
+	 
+#ifdef USE_SYNC_PWM
+  #define __STEP_MODE_ENABLE()  		TIM8->CR1 |= TIM_CR1_OPM
+	#define __STEP_MODE_DISABLE()  		TIM8->CR1 &= ~TIM_CR1_OPM
+#endif //USE_SYNC_PWM
 
+	 
 #ifdef USE_SCOPE
 void TIMScopeEnable(void);
 void TIMScopeDisable(void);
 void MX_TIM15_Init(void);
 uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes);
 #endif //USE_SCOPE
+
 
 #if defined(USE_GEN) || defined(USE_GEN_PWM)
 void TIMGenEnable(void);
@@ -69,6 +77,7 @@ void TIMGenInit(void);
 void TIMGenPwmDeinit(void);
 void TIMGenDacDeinit(void);
 #endif //USE_GEN || USE_GEN_PWM
+
 
 #ifdef USE_GEN_PWM
 /* PWM generatin timers */
@@ -89,6 +98,32 @@ void TIMGenPWMDisable(void);
 void PWMGeneratingEnable(void);
 void PWMGeneratingDisable(void);
 #endif //USE_GEN_PWM
+
+
+#ifdef USE_SYNC_PWM
+static void MX_TIM8_SYNC_PWM_Init(void);
+void TIM_SYNC_PWM_Init(void);
+void TIM_SYNC_PWM_Deinit(void);
+void TIM_SYNC_PWM_Start(void);
+void TIM_SYNC_PWM_Stop(void);
+
+void TIM_SYNC_PWM_ChannelState(uint8_t channel, uint8_t state);
+void TIM_SYNC_PWM_DMA_ChanConfig(uint16_t ccr1st, uint16_t ccr2nd);
+void TIM_ARR_PSC_Reconfig(uint32_t arrPsc);
+
+void TIM_SYNC_PWM_SaveConfig(void);
+void TIM_SYNC_PWM_LoadConfig(void);
+
+void TIM_SYNC_PWM_StepMode_Enable(void);
+void TIM_SYNC_PWM_StepMode_Disable(void);
+#endif // USE_SYNC_PWM
+
+
+#ifdef USE_LOG_ANLYS
+void MX_TIM1_LOG_ANLYS_Init(void);
+void MX_TIM4_LOG_ANLYS_Init(void);
+#endif //USE_LOG_ANLYS
+
 
 #ifdef USE_COUNTER
 typedef enum{

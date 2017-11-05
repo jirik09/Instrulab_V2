@@ -123,7 +123,8 @@ void counterSendStop(void);
 void counterStart(void);
 void counterStop(void);
 void counterDeinit(void);
-void counterSetDefault(void);
+void counterEtrRefSetDefault(void);
+void counterIcTiSetDefault(void);
 void counterSetMode(uint8_t mode);
 
 /* ETR mode functions */

@@ -49,7 +49,7 @@
 #include "scope.h"
 #include "generator.h"
 #include "counter.h"
-#include "gen_pwm.h"
+#include "sync_pwm.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -122,10 +122,12 @@ int main(void)
 	osThreadDef(CMD_PARSER_TASK, CmdParserTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(USER_TASK, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
 	osThreadDef(COMM_TASK, CommTask, osPriorityAboveNormal, 0, configMINIMAL_STACK_SIZE*2);
+	
 	#ifdef USE_SCOPE
 	osThreadDef(SCOPE_TASK, ScopeTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(SCOPE_TRIG_TASK, ScopeTriggerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_SCOPE
+	
 	#ifdef USE_COUNTER
 	osThreadDef(COUNTER_TASK, CounterTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_COUNTER
@@ -133,19 +135,32 @@ int main(void)
 	#if defined(USE_GEN) || defined(USE_GEN_PWM)
 	osThreadDef(GENERATOR_TASK, GeneratorTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_GEN || USE_GEN_PWM
+	
+	#ifdef USE_SYNC_PWM
+	osThreadDef(SYNC_PWM_TASK, SyncPwmTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+	#endif //USE_SYNC_PWM
+	
 	osThreadCreate (osThread(CMD_PARSER_TASK), NULL);
 	osThreadCreate (osThread(USER_TASK), NULL);
 	osThreadCreate (osThread(COMM_TASK), NULL);
+	
 	#ifdef USE_SCOPE
 	osThreadCreate (osThread(SCOPE_TASK), NULL);
 	osThreadCreate (osThread(SCOPE_TRIG_TASK), NULL);
 	#endif //USE_SCOPE
+	
 	#ifdef USE_COUNTER
 	osThreadCreate (osThread(COUNTER_TASK), NULL);
 	#endif //USE_COUNTER
+	
 	#if defined(USE_GEN) || defined(USE_GEN_PWM)
 	osThreadCreate (osThread(GENERATOR_TASK), NULL);
 	#endif //USE_GEN || USE_GEN_PWM
+	
+	#ifdef USE_SYNC_PWM
+	osThreadCreate (osThread(SYNC_PWM_TASK), NULL);
+	#endif //USE_SYNC_PWM
+	
 	LED_Off();
 	
 	

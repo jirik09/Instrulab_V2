@@ -73,11 +73,12 @@ namespace LEO
             public int VRefInt;
         }
 
-
-        public struct CounterConfig_def
+        public struct SyncPwmConfig_def
         {
-            public bool isCnt;
-            public string modes;
+            public bool isSyncPwm;
+            public int periphClock;
+            public int maxFreq;
+            public int numOfChannels;
             public string[] pins;
         }
 
@@ -90,9 +91,18 @@ namespace LEO
             public string[] pins;
         }
 
-        enum FormOpened { NONE, SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS }
+        public struct CounterConfig_def
+        {
+            public bool isCnt;
+            public string modes;
+            public string[] pins;
+        }
+
+        enum FormOpened { NONE, SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS, SYNC_PWM_GENERATOR }
         FormOpened ADCFormOpened = FormOpened.NONE;
         FormOpened DACFormOpened = FormOpened.NONE;
+        FormOpened SyncPwmOpened = FormOpened.NONE;
+
         public enum GenModeOpened { NONE, DAC, PWM }
         public static GenModeOpened GenOpened = GenModeOpened.NONE;
 
@@ -102,10 +112,6 @@ namespace LEO
             {
                 return GenOpened;
             }
-            //set
-            //{
-            //    GenOpened = value;
-            //}
         }
 
         private SerialPort port;
@@ -116,9 +122,10 @@ namespace LEO
         public SystemConfig_def systemCfg;
         public CommsConfig_def commsCfg;
         public ScopeConfig_def scopeCfg;
-        public GeneratorConfig_def genCfg;
-        public CounterConfig_def cntCfg;
+        public GeneratorConfig_def genCfg;                
         public PwmGenConfig_def pwmGenCfg;
+        public SyncPwmConfig_def syncPwmCfg;
+        public CounterConfig_def cntCfg;
         private StreamWriter logWriter;
         private List<String> logger = new List<String>();
         private const bool writeLog = true;
@@ -127,8 +134,8 @@ namespace LEO
         Voltmeter Volt_form;
         VoltageSource Source_form;
         BodePlot FreqAnalysis_form;
-        counter counter_form;
-        SyncPwmGenerator PwmGen_form;
+        Counter Counter_form;
+        SyncPwmGenerator SyncPwm_form;
 
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
@@ -541,6 +548,31 @@ namespace LEO
 
                     port.DiscardInBuffer();
 
+                    port.Write(Commands.SYNC_PWM_GEN + ":" + Commands.CONFIGRequest + ";");
+                    Thread.Sleep(wait);
+                    toRead = port.BytesToRead;
+                    port.Read(msg_byte, 0, toRead);
+                    msg_char = Encoding.ASCII.GetString(msg_byte).ToCharArray();
+
+                    if (new string(msg_char, 0, 4).Equals("SYNP"))
+                    {
+                        syncPwmCfg.isSyncPwm = true;
+                        syncPwmCfg.periphClock = BitConverter.ToInt32(msg_byte, 4);
+                        syncPwmCfg.maxFreq = BitConverter.ToInt32(msg_byte, 8);
+                        syncPwmCfg.numOfChannels = BitConverter.ToInt32(msg_byte, 12);
+                        syncPwmCfg.pins = new string[syncPwmCfg.numOfChannels];
+                        for (int i = 0; i < this.syncPwmCfg.numOfChannels; i++)
+                        {
+                            syncPwmCfg.pins[i] = new string(msg_char, 16 + 4 * i, 4);
+                        }
+                    }
+                    else
+                    {
+                        pwmGenCfg.isPwmGen = false;
+                    }
+
+                    port.DiscardInBuffer();
+
                     port.Write(Commands.COUNTER + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -811,24 +843,13 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValEtr, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_DATA, "ETR_DATA", freq));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_DATA, "ETR_DATA", freq));
                                 logRecieved("CNT ETR " + freq);
                             }
                             catch (Exception ex)
                             {
                                 logRecieved("Counter freq ETR was not parsed  " + new string(inputValEtr, 0, 4));
                             }
-                            break;
-                        /************************* ETR buffer *************************/
-                        case Commands.CNT_ETR_BUFF:
-                            while (port.BytesToRead < 4)
-                            {
-                                wait_for_data(watchDog--);
-                            }
-                            byte[] inputValEtrBuffer = new byte[4];
-                            port.Read(inputValEtrBuffer, 0, 4);
-                            freq = BitConverter.ToUInt32(inputValEtrBuffer, 4);
-                            counter_form.add_message(new Message(Message.MsgRequest.COUNTER_ETR_BUFFER, "ETR_BUFFER", freq));
                             break;
                         /************************* IC1 data *************************/
                         case Commands.CNT_IC1_DATA:
@@ -843,7 +864,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIc1, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DATA, "IC1_DATA", freq));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC1_DATA, "IC1_DATA", freq));
                             }
                             catch (Exception ex)
                             {
@@ -866,7 +887,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIc2, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_DATA, "IC2_DATA", freq));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC2_DATA, "IC2_DATA", freq));
                             }
                             catch (Exception ex)
                             {
@@ -886,7 +907,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIcDc1, 0, 6);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_DUTY_CYCLE, "IC_DUTY_CYCLE", freq));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_DUTY_CYCLE, "IC_DUTY_CYCLE", freq));
                             }
                             catch (Exception ex)
                             {
@@ -908,7 +929,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValIcPw1, 0, 15);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_PULSE_WIDTH, "IC_PULSE_WIDTH", freq));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_PULSE_WIDTH, "IC_PULSE_WIDTH", freq));
                             }
                             catch (Exception ex)
                             {
@@ -930,7 +951,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValRef, 0, 10);
                                 buff = int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_DATA, "REF_DATA", buff));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_DATA, "REF_DATA", buff));
                             }
                             catch (Exception ex)
                             {
@@ -951,7 +972,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValWarn, 0, 2);
                                 buff = Convert.ToInt32(cntMessage); //int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_WARN, "REF_WARN", buff));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_REF_WARN, "REF_WARN", buff));
                             }
                             catch (Exception ex)
                             {
@@ -972,7 +993,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValTimout, 0, 2);
                                 buff = Convert.ToInt32(cntMessage); //int.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_TIMEOUT, "TI_TIMEOUT", buff));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_TIMEOUT, "TI_TIMEOUT", buff));
                             }
                             catch (Exception ex)
                             {
@@ -993,7 +1014,7 @@ namespace LEO
                             {
                                 cntMessage = new string(inputValBuf2, 0, 16);
                                 freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_DATA, "TI_BUF2_BIGGER", freq));
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_TI_DATA, "TI_BUF2_BIGGER", freq));
                             }
                             catch (Exception ex)
                             {
@@ -1083,6 +1104,11 @@ namespace LEO
 
         public void open_scope()
         {
+            /* Close Synch PWM generator if Scope opened (due to DMA2) */
+            if (SyncPwmOpened == FormOpened.SYNC_PWM_GENERATOR)
+            {
+                close_syncPwm_gen();                
+            }
             if (ADCFormOpened == FormOpened.VOLTMETER)
             {
                 close_volt();
@@ -1132,8 +1158,6 @@ namespace LEO
             ADCFormOpened = FormOpened.NONE;
         }
 
-
-
         public void open_gen()
         {
             if (DACFormOpened == FormOpened.VOLT_SOURCE)
@@ -1162,6 +1186,14 @@ namespace LEO
             }
         }
 
+        public void close_gen()
+        {
+            if (Gen_form != null)
+            {
+                Gen_form.Close();
+            }
+        }
+
         public void open_pwm_gen()
         {
             if (DACFormOpened == FormOpened.VOLT_SOURCE)
@@ -1187,14 +1219,6 @@ namespace LEO
             else
             {
                 Gen_form.BringToFront();
-            }
-        }
-
-        public void close_gen()
-        {
-            if (Gen_form != null)
-            {
-                Gen_form.Close();
             }
         }
 
@@ -1230,19 +1254,52 @@ namespace LEO
             }
         }
 
-        public void close_counter()
+        public void open_counter()
         {
-            if (counter_form != null)
+            if (Counter_form == null || Counter_form.IsDisposed)
             {
-                counter_form.Close();
+                Counter_form = new Counter(this);
+                Counter_form.Show();
+            }
+            else
+            {
+                Counter_form.BringToFront();
             }
         }
 
-        public void close_pwm_gen()
+        public void close_counter()
         {
-            if (PwmGen_form != null)
+            if (Counter_form != null)
             {
-                PwmGen_form.Close();
+                Counter_form.Close();
+            }
+        }
+
+        public void open_syncPwm_gen()
+        {
+            if (ADCFormOpened == FormOpened.SCOPE)
+            {
+                close_scope();
+            }
+
+            if (SyncPwm_form == null || SyncPwm_form.IsDisposed)
+            {
+                SyncPwmOpened = FormOpened.SYNC_PWM_GENERATOR;
+                SyncPwm_form = new SyncPwmGenerator(this);
+                SyncPwm_form.Show();
+            }
+            else
+            {
+                SyncPwm_form.BringToFront();
+            }
+        }
+
+        public void close_syncPwm_gen()
+        {
+            if (SyncPwm_form != null)
+            {
+                SyncPwm_form.Close();
+                SyncPwmOpened = FormOpened.NONE;
             }
         }
 
@@ -1302,22 +1359,6 @@ namespace LEO
             }
 
         }
-
-
-        public void open_counter()
-        {
-
-            if (counter_form == null || counter_form.IsDisposed)
-            {
-                counter_form = new counter(this);
-                counter_form.Show();
-            }
-            else
-            {
-                counter_form.BringToFront();
-            }
-        }
-
 
         public void close_source()
         {

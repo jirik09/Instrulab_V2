@@ -29,7 +29,7 @@ xQueueHandle messageQueue;
 static xSemaphoreHandle commsMutex ;
 static uint8_t commBuffMem[COMM_BUFFER_SIZE];
 static commBuffer comm;
-	char cntMessage[30];
+char cntMessage[30];
 void sendSystConf(void);
 void sendCommsConf(void);
 void sendScopeConf(void);
@@ -37,6 +37,7 @@ void sendCounterConf(void);
 void sendScopeInputs(void);
 void sendGenConf(void);
 void sendGenPwmConf(void);
+void sendSyncPwmConf(void);
 void sendShieldPresence(void);
 void sendSystemVersion(void);
 void assertPins(void);
@@ -317,7 +318,14 @@ void CommTask(void const *argument){
 		}else if(message[0]=='P'){
 			#ifdef USE_GEN_PWM
 			sendGenPwmConf();
+			#endif //USE_GEN_PWM		
+
+		// send Synchronized PWM gen config
+		}else if(message[0]=='W'){
+			#ifdef USE_SYNC_PWM
+			sendSyncPwmConf();
 			#endif //USE_GEN_PWM			
+				
 				
 		// send gen next data block
 		}else if(message[0]=='7'){
@@ -658,6 +666,33 @@ void sendGenPwmConf(void){
 		}
 	}
 }
+
+#ifdef USE_SYNC_PWM
+void sendSyncPwmConf(void)
+{
+	uint8_t i;
+	commsSendString("SYNP");		
+	commsSendUint32(SYNC_PWM_TIM_PERIPH_CLOCK);
+	commsSendUint32(MAX_SYNC_PWM_FREQ);
+	commsSendUint32(MAX_SYNC_PWM_CHANNELS);
+	for (i=0;i<MAX_SYNC_PWM_CHANNELS;i++){
+		switch(i){
+			case 0:
+				commsSendString(SYNC_PWM_CH1_PIN);
+				break;
+			case 1:
+				commsSendString(SYNC_PWM_CH2_PIN);
+				break;			
+			case 2:
+				commsSendString(SYNC_PWM_CH3_PIN);	
+				break;
+			case 3:
+				commsSendString(SYNC_PWM_CH4_PIN);	
+				break;
+		}
+	}
+}
+#endif //USE_SYNC_PWM
 
 
 #ifdef USE_SHIELD

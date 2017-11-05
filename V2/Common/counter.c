@@ -47,9 +47,6 @@ void CounterTask(void const *argument)
 	}
 	char message[20];
 	
-//	counterSetDefault();
-//	TIM_counter_etr_init();
-	
 	while(1){
 		
 		xQueueReceive(counterMessageQueue, message, portMAX_DELAY);		
@@ -489,7 +486,7 @@ void counterTiProcess(void)
 					counter.tiState = SEND_TI_DATA;						
 					xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);
 				}				
-				TIM_IC_DutyCycleDmaRestart();							
+				TIM_IC_DutyCycleDmaRestart();						
 			}
 		/* If timeout occured stop TI counter and send alert to PC application. */		
 		}else{				
@@ -601,6 +598,48 @@ void counterGateConfig(uint16_t gateTime)
 	TIM_ARR_PSC_Config(counter.counterEtr.arr, counter.counterEtr.psc);
 }
 
+/**
+  * @brief  Counter set Default values
+  * @param  None
+  * @retval None
+	* @state 	USED
+  */
+void counterEtrRefSetDefault(void)
+{
+	if(counter.state==COUNTER_ETR){
+		counter.counterEtr.psc = TIM4_PSC;	
+		counter.counterEtr.arr = TIM4_ARR;
+		counter.counterEtr.gateTime = 100;				/* 100 ms */												
+	}else{
+		counter.counterEtr.psc = 999;	
+		counter.counterEtr.arr = 9999;				
+	}
+	counter.counterEtr.etrp = 1;
+	counter.counterEtr.buffer = 0;
+	counter.sampleCntChange = SAMPLE_COUNT_CHANGED;			
+}
+
+void counterIcTiSetDefault(void)
+{
+	if(counter.state == COUNTER_IC){
+		counter.counterIc.ic1BufferSize = 2;			/* the lowest value of icxBufferSize is 2! - 1 sample for IC frequency measuring */
+		counter.counterIc.ic2BufferSize = 2;
+		counter.icChannel1 = COUNTER_IRQ_IC_PASS;
+		counter.icChannel2 = COUNTER_IRQ_IC_PASS;				
+	}else{
+		counter.counterIc.ic1BufferSize = 1;			/* only 1 sample for one event that occurs on one single channel */
+		counter.counterIc.ic2BufferSize = 1;
+		counter.counterIc.tiTimeout = 4000;
+	}
+	counter.counterIc.ic1psc = 1;
+	counter.counterIc.ic2psc = 1;
+	TIM_IC1_PSC_Config(1);
+	TIM_IC2_PSC_Config(1);	
+	counter.counterIc.psc = 0;		
+	counter.counterIc.arr = 0xFFFFFFFF;
+}
+
+
 
 /* ************************************************************************************** */
 /* --------------------------- Obsolete functions - not used ---------------------------- */
@@ -701,37 +740,6 @@ void counterIc2BufferConfig(uint16_t ic2buffSize)
 		//counter.icFlag2 = COUNTER_BUFF_FLAG2;
 		counter.counterIc.ic2BufferSize = ((ic2buffSize/counter.counterIc.ic2psc)*counter.counterIc.ic2psc+counter.counterIc.ic2psc);
 	}
-}
-
-/**
-  * @brief  Counter set Default values
-  * @param  None
-  * @retval None
-	* @state 	NOT USED, OBSOLETE
-  */
-void counterSetDefault(void)
-{
-	counter.state = COUNTER_ETR;
-	
-	/* ETR counter default values */
-	counter.counterEtr.psc = TIM4_PSC;	
-	counter.counterEtr.arr = TIM4_ARR;
-	counter.counterEtr.gateTime = 100;				/* 1000 ms = 1 s */
-	counter.counterEtr.buffer = 0;
-	counter.counterEtr.etrp = 1;
-
-	/* IC counter default values */
-	counter.counterIc.psc = 0;		
-	counter.counterIc.arr = 0xFFFFFFFF;
-	/* BUFFER SIZE REPRESENTS THE NUMBER OF EDGES TAKEN ON INPUT,
-		 NUMBER OF SAMPLES = buffer size + 1 */
-	counter.counterIc.ic1BufferSize = 2;			/* the lowest value of icxBufferSize is 2! */
-	counter.counterIc.ic2BufferSize = 2;			/* 1 sample by default */
-	counter.counterIc.ic1psc = 1;
-	counter.counterIc.ic2psc = 1;
-	counter.icChannel1 = COUNTER_IRQ_IC_PASS;
-	counter.icChannel2 = COUNTER_IRQ_IC_PASS;
-	counter.sampleCntChange = SAMPLE_COUNT_CHANGED;
 }
 
 	#endif //USE_COUNTER

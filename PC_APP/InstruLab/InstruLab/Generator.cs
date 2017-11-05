@@ -94,22 +94,22 @@ namespace LEO
         /*********** PWM generator variables START ***********/
         const UInt32 pwmTimPeriphClock = 144000000;
         const double defaultFreq = 140625;
-        const ushort defaultArr = 1024;
+        const ushort defaultArr_ch1 = 1024;
+        const ushort defaultArr_ch2 = 512;
 
         double realPwmFreq_ch1 = defaultFreq;
         double realPwmFreq_ch2 = defaultFreq;
         double pwmFreq_ch1 = defaultFreq;
         double pwmFreq_ch2 = defaultFreq;
 
-        ushort genPwm1Arr = defaultArr;
-        ushort genPwm1Psc = defaultArr;
-        ushort genPwm2Arr = defaultArr;
-        ushort genPwm2Psc = defaultArr;
+        ushort genPwm1Arr = defaultArr_ch1;
+        ushort genPwm1Psc = 0;
+        ushort genPwm2Arr = defaultArr_ch2;
+        ushort genPwm2Psc = 0;
 
         TextObj zedGraphPwmText_ch1, zedGraphPwmText_ch2;
         LineItem pwmCurve_ch1, pwmCurve_ch2;
 
-        //double[] test; int k;
         double[] pwmTimeAxis_ch1, pwmTimeAxis_ch2;
         double[] pwmSignal_ch1, pwmSignal_ch2;
         UInt64 pwmSamplesNum_ch1, pwmSamplesNum_ch2;
@@ -128,7 +128,7 @@ namespace LEO
         {
             InitializeComponent();
 
-            /* Check which generator mode is set */
+            /* Check which generator mode is set and hide or show components */
             if (Device.GenMode == Device.GenModeOpened.DAC)
             {
                 /* Remove PWM real frequency labels */
@@ -442,6 +442,7 @@ namespace LEO
             sum = khz_ch2 ? sum + 8 : sum;
             sum = generating ? sum + 16 : sum;
             sum = frequencyJoin ? sum + 32 : sum;
+
 
             if (sum != last_sum)
             {
@@ -957,145 +958,6 @@ namespace LEO
             }            
         }
 
-
-
-
-
-
-
-
-
-
-        /***************************** PWM mean channel 1 *****************************/
-        //if (pwmPlotCh1Valid == PWM_PLOT_CH1_CHANGE.DIGITAL_CH1)
-        //    {
-        //        double freq = (checkBox_khz_ch1.Checked == false) ? freq_ch1 : freq_ch1 * 1000;
-        //        double odrFreq = signal_ch1.Length * freq;
-
-        //if (odrFreq > realPwmFreq_ch1)
-        //{
-        //    double pwmTicksNum = realPwmFreq_ch1 / freq;                        // Number of PWM pulses in one signal period.                                        
-        //    double fractionIndex = signal_ch1.Length / pwmTicksNum;             // (double) Number of data updates (ODR - frequency of duty-cycle change) during one PWM period.                     
-        //    double fractionIndexBackUp = fractionIndex;
-        //    double paintVal = signal_ch1[0];                                    // One point value to be painted in graph
-
-        //    for (int i = 0; i < signal_ch1.Length; i++)
-        //    {
-        //        signal_ch1[i] = paintVal;
-        //        /* After certain number of ODR ticks PWM is updated - the graph simulates the PWM duty-cycle update. 
-        //        A big ODR and PWM freq. difference could lead to bad signal resolution. */
-        //        if (i >= fractionIndex)
-        //        {
-        //            if (i != signal_ch1.Length - 1)
-        //            {
-        //                paintVal = signal_ch1[i + 1];
-        //            }
-        //            else
-        //            {
-        //                break;
-        //            }
-        //            fractionIndex += fractionIndexBackUp;
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    for (int i = 0; i < signal_ch1.Length; i++)
-        //    {
-        //        signal_ch1[i] = (int)Math.Round(signal_ch1[i] / 3300 * 1000 * (genPwm1Arr + 1)) * 3.3 / (genPwm1Arr + 1);
-        //    }
-        //}
-
-        /***************************** PWM itself channel 1 *****************************/
-        //double absResol = pwmTimPeriphClock / realPwmFreq_ch1;
-        //double pwmTicks = realPwmFreq_ch1 / freq;
-        //double updateRatioLock = (odrFreq < realPwmFreq_ch1) ? realPwmFreq_ch1 / odrFreq : odrFreq / realPwmFreq_ch1;  // pwmTicks / signal_ch1.Length : signal_ch1.Length / pwmTicks;
-        //double updateRatio = 0;
-        //UInt64 point = 0;
-        //UInt32 odIndex = 0, pwmLog1 = 0;
-        //pwmSignal_ch1 = new double[pwmSamplesNum_ch1 + 10000];
-
-        ///* ODR frequency less/equal than PWM frequency */
-        //if (odrFreq <= realPwmFreq_ch1)
-        //{
-        //    for (uint i = 0; i < pwmTicks; i++)
-        //    {
-        //        if (i >= updateRatio)
-        //        {                            
-        //            pwmLog1 = (uint)Math.Round(signal_ch1[odIndex] / 3.3 * absResol);
-        //            odIndex++;
-        //            updateRatio += updateRatioLock;
-        //        }                        
-
-        //        for (uint j = 0; j < absResol; j++)
-        //        {
-        //            pwmSignal_ch1[point] = (pwmLog1 > j) ? 0.8 : 0.2;
-        //            point++;
-        //        }
-        //    }
-        //}
-        ///* PWM frequency less than ODR frequency */
-        //else
-        //{
-        //    for (uint i = 0; i < pwmTicks; i++)
-        //    {
-        //        pwmLog1 = (uint)(signal_ch1[(uint)updateRatio] / 3.3 * absResol);
-        //        updateRatio += updateRatioLock;
-
-        //        for (uint j = 0; j < absResol; j++)
-        //        {
-        //            pwmSignal_ch1[point] = (pwmLog1 > j) ? 0.8 : 0.2;
-        //            point++;
-        //        }
-        //    }
-        //}
-
-        //}            
-
-        /***************************** PWM mean channel 2 *****************************/
-        //    if (actual_channels == 2)
-        //    {
-        //        if (pwmPlotCh2Valid == PWM_PLOT_CH2_CHANGE.DIGITAL_CH2)
-        //        {
-        //            double freq = (checkBox_khz_ch2.Checked == false) ? freq_ch2 : freq_ch2 * 1000;
-        //            double odrFreq = signal_ch2.Length * freq;
-        //            if (odrFreq > realPwmFreq_ch2)
-        //            {
-        //                double pwmTicksNum = realPwmFreq_ch2 / freq_ch2;                        // Number of PWM pulses in one signal period.                                        
-        //                double fractionIndex = signal_ch2.Length / pwmTicksNum;                 // (double) Number of data updates (ODR - frequency of duty-cycle change) during one PWM period.                     
-        //                double fractionIndexBackUp = fractionIndex;
-        //                double paintVal = signal_ch2[0];                                        // One point value to be painted in graph
-
-        //                for (int i = 0; i < signal_ch2.Length; i++)
-        //                {
-        //                    signal_ch2[i] = paintVal;
-        //                    /* After certain number of ODR ticks update PWM - the graph simulates the PWM duty-cycle update. 
-        //                    A big ODR and PWM freq. difference could lead to bad signal resolution.  */
-        //                    if (i >= fractionIndex)
-        //                    {
-        //                        if (i == signal_ch2.Length - 1)
-        //                        {
-        //                            paintVal = signal_ch2[i + 1];
-        //                        }
-        //                        else
-        //                        {
-        //                            break;
-        //                        }
-        //                        fractionIndex += fractionIndexBackUp;
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                for (int i = 0; i < signal_ch2.Length; i++)
-        //                {
-        //                    signal_ch2[i] = (int)Math.Round(signal_ch2[i] / 3300 * 1000 * (genPwm2Arr + 1)) * 3.3 / (genPwm2Arr + 1);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
         public void calculate_signal_lengths()
         {
             int tclk = device.systemCfg.PeriphClock;
@@ -1291,11 +1153,13 @@ namespace LEO
                 /********* PWM gen part start *********/
                 if (Device.GenMode == Device.GenModeOpened.PWM)
                 {
-                    this.label_real_pwmFreq_ch1.Text = realPwmFreq_ch1.ToString("F4") + " Hz";
+                    //this.label_real_pwmFreq_ch1.Text = realPwmFreq_ch1.ToString("F4") + " Hz";
+                    this.label_real_pwmFreq_ch1.Text = String.Format("{0:n4}", realPwmFreq_ch1) + " Hz";
 
                     if (actual_channels == 2)
                     {
-                        this.label_real_pwmFreq_ch2.Text = realPwmFreq_ch2.ToString("F4") + " Hz";
+                        //this.label_real_pwmFreq_ch2.Text = realPwmFreq_ch2.ToString("F4") + " Hz";
+                        this.label_real_pwmFreq_ch2.Text = String.Format("{0:n4}", realPwmFreq_ch2) + " Hz";
                     }
                 }
                 /********** PWM gen part end *********/
@@ -2578,7 +2442,6 @@ namespace LEO
                 throw new Exception("Unable to take semaphore");
             }
             return result;
-
         }
 
         public void giveGenSemaphore()
@@ -2867,7 +2730,7 @@ namespace LEO
         /****************************************************************************************/
         /******************************** PWM generator functions *******************************/
         /****************************************************************************************/
-        /* Maximal PWM frequency set to 9MHz - leads to minimal 4bit PWM resolution (144MHz / (16*1) = 9MHz) */
+        /* Maximal PWM frequency set to 9MHz - leads to minimal 4bit PWM resolution (144MHz / (16*1) = 9MHz) */        
         private double genProcessPwmFrequency(uint chan, double freq)
         {
             UInt32 psc = 0, arr = 1;  // MCU TIM Prescaler and Auto Reload Register
@@ -2889,19 +2752,23 @@ namespace LEO
             }
             else
             {
+                /* Test how the inserted frequency can be devided to set ARR and PSC registers. */
                 for (; psc == 0; arrMultipliedByPsc--)
                 {
                     for (UInt32 pscTemp = 65536; pscTemp > 1; pscTemp--)
                     {
                         if ((arrMultipliedByPsc % pscTemp) == 0)
                         {
-                            psc = pscTemp;
-                            break;
+                            if (pscTemp <= 65536 && (arrMultipliedByPsc / pscTemp <= 65536))
+                            {
+                                psc = pscTemp;
+                                break;
+                            }
                         }
                     }
                 }
-                arrMultipliedByPsc += 1;
-                arr = (arrMultipliedByPsc / psc);                           
+
+                arr = arrMultipliedByPsc / psc;                
 
                 if (arr < psc)
                 {
@@ -2918,8 +2785,8 @@ namespace LEO
             }
             else if (chan == 2)
             {
-                genPwm2Arr = (ushort)(arr - 1);
-                genPwm2Psc = (ushort)(psc - 1);
+               genPwm2Arr = (ushort)(arr - 1);
+               genPwm2Psc = (ushort)(psc - 1);
             }
 
             double realPwmFreq = 0;

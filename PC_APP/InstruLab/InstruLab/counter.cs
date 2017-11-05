@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace LEO
 {
-    public partial class counter : Form
+    public partial class Counter : Form
     {
 
         Device device;
@@ -69,7 +69,7 @@ namespace LEO
         double average;
           
 
-        public counter(Device dev)
+        public Counter(Device dev)
         {
             InitializeComponent();
             InitializeTIComponent();
@@ -418,7 +418,7 @@ namespace LEO
                 keyPress = KEY_PRESS.NO;
             }            
         }
-
+        /* Color signalization the data came from device. */
         public void com_etr_indication()
         {
             cnt_etr_indication.BackColor = (cnt_etr_indication.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;

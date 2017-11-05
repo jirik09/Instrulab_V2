@@ -18,7 +18,7 @@
 #include "adc.h"
 #include "clock.h"
 #include "counter.h"
-#include "gen_pwm.h"
+#include "sync_pwm.h"
 
 // External variables definitions =============================================
 xQueueHandle cmdParserMessageQueue;
@@ -26,6 +26,7 @@ command parseSystemCmd(void);
 command parseCommsCmd(void);
 command parseScopeCmd(void);
 command parseGeneratorCmd(void);
+command parseSyncPwmCmd(void);
 command giveNextCmd(void);
 command parseCounterCmd(void);
 command parseGenPwmCmd(void);
@@ -102,7 +103,13 @@ void CmdParserTask(void const *argument){
 						tempCmd = parseCounterCmd();
 						printErrResponse(tempCmd);
 					break;
-					#endif //USE_COUNTER				
+					#endif //USE_COUNTER
+					#ifdef USE_SYNC_PWM
+					case CMD_SYNC_PWM: //parse sync PWM command
+						tempCmd = parseSyncPwmCmd();
+						printErrResponse(tempCmd);
+					break;
+					#endif //USE_SYNC_PWM		
 					default:
 					xQueueSendToBack(messageQueue, UNSUPORTED_FUNCTION_ERR_STR, portMAX_DELAY);
 					while(commBufferReadByte(&chr)==0 && chr!=';');
@@ -614,13 +621,103 @@ return cmdIn;
 #endif //USE_SCOPE
 
 
+#ifdef USE_SYNC_PWM
 
+/**
+  * @brief  Synchronized PWM generator command parse function. 
+  * @param  None
+  * @retval Command ACK or ERR
+  */
+command parseSyncPwmCmd(void){
+	command cmdIn=CMD_ERR;
+	uint8_t error=0;
+
+	cmdIn = giveNextCmd();
+	switch(cmdIn){
+		case CMD_SYNC_PWM_COMMAND:
+			cmdIn = giveNextCmd();
+			if(isSyncPwm(cmdIn)){				
+				if(cmdIn == CMD_SYNC_PWM_INIT){
+					syncPwmSendInit();				
+				}else if(cmdIn == CMD_SYNC_PWM_DEINIT){
+					syncPwmSendDeinit();		
+				}else if(cmdIn == CMD_SYNC_PWM_START){
+					syncPwmSendStart();		
+				}else if(cmdIn == CMD_SYNC_PWM_STOP){
+					syncPwmSendStop();								
+				}			
+			}
+			break;
+		case CMD_SYNC_PWM_STEP:
+			cmdIn = giveNextCmd();
+			if(isSyncPwmStepMode(cmdIn)){				
+				if(cmdIn == CMD_SYNC_PWM_STEP_ENABLE){
+					syncPwmSetStepMode();				
+				}else if(cmdIn == CMD_SYNC_PWM_STEP_DISABLE){
+					syncPwmResetStepMode();	
+				}	
+			}
+			break;
+		case CMD_SYNC_PWM_CHAN_NUM:
+			cmdIn = giveNextCmd();			
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				syncPwmChannelNumber((uint8_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+			}														
+			break;	
+		case CMD_SYNC_PWM_CHAN_CONFIG:
+			cmdIn = giveNextCmd();
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				syncPwmChannelConfig(((cmdIn)&0xffff0000)>>16,(uint16_t)(cmdIn));					
+			}else{
+				cmdIn = CMD_ERR;
+			}	
+			break;
+		case CMD_SYNC_PWM_FREQ:
+			cmdIn = giveNextCmd();									
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				syncPwmFreqReconfig((uint32_t)(cmdIn));
+			}else{
+				cmdIn = CMD_ERR;
+				error = SYNC_PWM_INVALID_FEATURE;
+			}							
+			break;		
+		case CMD_SYNC_PWM_CHAN_STATE:
+			cmdIn = giveNextCmd();									
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				syncPwmSetChannelState(((cmdIn)&0xff00)>>8,(uint8_t)(cmdIn));
+			}else{
+				cmdIn = CMD_ERR;
+				error = SYNC_PWM_INVALID_FEATURE;
+			}							
+			break;
+		case CMD_GET_CONFIG:
+				xQueueSendToBack(messageQueue, "WSendSyncPwmConfig", portMAX_DELAY);
+			break;
+		case CMD_END:
+			break;
+		default:
+			error = SYNC_PWM_INVALID_FEATURE;
+////				commsSendUint32(cmdIn);
+			cmdIn = CMD_ERR;
+		break;
+	}
+///////	}while(cmdIn != CMD_END && cmdIn != CMD_ERR && error==0);
+	if(error>0){
+		cmdIn=error;
+	}else{
+		cmdIn=CMD_END;
+	}
+	return cmdIn;			
+}
+#endif // USE_SYNC_PWM
 
 
 #if defined(USE_GEN) || defined(USE_GEN_PWM)
 
 /**
-  * @brief  Generator command parse function 
+  * @brief  Generator command parse function. 
   * @param  None
   * @retval Command ACK or ERR
   */
@@ -631,152 +728,151 @@ command parseGeneratorCmd(void){
 	uint8_t length,chan;
 	uint16_t watchDog=5000;
 
-		///////do{ 
-		cmdIn = giveNextCmd();
-		switch(cmdIn){
-			case CMD_GEN_MODE:
-				cmdIn = giveNextCmd();
-				if(isGeneratorMode(cmdIn)){				
-					if(cmdIn == CMD_MODE_PWM){
-						genSetMode(GEN_PWM);				
-					}else if(cmdIn == CMD_MODE_DAC){
-						genSetMode(GEN_DAC);
-					}
+	cmdIn = giveNextCmd();
+	switch(cmdIn){
+		case CMD_GEN_MODE:
+			cmdIn = giveNextCmd();
+			if(isGeneratorMode(cmdIn)){				
+				if(cmdIn == CMD_MODE_PWM){
+					genSetMode(GEN_PWM);				
+				}else if(cmdIn == CMD_MODE_DAC){
+					genSetMode(GEN_DAC);
 				}
-				break;
-			case CMD_GEN_DATA://set data
-				cmdIn = giveNextCmd();
-				//index=(cmdIn&0xff00)>>8 | (cmdIn&0x00ff)<<8;
-				index=SWAP_UINT16(cmdIn);
-				length=cmdIn>>16;
-				chan=cmdIn>>24;
-				while(watchDog>0 && getBytesAvailable()<length*2+1){
-					watchDog--;
-					osDelay(1);
-				}
-				if(getBytesAvailable()<length*2+1){
-					error=GEN_MISSING_DATA;
+			}
+			break;
+		case CMD_GEN_DATA://set data
+			cmdIn = giveNextCmd();
+			//index=(cmdIn&0xff00)>>8 | (cmdIn&0x00ff)<<8;
+			index=SWAP_UINT16(cmdIn);
+			length=cmdIn>>16;
+			chan=cmdIn>>24;
+			while(watchDog>0 && getBytesAvailable()<length*2+1){
+				watchDog--;
+				osDelay(1);
+			}
+			if(getBytesAvailable()<length*2+1){
+				error=GEN_MISSING_DATA;
+				while(commBufferReadByte(&chan)==0);
+			}else{
+				error=genSetData(index,length*2,chan);
+				if (error){
 					while(commBufferReadByte(&chan)==0);
 				}else{
-					error=genSetData(index,length*2,chan);
-					if (error){
-						while(commBufferReadByte(&chan)==0);
-					}else{
-						genDataOKSendNext();
-					}
+					genDataOKSendNext();
 				}
-			break;
-				
-			case CMD_GEN_SAMPLING_FREQ: //set sampling freq
-				cmdIn = giveNextCmd();
-				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
-					error=genSetFrequency(((cmdIn)&0xffffff00)>>8,(uint8_t)(cmdIn));
-				}else{
-					cmdIn = CMD_ERR;
-				}
-			break;	
-				
-			#ifdef USE_GEN_PWM
-			case CMD_GEN_PWM_FREQ_PSC: 
-				cmdIn = giveNextCmd();
-				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
-					genSetPwmFrequencyPSC(((cmdIn)&0x00ffff00)>>8,(uint8_t)(cmdIn));					
-				}else{
-					cmdIn = CMD_ERR;
-				}
-			break;
-				
-			case CMD_GEN_PWM_FREQ_ARR: 
-				cmdIn = giveNextCmd();
-				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
-					genSetPwmFrequencyARR(((cmdIn)&0x00ffff00)>>8,(uint8_t)(cmdIn));
-				}else{
-					cmdIn = CMD_ERR;
-				}
-			break;				
-			#endif // USE_GEN_PWM
-				
-			case CMD_GET_REAL_FREQ: //get sampling freq
-				genSendRealSamplingFreq();
-			break;	
-				
-			case CMD_GEN_DATA_LENGTH_CH1: //set data length
-				cmdIn = giveNextCmd();
-				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
-					error=genSetLength(cmdIn,1);
-				}else{
-					cmdIn = CMD_ERR;
-				}
-			break;	
-				
-			case CMD_GEN_DATA_LENGTH_CH2: //set data length
-				cmdIn = giveNextCmd();
-				if(cmdIn != CMD_END && cmdIn != CMD_ERR){
-					error=genSetLength(cmdIn,2);
-				}else{
-					cmdIn = CMD_ERR;
-				}
-			break;	
+			}
+		break;
 			
-			case CMD_GEN_CHANNELS: //set number of channels
-				cmdIn = giveNextCmd();
-				if(isChannel(cmdIn)){
-					if(cmdIn == CMD_CHANNELS_1){
-						error=genSetNumOfChannels(1);
-					}else if(cmdIn == CMD_CHANNELS_2){
-						error=genSetNumOfChannels(2);
-					}else if(cmdIn == CMD_CHANNELS_3){
-						error=genSetNumOfChannels(3);
-					}else if(cmdIn == CMD_CHANNELS_4){
-						error=genSetNumOfChannels(4);
-					}
-				}else{
-					cmdIn = CMD_ERR;
-				}
-			break;
-				
-			case CMD_GEN_OUTBUFF_ON: //buffer on
-				genSetOutputBuffer();
-			break;			
-			case CMD_GEN_OUTBUFF_OFF: //buffer off
-				genUnsetOutputBuffer();
-			break;	
-			
-			case CMD_GEN_DAC_VAL:
-				cmdIn = giveNextCmd();
-				error=genSetDAC((uint16_t)(cmdIn),(uint16_t)(cmdIn>>16));
-				genStatusOK();
-			break;
-				
-			case CMD_GEN_START: //start sampling
-				genStart();
-				genStatusOK();
-			break;	
-			
-			case CMD_GEN_STOP: //stop sampling
-				genStop();
-			break;	
-			
-			case CMD_GET_CONFIG:
-				xQueueSendToBack(messageQueue, "6SendGenConfig", portMAX_DELAY);
-			break;
-			
-			case CMD_GET_PWM_CONFIG:
-			#ifdef USE_GEN_PWM
-				xQueueSendToBack(messageQueue, "PSendGenPwmConfig", portMAX_DELAY);
-			#endif // USE_GEN_PWM
-			break;
-			
-			case CMD_GENERATOR:
-			break;	
-				
-			case CMD_END:break;
-			default:
-				error = GEN_INVALID_FEATURE;
-////				commsSendUint32(cmdIn);
+		case CMD_GEN_SAMPLING_FREQ: //set sampling freq
+			cmdIn = giveNextCmd();
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				error=genSetFrequency(((cmdIn)&0xffffff00)>>8,(uint8_t)(cmdIn));
+			}else{
 				cmdIn = CMD_ERR;
-			break;
-		}
+			}
+		break;	
+			
+		#ifdef USE_GEN_PWM
+	case CMD_GEN_PWM_FREQ_PSC: 
+			cmdIn = giveNextCmd();
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				genSetPwmFrequencyPSC(((cmdIn)&0x00ffff00)>>8,(uint8_t)(cmdIn));					
+			}else{
+				cmdIn = CMD_ERR;
+			}
+		break;
+			
+		case CMD_GEN_PWM_FREQ_ARR: 
+			cmdIn = giveNextCmd();
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				genSetPwmFrequencyARR(((cmdIn)&0x00ffff00)>>8,(uint8_t)(cmdIn));
+			}else{
+				cmdIn = CMD_ERR;
+			}
+		break;				
+		#endif // USE_GEN_PWM
+			
+		case CMD_GET_REAL_FREQ: //get sampling freq
+			genSendRealSamplingFreq();
+		break;	
+			
+		case CMD_GEN_DATA_LENGTH_CH1: //set data length
+			cmdIn = giveNextCmd();
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				error=genSetLength(cmdIn,1);
+			}else{
+				cmdIn = CMD_ERR;
+			}
+		break;	
+			
+		case CMD_GEN_DATA_LENGTH_CH2: //set data length
+			cmdIn = giveNextCmd();
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				error=genSetLength(cmdIn,2);
+			}else{
+				cmdIn = CMD_ERR;
+			}
+		break;	
+		
+		case CMD_GEN_CHANNELS: //set number of channels
+			cmdIn = giveNextCmd();
+			if(isChannel(cmdIn)){
+				if(cmdIn == CMD_CHANNELS_1){
+					error=genSetNumOfChannels(1);
+				}else if(cmdIn == CMD_CHANNELS_2){
+					error=genSetNumOfChannels(2);
+				}else if(cmdIn == CMD_CHANNELS_3){
+					error=genSetNumOfChannels(3);
+				}else if(cmdIn == CMD_CHANNELS_4){
+					error=genSetNumOfChannels(4);
+				}
+			}else{
+				cmdIn = CMD_ERR;
+			}
+		break;
+			
+		case CMD_GEN_OUTBUFF_ON: //buffer on
+			genSetOutputBuffer();
+		break;			
+		case CMD_GEN_OUTBUFF_OFF: //buffer off
+			genUnsetOutputBuffer();
+		break;	
+		
+		case CMD_GEN_DAC_VAL:
+			cmdIn = giveNextCmd();
+			error=genSetDAC((uint16_t)(cmdIn),(uint16_t)(cmdIn>>16));
+			genStatusOK();
+		break;
+			
+		case CMD_GEN_START: //start sampling
+			genStart();
+			genStatusOK();
+		break;	
+		
+		case CMD_GEN_STOP: //stop sampling
+			genStop();
+		break;	
+		
+		case CMD_GET_CONFIG:
+			xQueueSendToBack(messageQueue, "6SendGenConfig", portMAX_DELAY);
+		break;
+		
+		case CMD_GET_PWM_CONFIG:
+		#ifdef USE_GEN_PWM
+			xQueueSendToBack(messageQueue, "PSendGenPwmConfig", portMAX_DELAY);
+		#endif // USE_GEN_PWM
+		break;
+		
+		case CMD_GENERATOR:
+		break;	
+			
+		case CMD_END:break;
+		default:
+			error = GEN_INVALID_FEATURE;
+////				commsSendUint32(cmdIn);
+			cmdIn = CMD_ERR;
+		break;
+	}
 	///////}while(cmdIn != CMD_END && cmdIn != CMD_ERR && error==0);
 	///////if(error>0){
 	if(error>0){
