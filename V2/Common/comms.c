@@ -18,6 +18,7 @@
 #include "generator.h"
 #include "commands.h"
 #include "counter.h"
+#include "logic_analyzer.h"
 #include "usb_device.h"
 #include "usart.h"
 #include "gpio.h"
@@ -38,6 +39,7 @@ void sendScopeInputs(void);
 void sendGenConf(void);
 void sendGenPwmConf(void);
 void sendSyncPwmConf(void);
+void sendLogAnlysConf(void);
 void sendShieldPresence(void);
 void sendSystemVersion(void);
 void assertPins(void);
@@ -69,7 +71,6 @@ void CommTask(void const *argument){
 	uint8_t header[16]="OSC_yyyyxxxxCH0x";
 	uint8_t *pointer;
 	
-	
 	uint8_t k;
 	uint32_t tmpToSend;
 	uint32_t dataLength;
@@ -86,9 +87,9 @@ void CommTask(void const *argument){
 	
 	#if defined(USE_GEN) || defined(USE_SCOPE)
 	uint8_t i;
-	uint32_t j;	
+	uint32_t j;
 	#endif //USE_GEN || USE_SCOPE
-	while(1) {	
+	while(1){	
 		xQueueReceive (messageQueue, message, portMAX_DELAY);
 		///commsSendString("COMMS_Run\r\n");
 		xSemaphoreTakeRecursive(commsMutex, portMAX_DELAY);
@@ -189,7 +190,8 @@ void CommTask(void const *argument){
 		}else if(message[0]=='2'){
 			#if defined(USE_GEN) || defined(USE_GEN_PWM)
 			for(i = 0;i<MAX_DAC_CHANNELS;i++){
-				header_gen[4]=i+1+48;
+				header_gen[4]=i+1+
+				48;
 				j=genGetRealSmplFreq(i+1);
 				header_gen[9]=(uint8_t)(j>>16);
 				header_gen[10]=(uint8_t)(j>>8);
@@ -222,7 +224,7 @@ void CommTask(void const *argument){
 			/* IC mode configured channel 1 */	
 			}else if(counter.state==COUNTER_IC){		
 				
-				if(counter.icDutyCycle == DUTY_CYCLE_DISABLED){	
+				if(counter.icDutyCycle==DUTY_CYCLE_DISABLED){	
 					
 					if(counter.icChannel1==COUNTER_IRQ_IC){												
 						commsSendString(STR_CNT_IC1_DATA);
@@ -239,10 +241,14 @@ void CommTask(void const *argument){
 					}						
 
 				}else{		
+										
+					sprintf(cntMessage, "%06.3f", counter.counterIc.ic1freq);
+					char cntMessage2[15];
+					sprintf(cntMessage2, "%015.12f", counter.counterIc.ic2freq);
 					
 					commsSendString(STR_CNT_DUTY_CYCLE);
-					sprintf(cntMessage, "%06.3f", counter.counterIc.ic1freq);
-					commsSendString(cntMessage);		
+					commsSendString(cntMessage);					
+					commsSendString(cntMessage2);	
 				
 //					commsSendString(STR_CNT_PULSE_WIDTH);
 //					sprintf(cntMessage, "%015.12f", counter.counterIc.ic2freq);
@@ -275,8 +281,22 @@ void CommTask(void const *argument){
 			#endif //USE_COUNTER			
 		/* ---------------------------------------------------- */	
 		/* ------------------ END OF COUNTER ------------------ */
-		/* ---------------------------------------------------- */			
-			
+		/* ---------------------------------------------------- */	
+		/* Send LOGIC ANALYZER data */
+		}else if(message[0]=='L'){
+			#ifdef USE_LOG_ANLYS
+			if(logAnlys.trigOccur == TRIG_OCCURRED){
+				commsSendString(STR_LOG_ANLYS_TRIGGER_POINTER);	
+				commsSendUint32(logAnlys.triggerPointer);
+				logAnlys.trigOccur = TRIG_NOT_OCCURRED;
+			}
+			/* 16-bit GPIO register by DMA to 16-bit array. Array send 8-bit by 8-bit to PC. samplesNumber countes with 16-bit array. */
+			commsSendString(STR_LOG_ANLYS_DATA_LENGTH);				
+			commsSendUint32(logAnlys.samplesNumber * 2);	
+			/* Send data */
+			commsSendString(STR_LOG_ANLYS_DATA);	
+			commsSendBuff((uint8_t *)logAnlys.bufferMemory,(logAnlys.samplesNumber * 2));			
+			#endif //USE_LOG_ANLYS
 		// send system config
 		}else if(message[0]=='3'){
 			sendSystConf();
@@ -325,7 +345,12 @@ void CommTask(void const *argument){
 			#ifdef USE_SYNC_PWM
 			sendSyncPwmConf();
 			#endif //USE_GEN_PWM			
-				
+			
+		// send Logic Analyzer config
+		}else if(message[0]=='Y'){
+			#ifdef USE_LOG_ANLYS
+			sendLogAnlysConf();
+			#endif //USE_LOG_ANLYS					
 				
 		// send gen next data block
 		}else if(message[0]=='7'){
@@ -559,6 +584,8 @@ void sendScopeConf(){
 #ifdef USE_COUNTER
 void sendCounterConf(){
 	commsSendString("CNT_");
+	commsSendUint32(CNT_COUNTER_PERIPH_CLOCK);
+	commsSendUint32(CNT_GATE_PERIPH_CLOCK);
 	commsSendString(COUNTER_MODES);
 	commsSendString(CNT_ETR_PIN);
 	commsSendString(CNT_IC_CH1_PIN);
@@ -694,6 +721,46 @@ void sendSyncPwmConf(void)
 }
 #endif //USE_SYNC_PWM
 
+#ifdef USE_LOG_ANLYS
+void sendLogAnlysConf(void)
+{
+	uint8_t i;
+	commsSendString("LOGA");
+	commsSendUint32(LOG_ANLYS_POSTTRIG_PERIPH_CLOCK);
+	commsSendUint32(LOG_ANLYS_TIMEBASE_PERIPH_CLOCK);
+	commsSendUint32(LOG_ANLYS_SAMPLING_FREQ);
+	commsSendUint32(LOG_ANLYS_BUFFER_LENGTH);
+	commsSendUint32(LOG_ANLYS_CHANNELS_NUM);
+	for (i=0;i<LOG_ANLYS_CHANNELS_NUM;i++){
+		switch(i){
+			case 0:
+				commsSendString(LOG_ANLYS_PIN_CH1);
+				break;
+			case 1:
+				commsSendString(LOG_ANLYS_PIN_CH2);
+				break;			
+			case 2:
+				commsSendString(LOG_ANLYS_PIN_CH3);	
+				break;
+			case 3:
+				commsSendString(LOG_ANLYS_PIN_CH4);	
+				break;
+			case 4:
+				commsSendString(LOG_ANLYS_PIN_CH5);	
+				break;
+			case 5:
+				commsSendString(LOG_ANLYS_PIN_CH6);	
+				break;
+			case 6:
+				commsSendString(LOG_ANLYS_PIN_CH7);	
+				break;
+			case 7:
+				commsSendString(LOG_ANLYS_PIN_CH8);	
+				break;			
+		}
+	}	
+}
+#endif //USE_LOG_ANLYS
 
 #ifdef USE_SHIELD
 void sendShieldPresence(void){

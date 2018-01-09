@@ -46,6 +46,21 @@
             this.xToolStripMenu_icCh2_4x = new System.Windows.Forms.ToolStripMenuItem();
             this.xToolStripMenu_icCh2_8x = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage_REF = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label_freqRatio_fifo_accuracy_6 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_accuracy_5 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_accuracy_4 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_accuracy_3 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_accuracy_2 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_accuracy_1 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_6 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_5 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_4 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_3 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_2 = new System.Windows.Forms.Label();
+            this.label_freqRatio_fifo_1 = new System.Windows.Forms.Label();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label_cnt_ref_maxFreq = new System.Windows.Forms.Label();
@@ -53,7 +68,6 @@
             this.label_cnt_ref_input = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label_cnt_ref_acc = new System.Windows.Forms.Label();
             this.cnt_ref_indication = new System.Windows.Forms.Label();
@@ -72,16 +86,6 @@
             this.tabPage_IC = new System.Windows.Forms.TabPage();
             this.groupBox_cnt_ic_dutyCycle_ch2 = new System.Windows.Forms.GroupBox();
             this.checkBox_icMode_dutyCycle_ch2 = new System.Windows.Forms.CheckBox();
-            this.groupBox_cnt_ic_pulseWidth = new System.Windows.Forms.GroupBox();
-            this.cnt_ic_pulse_indic_ch2 = new System.Windows.Forms.Label();
-            this.label_cnt_ic_acc_pulseWidth = new System.Windows.Forms.Label();
-            this.label_pulseWidth_groupBoxName = new System.Windows.Forms.Label();
-            this.label_cnt_ic_pulseWidth = new System.Windows.Forms.Label();
-            this.groupBox_cnt_ic_dutyCycle = new System.Windows.Forms.GroupBox();
-            this.cnt_ic_pulse_indic_ch1 = new System.Windows.Forms.Label();
-            this.label_cnt_ic_acc_dutyCycle = new System.Windows.Forms.Label();
-            this.label_dutyCycle_groupBoxName = new System.Windows.Forms.Label();
-            this.label_cnt_ic_dutyCycle = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
@@ -98,15 +102,25 @@
             this.cnt_ic2_buffer_textBox = new System.Windows.Forms.TextBox();
             this.label_icCh2_min = new System.Windows.Forms.Label();
             this.cnt_ic2_trackBar = new System.Windows.Forms.TrackBar();
-            this.groupBox_cnt_ic2_period = new System.Windows.Forms.GroupBox();
-            this.label_cnt_ic2_acc_period = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label_cnt_ic2_period = new System.Windows.Forms.Label();
             this.groupBox_icSampleCount1 = new System.Windows.Forms.GroupBox();
             this.label_icCh1_max = new System.Windows.Forms.Label();
             this.label_icCh1_min = new System.Windows.Forms.Label();
             this.cnt_ic1_buffer_textBox = new System.Windows.Forms.TextBox();
             this.cnt_ic1_trackBar = new System.Windows.Forms.TrackBar();
+            this.groupBox_cnt_ic_pulseWidth = new System.Windows.Forms.GroupBox();
+            this.cnt_ic_pulse_indic_ch2 = new System.Windows.Forms.Label();
+            this.label_cnt_ic_acc_pulseWidth = new System.Windows.Forms.Label();
+            this.label_pulseWidth_groupBoxName = new System.Windows.Forms.Label();
+            this.label_cnt_ic_pulseWidth = new System.Windows.Forms.Label();
+            this.groupBox_cnt_ic_dutyCycle = new System.Windows.Forms.GroupBox();
+            this.cnt_ic_pulse_indic_ch1 = new System.Windows.Forms.Label();
+            this.label_cnt_ic_acc_dutyCycle = new System.Windows.Forms.Label();
+            this.label_dutyCycle_groupBoxName = new System.Windows.Forms.Label();
+            this.label_cnt_ic_dutyCycle = new System.Windows.Forms.Label();
+            this.groupBox_cnt_ic2_period = new System.Windows.Forms.GroupBox();
+            this.label_cnt_ic2_acc_period = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label_cnt_ic2_period = new System.Windows.Forms.Label();
             this.groupBox_cnt_ic2_freq = new System.Windows.Forms.GroupBox();
             this.label_cnt_ic2_acc_freq = new System.Windows.Forms.Label();
             this.cnt_ic_indication_ch2 = new System.Windows.Forms.Label();
@@ -156,6 +170,36 @@
             this.label_cnt_etr_value = new System.Windows.Forms.Label();
             this.cnt_mode_tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_TI = new System.Windows.Forms.TabPage();
+            this.groupBox_ti_event_B = new System.Windows.Forms.GroupBox();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.radioButton_it_falling_ch2 = new System.Windows.Forms.RadioButton();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.radioButton_it_rising_ch2 = new System.Windows.Forms.RadioButton();
+            this.groupBox_ti_event_A = new System.Windows.Forms.GroupBox();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.radioButton_it_falling_ch1 = new System.Windows.Forms.RadioButton();
+            this.radioButton_it_rising_ch1 = new System.Windows.Forms.RadioButton();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label_ti_fifo_evseq_4 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_evseq_3 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_evseq_2 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_evseq_1 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_accuracy_4 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_accuracy_3 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_accuracy_2 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_accuracy_1 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_4 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_3 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_2 = new System.Windows.Forms.Label();
+            this.label_ti_fifo_1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radioButton_ti_mode_dependent = new System.Windows.Forms.RadioButton();
+            this.radioButton_ti_mode_independent = new System.Windows.Forms.RadioButton();
             this.groupBox26 = new System.Windows.Forms.GroupBox();
             this.button_cnt_ti_enable = new System.Windows.Forms.Button();
             this.groupBox_ti_timeout = new System.Windows.Forms.GroupBox();
@@ -172,29 +216,17 @@
             this.radioButton_it_eventSequence_ba = new System.Windows.Forms.RadioButton();
             this.radioButton_it_eventSequence_ab = new System.Windows.Forms.RadioButton();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.groupBox_ti_event_B = new System.Windows.Forms.GroupBox();
-            this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.radioButton_it_falling_ch2 = new System.Windows.Forms.RadioButton();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.radioButton_it_rising_ch2 = new System.Windows.Forms.RadioButton();
+            this.label_ti_mode = new System.Windows.Forms.Label();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.label_cnt_ti_acc = new System.Windows.Forms.Label();
             this.cnt_ti_indication = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label_cnt_it_value = new System.Windows.Forms.Label();
-            this.groupBox_ti_event_A = new System.Windows.Forms.GroupBox();
-            this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.radioButton_it_falling_ch1 = new System.Windows.Forms.RadioButton();
-            this.radioButton_it_rising_ch1 = new System.Windows.Forms.RadioButton();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.label_cnt_ti_acc = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabPage_REF.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox24.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -203,15 +235,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ref_trackBar1)).BeginInit();
             this.tabPage_IC.SuspendLayout();
             this.groupBox_cnt_ic_dutyCycle_ch2.SuspendLayout();
-            this.groupBox_cnt_ic_pulseWidth.SuspendLayout();
-            this.groupBox_cnt_ic_dutyCycle.SuspendLayout();
             this.groupBox23.SuspendLayout();
             this.groupBox_cnt_ic_dutyCycle_ch1.SuspendLayout();
             this.groupBox_icSampleCount2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic2_trackBar)).BeginInit();
-            this.groupBox_cnt_ic2_period.SuspendLayout();
             this.groupBox_icSampleCount1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic1_trackBar)).BeginInit();
+            this.groupBox_cnt_ic_pulseWidth.SuspendLayout();
+            this.groupBox_cnt_ic_dutyCycle.SuspendLayout();
+            this.groupBox_cnt_ic2_period.SuspendLayout();
             this.groupBox_cnt_ic2_freq.SuspendLayout();
             this.groupBox_cnt_ic1_freq.SuspendLayout();
             this.groupBox_cnt_ic1_period.SuspendLayout();
@@ -226,21 +258,23 @@
             this.groupBox6.SuspendLayout();
             this.cnt_mode_tabControl.SuspendLayout();
             this.tabPage_TI.SuspendLayout();
+            this.groupBox_ti_event_B.SuspendLayout();
+            this.groupBox16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.groupBox_ti_event_A.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox26.SuspendLayout();
             this.groupBox_ti_timeout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_cnt_ti_timeout)).BeginInit();
             this.groupBox_ti_eventSeq.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ti_sequence)).BeginInit();
             this.groupBox18.SuspendLayout();
-            this.groupBox_ti_event_B.SuspendLayout();
-            this.groupBox16.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.groupBox13.SuspendLayout();
-            this.groupBox_ti_event_A.SuspendLayout();
-            this.groupBox14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -369,7 +403,8 @@
             // 
             // tabPage_REF
             // 
-            this.tabPage_REF.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage_REF.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_REF.Controls.Add(this.groupBox5);
             this.tabPage_REF.Controls.Add(this.groupBox24);
             this.tabPage_REF.Controls.Add(this.groupBox9);
             this.tabPage_REF.Controls.Add(this.groupBox8);
@@ -380,8 +415,233 @@
             this.tabPage_REF.TabIndex = 2;
             this.tabPage_REF.Text = "Frequency Ratio";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_accuracy_6);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_accuracy_5);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_accuracy_4);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_accuracy_3);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_accuracy_2);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_accuracy_1);
+            this.groupBox5.Controls.Add(this.label37);
+            this.groupBox5.Controls.Add(this.label38);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_6);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_5);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_4);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_3);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_2);
+            this.groupBox5.Controls.Add(this.label_freqRatio_fifo_1);
+            this.groupBox5.Location = new System.Drawing.Point(5, 85);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(506, 117);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "History FIFO";
+            // 
+            // label_freqRatio_fifo_accuracy_6
+            // 
+            this.label_freqRatio_fifo_accuracy_6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_accuracy_6.AutoSize = true;
+            this.label_freqRatio_fifo_accuracy_6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_accuracy_6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_accuracy_6.Location = new System.Drawing.Point(308, 96);
+            this.label_freqRatio_fifo_accuracy_6.Name = "label_freqRatio_fifo_accuracy_6";
+            this.label_freqRatio_fifo_accuracy_6.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_accuracy_6.TabIndex = 27;
+            this.label_freqRatio_fifo_accuracy_6.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_accuracy_5
+            // 
+            this.label_freqRatio_fifo_accuracy_5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_accuracy_5.AutoSize = true;
+            this.label_freqRatio_fifo_accuracy_5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_accuracy_5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_accuracy_5.Location = new System.Drawing.Point(308, 80);
+            this.label_freqRatio_fifo_accuracy_5.Name = "label_freqRatio_fifo_accuracy_5";
+            this.label_freqRatio_fifo_accuracy_5.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_accuracy_5.TabIndex = 26;
+            this.label_freqRatio_fifo_accuracy_5.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_accuracy_4
+            // 
+            this.label_freqRatio_fifo_accuracy_4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_accuracy_4.AutoSize = true;
+            this.label_freqRatio_fifo_accuracy_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_accuracy_4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_accuracy_4.Location = new System.Drawing.Point(308, 64);
+            this.label_freqRatio_fifo_accuracy_4.Name = "label_freqRatio_fifo_accuracy_4";
+            this.label_freqRatio_fifo_accuracy_4.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_accuracy_4.TabIndex = 25;
+            this.label_freqRatio_fifo_accuracy_4.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_accuracy_3
+            // 
+            this.label_freqRatio_fifo_accuracy_3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_accuracy_3.AutoSize = true;
+            this.label_freqRatio_fifo_accuracy_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_accuracy_3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_accuracy_3.Location = new System.Drawing.Point(308, 48);
+            this.label_freqRatio_fifo_accuracy_3.Name = "label_freqRatio_fifo_accuracy_3";
+            this.label_freqRatio_fifo_accuracy_3.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_accuracy_3.TabIndex = 24;
+            this.label_freqRatio_fifo_accuracy_3.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_accuracy_2
+            // 
+            this.label_freqRatio_fifo_accuracy_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_accuracy_2.AutoSize = true;
+            this.label_freqRatio_fifo_accuracy_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_accuracy_2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_accuracy_2.Location = new System.Drawing.Point(308, 32);
+            this.label_freqRatio_fifo_accuracy_2.Name = "label_freqRatio_fifo_accuracy_2";
+            this.label_freqRatio_fifo_accuracy_2.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_accuracy_2.TabIndex = 23;
+            this.label_freqRatio_fifo_accuracy_2.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_accuracy_1
+            // 
+            this.label_freqRatio_fifo_accuracy_1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_accuracy_1.AutoSize = true;
+            this.label_freqRatio_fifo_accuracy_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_accuracy_1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_accuracy_1.Location = new System.Drawing.Point(308, 16);
+            this.label_freqRatio_fifo_accuracy_1.Name = "label_freqRatio_fifo_accuracy_1";
+            this.label_freqRatio_fifo_accuracy_1.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_accuracy_1.TabIndex = 22;
+            this.label_freqRatio_fifo_accuracy_1.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.label37.Location = new System.Drawing.Point(8, 17);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(15, 13);
+            this.label37.TabIndex = 21;
+            this.label37.Text = "in";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.label38.Location = new System.Drawing.Point(7, 97);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(22, 13);
+            this.label38.TabIndex = 20;
+            this.label38.Text = "out";
+            // 
+            // label_freqRatio_fifo_6
+            // 
+            this.label_freqRatio_fifo_6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_6.AutoSize = true;
+            this.label_freqRatio_fifo_6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_6.Location = new System.Drawing.Point(119, 96);
+            this.label_freqRatio_fifo_6.Name = "label_freqRatio_fifo_6";
+            this.label_freqRatio_fifo_6.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_6.TabIndex = 17;
+            this.label_freqRatio_fifo_6.Text = "----------------";
+            this.label_freqRatio_fifo_6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_5
+            // 
+            this.label_freqRatio_fifo_5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_5.AutoSize = true;
+            this.label_freqRatio_fifo_5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_5.Location = new System.Drawing.Point(119, 80);
+            this.label_freqRatio_fifo_5.Name = "label_freqRatio_fifo_5";
+            this.label_freqRatio_fifo_5.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_5.TabIndex = 16;
+            this.label_freqRatio_fifo_5.Text = "----------------";
+            this.label_freqRatio_fifo_5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_4
+            // 
+            this.label_freqRatio_fifo_4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_4.AutoSize = true;
+            this.label_freqRatio_fifo_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_4.Location = new System.Drawing.Point(119, 64);
+            this.label_freqRatio_fifo_4.Name = "label_freqRatio_fifo_4";
+            this.label_freqRatio_fifo_4.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_4.TabIndex = 15;
+            this.label_freqRatio_fifo_4.Text = "----------------";
+            this.label_freqRatio_fifo_4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_3
+            // 
+            this.label_freqRatio_fifo_3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_3.AutoSize = true;
+            this.label_freqRatio_fifo_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_3.Location = new System.Drawing.Point(119, 48);
+            this.label_freqRatio_fifo_3.Name = "label_freqRatio_fifo_3";
+            this.label_freqRatio_fifo_3.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_3.TabIndex = 14;
+            this.label_freqRatio_fifo_3.Text = "----------------";
+            this.label_freqRatio_fifo_3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_2
+            // 
+            this.label_freqRatio_fifo_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_2.AutoSize = true;
+            this.label_freqRatio_fifo_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_2.Location = new System.Drawing.Point(119, 32);
+            this.label_freqRatio_fifo_2.Name = "label_freqRatio_fifo_2";
+            this.label_freqRatio_fifo_2.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_2.TabIndex = 13;
+            this.label_freqRatio_fifo_2.Text = "----------------";
+            this.label_freqRatio_fifo_2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_freqRatio_fifo_1
+            // 
+            this.label_freqRatio_fifo_1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_freqRatio_fifo_1.AutoSize = true;
+            this.label_freqRatio_fifo_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_freqRatio_fifo_1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_freqRatio_fifo_1.Location = new System.Drawing.Point(119, 16);
+            this.label_freqRatio_fifo_1.Name = "label_freqRatio_fifo_1";
+            this.label_freqRatio_fifo_1.Size = new System.Drawing.Size(71, 15);
+            this.label_freqRatio_fifo_1.TabIndex = 12;
+            this.label_freqRatio_fifo_1.Text = "----------------";
+            this.label_freqRatio_fifo_1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
             // groupBox24
             // 
+            this.groupBox24.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox24.Controls.Add(this.label25);
             this.groupBox24.Controls.Add(this.label_cnt_ref_maxFreq);
             this.groupBox24.Controls.Add(this.label_cnt_ref_sec_input);
@@ -411,7 +671,7 @@
             this.label_cnt_ref_maxFreq.Name = "label_cnt_ref_maxFreq";
             this.label_cnt_ref_maxFreq.Size = new System.Drawing.Size(50, 13);
             this.label_cnt_ref_maxFreq.TabIndex = 2;
-            this.label_cnt_ref_maxFreq.Text = "244 MHz";
+            this.label_cnt_ref_maxFreq.Text = "288 MHz";
             // 
             // label_cnt_ref_sec_input
             // 
@@ -433,13 +693,14 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox9.Controls.Add(this.label17);
-            this.groupBox9.Controls.Add(this.label16);
-            this.groupBox9.Location = new System.Drawing.Point(5, 169);
+            this.groupBox9.Location = new System.Drawing.Point(5, 201);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(506, 87);
+            this.groupBox9.Size = new System.Drawing.Size(506, 55);
             this.groupBox9.TabIndex = 4;
             this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Info";
             // 
             // label17
             // 
@@ -448,7 +709,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label17.AutoSize = true;
             this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label17.Location = new System.Drawing.Point(66, 34);
+            this.label17.Location = new System.Drawing.Point(66, 18);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(384, 26);
             this.label17.TabIndex = 4;
@@ -456,28 +717,18 @@
     "\n reference input and the second input where an unknown frequency is ingoing.";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label16.Location = new System.Drawing.Point(0, -2);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(33, 19);
-            this.label16.TabIndex = 3;
-            this.label16.Text = "Info";
-            // 
             // groupBox8
             // 
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox8.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox8.Controls.Add(this.label_cnt_ref_acc);
             this.groupBox8.Controls.Add(this.cnt_ref_indication);
             this.groupBox8.Controls.Add(this.label_cnt_refRatio_pins);
             this.groupBox8.Controls.Add(this.label_cnt_ref_value);
             this.groupBox8.Location = new System.Drawing.Point(5, 3);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(506, 167);
+            this.groupBox8.Size = new System.Drawing.Size(506, 83);
             this.groupBox8.TabIndex = 3;
             this.groupBox8.TabStop = false;
             // 
@@ -489,7 +740,7 @@
             this.label_cnt_ref_acc.AutoSize = true;
             this.label_cnt_ref_acc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_ref_acc.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ref_acc.Location = new System.Drawing.Point(222, 128);
+            this.label_cnt_ref_acc.Location = new System.Drawing.Point(213, 62);
             this.label_cnt_ref_acc.Name = "label_cnt_ref_acc";
             this.label_cnt_ref_acc.Size = new System.Drawing.Size(69, 15);
             this.label_cnt_ref_acc.TabIndex = 12;
@@ -524,7 +775,7 @@
             this.label_cnt_ref_value.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label_cnt_ref_value.Location = new System.Drawing.Point(3, 16);
             this.label_cnt_ref_value.Name = "label_cnt_ref_value";
-            this.label_cnt_ref_value.Size = new System.Drawing.Size(500, 148);
+            this.label_cnt_ref_value.Size = new System.Drawing.Size(500, 64);
             this.label_cnt_ref_value.TabIndex = 0;
             this.label_cnt_ref_value.Text = "Change the sample count first.";
             this.label_cnt_ref_value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -533,6 +784,7 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox3.Controls.Add(this.cnt_ref_count_textBox2);
             this.groupBox3.Controls.Add(this.cnt_ref_count_textBox1);
             this.groupBox3.Controls.Add(this.label13);
@@ -560,7 +812,7 @@
             this.cnt_ref_count_textBox2.Name = "cnt_ref_count_textBox2";
             this.cnt_ref_count_textBox2.Size = new System.Drawing.Size(122, 13);
             this.cnt_ref_count_textBox2.TabIndex = 10;
-            this.cnt_ref_count_textBox2.Text = "1000";
+            this.cnt_ref_count_textBox2.Text = "60000";
             this.cnt_ref_count_textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cnt_ref_count_textBox2.Click += new System.EventHandler(this.cnt_ref_count_textBox2_Click);
             this.cnt_ref_count_textBox2.Enter += new System.EventHandler(this.cnt_ref_count_textBox2_Enter);
@@ -579,7 +831,7 @@
             this.cnt_ref_count_textBox1.Name = "cnt_ref_count_textBox1";
             this.cnt_ref_count_textBox1.Size = new System.Drawing.Size(122, 13);
             this.cnt_ref_count_textBox1.TabIndex = 9;
-            this.cnt_ref_count_textBox1.Text = "10000";
+            this.cnt_ref_count_textBox1.Text = "60000";
             this.cnt_ref_count_textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cnt_ref_count_textBox1.Click += new System.EventHandler(this.cnt_ref_count_textBox1_Click);
             this.cnt_ref_count_textBox1.Enter += new System.EventHandler(this.cnt_ref_count_textBox1_Enter);
@@ -637,7 +889,7 @@
             this.cnt_ref_sampleCount_textBox.Name = "cnt_ref_sampleCount_textBox";
             this.cnt_ref_sampleCount_textBox.Size = new System.Drawing.Size(171, 20);
             this.cnt_ref_sampleCount_textBox.TabIndex = 0;
-            this.cnt_ref_sampleCount_textBox.Text = "10 000 000";
+            this.cnt_ref_sampleCount_textBox.Text = "3600000000";
             this.cnt_ref_sampleCount_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cnt_ref_sampleCount_textBox.Click += new System.EventHandler(this.cnt_ref_sampleCount_textBox_Click);
             this.cnt_ref_sampleCount_textBox.Enter += new System.EventHandler(this.cnt_ref_sampleCount_textBox_Enter);
@@ -657,7 +909,7 @@
             this.cnt_ref_trackBar2.Size = new System.Drawing.Size(226, 45);
             this.cnt_ref_trackBar2.TabIndex = 4;
             this.cnt_ref_trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.cnt_ref_trackBar2.Value = 1000;
+            this.cnt_ref_trackBar2.Value = 60000;
             this.cnt_ref_trackBar2.Scroll += new System.EventHandler(this.cnt_ref_trackBar2_Scroll);
             // 
             // cnt_ref_trackBar1
@@ -673,20 +925,20 @@
             this.cnt_ref_trackBar1.Size = new System.Drawing.Size(226, 45);
             this.cnt_ref_trackBar1.TabIndex = 3;
             this.cnt_ref_trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.cnt_ref_trackBar1.Value = 10000;
+            this.cnt_ref_trackBar1.Value = 60000;
             this.cnt_ref_trackBar1.Scroll += new System.EventHandler(this.cnt_ref_trackBar1_Scroll);
             // 
             // tabPage_IC
             // 
-            this.tabPage_IC.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage_IC.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_dutyCycle_ch2);
-            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_pulseWidth);
-            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_dutyCycle);
             this.tabPage_IC.Controls.Add(this.groupBox23);
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_dutyCycle_ch1);
             this.tabPage_IC.Controls.Add(this.groupBox_icSampleCount2);
-            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_period);
             this.tabPage_IC.Controls.Add(this.groupBox_icSampleCount1);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_pulseWidth);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic_dutyCycle);
+            this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_period);
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic2_freq);
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic1_freq);
             this.tabPage_IC.Controls.Add(this.groupBox_cnt_ic1_period);
@@ -702,6 +954,7 @@
             this.groupBox_cnt_ic_dutyCycle_ch2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox_cnt_ic_dutyCycle_ch2.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_cnt_ic_dutyCycle_ch2.Controls.Add(this.checkBox_icMode_dutyCycle_ch2);
             this.groupBox_cnt_ic_dutyCycle_ch2.Location = new System.Drawing.Point(691, 86);
             this.groupBox_cnt_ic_dutyCycle_ch2.Name = "groupBox_cnt_ic_dutyCycle_ch2";
@@ -723,126 +976,9 @@
             this.checkBox_icMode_dutyCycle_ch2.UseVisualStyleBackColor = true;
             this.checkBox_icMode_dutyCycle_ch2.CheckedChanged += new System.EventHandler(this.checkBox_icMode_dutyCycle_ch2_CheckedChanged);
             // 
-            // groupBox_cnt_ic_pulseWidth
-            // 
-            this.groupBox_cnt_ic_pulseWidth.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.cnt_ic_pulse_indic_ch2);
-            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_cnt_ic_acc_pulseWidth);
-            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_pulseWidth_groupBoxName);
-            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_cnt_ic_pulseWidth);
-            this.groupBox_cnt_ic_pulseWidth.Location = new System.Drawing.Point(5, 129);
-            this.groupBox_cnt_ic_pulseWidth.Name = "groupBox_cnt_ic_pulseWidth";
-            this.groupBox_cnt_ic_pulseWidth.Size = new System.Drawing.Size(448, 127);
-            this.groupBox_cnt_ic_pulseWidth.TabIndex = 18;
-            this.groupBox_cnt_ic_pulseWidth.TabStop = false;
-            this.groupBox_cnt_ic_pulseWidth.Visible = false;
-            // 
-            // cnt_ic_pulse_indic_ch2
-            // 
-            this.cnt_ic_pulse_indic_ch2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cnt_ic_pulse_indic_ch2.BackColor = System.Drawing.Color.Teal;
-            this.cnt_ic_pulse_indic_ch2.Location = new System.Drawing.Point(424, 11);
-            this.cnt_ic_pulse_indic_ch2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.cnt_ic_pulse_indic_ch2.Name = "cnt_ic_pulse_indic_ch2";
-            this.cnt_ic_pulse_indic_ch2.Size = new System.Drawing.Size(19, 10);
-            this.cnt_ic_pulse_indic_ch2.TabIndex = 13;
-            // 
-            // label_cnt_ic_acc_pulseWidth
-            // 
-            this.label_cnt_ic_acc_pulseWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic_acc_pulseWidth.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ic_acc_pulseWidth.Location = new System.Drawing.Point(3, 95);
-            this.label_cnt_ic_acc_pulseWidth.Name = "label_cnt_ic_acc_pulseWidth";
-            this.label_cnt_ic_acc_pulseWidth.Size = new System.Drawing.Size(442, 13);
-            this.label_cnt_ic_acc_pulseWidth.TabIndex = 12;
-            this.label_cnt_ic_acc_pulseWidth.Text = "± 0.000000";
-            this.label_cnt_ic_acc_pulseWidth.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // label_pulseWidth_groupBoxName
-            // 
-            this.label_pulseWidth_groupBoxName.AutoSize = true;
-            this.label_pulseWidth_groupBoxName.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label_pulseWidth_groupBoxName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_pulseWidth_groupBoxName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_pulseWidth_groupBoxName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_pulseWidth_groupBoxName.Location = new System.Drawing.Point(-1, 0);
-            this.label_pulseWidth_groupBoxName.Name = "label_pulseWidth_groupBoxName";
-            this.label_pulseWidth_groupBoxName.Size = new System.Drawing.Size(159, 19);
-            this.label_pulseWidth_groupBoxName.TabIndex = 4;
-            this.label_pulseWidth_groupBoxName.Text = "Pulse width channel 1 [s]";
-            // 
-            // label_cnt_ic_pulseWidth
-            // 
-            this.label_cnt_ic_pulseWidth.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_cnt_ic_pulseWidth.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic_pulseWidth.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic_pulseWidth.Name = "label_cnt_ic_pulseWidth";
-            this.label_cnt_ic_pulseWidth.Size = new System.Drawing.Size(442, 108);
-            this.label_cnt_ic_pulseWidth.TabIndex = 2;
-            this.label_cnt_ic_pulseWidth.Text = "0.000000";
-            this.label_cnt_ic_pulseWidth.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox_cnt_ic_dutyCycle
-            // 
-            this.groupBox_cnt_ic_dutyCycle.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.cnt_ic_pulse_indic_ch1);
-            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_cnt_ic_acc_dutyCycle);
-            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_dutyCycle_groupBoxName);
-            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_cnt_ic_dutyCycle);
-            this.groupBox_cnt_ic_dutyCycle.Location = new System.Drawing.Point(5, 3);
-            this.groupBox_cnt_ic_dutyCycle.Name = "groupBox_cnt_ic_dutyCycle";
-            this.groupBox_cnt_ic_dutyCycle.Size = new System.Drawing.Size(448, 127);
-            this.groupBox_cnt_ic_dutyCycle.TabIndex = 15;
-            this.groupBox_cnt_ic_dutyCycle.TabStop = false;
-            this.groupBox_cnt_ic_dutyCycle.Visible = false;
-            // 
-            // cnt_ic_pulse_indic_ch1
-            // 
-            this.cnt_ic_pulse_indic_ch1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cnt_ic_pulse_indic_ch1.BackColor = System.Drawing.Color.Teal;
-            this.cnt_ic_pulse_indic_ch1.Location = new System.Drawing.Point(424, 11);
-            this.cnt_ic_pulse_indic_ch1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.cnt_ic_pulse_indic_ch1.Name = "cnt_ic_pulse_indic_ch1";
-            this.cnt_ic_pulse_indic_ch1.Size = new System.Drawing.Size(19, 10);
-            this.cnt_ic_pulse_indic_ch1.TabIndex = 13;
-            // 
-            // label_cnt_ic_acc_dutyCycle
-            // 
-            this.label_cnt_ic_acc_dutyCycle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic_acc_dutyCycle.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ic_acc_dutyCycle.Location = new System.Drawing.Point(3, 95);
-            this.label_cnt_ic_acc_dutyCycle.Name = "label_cnt_ic_acc_dutyCycle";
-            this.label_cnt_ic_acc_dutyCycle.Size = new System.Drawing.Size(442, 13);
-            this.label_cnt_ic_acc_dutyCycle.TabIndex = 12;
-            this.label_cnt_ic_acc_dutyCycle.Text = "± 0.000000";
-            this.label_cnt_ic_acc_dutyCycle.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // label_dutyCycle_groupBoxName
-            // 
-            this.label_dutyCycle_groupBoxName.AutoSize = true;
-            this.label_dutyCycle_groupBoxName.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label_dutyCycle_groupBoxName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_dutyCycle_groupBoxName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_dutyCycle_groupBoxName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_dutyCycle_groupBoxName.Location = new System.Drawing.Point(-1, 0);
-            this.label_dutyCycle_groupBoxName.Name = "label_dutyCycle_groupBoxName";
-            this.label_dutyCycle_groupBoxName.Size = new System.Drawing.Size(161, 19);
-            this.label_dutyCycle_groupBoxName.TabIndex = 4;
-            this.label_dutyCycle_groupBoxName.Text = "Duty cycle channel 1 [%]";
-            // 
-            // label_cnt_ic_dutyCycle
-            // 
-            this.label_cnt_ic_dutyCycle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_cnt_ic_dutyCycle.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic_dutyCycle.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic_dutyCycle.Name = "label_cnt_ic_dutyCycle";
-            this.label_cnt_ic_dutyCycle.Size = new System.Drawing.Size(442, 108);
-            this.label_cnt_ic_dutyCycle.TabIndex = 2;
-            this.label_cnt_ic_dutyCycle.Text = "0.000";
-            this.label_cnt_ic_dutyCycle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // groupBox23
             // 
+            this.groupBox23.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox23.Controls.Add(this.label29);
             this.groupBox23.Controls.Add(this.label28);
             this.groupBox23.Controls.Add(this.label27);
@@ -940,6 +1076,7 @@
             this.groupBox_cnt_ic_dutyCycle_ch1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox_cnt_ic_dutyCycle_ch1.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_cnt_ic_dutyCycle_ch1.Controls.Add(this.checkBox_icMode_dutyCycle_ch1);
             this.groupBox_cnt_ic_dutyCycle_ch1.Location = new System.Drawing.Point(692, 3);
             this.groupBox_cnt_ic_dutyCycle_ch1.Name = "groupBox_cnt_ic_dutyCycle_ch1";
@@ -962,6 +1099,7 @@
             // 
             // groupBox_icSampleCount2
             // 
+            this.groupBox_icSampleCount2.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_icSampleCount2.Controls.Add(this.label_icCh2_max);
             this.groupBox_icSampleCount2.Controls.Add(this.cnt_ic2_buffer_textBox);
             this.groupBox_icSampleCount2.Controls.Add(this.label_icCh2_min);
@@ -1022,56 +1160,9 @@
             this.cnt_ic2_trackBar.Value = 1;
             this.cnt_ic2_trackBar.Scroll += new System.EventHandler(this.cnt_ic2_trackBar_Scroll);
             // 
-            // groupBox_cnt_ic2_period
-            // 
-            this.groupBox_cnt_ic2_period.Controls.Add(this.label_cnt_ic2_acc_period);
-            this.groupBox_cnt_ic2_period.Controls.Add(this.label20);
-            this.groupBox_cnt_ic2_period.Controls.Add(this.label_cnt_ic2_period);
-            this.groupBox_cnt_ic2_period.Location = new System.Drawing.Point(4, 192);
-            this.groupBox_cnt_ic2_period.Name = "groupBox_cnt_ic2_period";
-            this.groupBox_cnt_ic2_period.Size = new System.Drawing.Size(448, 64);
-            this.groupBox_cnt_ic2_period.TabIndex = 11;
-            this.groupBox_cnt_ic2_period.TabStop = false;
-            // 
-            // label_cnt_ic2_acc_period
-            // 
-            this.label_cnt_ic2_acc_period.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label_cnt_ic2_acc_period.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic2_acc_period.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ic2_acc_period.Location = new System.Drawing.Point(3, 48);
-            this.label_cnt_ic2_acc_period.Name = "label_cnt_ic2_acc_period";
-            this.label_cnt_ic2_acc_period.Size = new System.Drawing.Size(442, 13);
-            this.label_cnt_ic2_acc_period.TabIndex = 11;
-            this.label_cnt_ic2_acc_period.Text = "∓ 0.000000";
-            this.label_cnt_ic2_acc_period.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label20.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label20.Location = new System.Drawing.Point(0, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(130, 19);
-            this.label20.TabIndex = 4;
-            this.label20.Text = "Period channel 2 [s]";
-            this.toolTip1.SetToolTip(this.label20, "PA1 max. frequency 10 MHz.");
-            // 
-            // label_cnt_ic2_period
-            // 
-            this.label_cnt_ic2_period.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_cnt_ic2_period.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ic2_period.Location = new System.Drawing.Point(3, 16);
-            this.label_cnt_ic2_period.Name = "label_cnt_ic2_period";
-            this.label_cnt_ic2_period.Size = new System.Drawing.Size(442, 45);
-            this.label_cnt_ic2_period.TabIndex = 2;
-            this.label_cnt_ic2_period.Text = "0.000000";
-            this.label_cnt_ic2_period.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // groupBox_icSampleCount1
             // 
+            this.groupBox_icSampleCount1.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_icSampleCount1.Controls.Add(this.label_icCh1_max);
             this.groupBox_icSampleCount1.Controls.Add(this.label_icCh1_min);
             this.groupBox_icSampleCount1.Controls.Add(this.cnt_ic1_buffer_textBox);
@@ -1131,6 +1222,172 @@
             this.cnt_ic1_trackBar.TabIndex = 8;
             this.cnt_ic1_trackBar.Value = 1;
             this.cnt_ic1_trackBar.Scroll += new System.EventHandler(this.cnt_ic1_trackBar_Scroll);
+            // 
+            // groupBox_cnt_ic_pulseWidth
+            // 
+            this.groupBox_cnt_ic_pulseWidth.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.cnt_ic_pulse_indic_ch2);
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_cnt_ic_acc_pulseWidth);
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_pulseWidth_groupBoxName);
+            this.groupBox_cnt_ic_pulseWidth.Controls.Add(this.label_cnt_ic_pulseWidth);
+            this.groupBox_cnt_ic_pulseWidth.Location = new System.Drawing.Point(5, 129);
+            this.groupBox_cnt_ic_pulseWidth.Name = "groupBox_cnt_ic_pulseWidth";
+            this.groupBox_cnt_ic_pulseWidth.Size = new System.Drawing.Size(448, 127);
+            this.groupBox_cnt_ic_pulseWidth.TabIndex = 18;
+            this.groupBox_cnt_ic_pulseWidth.TabStop = false;
+            this.groupBox_cnt_ic_pulseWidth.Visible = false;
+            // 
+            // cnt_ic_pulse_indic_ch2
+            // 
+            this.cnt_ic_pulse_indic_ch2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cnt_ic_pulse_indic_ch2.BackColor = System.Drawing.Color.Teal;
+            this.cnt_ic_pulse_indic_ch2.Location = new System.Drawing.Point(424, 11);
+            this.cnt_ic_pulse_indic_ch2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cnt_ic_pulse_indic_ch2.Name = "cnt_ic_pulse_indic_ch2";
+            this.cnt_ic_pulse_indic_ch2.Size = new System.Drawing.Size(19, 10);
+            this.cnt_ic_pulse_indic_ch2.TabIndex = 13;
+            // 
+            // label_cnt_ic_acc_pulseWidth
+            // 
+            this.label_cnt_ic_acc_pulseWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_acc_pulseWidth.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_cnt_ic_acc_pulseWidth.Location = new System.Drawing.Point(3, 95);
+            this.label_cnt_ic_acc_pulseWidth.Name = "label_cnt_ic_acc_pulseWidth";
+            this.label_cnt_ic_acc_pulseWidth.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic_acc_pulseWidth.TabIndex = 12;
+            this.label_cnt_ic_acc_pulseWidth.Text = "± 0.000000";
+            this.label_cnt_ic_acc_pulseWidth.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_pulseWidth_groupBoxName
+            // 
+            this.label_pulseWidth_groupBoxName.AutoSize = true;
+            this.label_pulseWidth_groupBoxName.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label_pulseWidth_groupBoxName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_pulseWidth_groupBoxName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_pulseWidth_groupBoxName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_pulseWidth_groupBoxName.Location = new System.Drawing.Point(-1, 0);
+            this.label_pulseWidth_groupBoxName.Name = "label_pulseWidth_groupBoxName";
+            this.label_pulseWidth_groupBoxName.Size = new System.Drawing.Size(159, 19);
+            this.label_pulseWidth_groupBoxName.TabIndex = 4;
+            this.label_pulseWidth_groupBoxName.Text = "Pulse width channel 1 [s]";
+            // 
+            // label_cnt_ic_pulseWidth
+            // 
+            this.label_cnt_ic_pulseWidth.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic_pulseWidth.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_pulseWidth.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic_pulseWidth.Name = "label_cnt_ic_pulseWidth";
+            this.label_cnt_ic_pulseWidth.Size = new System.Drawing.Size(442, 108);
+            this.label_cnt_ic_pulseWidth.TabIndex = 2;
+            this.label_cnt_ic_pulseWidth.Text = "0.000000";
+            this.label_cnt_ic_pulseWidth.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox_cnt_ic_dutyCycle
+            // 
+            this.groupBox_cnt_ic_dutyCycle.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.cnt_ic_pulse_indic_ch1);
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_cnt_ic_acc_dutyCycle);
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_dutyCycle_groupBoxName);
+            this.groupBox_cnt_ic_dutyCycle.Controls.Add(this.label_cnt_ic_dutyCycle);
+            this.groupBox_cnt_ic_dutyCycle.Location = new System.Drawing.Point(5, 3);
+            this.groupBox_cnt_ic_dutyCycle.Name = "groupBox_cnt_ic_dutyCycle";
+            this.groupBox_cnt_ic_dutyCycle.Size = new System.Drawing.Size(448, 127);
+            this.groupBox_cnt_ic_dutyCycle.TabIndex = 15;
+            this.groupBox_cnt_ic_dutyCycle.TabStop = false;
+            this.groupBox_cnt_ic_dutyCycle.Visible = false;
+            // 
+            // cnt_ic_pulse_indic_ch1
+            // 
+            this.cnt_ic_pulse_indic_ch1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cnt_ic_pulse_indic_ch1.BackColor = System.Drawing.Color.Teal;
+            this.cnt_ic_pulse_indic_ch1.Location = new System.Drawing.Point(424, 11);
+            this.cnt_ic_pulse_indic_ch1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cnt_ic_pulse_indic_ch1.Name = "cnt_ic_pulse_indic_ch1";
+            this.cnt_ic_pulse_indic_ch1.Size = new System.Drawing.Size(19, 10);
+            this.cnt_ic_pulse_indic_ch1.TabIndex = 13;
+            // 
+            // label_cnt_ic_acc_dutyCycle
+            // 
+            this.label_cnt_ic_acc_dutyCycle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_acc_dutyCycle.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_cnt_ic_acc_dutyCycle.Location = new System.Drawing.Point(3, 95);
+            this.label_cnt_ic_acc_dutyCycle.Name = "label_cnt_ic_acc_dutyCycle";
+            this.label_cnt_ic_acc_dutyCycle.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic_acc_dutyCycle.TabIndex = 12;
+            this.label_cnt_ic_acc_dutyCycle.Text = "± 0.000000";
+            this.label_cnt_ic_acc_dutyCycle.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_dutyCycle_groupBoxName
+            // 
+            this.label_dutyCycle_groupBoxName.AutoSize = true;
+            this.label_dutyCycle_groupBoxName.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label_dutyCycle_groupBoxName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_dutyCycle_groupBoxName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_dutyCycle_groupBoxName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_dutyCycle_groupBoxName.Location = new System.Drawing.Point(-1, 0);
+            this.label_dutyCycle_groupBoxName.Name = "label_dutyCycle_groupBoxName";
+            this.label_dutyCycle_groupBoxName.Size = new System.Drawing.Size(161, 19);
+            this.label_dutyCycle_groupBoxName.TabIndex = 4;
+            this.label_dutyCycle_groupBoxName.Text = "Duty cycle channel 1 [%]";
+            // 
+            // label_cnt_ic_dutyCycle
+            // 
+            this.label_cnt_ic_dutyCycle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic_dutyCycle.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic_dutyCycle.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic_dutyCycle.Name = "label_cnt_ic_dutyCycle";
+            this.label_cnt_ic_dutyCycle.Size = new System.Drawing.Size(442, 108);
+            this.label_cnt_ic_dutyCycle.TabIndex = 2;
+            this.label_cnt_ic_dutyCycle.Text = "0.000";
+            this.label_cnt_ic_dutyCycle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox_cnt_ic2_period
+            // 
+            this.groupBox_cnt_ic2_period.Controls.Add(this.label_cnt_ic2_acc_period);
+            this.groupBox_cnt_ic2_period.Controls.Add(this.label20);
+            this.groupBox_cnt_ic2_period.Controls.Add(this.label_cnt_ic2_period);
+            this.groupBox_cnt_ic2_period.Location = new System.Drawing.Point(4, 192);
+            this.groupBox_cnt_ic2_period.Name = "groupBox_cnt_ic2_period";
+            this.groupBox_cnt_ic2_period.Size = new System.Drawing.Size(448, 64);
+            this.groupBox_cnt_ic2_period.TabIndex = 11;
+            this.groupBox_cnt_ic2_period.TabStop = false;
+            // 
+            // label_cnt_ic2_acc_period
+            // 
+            this.label_cnt_ic2_acc_period.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label_cnt_ic2_acc_period.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic2_acc_period.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ic2_acc_period.Location = new System.Drawing.Point(3, 48);
+            this.label_cnt_ic2_acc_period.Name = "label_cnt_ic2_acc_period";
+            this.label_cnt_ic2_acc_period.Size = new System.Drawing.Size(442, 13);
+            this.label_cnt_ic2_acc_period.TabIndex = 11;
+            this.label_cnt_ic2_acc_period.Text = "∓ 0.000000";
+            this.label_cnt_ic2_acc_period.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label20.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label20.Location = new System.Drawing.Point(0, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(130, 19);
+            this.label20.TabIndex = 4;
+            this.label20.Text = "Period channel 2 [s]";
+            this.toolTip1.SetToolTip(this.label20, "PA1 max. frequency 10 MHz.");
+            // 
+            // label_cnt_ic2_period
+            // 
+            this.label_cnt_ic2_period.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_cnt_ic2_period.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ic2_period.Location = new System.Drawing.Point(3, 16);
+            this.label_cnt_ic2_period.Name = "label_cnt_ic2_period";
+            this.label_cnt_ic2_period.Size = new System.Drawing.Size(442, 45);
+            this.label_cnt_ic2_period.TabIndex = 2;
+            this.label_cnt_ic2_period.Text = "0.000000";
+            this.label_cnt_ic2_period.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // groupBox_cnt_ic2_freq
             // 
@@ -1299,7 +1556,7 @@
             // 
             // tabPage_ETR
             // 
-            this.tabPage_ETR.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage_ETR.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage_ETR.Controls.Add(this.groupBox7);
             this.tabPage_ETR.Controls.Add(this.groupBox17);
             this.tabPage_ETR.Controls.Add(this.groupBox19);
@@ -1316,6 +1573,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox7.Controls.Add(this.label_cnt_avrg_info);
             this.groupBox7.Controls.Add(this.label_cnt_etr_acc_average);
             this.groupBox7.Controls.Add(this.label7);
@@ -1374,6 +1632,7 @@
             this.groupBox17.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox17.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox17.Controls.Add(this.label_cnt_etr_minFreq);
             this.groupBox17.Controls.Add(this.label24);
             this.groupBox17.Controls.Add(this.label21);
@@ -1424,7 +1683,7 @@
             this.label_cnt_etr_maxFreq.Name = "label_cnt_etr_maxFreq";
             this.label_cnt_etr_maxFreq.Size = new System.Drawing.Size(50, 13);
             this.label_cnt_etr_maxFreq.TabIndex = 0;
-            this.label_cnt_etr_maxFreq.Text = "244 MHz";
+            this.label_cnt_etr_maxFreq.Text = "288 MHz";
             this.label_cnt_etr_maxFreq.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox19
@@ -1432,6 +1691,7 @@
             this.groupBox19.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox19.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox19.Controls.Add(this.label_cnt_etr_prescaler);
             this.groupBox19.Location = new System.Drawing.Point(468, 139);
             this.groupBox19.Name = "groupBox19";
@@ -1456,6 +1716,7 @@
             this.avgr_groupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.avgr_groupBox.BackColor = System.Drawing.SystemColors.Control;
             this.avgr_groupBox.Controls.Add(this.label10);
             this.avgr_groupBox.Controls.Add(this.label9);
             this.avgr_groupBox.Controls.Add(this.cnt_etr_avrg_textBox);
@@ -1520,6 +1781,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox1.Controls.Add(this.radioButton_5s);
             this.groupBox1.Controls.Add(this.radioButton_10s);
             this.groupBox1.Controls.Add(this.radioButton_1s);
@@ -1592,6 +1854,7 @@
             // 
             // groupBox15
             // 
+            this.groupBox15.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox15.Controls.Add(this.label_cnt_etr_acc_period);
             this.groupBox15.Controls.Add(this.label5);
             this.groupBox15.Controls.Add(this.label_cnt_etr_period);
@@ -1638,6 +1901,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox6.Controls.Add(this.label_cnt_etr_acc_freq);
             this.groupBox6.Controls.Add(this.cnt_etr_indication);
             this.groupBox6.Controls.Add(this.label6);
@@ -1712,33 +1976,436 @@
             // 
             // tabPage_TI
             // 
-            this.tabPage_TI.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage_TI.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_TI.Controls.Add(this.groupBox_ti_event_B);
+            this.tabPage_TI.Controls.Add(this.groupBox_ti_event_A);
+            this.tabPage_TI.Controls.Add(this.groupBox4);
+            this.tabPage_TI.Controls.Add(this.groupBox2);
             this.tabPage_TI.Controls.Add(this.groupBox26);
             this.tabPage_TI.Controls.Add(this.groupBox_ti_timeout);
             this.tabPage_TI.Controls.Add(this.groupBox_ti_eventSeq);
             this.tabPage_TI.Controls.Add(this.groupBox18);
-            this.tabPage_TI.Controls.Add(this.groupBox_ti_event_B);
             this.tabPage_TI.Controls.Add(this.groupBox13);
-            this.tabPage_TI.Controls.Add(this.groupBox_ti_event_A);
             this.tabPage_TI.Location = new System.Drawing.Point(4, 22);
             this.tabPage_TI.Name = "tabPage_TI";
             this.tabPage_TI.Size = new System.Drawing.Size(770, 259);
             this.tabPage_TI.TabIndex = 3;
             this.tabPage_TI.Text = "Events Time Interval";
             // 
+            // groupBox_ti_event_B
+            // 
+            this.groupBox_ti_event_B.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox_ti_event_B.Controls.Add(this.groupBox16);
+            this.groupBox_ti_event_B.Location = new System.Drawing.Point(608, 88);
+            this.groupBox_ti_event_B.Name = "groupBox_ti_event_B";
+            this.groupBox_ti_event_B.Size = new System.Drawing.Size(159, 85);
+            this.groupBox_ti_event_B.TabIndex = 13;
+            this.groupBox_ti_event_B.TabStop = false;
+            this.groupBox_ti_event_B.Text = "Event B - channel 2";
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox16.Controls.Add(this.pictureBox6);
+            this.groupBox16.Controls.Add(this.radioButton_it_falling_ch2);
+            this.groupBox16.Controls.Add(this.pictureBox5);
+            this.groupBox16.Controls.Add(this.radioButton_it_rising_ch2);
+            this.groupBox16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox16.Location = new System.Drawing.Point(3, 16);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(153, 66);
+            this.groupBox16.TabIndex = 4;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "Rising/Falling edge";
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = global::LEO.Properties.Resources.edge_desc;
+            this.pictureBox6.Location = new System.Drawing.Point(106, 21);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(35, 33);
+            this.pictureBox6.TabIndex = 13;
+            this.pictureBox6.TabStop = false;
+            // 
+            // radioButton_it_falling_ch2
+            // 
+            this.radioButton_it_falling_ch2.AutoSize = true;
+            this.radioButton_it_falling_ch2.Location = new System.Drawing.Point(89, 32);
+            this.radioButton_it_falling_ch2.Name = "radioButton_it_falling_ch2";
+            this.radioButton_it_falling_ch2.Size = new System.Drawing.Size(14, 13);
+            this.radioButton_it_falling_ch2.TabIndex = 12;
+            this.radioButton_it_falling_ch2.UseVisualStyleBackColor = true;
+            this.radioButton_it_falling_ch2.Click += new System.EventHandler(this.radioButton_it_falling_ch2_CheckedChanged);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::LEO.Properties.Resources.edge_asc;
+            this.pictureBox5.Location = new System.Drawing.Point(39, 21);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(31, 33);
+            this.pictureBox5.TabIndex = 10;
+            this.pictureBox5.TabStop = false;
+            // 
+            // radioButton_it_rising_ch2
+            // 
+            this.radioButton_it_rising_ch2.AutoSize = true;
+            this.radioButton_it_rising_ch2.Checked = true;
+            this.radioButton_it_rising_ch2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.radioButton_it_rising_ch2.Location = new System.Drawing.Point(22, 32);
+            this.radioButton_it_rising_ch2.Name = "radioButton_it_rising_ch2";
+            this.radioButton_it_rising_ch2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.radioButton_it_rising_ch2.Size = new System.Drawing.Size(14, 13);
+            this.radioButton_it_rising_ch2.TabIndex = 9;
+            this.radioButton_it_rising_ch2.TabStop = true;
+            this.radioButton_it_rising_ch2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.radioButton_it_rising_ch2.UseVisualStyleBackColor = true;
+            this.radioButton_it_rising_ch2.Click += new System.EventHandler(this.radioButton_it_rising_ch2_CheckedChanged);
+            // 
+            // groupBox_ti_event_A
+            // 
+            this.groupBox_ti_event_A.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox_ti_event_A.Controls.Add(this.groupBox14);
+            this.groupBox_ti_event_A.Location = new System.Drawing.Point(608, 3);
+            this.groupBox_ti_event_A.Name = "groupBox_ti_event_A";
+            this.groupBox_ti_event_A.Size = new System.Drawing.Size(159, 85);
+            this.groupBox_ti_event_A.TabIndex = 12;
+            this.groupBox_ti_event_A.TabStop = false;
+            this.groupBox_ti_event_A.Text = "Event A -  channel 1";
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox14.Controls.Add(this.pictureBox1);
+            this.groupBox14.Controls.Add(this.radioButton_it_falling_ch1);
+            this.groupBox14.Controls.Add(this.radioButton_it_rising_ch1);
+            this.groupBox14.Controls.Add(this.pictureBox2);
+            this.groupBox14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox14.Location = new System.Drawing.Point(3, 16);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(153, 66);
+            this.groupBox14.TabIndex = 0;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Rising/Falling edge";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::LEO.Properties.Resources.edge_desc;
+            this.pictureBox1.Location = new System.Drawing.Point(106, 21);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(35, 33);
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            // 
+            // radioButton_it_falling_ch1
+            // 
+            this.radioButton_it_falling_ch1.AutoSize = true;
+            this.radioButton_it_falling_ch1.Location = new System.Drawing.Point(89, 32);
+            this.radioButton_it_falling_ch1.Name = "radioButton_it_falling_ch1";
+            this.radioButton_it_falling_ch1.Size = new System.Drawing.Size(14, 13);
+            this.radioButton_it_falling_ch1.TabIndex = 12;
+            this.radioButton_it_falling_ch1.UseVisualStyleBackColor = true;
+            this.radioButton_it_falling_ch1.Click += new System.EventHandler(this.radioButton_it_falling_ch1_CheckedChanged);
+            // 
+            // radioButton_it_rising_ch1
+            // 
+            this.radioButton_it_rising_ch1.AutoSize = true;
+            this.radioButton_it_rising_ch1.Checked = true;
+            this.radioButton_it_rising_ch1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.radioButton_it_rising_ch1.Location = new System.Drawing.Point(22, 32);
+            this.radioButton_it_rising_ch1.Name = "radioButton_it_rising_ch1";
+            this.radioButton_it_rising_ch1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.radioButton_it_rising_ch1.Size = new System.Drawing.Size(14, 13);
+            this.radioButton_it_rising_ch1.TabIndex = 9;
+            this.radioButton_it_rising_ch1.TabStop = true;
+            this.radioButton_it_rising_ch1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.radioButton_it_rising_ch1.UseVisualStyleBackColor = true;
+            this.radioButton_it_rising_ch1.Click += new System.EventHandler(this.radioButton_it_rising_ch1_CheckedChanged);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::LEO.Properties.Resources.edge_asc;
+            this.pictureBox2.Location = new System.Drawing.Point(39, 21);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(31, 33);
+            this.pictureBox2.TabIndex = 10;
+            this.pictureBox2.TabStop = false;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox4.Controls.Add(this.label_ti_fifo_evseq_4);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_evseq_3);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_evseq_2);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_evseq_1);
+            this.groupBox4.Controls.Add(this.label36);
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_accuracy_4);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_accuracy_3);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_accuracy_2);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_accuracy_1);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_4);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_3);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_2);
+            this.groupBox4.Controls.Add(this.label_ti_fifo_1);
+            this.groupBox4.Location = new System.Drawing.Point(3, 88);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(400, 85);
+            this.groupBox4.TabIndex = 11;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "History FIFO";
+            // 
+            // label_ti_fifo_evseq_4
+            // 
+            this.label_ti_fifo_evseq_4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_evseq_4.AutoSize = true;
+            this.label_ti_fifo_evseq_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_evseq_4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_evseq_4.Location = new System.Drawing.Point(44, 64);
+            this.label_ti_fifo_evseq_4.Name = "label_ti_fifo_evseq_4";
+            this.label_ti_fifo_evseq_4.Size = new System.Drawing.Size(19, 15);
+            this.label_ti_fifo_evseq_4.TabIndex = 23;
+            this.label_ti_fifo_evseq_4.Text = "---";
+            this.label_ti_fifo_evseq_4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_evseq_3
+            // 
+            this.label_ti_fifo_evseq_3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_evseq_3.AutoSize = true;
+            this.label_ti_fifo_evseq_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_evseq_3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_evseq_3.Location = new System.Drawing.Point(44, 48);
+            this.label_ti_fifo_evseq_3.Name = "label_ti_fifo_evseq_3";
+            this.label_ti_fifo_evseq_3.Size = new System.Drawing.Size(19, 15);
+            this.label_ti_fifo_evseq_3.TabIndex = 23;
+            this.label_ti_fifo_evseq_3.Text = "---";
+            this.label_ti_fifo_evseq_3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_evseq_2
+            // 
+            this.label_ti_fifo_evseq_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_evseq_2.AutoSize = true;
+            this.label_ti_fifo_evseq_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_evseq_2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_evseq_2.Location = new System.Drawing.Point(44, 32);
+            this.label_ti_fifo_evseq_2.Name = "label_ti_fifo_evseq_2";
+            this.label_ti_fifo_evseq_2.Size = new System.Drawing.Size(19, 15);
+            this.label_ti_fifo_evseq_2.TabIndex = 23;
+            this.label_ti_fifo_evseq_2.Text = "---";
+            this.label_ti_fifo_evseq_2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_evseq_1
+            // 
+            this.label_ti_fifo_evseq_1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_evseq_1.AutoSize = true;
+            this.label_ti_fifo_evseq_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_evseq_1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_evseq_1.Location = new System.Drawing.Point(44, 16);
+            this.label_ti_fifo_evseq_1.Name = "label_ti_fifo_evseq_1";
+            this.label_ti_fifo_evseq_1.Size = new System.Drawing.Size(19, 15);
+            this.label_ti_fifo_evseq_1.TabIndex = 22;
+            this.label_ti_fifo_evseq_1.Text = "---";
+            this.label_ti_fifo_evseq_1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.label36.Location = new System.Drawing.Point(8, 17);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(15, 13);
+            this.label36.TabIndex = 21;
+            this.label36.Text = "in";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.label35.Location = new System.Drawing.Point(7, 65);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(22, 13);
+            this.label35.TabIndex = 20;
+            this.label35.Text = "out";
+            // 
+            // label_ti_fifo_accuracy_4
+            // 
+            this.label_ti_fifo_accuracy_4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_accuracy_4.AutoSize = true;
+            this.label_ti_fifo_accuracy_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_accuracy_4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_accuracy_4.Location = new System.Drawing.Point(251, 64);
+            this.label_ti_fifo_accuracy_4.Name = "label_ti_fifo_accuracy_4";
+            this.label_ti_fifo_accuracy_4.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_accuracy_4.TabIndex = 19;
+            this.label_ti_fifo_accuracy_4.Text = "----------------";
+            this.label_ti_fifo_accuracy_4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_accuracy_3
+            // 
+            this.label_ti_fifo_accuracy_3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_accuracy_3.AutoSize = true;
+            this.label_ti_fifo_accuracy_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_accuracy_3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_accuracy_3.Location = new System.Drawing.Point(251, 48);
+            this.label_ti_fifo_accuracy_3.Name = "label_ti_fifo_accuracy_3";
+            this.label_ti_fifo_accuracy_3.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_accuracy_3.TabIndex = 18;
+            this.label_ti_fifo_accuracy_3.Text = "----------------";
+            this.label_ti_fifo_accuracy_3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_accuracy_2
+            // 
+            this.label_ti_fifo_accuracy_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_accuracy_2.AutoSize = true;
+            this.label_ti_fifo_accuracy_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_accuracy_2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_accuracy_2.Location = new System.Drawing.Point(251, 32);
+            this.label_ti_fifo_accuracy_2.Name = "label_ti_fifo_accuracy_2";
+            this.label_ti_fifo_accuracy_2.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_accuracy_2.TabIndex = 17;
+            this.label_ti_fifo_accuracy_2.Text = "----------------";
+            this.label_ti_fifo_accuracy_2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_accuracy_1
+            // 
+            this.label_ti_fifo_accuracy_1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_accuracy_1.AutoSize = true;
+            this.label_ti_fifo_accuracy_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_accuracy_1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_accuracy_1.Location = new System.Drawing.Point(251, 16);
+            this.label_ti_fifo_accuracy_1.Name = "label_ti_fifo_accuracy_1";
+            this.label_ti_fifo_accuracy_1.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_accuracy_1.TabIndex = 16;
+            this.label_ti_fifo_accuracy_1.Text = "----------------";
+            this.label_ti_fifo_accuracy_1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_4
+            // 
+            this.label_ti_fifo_4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_4.AutoSize = true;
+            this.label_ti_fifo_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_4.Location = new System.Drawing.Point(97, 64);
+            this.label_ti_fifo_4.Name = "label_ti_fifo_4";
+            this.label_ti_fifo_4.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_4.TabIndex = 15;
+            this.label_ti_fifo_4.Text = "----------------";
+            this.label_ti_fifo_4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_3
+            // 
+            this.label_ti_fifo_3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_3.AutoSize = true;
+            this.label_ti_fifo_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_3.Location = new System.Drawing.Point(97, 48);
+            this.label_ti_fifo_3.Name = "label_ti_fifo_3";
+            this.label_ti_fifo_3.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_3.TabIndex = 14;
+            this.label_ti_fifo_3.Text = "----------------";
+            this.label_ti_fifo_3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_2
+            // 
+            this.label_ti_fifo_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_2.AutoSize = true;
+            this.label_ti_fifo_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_2.Location = new System.Drawing.Point(97, 32);
+            this.label_ti_fifo_2.Name = "label_ti_fifo_2";
+            this.label_ti_fifo_2.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_2.TabIndex = 13;
+            this.label_ti_fifo_2.Text = "----------------";
+            this.label_ti_fifo_2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // label_ti_fifo_1
+            // 
+            this.label_ti_fifo_1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ti_fifo_1.AutoSize = true;
+            this.label_ti_fifo_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ti_fifo_1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_ti_fifo_1.Location = new System.Drawing.Point(97, 16);
+            this.label_ti_fifo_1.Name = "label_ti_fifo_1";
+            this.label_ti_fifo_1.Size = new System.Drawing.Size(71, 15);
+            this.label_ti_fifo_1.TabIndex = 12;
+            this.label_ti_fifo_1.Text = "----------------";
+            this.label_ti_fifo_1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox2.Controls.Add(this.radioButton_ti_mode_dependent);
+            this.groupBox2.Controls.Add(this.radioButton_ti_mode_independent);
+            this.groupBox2.Location = new System.Drawing.Point(291, 172);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(112, 83);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Event seq. mode";
+            // 
+            // radioButton_ti_mode_dependent
+            // 
+            this.radioButton_ti_mode_dependent.AutoSize = true;
+            this.radioButton_ti_mode_dependent.Location = new System.Drawing.Point(13, 53);
+            this.radioButton_ti_mode_dependent.Name = "radioButton_ti_mode_dependent";
+            this.radioButton_ti_mode_dependent.Size = new System.Drawing.Size(78, 17);
+            this.radioButton_ti_mode_dependent.TabIndex = 1;
+            this.radioButton_ti_mode_dependent.Text = "Dependent";
+            this.toolTip1.SetToolTip(this.radioButton_ti_mode_dependent, "User must ensure that events come in the required sequence,\r\nfirst required event" +
+        " comes first.");
+            this.radioButton_ti_mode_dependent.UseVisualStyleBackColor = true;
+            this.radioButton_ti_mode_dependent.CheckedChanged += new System.EventHandler(this.radioButton_ti_mode_dependent_CheckedChanged);
+            // 
+            // radioButton_ti_mode_independent
+            // 
+            this.radioButton_ti_mode_independent.AutoSize = true;
+            this.radioButton_ti_mode_independent.Checked = true;
+            this.radioButton_ti_mode_independent.Location = new System.Drawing.Point(13, 27);
+            this.radioButton_ti_mode_independent.Name = "radioButton_ti_mode_independent";
+            this.radioButton_ti_mode_independent.Size = new System.Drawing.Size(85, 17);
+            this.radioButton_ti_mode_independent.TabIndex = 0;
+            this.radioButton_ti_mode_independent.TabStop = true;
+            this.radioButton_ti_mode_independent.Text = "Independent";
+            this.radioButton_ti_mode_independent.UseVisualStyleBackColor = true;
+            this.radioButton_ti_mode_independent.CheckedChanged += new System.EventHandler(this.radioButton_ti_mode_independent_CheckedChanged);
+            // 
             // groupBox26
             // 
+            this.groupBox26.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox26.Controls.Add(this.button_cnt_ti_enable);
-            this.groupBox26.Location = new System.Drawing.Point(616, 172);
+            this.groupBox26.Location = new System.Drawing.Point(608, 172);
             this.groupBox26.Name = "groupBox26";
-            this.groupBox26.Size = new System.Drawing.Size(148, 83);
+            this.groupBox26.Size = new System.Drawing.Size(156, 83);
             this.groupBox26.TabIndex = 9;
             this.groupBox26.TabStop = false;
             this.groupBox26.Text = "Start/Stop";
             // 
             // button_cnt_ti_enable
             // 
-            this.button_cnt_ti_enable.Location = new System.Drawing.Point(18, 37);
+            this.button_cnt_ti_enable.Location = new System.Drawing.Point(21, 36);
             this.button_cnt_ti_enable.Name = "button_cnt_ti_enable";
             this.button_cnt_ti_enable.Size = new System.Drawing.Size(114, 26);
             this.button_cnt_ti_enable.TabIndex = 0;
@@ -1748,45 +2415,46 @@
             // 
             // groupBox_ti_timeout
             // 
+            this.groupBox_ti_timeout.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_ti_timeout.Controls.Add(this.label31);
             this.groupBox_ti_timeout.Controls.Add(this.label30);
             this.groupBox_ti_timeout.Controls.Add(this.textBox_cnt_ti_timeout);
             this.groupBox_ti_timeout.Controls.Add(this.trackBar_cnt_ti_timeout);
             this.groupBox_ti_timeout.Location = new System.Drawing.Point(409, 172);
             this.groupBox_ti_timeout.Name = "groupBox_ti_timeout";
-            this.groupBox_ti_timeout.Size = new System.Drawing.Size(201, 83);
+            this.groupBox_ti_timeout.Size = new System.Drawing.Size(193, 83);
             this.groupBox_ti_timeout.TabIndex = 8;
             this.groupBox_ti_timeout.TabStop = false;
-            this.groupBox_ti_timeout.Text = "Timeout [ms]";
+            this.groupBox_ti_timeout.Text = "Timeout [s]";
             // 
             // label31
             // 
             this.label31.AutoSize = true;
             this.label31.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label31.Location = new System.Drawing.Point(170, 52);
+            this.label31.Location = new System.Drawing.Point(167, 51);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(28, 13);
+            this.label31.Size = new System.Drawing.Size(22, 13);
             this.label31.TabIndex = 3;
-            this.label31.Text = "28 k";
+            this.label31.Text = "1 h";
             // 
             // label30
             // 
             this.label30.AutoSize = true;
             this.label30.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label30.Location = new System.Drawing.Point(7, 51);
+            this.label30.Location = new System.Drawing.Point(5, 51);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(25, 13);
+            this.label30.Size = new System.Drawing.Size(21, 13);
             this.label30.TabIndex = 2;
-            this.label30.Text = "500";
+            this.label30.Text = "1 s";
             // 
             // textBox_cnt_ti_timeout
             // 
-            this.textBox_cnt_ti_timeout.Location = new System.Drawing.Point(56, 54);
+            this.textBox_cnt_ti_timeout.Location = new System.Drawing.Point(53, 54);
             this.textBox_cnt_ti_timeout.MaxLength = 5;
             this.textBox_cnt_ti_timeout.Name = "textBox_cnt_ti_timeout";
             this.textBox_cnt_ti_timeout.Size = new System.Drawing.Size(90, 20);
             this.textBox_cnt_ti_timeout.TabIndex = 1;
-            this.textBox_cnt_ti_timeout.Text = "4000";
+            this.textBox_cnt_ti_timeout.Text = "10";
             this.textBox_cnt_ti_timeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_cnt_ti_timeout.Click += new System.EventHandler(this.textBox_cnt_ti_timeout_Click);
             this.textBox_cnt_ti_timeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_cnt_ti_timeout_KeyPress);
@@ -1794,17 +2462,18 @@
             // 
             // trackBar_cnt_ti_timeout
             // 
-            this.trackBar_cnt_ti_timeout.Location = new System.Drawing.Point(6, 20);
-            this.trackBar_cnt_ti_timeout.Maximum = 28000;
-            this.trackBar_cnt_ti_timeout.Minimum = 500;
+            this.trackBar_cnt_ti_timeout.Location = new System.Drawing.Point(2, 20);
+            this.trackBar_cnt_ti_timeout.Maximum = 3600;
+            this.trackBar_cnt_ti_timeout.Minimum = 1;
             this.trackBar_cnt_ti_timeout.Name = "trackBar_cnt_ti_timeout";
             this.trackBar_cnt_ti_timeout.Size = new System.Drawing.Size(189, 45);
             this.trackBar_cnt_ti_timeout.TabIndex = 0;
-            this.trackBar_cnt_ti_timeout.Value = 4000;
+            this.trackBar_cnt_ti_timeout.Value = 10;
             this.trackBar_cnt_ti_timeout.Scroll += new System.EventHandler(this.trackBar_cnt_ti_timeout_Scroll);
             // 
             // groupBox_ti_eventSeq
             // 
+            this.groupBox_ti_eventSeq.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox_ti_eventSeq.Controls.Add(this.label14);
             this.groupBox_ti_eventSeq.Controls.Add(this.label15);
             this.groupBox_ti_eventSeq.Controls.Add(this.pictureBox_ti_sequence);
@@ -1812,7 +2481,7 @@
             this.groupBox_ti_eventSeq.Controls.Add(this.richTextBox_it_ab);
             this.groupBox_ti_eventSeq.Controls.Add(this.radioButton_it_eventSequence_ba);
             this.groupBox_ti_eventSeq.Controls.Add(this.radioButton_it_eventSequence_ab);
-            this.groupBox_ti_eventSeq.Location = new System.Drawing.Point(571, 3);
+            this.groupBox_ti_eventSeq.Location = new System.Drawing.Point(409, 3);
             this.groupBox_ti_eventSeq.Name = "groupBox_ti_eventSeq";
             this.groupBox_ti_eventSeq.Size = new System.Drawing.Size(193, 170);
             this.groupBox_ti_eventSeq.TabIndex = 7;
@@ -1822,7 +2491,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(1, 88);
+            this.label14.Location = new System.Drawing.Point(1, 87);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(26, 13);
             this.label14.TabIndex = 5;
@@ -1890,117 +2559,54 @@
             // 
             // groupBox18
             // 
-            this.groupBox18.Controls.Add(this.label2);
-            this.groupBox18.Controls.Add(this.label3);
+            this.groupBox18.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox18.Controls.Add(this.label_ti_mode);
             this.groupBox18.Location = new System.Drawing.Point(5, 172);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(398, 83);
+            this.groupBox18.Size = new System.Drawing.Size(280, 83);
             this.groupBox18.TabIndex = 5;
             this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "Info";
             // 
-            // label2
+            // label_ti_mode
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(73, 32);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(253, 26);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Measure time interval between two events occuring \r\non two separate channels.";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(0, -2);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 19);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Info";
-            // 
-            // groupBox_ti_event_B
-            // 
-            this.groupBox_ti_event_B.Controls.Add(this.groupBox16);
-            this.groupBox_ti_event_B.Location = new System.Drawing.Point(409, 88);
-            this.groupBox_ti_event_B.Name = "groupBox_ti_event_B";
-            this.groupBox_ti_event_B.Size = new System.Drawing.Size(159, 85);
-            this.groupBox_ti_event_B.TabIndex = 1;
-            this.groupBox_ti_event_B.TabStop = false;
-            this.groupBox_ti_event_B.Text = "Event B - channel 2";
-            // 
-            // groupBox16
-            // 
-            this.groupBox16.Controls.Add(this.pictureBox6);
-            this.groupBox16.Controls.Add(this.radioButton_it_falling_ch2);
-            this.groupBox16.Controls.Add(this.pictureBox5);
-            this.groupBox16.Controls.Add(this.radioButton_it_rising_ch2);
-            this.groupBox16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox16.Location = new System.Drawing.Point(3, 16);
-            this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(153, 66);
-            this.groupBox16.TabIndex = 4;
-            this.groupBox16.TabStop = false;
-            this.groupBox16.Text = "Rising/Falling edge";
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Image = global::LEO.Properties.Resources.edge_desc;
-            this.pictureBox6.Location = new System.Drawing.Point(106, 21);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(35, 33);
-            this.pictureBox6.TabIndex = 13;
-            this.pictureBox6.TabStop = false;
-            // 
-            // radioButton_it_falling_ch2
-            // 
-            this.radioButton_it_falling_ch2.AutoSize = true;
-            this.radioButton_it_falling_ch2.Location = new System.Drawing.Point(89, 32);
-            this.radioButton_it_falling_ch2.Name = "radioButton_it_falling_ch2";
-            this.radioButton_it_falling_ch2.Size = new System.Drawing.Size(14, 13);
-            this.radioButton_it_falling_ch2.TabIndex = 12;
-            this.radioButton_it_falling_ch2.UseVisualStyleBackColor = true;
-            this.radioButton_it_falling_ch2.Click += new System.EventHandler(this.radioButton_it_falling_ch2_CheckedChanged);
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = global::LEO.Properties.Resources.edge_asc;
-            this.pictureBox5.Location = new System.Drawing.Point(39, 21);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(31, 33);
-            this.pictureBox5.TabIndex = 10;
-            this.pictureBox5.TabStop = false;
-            // 
-            // radioButton_it_rising_ch2
-            // 
-            this.radioButton_it_rising_ch2.AutoSize = true;
-            this.radioButton_it_rising_ch2.Checked = true;
-            this.radioButton_it_rising_ch2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.radioButton_it_rising_ch2.Location = new System.Drawing.Point(22, 32);
-            this.radioButton_it_rising_ch2.Name = "radioButton_it_rising_ch2";
-            this.radioButton_it_rising_ch2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.radioButton_it_rising_ch2.Size = new System.Drawing.Size(14, 13);
-            this.radioButton_it_rising_ch2.TabIndex = 9;
-            this.radioButton_it_rising_ch2.TabStop = true;
-            this.radioButton_it_rising_ch2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.radioButton_it_rising_ch2.UseVisualStyleBackColor = true;
-            this.radioButton_it_rising_ch2.Click += new System.EventHandler(this.radioButton_it_rising_ch2_CheckedChanged);
+            this.label_ti_mode.AutoSize = true;
+            this.label_ti_mode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label_ti_mode.Location = new System.Drawing.Point(7, 21);
+            this.label_ti_mode.Name = "label_ti_mode";
+            this.label_ti_mode.Size = new System.Drawing.Size(259, 52);
+            this.label_ti_mode.TabIndex = 4;
+            this.label_ti_mode.Text = "INDEPENDENT MODE:\r\nThe sequence of events does not matter. This fact is \r\nredeeme" +
+    "d by lower resolution in comparison with \r\nDEPENDENT mode.";
+            this.label_ti_mode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox13
             // 
+            this.groupBox13.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox13.Controls.Add(this.label_cnt_ti_acc);
             this.groupBox13.Controls.Add(this.cnt_ti_indication);
             this.groupBox13.Controls.Add(this.label1);
             this.groupBox13.Controls.Add(this.label_cnt_it_value);
             this.groupBox13.Location = new System.Drawing.Point(5, 3);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(398, 170);
+            this.groupBox13.Size = new System.Drawing.Size(398, 85);
             this.groupBox13.TabIndex = 2;
             this.groupBox13.TabStop = false;
+            // 
+            // label_cnt_ti_acc
+            // 
+            this.label_cnt_ti_acc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_cnt_ti_acc.AutoSize = true;
+            this.label_cnt_ti_acc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cnt_ti_acc.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_cnt_ti_acc.Location = new System.Drawing.Point(164, 64);
+            this.label_cnt_ti_acc.Name = "label_cnt_ti_acc";
+            this.label_cnt_ti_acc.Size = new System.Drawing.Size(69, 15);
+            this.label_cnt_ti_acc.TabIndex = 11;
+            this.label_cnt_ti_acc.Text = "± 0.000000";
+            this.label_cnt_ti_acc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // cnt_ti_indication
             // 
@@ -2030,94 +2636,12 @@
             this.label_cnt_it_value.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_cnt_it_value.Location = new System.Drawing.Point(3, 16);
             this.label_cnt_it_value.Name = "label_cnt_it_value";
-            this.label_cnt_it_value.Size = new System.Drawing.Size(392, 151);
+            this.label_cnt_it_value.Size = new System.Drawing.Size(392, 66);
             this.label_cnt_it_value.TabIndex = 2;
             this.label_cnt_it_value.Text = "0.000000";
             this.label_cnt_it_value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // groupBox_ti_event_A
-            // 
-            this.groupBox_ti_event_A.Controls.Add(this.groupBox14);
-            this.groupBox_ti_event_A.Location = new System.Drawing.Point(409, 3);
-            this.groupBox_ti_event_A.Name = "groupBox_ti_event_A";
-            this.groupBox_ti_event_A.Size = new System.Drawing.Size(159, 85);
-            this.groupBox_ti_event_A.TabIndex = 0;
-            this.groupBox_ti_event_A.TabStop = false;
-            this.groupBox_ti_event_A.Text = "Event A -  channel 1";
-            // 
-            // groupBox14
-            // 
-            this.groupBox14.Controls.Add(this.pictureBox1);
-            this.groupBox14.Controls.Add(this.radioButton_it_falling_ch1);
-            this.groupBox14.Controls.Add(this.radioButton_it_rising_ch1);
-            this.groupBox14.Controls.Add(this.pictureBox2);
-            this.groupBox14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox14.Location = new System.Drawing.Point(3, 16);
-            this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(153, 66);
-            this.groupBox14.TabIndex = 0;
-            this.groupBox14.TabStop = false;
-            this.groupBox14.Text = "Rising/Falling edge";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::LEO.Properties.Resources.edge_desc;
-            this.pictureBox1.Location = new System.Drawing.Point(106, 21);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(35, 33);
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
-            // 
-            // radioButton_it_falling_ch1
-            // 
-            this.radioButton_it_falling_ch1.AutoSize = true;
-            this.radioButton_it_falling_ch1.Location = new System.Drawing.Point(89, 32);
-            this.radioButton_it_falling_ch1.Name = "radioButton_it_falling_ch1";
-            this.radioButton_it_falling_ch1.Size = new System.Drawing.Size(14, 13);
-            this.radioButton_it_falling_ch1.TabIndex = 12;
-            this.radioButton_it_falling_ch1.UseVisualStyleBackColor = true;
-            this.radioButton_it_falling_ch1.Click += new System.EventHandler(this.radioButton_it_falling_ch1_CheckedChanged);
-            // 
-            // radioButton_it_rising_ch1
-            // 
-            this.radioButton_it_rising_ch1.AutoSize = true;
-            this.radioButton_it_rising_ch1.Checked = true;
-            this.radioButton_it_rising_ch1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.radioButton_it_rising_ch1.Location = new System.Drawing.Point(22, 32);
-            this.radioButton_it_rising_ch1.Name = "radioButton_it_rising_ch1";
-            this.radioButton_it_rising_ch1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.radioButton_it_rising_ch1.Size = new System.Drawing.Size(14, 13);
-            this.radioButton_it_rising_ch1.TabIndex = 9;
-            this.radioButton_it_rising_ch1.TabStop = true;
-            this.radioButton_it_rising_ch1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.radioButton_it_rising_ch1.UseVisualStyleBackColor = true;
-            this.radioButton_it_rising_ch1.Click += new System.EventHandler(this.radioButton_it_rising_ch1_CheckedChanged);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::LEO.Properties.Resources.edge_asc;
-            this.pictureBox2.Location = new System.Drawing.Point(39, 21);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(31, 33);
-            this.pictureBox2.TabIndex = 10;
-            this.pictureBox2.TabStop = false;
-            // 
-            // label_cnt_ti_acc
-            // 
-            this.label_cnt_ti_acc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label_cnt_ti_acc.AutoSize = true;
-            this.label_cnt_ti_acc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cnt_ti_acc.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_cnt_ti_acc.Location = new System.Drawing.Point(165, 132);
-            this.label_cnt_ti_acc.Name = "label_cnt_ti_acc";
-            this.label_cnt_ti_acc.Size = new System.Drawing.Size(69, 15);
-            this.label_cnt_ti_acc.TabIndex = 11;
-            this.label_cnt_ti_acc.Text = "± 0.000000";
-            this.label_cnt_ti_acc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // counter
+            // Counter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -2130,13 +2654,15 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximumSize = new System.Drawing.Size(794, 348);
             this.MinimumSize = new System.Drawing.Size(794, 348);
-            this.Name = "counter";
+            this.Name = "Counter";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "Counter";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.counter_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPage_REF.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox24.ResumeLayout(false);
             this.groupBox24.PerformLayout();
             this.groupBox9.ResumeLayout(false);
@@ -2150,10 +2676,6 @@
             this.tabPage_IC.ResumeLayout(false);
             this.groupBox_cnt_ic_dutyCycle_ch2.ResumeLayout(false);
             this.groupBox_cnt_ic_dutyCycle_ch2.PerformLayout();
-            this.groupBox_cnt_ic_pulseWidth.ResumeLayout(false);
-            this.groupBox_cnt_ic_pulseWidth.PerformLayout();
-            this.groupBox_cnt_ic_dutyCycle.ResumeLayout(false);
-            this.groupBox_cnt_ic_dutyCycle.PerformLayout();
             this.groupBox23.ResumeLayout(false);
             this.groupBox23.PerformLayout();
             this.groupBox_cnt_ic_dutyCycle_ch1.ResumeLayout(false);
@@ -2161,11 +2683,15 @@
             this.groupBox_icSampleCount2.ResumeLayout(false);
             this.groupBox_icSampleCount2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic2_trackBar)).EndInit();
-            this.groupBox_cnt_ic2_period.ResumeLayout(false);
-            this.groupBox_cnt_ic2_period.PerformLayout();
             this.groupBox_icSampleCount1.ResumeLayout(false);
             this.groupBox_icSampleCount1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cnt_ic1_trackBar)).EndInit();
+            this.groupBox_cnt_ic_pulseWidth.ResumeLayout(false);
+            this.groupBox_cnt_ic_pulseWidth.PerformLayout();
+            this.groupBox_cnt_ic_dutyCycle.ResumeLayout(false);
+            this.groupBox_cnt_ic_dutyCycle.PerformLayout();
+            this.groupBox_cnt_ic2_period.ResumeLayout(false);
+            this.groupBox_cnt_ic2_period.PerformLayout();
             this.groupBox_cnt_ic2_freq.ResumeLayout(false);
             this.groupBox_cnt_ic2_freq.PerformLayout();
             this.groupBox_cnt_ic1_freq.ResumeLayout(false);
@@ -2190,6 +2716,20 @@
             this.groupBox6.PerformLayout();
             this.cnt_mode_tabControl.ResumeLayout(false);
             this.tabPage_TI.ResumeLayout(false);
+            this.groupBox_ti_event_B.ResumeLayout(false);
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox16.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.groupBox_ti_event_A.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox26.ResumeLayout(false);
             this.groupBox_ti_timeout.ResumeLayout(false);
             this.groupBox_ti_timeout.PerformLayout();
@@ -2199,18 +2739,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ti_sequence)).EndInit();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
-            this.groupBox_ti_event_B.ResumeLayout(false);
-            this.groupBox16.ResumeLayout(false);
-            this.groupBox16.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
-            this.groupBox_ti_event_A.ResumeLayout(false);
-            this.groupBox14.ResumeLayout(false);
-            this.groupBox14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2290,21 +2820,12 @@
         private System.Windows.Forms.GroupBox groupBox_cnt_ic_dutyCycle_ch1;
         private System.Windows.Forms.CheckBox checkBox_icMode_dutyCycle_ch1;
         private System.Windows.Forms.TabPage tabPage_TI;
-        private System.Windows.Forms.GroupBox groupBox_ti_event_B;
-        private System.Windows.Forms.GroupBox groupBox_ti_event_A;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_cnt_it_value;
-        private System.Windows.Forms.GroupBox groupBox14;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.RadioButton radioButton_it_rising_ch1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.GroupBox groupBox16;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.RadioButton radioButton_it_rising_ch2;
         private System.Windows.Forms.GroupBox groupBox18;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label_ti_mode;
         private System.Windows.Forms.Label cnt_ti_indication;
         private System.Windows.Forms.GroupBox groupBox19;
         private System.Windows.Forms.Label label_cnt_etr_prescaler;
@@ -2314,10 +2835,6 @@
         private System.Windows.Forms.RichTextBox richTextBox_it_ba;
         private System.Windows.Forms.RichTextBox richTextBox_it_ab;
         private System.Windows.Forms.PictureBox pictureBox_ti_sequence;
-        private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.RadioButton radioButton_it_falling_ch2;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.RadioButton radioButton_it_falling_ch1;
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label_cnt_etr_period;
@@ -2353,7 +2870,6 @@
         private System.Windows.Forms.Label label_cnt_ref_maxFreq;
         private System.Windows.Forms.Label label_cnt_ref_sec_input;
         private System.Windows.Forms.Label label_cnt_ref_input;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label_cnt_etr_acc_average;
         private System.Windows.Forms.Label label7;
@@ -2381,5 +2897,50 @@
         private System.Windows.Forms.GroupBox groupBox_cnt_ic_dutyCycle_ch2;
         private System.Windows.Forms.CheckBox checkBox_icMode_dutyCycle_ch2;
         private System.Windows.Forms.Label label_cnt_ti_acc;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton radioButton_ti_mode_dependent;
+        private System.Windows.Forms.RadioButton radioButton_ti_mode_independent;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label_ti_fifo_accuracy_4;
+        private System.Windows.Forms.Label label_ti_fifo_accuracy_3;
+        private System.Windows.Forms.Label label_ti_fifo_accuracy_2;
+        private System.Windows.Forms.Label label_ti_fifo_accuracy_1;
+        private System.Windows.Forms.Label label_ti_fifo_4;
+        private System.Windows.Forms.Label label_ti_fifo_3;
+        private System.Windows.Forms.Label label_ti_fifo_2;
+        private System.Windows.Forms.Label label_ti_fifo_1;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.GroupBox groupBox_ti_event_B;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.RadioButton radioButton_it_falling_ch2;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.RadioButton radioButton_it_rising_ch2;
+        private System.Windows.Forms.GroupBox groupBox_ti_event_A;
+        private System.Windows.Forms.GroupBox groupBox14;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.RadioButton radioButton_it_falling_ch1;
+        private System.Windows.Forms.RadioButton radioButton_it_rising_ch1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label_ti_fifo_evseq_4;
+        private System.Windows.Forms.Label label_ti_fifo_evseq_3;
+        private System.Windows.Forms.Label label_ti_fifo_evseq_2;
+        private System.Windows.Forms.Label label_ti_fifo_evseq_1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label_freqRatio_fifo_6;
+        private System.Windows.Forms.Label label_freqRatio_fifo_5;
+        private System.Windows.Forms.Label label_freqRatio_fifo_4;
+        private System.Windows.Forms.Label label_freqRatio_fifo_3;
+        private System.Windows.Forms.Label label_freqRatio_fifo_2;
+        private System.Windows.Forms.Label label_freqRatio_fifo_1;
+        private System.Windows.Forms.Label label_freqRatio_fifo_accuracy_6;
+        private System.Windows.Forms.Label label_freqRatio_fifo_accuracy_5;
+        private System.Windows.Forms.Label label_freqRatio_fifo_accuracy_4;
+        private System.Windows.Forms.Label label_freqRatio_fifo_accuracy_3;
+        private System.Windows.Forms.Label label_freqRatio_fifo_accuracy_2;
+        private System.Windows.Forms.Label label_freqRatio_fifo_accuracy_1;
     }
 }

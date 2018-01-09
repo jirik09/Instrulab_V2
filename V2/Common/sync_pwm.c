@@ -148,15 +148,15 @@ void syncPwmSetDefault(void)
 	syncPwm.chan3 = CHAN_ENABLE;
 	syncPwm.chan4 = CHAN_ENABLE;
 	
-//	/* Default 4 channels equidistant 90° and 25% duty cycle settings. */
-//	syncPwm.syncPwmChannel1[0] = 0;
-//	syncPwm.syncPwmChannel1[1] = 15625;
-//	syncPwm.syncPwmChannel2[0] = 15625;
-//	syncPwm.syncPwmChannel2[1] = 31250;			
-//	syncPwm.syncPwmChannel3[0] = 31250;
-//	syncPwm.syncPwmChannel3[1] = 46875;			
-//	syncPwm.syncPwmChannel4[0] = 46875;
-//	syncPwm.syncPwmChannel4[1] = 62499;		
+	/* Default 4 channels equidistant 90° and 25% duty cycle settings. */
+	syncPwm.dataEdgeChan1[0] = 3600;
+	syncPwm.dataEdgeChan1[1] = 0;
+	syncPwm.dataEdgeChan2[0] = 7200;
+	syncPwm.dataEdgeChan2[1] = 3600;			
+	syncPwm.dataEdgeChan3[0] = 10400;
+	syncPwm.dataEdgeChan3[1] = 7200;			
+	syncPwm.dataEdgeChan4[0] = 14000;
+	syncPwm.dataEdgeChan4[1] = 10400;		
 }
 
 	

@@ -13,19 +13,18 @@ namespace LEO
     public partial class SyncPwmGenerator : Form
     {
         Device device;
-        int semaphoreTimeout = 4000;
-        double cntPaint;
+        int semaphoreTimeout = 4000;        
         const int messageDelay = 5;
 
         System.Timers.Timer GUITimer;
         static Semaphore syncPwmSemaphore = new Semaphore(1, 1);
 
-        private Queue<Message> cnt_q = new Queue<Message>();
-        Message.MsgRequest req;
-        Message messg;
+//        private Queue<Message> cnt_q = new Queue<Message>();
+//        Message.MsgRequest req;
+//        Message messg;
 
         private double last_sum = 0;
-        private bool generating = false;
+//        private bool generating = false;
 
         static int syncPwmTimPeriphClock;
         static string[] syncPwmPins = new string[4];
@@ -33,7 +32,7 @@ namespace LEO
         double syncPwmRealFreq = 1;   // Hz     
         uint syncPwmDuty = 25;      // %
         uint syncPwmPhase = 90;     // °
-        ushort syncPwmPsc = 10000;
+        ushort syncPwmPsc = 5000;
         ushort syncPwmArr = 14400;
         uint channelsActiveNum = 4;
         ulong stepNum = 0;
@@ -54,29 +53,23 @@ namespace LEO
         ushort[] toggleChan3 = new ushort[2];
         ushort[] toggleChan4 = new ushort[2];
 
-        LineItem syncPwmCurve_ch1, syncPwmCurve_ch2, syncPwmCurve_ch3, syncPwmCurve_ch4;
+//        LineItem syncPwmCurve_ch1, syncPwmCurve_ch2, syncPwmCurve_ch3, syncPwmCurve_ch4;
         public GraphPane syncPwmPane;
 
         public double[] syncPwmTimeAxis_ch1, syncPwmTimeAxis_ch2, syncPwmTimeAxis_ch3, syncPwmTimeAxis_ch4;
         public double[] syncPwmSignal_ch1, syncPwmSignal_ch2, syncPwmSignal_ch3, syncPwmSignal_ch4;
 
-        //System.Timers.Timer scrollTimer;
-        //public enum SYNC_PWM_TIMER { SCROLL_BASIC_FREQ = 0, SCROLL_NONE };
-        //SYNC_PWM_TIMER timScroll;
-
         public enum MODE { BASIC, ADVANCED };
         MODE mode;
-
+        public enum STATE { IDLE, RUNNING };
+        STATE state;
 
         public SyncPwmGenerator(Device dev)
         {
             InitializeComponent();
             ShowPinsInComponent(); 
             InitializeZedGraphComponent();            
-
-            device = dev;
-
-            //scrollTimerConfig();
+            device = dev;            
 
             GUITimer = new System.Timers.Timer(120);
             GUITimer.Elapsed += new ElapsedEventHandler(Update_signal);
@@ -84,6 +77,13 @@ namespace LEO
 
             SyncPwmGenerator_Init();
             BasicModeComponent_Init();
+        }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            const string caption = "Readme!";
+            const string message = "Output signals follow the configuration up to 20 kHz. Exceeding this frequency and setting more extreme values may lead to undesirable output waveforms. The reason of this behaviour comes from its functional principle that is based on change of logic level by DMA transfer. I.e. for higher frequencies and alligned edges the DMA may not be able to transfer the data in time. This behaviour can be emphasized by running Synchronous PWM generator simultaneously with Counter as it uses the same DMA peripheral.";            
+            MessageBox.Show(message, caption);            
         }
 
         private void InitializeZedGraphComponent()
@@ -162,6 +162,16 @@ namespace LEO
             sendCommand(Commands.SYNC_PWM_COMMAND, Commands.SYNC_PWM_INIT);
         }
 
+        void SyncPwmGenerator_Deinit()
+        {
+            sendCommand(Commands.SYNC_PWM_COMMAND, Commands.SYNC_PWM_DEINIT);
+        }
+
+        private void SyncPwmGenerator_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SyncPwmGenerator_Deinit();
+        }
+
         private void Update_signal(object sender, ElapsedEventArgs e)
         {
             double sum;
@@ -203,108 +213,167 @@ namespace LEO
         {
             sendCommandNumber(Commands.SYNC_PWM_FREQ, make32BitFromArrPsc((ushort)(syncPwmArr - 1), (ushort)(syncPwmPsc - 1)));
             Thread.Sleep(messageDelay);
+            
 
             uint temp;
-            /* syncPwmTimPeriphClock / 4 = DMA2 max freq.    ->    4 channels    -> syncPwmTimPeriphClock / (4 * 4) = 144 MHz / 16 = 9MHz */
+            /* syncPwmTimPeriphClock / 4 = DMA2 max freq.    ->    4 channels    -> syncPwmTimPeriphClock / (4 * 4) = 72 MHz / 16 = 4,5MHz */
             ushort firstEdge = (syncPwmTimPeriphClock / syncPwmPsc > 9000000) ? (ushort)(16 / syncPwmPsc) : (ushort)2;
             ushort secondEdge = (syncPwmTimPeriphClock / syncPwmPsc > 9000000) ? (ushort)(8 / syncPwmPsc) : (ushort)1;
 
-
             /* Channel 1 */
-            temp = (uint)Math.Round(phaseChan1 / (double)360 * syncPwmArr);
-            toggleChan1[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
-            temp = (uint)Math.Round(dutyChan1 / (double)100 * syncPwmArr) + toggleChan1[0];
-            toggleChan1[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
-
-            if (toggleChan1[0] >= syncPwmArr - firstEdge & toggleChan1[1] >= syncPwmArr - secondEdge)
+            if (dutyChan1 == 0)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL1 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
             }
-            else if (checkBox_syncPwm_ch1.Checked)
-            {
-                ushort channelState = (Commands.SYNC_PWM_CHANNEL1 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
-                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 1);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan1[0] << 16) | toggleChan1[1]);
-                Thread.Sleep(messageDelay);
-            }
+            else
+            {                
+                temp = (uint)Math.Round(phaseChan1 / (double)360 * syncPwmArr);
+                toggleChan1[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
+                temp = (uint)Math.Round(dutyChan1 / (double)100 * syncPwmArr) + toggleChan1[0];
+                toggleChan1[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+                if(toggleChan1[0] == 0)
+                {
+                    toggleChan1[0] = 1;
+                }
 
+                if (toggleChan1[0] >= syncPwmArr - firstEdge && toggleChan1[1] >= syncPwmArr - secondEdge)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL1 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                }
+                else if (checkBox_syncPwm_ch1.Checked)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL1 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 1);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan1[0] << 16) | toggleChan1[1]);
+                    Thread.Sleep(messageDelay);
+                }
+            }
 
             /* Channel 2 */
-            temp = (uint)Math.Round(phaseChan2 / (double)360 * syncPwmArr);
-            toggleChan2[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
-            temp = (uint)(Math.Round(dutyChan2 / (double)100 * syncPwmArr) + toggleChan2[0]);
-            toggleChan2[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
-
-            if (toggleChan2[0] >= syncPwmArr - firstEdge & toggleChan2[1] >= syncPwmArr - secondEdge)
+            if (dutyChan2 == 0)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL2 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
             }
-            else if (checkBox_syncPwm_ch2.Checked)
+            else
             {
-                ushort channelState = (Commands.SYNC_PWM_CHANNEL2 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
-                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 2);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan2[0] << 16) | toggleChan2[1]);
-                Thread.Sleep(messageDelay);
+                temp = (uint)Math.Round(phaseChan2 / (double)360 * syncPwmArr);
+                toggleChan2[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
+                temp = (uint)(Math.Round(dutyChan2 / (double)100 * syncPwmArr) + toggleChan2[0]);
+                toggleChan2[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+                if (toggleChan2[0] == 0)
+                {
+                    toggleChan2[0] = 1;
+                }
+
+                if (toggleChan2[0] >= syncPwmArr - firstEdge && toggleChan2[1] >= syncPwmArr - secondEdge)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL2 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                }
+                else if (checkBox_syncPwm_ch2.Checked)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL2 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 2);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan2[0] << 16) | toggleChan2[1]);
+                    Thread.Sleep(messageDelay);
+                }
             }
 
             /* Channel 3 */
-            temp = (uint)Math.Round(phaseChan3 / (double)360 * syncPwmArr);
-            toggleChan3[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
-            temp = (uint)(Math.Round(dutyChan3 / (double)100 * syncPwmArr) + toggleChan3[0]);
-            toggleChan3[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
-
-            if (toggleChan3[0] >= syncPwmArr - firstEdge & toggleChan3[1] >= syncPwmArr - secondEdge)
+            if (dutyChan3 == 0)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL3 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
             }
-            else if (checkBox_syncPwm_ch3.Checked)
+            else
             {
-                ushort channelState = (Commands.SYNC_PWM_CHANNEL3 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
-                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 3);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan3[0] << 16) | toggleChan3[1]);
-                Thread.Sleep(messageDelay);
-            }
+                temp = (uint)Math.Round(phaseChan3 / (double)360 * syncPwmArr);
+                toggleChan3[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
+                temp = (uint)(Math.Round(dutyChan3 / (double)100 * syncPwmArr) + toggleChan3[0]);
+                toggleChan3[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+                if (toggleChan3[0] == 0)
+                {
+                    toggleChan3[0] = 1;
+                }
 
+                if (toggleChan3[0] >= syncPwmArr - firstEdge && toggleChan3[1] >= syncPwmArr - secondEdge)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL3 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                }
+                else if (checkBox_syncPwm_ch3.Checked)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL3 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 3);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan3[0] << 16) | toggleChan3[1]);
+                    Thread.Sleep(messageDelay);
+                }
+            }
 
             /* Channel 4 */
-            temp = (uint)Math.Round(phaseChan4 / (double)360 * syncPwmArr);
-            toggleChan4[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
-            temp = (uint)(Math.Round(dutyChan4 / (double)100 * syncPwmArr) + toggleChan4[0]);
-            toggleChan4[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
-
-            if (toggleChan4[0] >= syncPwmArr - firstEdge & toggleChan4[1] >= syncPwmArr - secondEdge)
+            if (dutyChan4 == 0)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL4 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
             }
-            else if (checkBox_syncPwm_ch4.Checked)
+            else
             {
-                ushort channelState = (Commands.SYNC_PWM_CHANNEL4 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
-                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
-                Thread.Sleep(messageDelay);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 4);
-                sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan4[0] << 16) | toggleChan4[1]);
-                Thread.Sleep(messageDelay);
+                temp = (uint)Math.Round(phaseChan4 / (double)360 * syncPwmArr);
+                toggleChan4[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
+                temp = (uint)(Math.Round(dutyChan4 / (double)100 * syncPwmArr) + toggleChan4[0]);
+                toggleChan4[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+                if (toggleChan4[0] == 0)
+                {
+                    toggleChan4[0] = 1;
+                }
+
+                if (toggleChan4[0] >= syncPwmArr - firstEdge && toggleChan4[1] >= syncPwmArr - secondEdge)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL4 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                }
+                else if (checkBox_syncPwm_ch4.Checked)
+                {
+                    ushort channelState = (Commands.SYNC_PWM_CHANNEL4 << 8) | Commands.SYNC_PWM_CHANNEL_ENABLE;
+                    sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                    Thread.Sleep(messageDelay);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_NUM, 4);
+                    sendCommandNumber(Commands.SYNC_PWM_CHAN_CONFIG, (uint)(toggleChan4[0] << 16) | toggleChan4[1]);
+                    Thread.Sleep(messageDelay);
+                }
             }
         }
 
         public void generate_signals_mcu_basic()
         {
             sendCommandNumber(Commands.SYNC_PWM_FREQ, make32BitFromArrPsc((ushort)(syncPwmArr - 1), (ushort)(syncPwmPsc - 1)));
-            Thread.Sleep(messageDelay);
+            Thread.Sleep(messageDelay);            
+
+            if(syncPwmDuty == 0)
+            {
+                ushort channelState = (Commands.SYNC_PWM_CHANNEL1 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                channelState = (Commands.SYNC_PWM_CHANNEL2 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                channelState = (Commands.SYNC_PWM_CHANNEL3 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                channelState = (Commands.SYNC_PWM_CHANNEL4 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
+                sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
+                return;
+            }
 
             uint temp;
             /* syncPwmTimPeriphClock / 4 = DMA2 max freq.    ->    4 channels    -> syncPwmTimPeriphClock / (4 * 4) = 144 MHz / 16 = 9MHz */
@@ -314,8 +383,12 @@ namespace LEO
             toggleChan1[0] = 0;
             temp = (uint)Math.Round(syncPwmDuty / (double)100 * syncPwmArr);
             toggleChan1[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+            if (toggleChan1[0] == 0)
+            {
+                toggleChan1[0] = 1;
+            }
 
-            if (toggleChan1[0] >= syncPwmArr - firstEdge & toggleChan1[1] >= syncPwmArr - secondEdge)
+            if (toggleChan1[0] >= syncPwmArr - firstEdge && toggleChan1[1] >= syncPwmArr - secondEdge)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL1 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
@@ -337,8 +410,12 @@ namespace LEO
             toggleChan2[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
             temp = (uint)(Math.Round(syncPwmDuty / (double)100 * syncPwmArr) + toggleChan2[0]);
             toggleChan2[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+            if (toggleChan2[0] == 0)
+            {
+                toggleChan2[0] = 1;
+            }
 
-            if (toggleChan2[0] >= syncPwmArr - firstEdge & toggleChan2[1] >= syncPwmArr - secondEdge)
+            if (toggleChan2[0] >= syncPwmArr - firstEdge && toggleChan2[1] >= syncPwmArr - secondEdge)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL2 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
@@ -360,8 +437,12 @@ namespace LEO
             toggleChan3[0] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
             temp = (uint)(Math.Round(syncPwmDuty / (double)100 * syncPwmArr) + toggleChan3[0]);
             toggleChan3[1] = (temp >= syncPwmArr) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+            if (toggleChan3[0] == 0)
+            {
+                toggleChan3[0] = 1;
+            }
 
-            if (toggleChan3[0] >= syncPwmArr - firstEdge & toggleChan3[1] >= syncPwmArr - secondEdge)
+            if (toggleChan3[0] >= syncPwmArr - firstEdge && toggleChan3[1] >= syncPwmArr - secondEdge)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL3 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
@@ -383,8 +464,12 @@ namespace LEO
             toggleChan4[0] = (temp >= syncPwmArr - firstEdge) ? (ushort)(syncPwmArr - firstEdge) : (ushort)temp;
             temp = (uint)(Math.Round(syncPwmDuty / (double)100 * syncPwmArr) + toggleChan4[0]);
             toggleChan4[1] = (temp >= syncPwmArr - secondEdge) ? (ushort)(syncPwmArr - secondEdge) : (ushort)temp;
+            if (toggleChan4[0] == 0)
+            {
+                toggleChan4[0] = 1;
+            }
 
-            if (toggleChan4[0] >= syncPwmArr - firstEdge & toggleChan4[1] >= syncPwmArr - secondEdge)
+            if (toggleChan4[0] >= syncPwmArr - firstEdge && toggleChan4[1] >= syncPwmArr - secondEdge)
             {
                 ushort channelState = (Commands.SYNC_PWM_CHANNEL4 << 8) | Commands.SYNC_PWM_CHANNEL_DISABLE;
                 sendCommandNumber(Commands.SYNC_PWM_CHANNEL_STATE, channelState);
@@ -521,23 +606,23 @@ namespace LEO
         {
             LineItem syncPwmCurve;
 
-            switch (channel)
-            {
-                case 1:
-                    syncPwmCurve = syncPwmCurve_ch1;
-                    break;
-                case 2:
-                    syncPwmCurve = syncPwmCurve_ch2;
-                    break;
-                case 3:
-                    syncPwmCurve = syncPwmCurve_ch3;
-                    break;
-                case 4:
-                    syncPwmCurve = syncPwmCurve_ch4;
-                    break;
-                default:
-                    break;
-            }
+            //switch (channel)
+            //{
+            //    case 1:
+            //        syncPwmCurve = syncPwmCurve_ch1;
+            //        break;
+            //    case 2:
+            //        syncPwmCurve = syncPwmCurve_ch2;
+            //        break;
+            //    case 3:
+            //        syncPwmCurve = syncPwmCurve_ch3;
+            //        break;
+            //    case 4:
+            //        syncPwmCurve = syncPwmCurve_ch4;
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             syncPwmCurve = syncPwmPane.AddCurve("", timeAxis, valueAxis, color, SymbolType.Square);
             syncPwmCurve.Line.StepType = StepType.ForwardStep;
@@ -580,11 +665,18 @@ namespace LEO
                     {
                         if ((arrMultipliedByPsc % pscTemp) == 0)
                         {
-                            if (pscTemp <= 65536 && (arrMultipliedByPsc / pscTemp <= 65536))
+                            if (arrMultipliedByPsc / pscTemp <= 65536)
                             {
                                 psc = pscTemp;
                                 break;
                             }
+                        }
+                    }
+                    if(psc != 0)
+                    {
+                        if (arrMultipliedByPsc / psc <= 65536)
+                        {
+                            break;
                         }
                     }
                 }
@@ -657,8 +749,9 @@ namespace LEO
             if (radioButton_syncPwm_continuous_mode.Checked)
             {
                 if (button_syncPwm.Text.Equals("Start"))
-                {
+                {                    
                     SyncPwmGenerator_Start();
+                    state = STATE.RUNNING;
                     button_syncPwm.Text = "Stop";
                     label_status_syncPwmIndicator.BackColor = Color.Green;
                     label_status_syncPwmText.Text = "Generating";
@@ -670,7 +763,11 @@ namespace LEO
                 }
                 else
                 {
-                    SyncPwmGenerator_Stop();
+                    if (state != STATE.IDLE)
+                    {
+                        SyncPwmGenerator_Stop();
+                        state = STATE.IDLE;
+                    }
                     button_syncPwm.Text = "Start";
                     label_status_syncPwmIndicator.BackColor = Color.Red;
                     label_status_syncPwmText.Text = "Idle";
@@ -683,20 +780,27 @@ namespace LEO
             }
             else if (radioButton_syncPwm_step_mode.Checked)
             {
-                SyncPwmGenerator_Start();
+                SyncPwmGenerator_Start();                
+                state = STATE.RUNNING;
                 button_syncPwm.Enabled = false;
-                stepNum += 1;    
-                                         
-                if(syncPwmRealFreq <= 500)
+                stepNum += 1;                                
+
+                if (syncPwmRealFreq <= 100)
                 {
                     Thread.Sleep((int)Math.Round(1 / syncPwmRealFreq * 1000));
                 }
                 else
                 {
-                    Thread.Sleep(2);
+                    Thread.Sleep(10);
                 }
 
-                SyncPwmGenerator_Stop();
+                Thread.Sleep(200);
+                if (state != STATE.IDLE)
+                {
+                    SyncPwmGenerator_Stop();
+                    state = STATE.IDLE;
+                }
+                
                 label_status_syncPwmIndicator.BackColor = Color.LightGreen;
                 label_status_syncPwmText.Text = "Step #" + stepNum;
                 button_syncPwm.Enabled = true;
@@ -707,7 +811,12 @@ namespace LEO
         {
             if (radioButton_syncPwm_continuous_mode.Checked)
             {
-                SyncPwmGenerator_Stop();
+                if (state != STATE.IDLE)
+                {
+                    SyncPwmGenerator_Stop();
+                    state = STATE.IDLE;
+                }
+
                 sendCommand(Commands.SYNC_PWM_STEP_MODE, Commands.SYNC_PWM_STEP_DISABLE);
                 button_syncPwm.Text = "Start";
                 label_status_syncPwmIndicator.BackColor = Color.Red;
@@ -720,7 +829,12 @@ namespace LEO
             if (radioButton_syncPwm_step_mode.Checked)
             {            
                 stepNum = 0;
-                SyncPwmGenerator_Stop();
+                if (state != STATE.IDLE)
+                {
+                    SyncPwmGenerator_Stop();
+                    state = STATE.IDLE;
+                }
+                                
                 sendCommand(Commands.SYNC_PWM_STEP_MODE, Commands.SYNC_PWM_STEP_ENABLE);
                 button_syncPwm.Text = "Step";
             }
@@ -801,7 +915,7 @@ namespace LEO
             try
             {
                 Double val = Double.Parse(textBox.Text);
-                if (val > 100000)
+                if (val > 1000000)
                 {
                     throw new System.ArgumentException("Parameter cannot be greather then ", "original");
                 }
@@ -927,7 +1041,8 @@ namespace LEO
 
         public double setExponencialTrackBarValue(double trackVal)
         {
-            return Math.Log10(trackVal) * 10000;
+            double val = Math.Log10(trackVal) * 10000;
+            return val = (val == 0) ? 1 : val;                   
         }
 
         /* -------------------------------------------------------------------------------------------------------------------------------- */
@@ -1086,13 +1201,85 @@ namespace LEO
             }
         }
 
+        private void textBox_basic_freq_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_basic(textBox);
+        }
+
+        private void textBox_basic_duty_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_basic(textBox);
+        }
+
+        private void textBox_basic_phase_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_basic(textBox);
+        }
+
+        private void textBox_advanced_generalFreq_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_dutyCycle_channel1_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_phase_channel1_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_dutyCycle_channel2_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_phase_channel2_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_dutyCycle_channel3_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_phase_channel3_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_dutyCycle_channel4_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
+        private void textBox_advanced_phase_channel4_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            validate_text_syncPwm_advanced(textBox);
+        }
+
 
         private void validate_text_syncPwm_advanced(TextBox textBox)
         {
             try
             {
                 Double val = Double.Parse(textBox.Text);
-                if (val > 100000)
+                if (val > 1000000)
                 {
                     throw new System.ArgumentException("Parameter cannot be greather then ", "original");
                 }

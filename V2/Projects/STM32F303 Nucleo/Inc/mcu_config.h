@@ -147,8 +147,8 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 	#define CNT_REF2_PIN								"A0 "	
 	
 	/* Define frequencies to send to PC application to process correct calculations. */
-	#define CNT_TIM2_PERIPH_CLOCK			  (uint32_t) 144000000
-	#define CNT_TIM4_PERIPH_CLOCK			  (uint32_t) 72000000
+	#define CNT_COUNTER_PERIPH_CLOCK		(uint32_t) 144000000
+	#define CNT_GATE_PERIPH_CLOCK			  (uint32_t) 72000000
 #endif //USE_COUNTER
 
 // PWM generator constants =================================================
@@ -173,6 +173,27 @@ static const uint8_t NUM_OF_ANALOG_INPUTS[MAX_ADC_CHANNELS]={ADC1_NUM_CHANNELS,A
 	#define SYNC_PWM_CH3_PIN						"PC8_"
 	#define SYNC_PWM_CH4_PIN						"PC9_"
 #endif //USE_SYNC_PWM
+
+// Logic Analyzer constants ====================================
+#ifdef USE_LOG_ANLYS
+	/* Nucleo F303RE - TIM4 (posttrigger), TIM1 (timebase) */
+	#define LOG_ANLYS_POSTTRIG_PERIPH_CLOCK	   (uint32_t) 72000000
+	#define LOG_ANLYS_TIMEBASE_PERIPH_CLOCK		 (uint32_t) 144000000	
+	/* Sampling frequency depends on DMA transfer possibilities. Half of APB clock freq. */
+	#define LOG_ANLYS_SAMPLING_FREQ						 (uint32_t) (72000000 / 2)	
+	#define LOG_ANLYS_BUFFER_LENGTH						 20000 //(uint32_t) (MAX_SCOPE_BUFF_SIZE / 2);
+	#define LOG_ANLYS_CHANNELS_NUM							8
+	
+	#define LOG_ANLYS_PIN_CH1						"PB6_"
+	#define LOG_ANLYS_PIN_CH2						"PB7_"
+	#define LOG_ANLYS_PIN_CH3						"PB8_"
+	#define LOG_ANLYS_PIN_CH4						"PB9_"
+	#define LOG_ANLYS_PIN_CH5						"PB10"
+	#define LOG_ANLYS_PIN_CH6						"PB11"
+	#define LOG_ANLYS_PIN_CH7						"PB12"
+	#define LOG_ANLYS_PIN_CH8						"PB13"
+	
+#endif //USE_LOG_ANLYS
 
 //Definition of assert to check length of strings
 #define CASSERT(ex) {typedef char cassert_type[(ex)?1:-1];}

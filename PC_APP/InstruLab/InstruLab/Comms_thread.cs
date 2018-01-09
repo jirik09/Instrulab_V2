@@ -209,6 +209,9 @@ namespace LEO
         public void disconnect_device() {
 
             connectedDevice.close_gen();
+            connectedDevice.close_logAnlys();
+            connectedDevice.close_counter();
+            connectedDevice.close_syncPwm_gen();            
             connectedDevice.close_scope();
             connectedDevice.close_volt();
             connectedDevice.close_source();
@@ -219,11 +222,5 @@ namespace LEO
         public void add_message(Message msg) {
             this.comms_q.Enqueue(msg);
         }
-
-
-        
-
-
-
     }
 }

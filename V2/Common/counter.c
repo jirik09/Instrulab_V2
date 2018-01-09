@@ -68,9 +68,9 @@ void CounterTask(void const *argument)
 			counter_deinit();
 		}else if(message[0]=='8'){
 			counterGateConfig(counter.counterEtr.gateTime);
-		}else if(message[0]=='9'){
-			
+		}else{		
 		}	
+		
 		xSemaphoreGiveRecursive(counterMutex);
 	}
 }
@@ -307,10 +307,12 @@ void counterSetIcTi1_RisingFalling(void){
 }	
 
 void counterSetIcTi1_Rising(void){
+	counter.eventChan1 = EVENT_RISING;
 	TIM_IC1_RisingOnly();	
 }	
 
 void counterSetIcTi1_Falling(void){
+	counter.eventChan1 = EVENT_FALLING;
 	TIM_IC1_FallingOnly();	
 }
 
@@ -320,10 +322,12 @@ void counterSetIcTi2_RisingFalling(void){
 }	
 
 void counterSetIcTi2_Rising(void){
+	counter.eventChan2 = EVENT_RISING;
 	TIM_IC2_RisingOnly();	
 }	
 
 void counterSetIcTi2_Falling(void){
+	counter.eventChan2 = EVENT_FALLING;
 	TIM_IC2_FallingOnly();	
 }
 
@@ -335,13 +339,26 @@ void counterSetTiSequence_BA(void){
 	TIM_TI_Sequence_BA();
 }
 
+/**
+  * @brief  Function configuring event sequence dependence - refer to tim.c TIM_TI_Start()
+						for more information.
+	* @param  None
+  * @retval None
+  */
+void counterSetTiMode_Independent(void){
+	counter.tiMode = TI_MODE_EVENT_SEQUENCE_INDEP;
+}
+
+void counterSetTiMode_Dependent(void){
+	counter.tiMode = TI_MODE_FAST_EVENT_SEQUENCE_DEP;
+} 
 
 /**
   * @brief  Setter for counter TI timeout
 	* @param  timeout: 500 - 28000 [ms]
   * @retval None
   */
-void counterSetTiTimeout(uint16_t timeout){
+void counterSetTiTimeout(uint32_t timeout){
 	counter.counterIc.tiTimeout = timeout;				
 }
 
@@ -377,7 +394,7 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
 	}else if(counter.state == COUNTER_REF){		
 		if((counter.sampleCntChange != SAMPLE_COUNT_CHANGED) && (xTaskGetTickCount() - xStartTime) < 100){
 			xQueueSendToBackFromISR(messageQueue, "ORefWarning", &xHigherPriorityTaskWoken);
-			TIM_REF_SecondInputDisable();				
+			TIM_REF_SecondInputDisable();					
 		}else if(counter.sampleCntChange != SAMPLE_COUNT_CHANGED){	
 			xQueueSendToBackFromISR(messageQueue, "GRefDataSend", &xHigherPriorityTaskWoken);			
 		}else{
@@ -395,21 +412,24 @@ void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah)
   * @retval None
   * @state  VERY USED
   */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void counterPeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(counter.icDutyCycle == DUTY_CYCLE_DISABLED){
 		if(counter.state == COUNTER_IC){
+			/* Input Capture Low Frequency coutner */
 			counterIcProcess();
 		}else{
+			/* Time Interval mode of measurement */
 			counterTiProcess();
 		}						
 	}else{		
+		/* Duty cycle measurement in Low Frequency counter */
 		counterIcDutyCycleProcess();
 	}
 }
 
 /**
-  * @brief  Function colaborating with HAL_TIM_PeriodElapsedCallback to handle every 100 ms captured events if the required samples were transfered.
+  * @brief  Function colaborating with counterPeriodElapsedCallback to handle every 100 ms captured events if the required samples were transfered.
 						Frequency of IC1 or IC2 channel is computed and sent to PC app. This approach replaces DMA data transfercomplete interrupts	of both 
 						channels - the higher frequencies measured the CPU more heavy loaded, therefore replaced.
 						BIN "semaphore" implemented due to communication issue when data send to PC. (too slow)
@@ -459,9 +479,9 @@ void counterIcProcess(void)
 }
 
 /**
-  * @brief  Function colaborating with HAL_TIM_PeriodElapsedCallback to handle 
-						2 independent input events on 2 separate channels (Time Interval meas. 
-						mode). CounterIc.ic1freq is used to send time delay between two events.
+  * @brief  Function colaborating with counterPeriodElapsedCallback to handle 
+						2 independent input events on 2 separate channels - Time Interval meas. 
+						mode. CounterIc.ic1freq is used to send time delay between two events.
   * @param  None
   * @retval None
   * @state  VERY USED
@@ -474,36 +494,24 @@ void counterTiProcess(void)
 	/* Check timeout. */
 	if((xTaskGetTickCountFromISR() - xStartTime) <= counter.counterIc.tiTimeout){
 		/* Check the event sequence - AB or BA */
-		if(counter.abba == BIN0){
+		if(counter.abba == BIN0){			
 			/* Check DMA transfer channel 1 occured */			
-			if(DMA_TransferComplete(&hdma_tim2_ch2_ch4)){			
-				counter.counterIc.ic1freq = counter.counterIc.ic2buffer[0] / (double)tim2clk;
-								
-				if(counter.bin == BIN0){
-					counter.bin = BIN1;
-				}else{														
-					TIM_TI_Stop();		
-					counter.tiState = SEND_TI_DATA;						
-					xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);
-				}				
-				TIM_IC_DutyCycleDmaRestart();						
+			if(DMA_TransferComplete(&hdma_tim2_ch2_ch4)){					
+				counter.counterIc.ic1freq = counter.counterIc.ic2buffer[0] / (double)tim2clk;																			
+				TIM_TI_Stop();		
+				counter.tiState = SEND_TI_DATA;						
+				xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);					
 			}
 		/* If timeout occured stop TI counter and send alert to PC application. */		
 		}else{				
 			/* Check DMA transfer channel 2 occured */			
 			if(DMA_TransferComplete(&hdma_tim2_ch1)){					
-				counter.counterIc.ic1freq = counter.counterIc.ic1buffer[0] / (double)tim2clk;
-							
-				if(counter.bin == BIN0){
-					counter.bin = BIN1;
-				}else{														
-					TIM_TI_Stop();					
-					counter.tiState = SEND_TI_DATA;						
-					xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);
-				}			
-				TIM_IC_DutyCycleDmaRestart();							
+				counter.counterIc.ic1freq = counter.counterIc.ic1buffer[0] / (double)tim2clk;												
+				TIM_TI_Stop();					
+				counter.tiState = SEND_TI_DATA;						
+				xQueueSendToBackFromISR(messageQueue, "GTiBuffersTaken", &xHigherPriorityTaskWoken);							
 			}
-		}
+		}		
 	}else{
 		TIM_TI_Stop();					
 		counter.tiState = TIMEOUT;	
@@ -514,7 +522,7 @@ void counterTiProcess(void)
 }
 
 /**
-  * @brief  Function colaborating with HAL_TIM_PeriodElapsedCallback to handle 
+  * @brief  Function colaborating with counterPeriodElapsedCallback to handle 
 						one input (TI1 or TI2) that is feeding two IC registers to calculate pulse width
 						and duty cycle. BIN implemented due to UART speed issue when sending data to PC.
   * @param  None
@@ -528,7 +536,7 @@ void counterIcDutyCycleProcess(void)
 
 	if(counter.icDutyCycle == DUTY_CYCLE_CH1_ENABLED){	
 		if(DMA_TransferComplete(&hdma_tim2_ch1)){
-			/* Calculate duty cycle and pulse width. Frequency struct variables temporarily used. */
+			/* Calculate duty cycle (ic1freq) and pulse width(ic2freq). Frequency struct variables temporarily used. */
 			counter.counterIc.ic1freq = (counter.counterIc.ic2buffer[0] / (double)counter.counterIc.ic1buffer[0]) * 100;
 			counter.counterIc.ic2freq = counter.counterIc.ic2buffer[0] / (double)tim2clk;
 				
@@ -611,8 +619,8 @@ void counterEtrRefSetDefault(void)
 		counter.counterEtr.arr = TIM4_ARR;
 		counter.counterEtr.gateTime = 100;				/* 100 ms */												
 	}else{
-		counter.counterEtr.psc = 999;	
-		counter.counterEtr.arr = 9999;				
+		counter.counterEtr.psc = 59999;	
+		counter.counterEtr.arr = 59999;				
 	}
 	counter.counterEtr.etrp = 1;
 	counter.counterEtr.buffer = 0;
@@ -629,7 +637,9 @@ void counterIcTiSetDefault(void)
 	}else{
 		counter.counterIc.ic1BufferSize = 1;			/* only 1 sample for one event that occurs on one single channel */
 		counter.counterIc.ic2BufferSize = 1;
-		counter.counterIc.tiTimeout = 4000;
+		counter.counterIc.tiTimeout = 10000;
+		counter.eventChan1 = EVENT_RISING;
+		counter.eventChan2 = EVENT_RISING;
 	}
 	counter.counterIc.ic1psc = 1;
 	counter.counterIc.ic2psc = 1;

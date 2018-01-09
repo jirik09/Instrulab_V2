@@ -29,12 +29,14 @@ namespace LEO
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SyncPwmGenerator));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.basicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel_syncPwm_main = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_rightSide = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_rightSideBottom = new System.Windows.Forms.TableLayoutPanel();
@@ -184,7 +186,8 @@ namespace LEO
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
-            this.modeToolStripMenuItem});
+            this.modeToolStripMenuItem,
+            this.infoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(635, 24);
@@ -220,16 +223,23 @@ namespace LEO
             this.basicToolStripMenuItem.Checked = true;
             this.basicToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.basicToolStripMenuItem.Name = "basicToolStripMenuItem";
-            this.basicToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.basicToolStripMenuItem.Text = "Basic";
+            this.basicToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.basicToolStripMenuItem.Text = "Equidistant";
             this.basicToolStripMenuItem.Click += new System.EventHandler(this.basicToolStripMenuItem_Click);
             // 
             // advancedToolStripMenuItem
             // 
             this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.advancedToolStripMenuItem.Text = "Advanced";
+            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.advancedToolStripMenuItem.Text = "Independent";
             this.advancedToolStripMenuItem.Click += new System.EventHandler(this.advancedToolStripMenuItem_Click);
+            // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.infoToolStripMenuItem.Text = "Readme!";
+            this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
             // tableLayoutPanel_syncPwm_main
             // 
@@ -305,9 +315,9 @@ namespace LEO
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.77144F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.22856F));
-            this.tableLayoutPanel1.Controls.Add(this.radioButton_syncPwm_step_mode, 1, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.66667F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.33333F));
+            this.tableLayoutPanel1.Controls.Add(this.radioButton_syncPwm_step_mode, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.radioButton_syncPwm_continuous_mode, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
@@ -319,29 +329,33 @@ namespace LEO
             // 
             // radioButton_syncPwm_step_mode
             // 
+            this.radioButton_syncPwm_step_mode.Appearance = System.Windows.Forms.Appearance.Button;
             this.radioButton_syncPwm_step_mode.AutoSize = true;
             this.radioButton_syncPwm_step_mode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radioButton_syncPwm_step_mode.Location = new System.Drawing.Point(93, 0);
-            this.radioButton_syncPwm_step_mode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 2);
+            this.radioButton_syncPwm_step_mode.Location = new System.Drawing.Point(81, 0);
+            this.radioButton_syncPwm_step_mode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.radioButton_syncPwm_step_mode.Name = "radioButton_syncPwm_step_mode";
-            this.radioButton_syncPwm_step_mode.Size = new System.Drawing.Size(55, 20);
-            this.radioButton_syncPwm_step_mode.TabIndex = 1;
+            this.radioButton_syncPwm_step_mode.Size = new System.Drawing.Size(67, 22);
+            this.radioButton_syncPwm_step_mode.TabIndex = 4;
             this.radioButton_syncPwm_step_mode.Text = "Step";
+            this.radioButton_syncPwm_step_mode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.radioButton_syncPwm_step_mode.UseVisualStyleBackColor = true;
             this.radioButton_syncPwm_step_mode.CheckedChanged += new System.EventHandler(this.radioButton_syncPwm_step_mode_CheckedChanged);
             // 
             // radioButton_syncPwm_continuous_mode
             // 
+            this.radioButton_syncPwm_continuous_mode.Appearance = System.Windows.Forms.Appearance.Button;
             this.radioButton_syncPwm_continuous_mode.AutoSize = true;
             this.radioButton_syncPwm_continuous_mode.Checked = true;
             this.radioButton_syncPwm_continuous_mode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radioButton_syncPwm_continuous_mode.Location = new System.Drawing.Point(8, 0);
-            this.radioButton_syncPwm_continuous_mode.Margin = new System.Windows.Forms.Padding(8, 0, 2, 2);
+            this.radioButton_syncPwm_continuous_mode.Location = new System.Drawing.Point(2, 0);
+            this.radioButton_syncPwm_continuous_mode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.radioButton_syncPwm_continuous_mode.Name = "radioButton_syncPwm_continuous_mode";
-            this.radioButton_syncPwm_continuous_mode.Size = new System.Drawing.Size(81, 20);
-            this.radioButton_syncPwm_continuous_mode.TabIndex = 0;
+            this.radioButton_syncPwm_continuous_mode.Size = new System.Drawing.Size(75, 22);
+            this.radioButton_syncPwm_continuous_mode.TabIndex = 2;
             this.radioButton_syncPwm_continuous_mode.TabStop = true;
             this.radioButton_syncPwm_continuous_mode.Text = "Continuous";
+            this.radioButton_syncPwm_continuous_mode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.radioButton_syncPwm_continuous_mode.UseVisualStyleBackColor = true;
             this.radioButton_syncPwm_continuous_mode.CheckedChanged += new System.EventHandler(this.radioButton_syncPwm_continuous_mode_CheckedChanged);
             // 
@@ -384,7 +398,7 @@ namespace LEO
             this.groupBox3.Size = new System.Drawing.Size(74, 264);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Duty cycle [%]";
+            this.groupBox3.Text = "Duty [%]";
             // 
             // tableLayoutPanel2
             // 
@@ -412,6 +426,7 @@ namespace LEO
             this.textBox_basic_duty.TabIndex = 2;
             this.textBox_basic_duty.Text = "25";
             this.textBox_basic_duty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_basic_duty_KeyPress);
+            this.textBox_basic_duty.Leave += new System.EventHandler(this.textBox_basic_duty_Leave);
             // 
             // trackBar_basic_duty
             // 
@@ -465,6 +480,7 @@ namespace LEO
             this.textBox_basic_phase.TabIndex = 2;
             this.textBox_basic_phase.Text = "90";
             this.textBox_basic_phase.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_basic_phase_KeyPress);
+            this.textBox_basic_phase.Leave += new System.EventHandler(this.textBox_basic_phase_Leave);
             // 
             // trackBar_basic_phase
             // 
@@ -514,7 +530,7 @@ namespace LEO
             this.trackBar_basic_freq.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trackBar_basic_freq.Location = new System.Drawing.Point(14, 3);
             this.trackBar_basic_freq.Margin = new System.Windows.Forms.Padding(14, 3, 3, 3);
-            this.trackBar_basic_freq.Maximum = 50000;
+            this.trackBar_basic_freq.Maximum = 60000;
             this.trackBar_basic_freq.Minimum = 1;
             this.trackBar_basic_freq.Name = "trackBar_basic_freq";
             this.trackBar_basic_freq.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -543,12 +559,13 @@ namespace LEO
             this.textBox_basic_freq.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_basic_freq.Location = new System.Drawing.Point(7, 207);
             this.textBox_basic_freq.Margin = new System.Windows.Forms.Padding(7, 3, 7, 3);
-            this.textBox_basic_freq.MaxLength = 9;
+            this.textBox_basic_freq.MaxLength = 10;
             this.textBox_basic_freq.Name = "textBox_basic_freq";
             this.textBox_basic_freq.Size = new System.Drawing.Size(54, 20);
             this.textBox_basic_freq.TabIndex = 1;
             this.textBox_basic_freq.Text = "1";
             this.textBox_basic_freq.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_basic_freq_KeyPress);
+            this.textBox_basic_freq.Leave += new System.EventHandler(this.textBox_basic_freq_Leave);
             // 
             // tableLayoutPanel_advanced
             // 
@@ -663,6 +680,7 @@ namespace LEO
             this.textBox_advanced_dutyCycle_channel4.TabIndex = 1;
             this.textBox_advanced_dutyCycle_channel4.Text = "25";
             this.textBox_advanced_dutyCycle_channel4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_dutyCycle_channel4_KeyPress);
+            this.textBox_advanced_dutyCycle_channel4.Leave += new System.EventHandler(this.textBox_advanced_dutyCycle_channel4_Leave);
             // 
             // groupBox_advanced_delay_channel4
             // 
@@ -702,6 +720,7 @@ namespace LEO
             this.textBox_advanced_phase_channel4.TabIndex = 2;
             this.textBox_advanced_phase_channel4.Text = "270";
             this.textBox_advanced_phase_channel4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_phase_channel4_KeyPress);
+            this.textBox_advanced_phase_channel4.Leave += new System.EventHandler(this.textBox_advanced_phase_channel4_Leave);
             // 
             // trackBar_advanced_phase_channel4
             // 
@@ -793,6 +812,7 @@ namespace LEO
             this.textBox_advanced_dutyCycle_channel3.TabIndex = 1;
             this.textBox_advanced_dutyCycle_channel3.Text = "25";
             this.textBox_advanced_dutyCycle_channel3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_dutyCycle_channel3_KeyPress);
+            this.textBox_advanced_dutyCycle_channel3.Leave += new System.EventHandler(this.textBox_advanced_dutyCycle_channel3_Leave);
             // 
             // groupBox_advanced_delay_channel3
             // 
@@ -832,6 +852,7 @@ namespace LEO
             this.textBox_advanced_phase_channel3.TabIndex = 2;
             this.textBox_advanced_phase_channel3.Text = "180";
             this.textBox_advanced_phase_channel3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_phase_channel3_KeyPress);
+            this.textBox_advanced_phase_channel3.Leave += new System.EventHandler(this.textBox_advanced_phase_channel3_Leave);
             // 
             // trackBar_advanced_phase_channel3
             // 
@@ -923,6 +944,7 @@ namespace LEO
             this.textBox_advanced_dutyCycle_channel2.TabIndex = 1;
             this.textBox_advanced_dutyCycle_channel2.Text = "25";
             this.textBox_advanced_dutyCycle_channel2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_dutyCycle_channel2_KeyPress);
+            this.textBox_advanced_dutyCycle_channel2.Leave += new System.EventHandler(this.textBox_advanced_dutyCycle_channel2_Leave);
             // 
             // groupBox_advanced_delay_channel2
             // 
@@ -962,6 +984,7 @@ namespace LEO
             this.textBox_advanced_phase_channel2.TabIndex = 2;
             this.textBox_advanced_phase_channel2.Text = "90";
             this.textBox_advanced_phase_channel2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_phase_channel2_KeyPress);
+            this.textBox_advanced_phase_channel2.Leave += new System.EventHandler(this.textBox_advanced_phase_channel2_Leave);
             // 
             // trackBar_advanced_phase_channel2
             // 
@@ -1053,6 +1076,7 @@ namespace LEO
             this.textBox_advanced_dutyCycle_channel1.TabIndex = 1;
             this.textBox_advanced_dutyCycle_channel1.Text = "25";
             this.textBox_advanced_dutyCycle_channel1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_dutyCycle_channel1_KeyPress);
+            this.textBox_advanced_dutyCycle_channel1.Leave += new System.EventHandler(this.textBox_advanced_dutyCycle_channel1_Leave);
             // 
             // groupBox_advanced_delay_channel1
             // 
@@ -1092,6 +1116,7 @@ namespace LEO
             this.textBox_advanced_phase_channel1.TabIndex = 2;
             this.textBox_advanced_phase_channel1.Text = "0";
             this.textBox_advanced_phase_channel1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_phase_channel1_KeyPress);
+            this.textBox_advanced_phase_channel1.Leave += new System.EventHandler(this.textBox_advanced_phase_channel1_Leave);
             // 
             // trackBar_advanced_phase_channel1
             // 
@@ -1139,7 +1164,7 @@ namespace LEO
             // 
             this.trackBar_advanced_generalFreq.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trackBar_advanced_generalFreq.Location = new System.Drawing.Point(6, 6);
-            this.trackBar_advanced_generalFreq.Maximum = 50000;
+            this.trackBar_advanced_generalFreq.Maximum = 60000;
             this.trackBar_advanced_generalFreq.Minimum = 1;
             this.trackBar_advanced_generalFreq.Name = "trackBar_advanced_generalFreq";
             this.trackBar_advanced_generalFreq.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -1154,12 +1179,13 @@ namespace LEO
             this.textBox_advanced_generalFreq.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_advanced_generalFreq.Location = new System.Drawing.Point(3, 223);
             this.textBox_advanced_generalFreq.Margin = new System.Windows.Forms.Padding(0);
-            this.textBox_advanced_generalFreq.MaxLength = 9;
+            this.textBox_advanced_generalFreq.MaxLength = 10;
             this.textBox_advanced_generalFreq.Name = "textBox_advanced_generalFreq";
             this.textBox_advanced_generalFreq.Size = new System.Drawing.Size(31, 20);
             this.textBox_advanced_generalFreq.TabIndex = 0;
             this.textBox_advanced_generalFreq.Text = "1";
             this.textBox_advanced_generalFreq.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_advanced_generalFreq_KeyPress);
+            this.textBox_advanced_generalFreq.Leave += new System.EventHandler(this.textBox_advanced_generalFreq_Leave);
             // 
             // textBox_advanced_generalRealFreq
             // 
@@ -1367,8 +1393,10 @@ namespace LEO
             this.Controls.Add(this.label_status_syncPwmIndicator);
             this.Controls.Add(this.tableLayoutPanel_syncPwm_main);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SyncPwmGenerator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SyncPwmGenerator_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel_syncPwm_main.ResumeLayout(false);
@@ -1538,10 +1566,11 @@ namespace LEO
         private System.Windows.Forms.Button button_syncPwm;
         private System.Windows.Forms.GroupBox groupBox_syncPwm_mode;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.RadioButton radioButton_syncPwm_step_mode;
-        private System.Windows.Forms.RadioButton radioButton_syncPwm_continuous_mode;
         private System.Windows.Forms.TextBox textBox_advanced_generalRealFreq;
         private System.Windows.Forms.TextBox textBox_basic_realFreq;
         private System.Windows.Forms.TextBox textBox_basic_freq;
+        private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
+        private System.Windows.Forms.RadioButton radioButton_syncPwm_step_mode;
+        private System.Windows.Forms.RadioButton radioButton_syncPwm_continuous_mode;
     }
 }

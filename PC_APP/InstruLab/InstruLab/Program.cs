@@ -18,8 +18,6 @@ namespace LEO
         [STAThread]
         static void Main()
         {
-            
-            
 
             // Add the event handler for handling UI thread exceptions to the event.
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
@@ -30,8 +28,7 @@ namespace LEO
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
             // Add the event handler for handling non-UI thread exceptions to the event. 
-            AppDomain.CurrentDomain.UnhandledException += new
-            UnhandledExceptionEventHandler(UnhandledExceptionTrapper);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionTrapper);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -41,11 +38,11 @@ namespace LEO
 
             Application.Run(ctx);
 
-            /*
-              
-    Application.Run(new Form1());
-             */
+            //Application.Run(new Form1());
+
         }
+
+
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             try

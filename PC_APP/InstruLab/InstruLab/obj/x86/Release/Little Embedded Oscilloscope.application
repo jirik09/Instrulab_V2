@@ -4,18 +4,17 @@
   <description asmv2:publisher="Little Embedded Oscilloscope" asmv2:product="Little Embedded Oscilloscope" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
-    <framework targetVersion="4.0" profile="Client" supportedRuntime="4.0.30319" />
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Little Embedded Oscilloscope.exe.manifest" size="6393">
+    <dependentAssembly dependencyType="install" codebase="Little Embedded Oscilloscope.exe.manifest" size="6394">
       <assemblyIdentity name="Little Embedded Oscilloscope.exe" version="2.1.0.5" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>OUNNKyPNXwIsxnKNRQiue2uUJJk=</dsig:DigestValue>
+        <dsig:DigestValue>mr5TYEvJdZTiP7qqBzRYxiQtQsY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

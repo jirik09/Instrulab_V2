@@ -43,7 +43,7 @@ typedef enum{
 	SCOPE_SAMPLING_WAITING,
 	SCOPE_SAMPLING_TRIGGER_WAIT,
 	SCOPE_SAMPLING,
-	SCOPE_DATA_SENDING,	
+	SCOPE_DATA_SENDING,
 	SCOPE_DONE,
 	SCOPE_WAIT_FOR_RESTART,
 	SCOPE_ERR
@@ -63,7 +63,7 @@ typedef struct{
 
 typedef struct{
 	uint8_t *bufferMemory;		
-	uint32_t triggerIndex;		
+	uint32_t triggerIndex;
 	scopeSettings settings;
 	scopeState state;	
 	uint8_t numOfChannles;
@@ -77,10 +77,11 @@ typedef struct{
 // Exported variables =========================================================
 extern xQueueHandle scopeMessageQueue;
 //extern uint16_t scopeBuffer[MAX_SCOPE_BUFF_SIZE/2]; 
+extern uint8_t scopeBuffer[MAX_SCOPE_BUFF_SIZE+MAX_ADC_CHANNELS*SCOPE_BUFFER_MARGIN]; 
 
 // Exported functions =========================================================
 void ScopeTask(void const *argument);
-void ScopeTriggerTask(void const *argument) ;
+void ScopeTriggerTask(void const *argument);
 
 void scopeInit(void); 
 void scopeSetDefault(void); 

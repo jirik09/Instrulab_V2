@@ -8,14 +8,14 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Little Embedded Oscilloscope.exe.manifest" size="6393">
+    <dependentAssembly dependencyType="install" codebase="Little Embedded Oscilloscope.exe.manifest" size="6394">
       <assemblyIdentity name="Little Embedded Oscilloscope.exe" version="2.1.0.5" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>YZmcCYoOBYcm42SbJUKT8Q/Bv8E=</dsig:DigestValue>
+        <dsig:DigestValue>EXljorWRRrIhYJR5/PlHohUTiww=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

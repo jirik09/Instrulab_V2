@@ -23,6 +23,7 @@ namespace LEO
         public const string GENERATOR = "GEN_";
         public const string PWM_GENERATOR = "GENP";
         public const string SYNC_PWM_GEN = "SYNP";
+        public const string LOG_ANLYS = "LOGA";
         public const string COUNTER = "CNT_";
         public const string SCOPE = "OSCP";
         public const string SCOPE_INCOME = "OSC_";
@@ -100,6 +101,10 @@ namespace LEO
         public const string CNT_TI_TIMEOUT_OCCURED = "TMOT";
         public const string CNT_TI_DATA = "TIDA";
 
+        public const string CNT_TI_MODE = "TIMD";
+        public const string CNT_TI_MODE_DEPENDENT = "SEQD";
+        public const string CNT_TI_MODE_INDEPENDENT = "SEQI";
+
         // Counter REF SAMPLE count
         public const string CNT_SAMPLES_PSC = "PSC_";
         public const string CNT_SAMPLES_ARR = "ARR_";
@@ -120,6 +125,7 @@ namespace LEO
         public const string GEN_DATA = "DATA";
         public const string GEN_PWM_FREQ_PSC = "FPWP";
         public const string GEN_PWM_FREQ_ARR = "FPWA";
+        public const string GEN_PWM_DEINIT = "GPDI";
 
         public const string GEN_OK = "G_OK";
         public const string GEN_NEXT = "G_NX";
@@ -133,6 +139,9 @@ namespace LEO
         public const string GEN_MODE = "MODE";
         public const string GEN_MODE_PWM = "PWM_";
         public const string GEN_MODE_DAC = "DAC_";
+
+        //Deactivate generator 
+        public const string RESET = "RSET";
 
         /******************************************************/
         /***************** SYNC PWM GENERATOR *****************/
@@ -178,6 +187,36 @@ namespace LEO
         //public const string SYNC_PWM_CHAN3_DISABLE = "SCD3";
         //public const string SYNC_PWM_CHAN4_ENABLE = "SCE4";
         //public const string SYNC_PWM_CHAN4_DISABLE = "SCD4";
+
+        /******************************************************/
+        /******************* LOGIC ANALYZER *******************/
+        /******************************************************/
+        public const string LOG_ANLYS_START = "STRT";
+        public const string LOG_ANLYS_STOP = "STOP";
+        public const string LOG_ANLYS_INIT = "INIT";
+        public const string LOG_ANLYS_DEINIT = "DEIN";
+
+        public const string LOG_ANLYS_POSTTRIG = "POST";
+        public const string LOG_ANLYS_PRETRIG = "PRET";
+
+        public const string LOG_ANLYS_SAMPLING_FREQ = "SMPF";
+        public const string LOG_ANLYS_SAMPLES_NUM = "SMPN";
+
+        public const string LOG_ANLYS_TRIGGER_MODE = "TRGM";
+        public const string LOG_ANLYS_TRIGGER_MODE_AUTO = "AUTO";
+        public const string LOG_ANLYS_TRIGGER_MODE_NORMAL = "NORM";
+        public const string LOG_ANLYS_TRIGGER_MODE_SINGLE = "SING";
+
+        public const string LOG_ANLYS_TRIGGER_EVENT = "TRGE";
+        public const string LOG_ANLYS_TRIGGER_EDGE_RISING = "RISE";
+        public const string LOG_ANLYS_TRIGGER_EDGE_FALLING = "FALL";
+
+        public const string LOG_ANLYS_TRIGGER_CHANNEL = "TRGC";    // can be 1 or 2
+
+        /* Data reception */
+        public const string LOG_ANLYS_TRIGGER_POINTER = "LATP";
+        public const string LOG_ANLYS_DATA_LENGTH = "LADL";
+        public const string LOG_ANLYS_DATA = "LADT";
 
         /******************************************************/
         /************************ SCOPE ***********************/

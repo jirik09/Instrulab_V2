@@ -82,6 +82,18 @@ namespace LEO
             public string[] pins;
         }
 
+        public struct LogAnlysConfig_def
+        {
+            public bool isLogAnlys;
+            public int postTrigPeriphClock;
+            public int timeBasePeriphClock;
+            public int samplingFreq;            
+            public int bufferLength;
+            public int numOfChannels;
+            public UInt16[] samples;
+            public string[] pins;
+        }
+
         public struct PwmGenConfig_def
         {
             public bool isPwmGen;
@@ -94,14 +106,22 @@ namespace LEO
         public struct CounterConfig_def
         {
             public bool isCnt;
+            public int counterPeriphClock;
+            public int gatePeriphClock;
             public string modes;
             public string[] pins;
+
+            /* When dutyCycle and pulseWidth are sent both, it works, but after coming back
+               to frequency measuring app stalls. Therefore, pulseWidth is given to Counter app
+               this way. */
+            public double pulseWidth;
         }
 
-        enum FormOpened { NONE, SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS, SYNC_PWM_GENERATOR }
+        enum FormOpened { NONE, SCOPE, VOLTMETER, GENERATOR, VOLT_SOURCE, FREQ_ANALYSIS, SYNC_PWM_GENERATOR, LOG_ANLYS }
         FormOpened ADCFormOpened = FormOpened.NONE;
         FormOpened DACFormOpened = FormOpened.NONE;
         FormOpened SyncPwmOpened = FormOpened.NONE;
+        FormOpened LogAnlysOpened = FormOpened.NONE;
 
         public enum GenModeOpened { NONE, DAC, PWM }
         public static GenModeOpened GenOpened = GenModeOpened.NONE;
@@ -125,6 +145,7 @@ namespace LEO
         public GeneratorConfig_def genCfg;                
         public PwmGenConfig_def pwmGenCfg;
         public SyncPwmConfig_def syncPwmCfg;
+        public LogAnlysConfig_def logAnlysCfg;
         public CounterConfig_def cntCfg;
         private StreamWriter logWriter;
         private List<String> logger = new List<String>();
@@ -136,6 +157,7 @@ namespace LEO
         BodePlot FreqAnalysis_form;
         Counter Counter_form;
         SyncPwmGenerator SyncPwm_form;
+        LogicAnalyzer LogAnlys_form; 
 
         SynchronizationContext syncContext;
         Reporting report = new Reporting();
@@ -148,6 +170,9 @@ namespace LEO
         double freq;
         int buff;
         string cntMessage;
+
+        /* Logic analyzer vars */
+        int receiveDataLength;
 
         int lastError = 0;
         public Device(string portName, string name, int speed)
@@ -270,6 +295,9 @@ namespace LEO
             {
                 if (port.IsOpen)
                 {
+                    /* ------------------------------------------------------------------------------ */
+                    /* --------------------------- SYSTEM CONFIG REQUEST ---------------------------- */
+                    /* ------------------------------------------------------------------------------ */
                     int wait = 50;
                     port.Write(Commands.SYSTEM + ":" + Commands.CONFIGRequest + ";");
                     char[] msg_char = new char[256];
@@ -305,7 +333,9 @@ namespace LEO
                     }
 
 
-
+                    /* ------------------------------------------------------------------------------ */
+                    /* ----------------------------- IS SHIELD CONECTED ----------------------------- */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.IS_SHIELD_CONNECTED + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -320,7 +350,9 @@ namespace LEO
                         this.systemCfg.isShield = false;
                     }
 
-
+                    /* ------------------------------------------------------------------------------ */
+                    /* ---------------------------- COMM CONFIG REQUEST ----------------------------- */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.COMMS + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -345,6 +377,9 @@ namespace LEO
                         }
                     }
 
+                    /* ------------------------------------------------------------------------------ */
+                    /* ---------------------------- SCOPE CONFIG REQUEST ---------------------------- */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.SCOPE + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -380,6 +415,9 @@ namespace LEO
                         scopeCfg.isScope = false;
                     }
 
+                    /* ------------------------------------------------------------------------------ */
+                    /* ------------------------- SCOPE GPIO INPUTS REQUEST -------------------------- */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.SCOPE + ":" + Commands.GET_SCOPE_INPUTS + ";");
                     Thread.Sleep(2 * wait);
                     toRead = port.BytesToRead;
@@ -492,8 +530,9 @@ namespace LEO
                         scopeCfg.inputs[0][0] = "-";
                     }
 
-
-
+                    /* ------------------------------------------------------------------------------ */
+                    /* ------------------------- GENERATOR CONFIG REQUEST --------------------------- */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.GENERATOR + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -525,6 +564,9 @@ namespace LEO
 
                     port.DiscardInBuffer();
 
+                    /* ------------------------------------------------------------------------------ */
+                    /* ------------------------ PWM GENERATOR CONFIG REQUEST ------------------------ */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.GENERATOR + ":" + Commands.GEN_PWM_CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -548,6 +590,9 @@ namespace LEO
 
                     port.DiscardInBuffer();
 
+                    /* ------------------------------------------------------------------------------ */
+                    /* ------------ GENERATOR OF SYNCHRONIZED PWM SIGNALS CONFIG REQUEST ------------ */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.SYNC_PWM_GEN + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -573,6 +618,39 @@ namespace LEO
 
                     port.DiscardInBuffer();
 
+                    /* ------------------------------------------------------------------------------ */
+                    /* ---------------------- LOGIC ANALYZER CONFIG REQUEST ------------------------- */
+                    /* ------------------------------------------------------------------------------ */
+                    port.Write(Commands.LOG_ANLYS + ":" + Commands.CONFIGRequest + ";");
+                    Thread.Sleep(wait);
+                    toRead = port.BytesToRead;
+                    port.Read(msg_byte, 0, toRead);
+                    msg_char = Encoding.ASCII.GetString(msg_byte).ToCharArray();
+
+                    if (new string(msg_char, 0, 4).Equals("LOGA"))
+                    {
+                        logAnlysCfg.isLogAnlys = true;
+                        logAnlysCfg.postTrigPeriphClock = BitConverter.ToInt32(msg_byte, 4);
+                        logAnlysCfg.timeBasePeriphClock = BitConverter.ToInt32(msg_byte, 8);
+                        logAnlysCfg.samplingFreq = BitConverter.ToInt32(msg_byte, 12);
+                        logAnlysCfg.bufferLength = BitConverter.ToInt32(msg_byte, 16);
+                        logAnlysCfg.numOfChannels = BitConverter.ToInt32(msg_byte, 20);
+                        logAnlysCfg.pins = new string[logAnlysCfg.numOfChannels];
+                        for (int i = 0; i < this.logAnlysCfg.numOfChannels; i++)
+                        {
+                            logAnlysCfg.pins[i] = new string(msg_char, 24 + 4 * i, 4);
+                        }
+                    }
+                    else
+                    {
+                        logAnlysCfg.isLogAnlys = false;
+                    }
+
+                    port.DiscardInBuffer();
+
+                    /* ------------------------------------------------------------------------------ */
+                    /* --------------------------- COUNTER CONFIG REQUEST --------------------------- */
+                    /* ------------------------------------------------------------------------------ */
                     port.Write(Commands.COUNTER + ":" + Commands.CONFIGRequest + ";");
                     Thread.Sleep(wait);
                     toRead = port.BytesToRead;
@@ -582,12 +660,14 @@ namespace LEO
                     if (new string(msg_char, 0, 4).Equals("CNT_"))
                     {
                         cntCfg.isCnt = true;
-                        cntCfg.modes = new string(msg_char, 4, toRead - 29);
-                        cntCfg.pins = new string(msg_char, 15, toRead - 11).Split(' ');
+                        cntCfg.counterPeriphClock = BitConverter.ToInt32(msg_byte, 4);
+                        cntCfg.gatePeriphClock = BitConverter.ToInt32(msg_byte, 8);
+                        cntCfg.modes = new string(msg_char, 12, toRead - 37);
+                        cntCfg.pins = new string(msg_char, 23, toRead - 11).Split(' ');
 
-
-                        //cntCfg.modes = new string(msg_char, 4, toRead - 23);
-                        //cntCfg.pins = new string(msg_char, 12, toRead - 17).Split(' ');
+                        /* Without periphClocks reception */
+                        //cntCfg.modes = new string(msg_char, 4, toRead - 29);
+                        //cntCfg.pins = new string(msg_char, 15, toRead - 11).Split(' ');
                     }
                     else
                     {
@@ -825,7 +905,44 @@ namespace LEO
                             //Console.WriteLine(Commands.TRIGGERED);
                             logRecieved("GEN_FRQ?" + new string(inputMsg, 1, 3) + " CH" + inputData[3].ToString());
                             break;
+                        /* -------------------------------------------------------------------------------------------------------------------------------- */
+                        /* ---------------------------------------------- LOGIC ANALYZER RECEIVED MESSAGES ------------------------------------------------ */
+                        /* -------------------------------------------------------------------------------------------------------------------------------- */
+                        case Commands.LOG_ANLYS_TRIGGER_POINTER:
+                            while (port.BytesToRead < 4)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+                            port.Read(inputData, 0, 4);                                                        
+                            int triggerPointer = BitConverter.ToInt32(inputData, 0);
+                            LogAnlys_form.add_message(new Message(Message.MsgRequest.LOG_ANLYS_TRIGGER_POINTER, "LOG_ANLYS_TRIG_POINTER", triggerPointer));
+                            break;
 
+                        case Commands.LOG_ANLYS_DATA_LENGTH:
+                            while (port.BytesToRead < 4)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+                            port.Read(inputData, 0, 4);
+                            int dataLength = receiveDataLength = BitConverter.ToInt32(inputData, 0);                            
+                            break;
+
+                        case Commands.LOG_ANLYS_DATA:
+                            while (port.BytesToRead < receiveDataLength)
+                            {
+                                wait_for_data(watchDog--);
+                            }
+
+                            byte[] receiveArray = new byte[receiveDataLength];
+                            logAnlysCfg.samples = new ushort[(uint)(receiveDataLength / 2)];
+
+                            port.Read(receiveArray, 0, receiveDataLength);
+                            for (int j = 0; j < (uint)(receiveDataLength / 2); j++)
+                            {
+                                logAnlysCfg.samples[j] = BitConverter.ToUInt16(receiveArray, j * 2);
+                            }
+                            LogAnlys_form.add_message(new Message(Message.MsgRequest.LOG_ANLYS_DATA, "LOG_ANLYS_DATA"));
+                            break;
                         /* -------------------------------------------------------------------------------------------------------------------------------- */
                         /* -------------------------------------------------- COUNTER RECEIVED MESSAGES --------------------------------------------------- */
                         /* -------------------------------------------------------------------------------------------------------------------------------- */
@@ -894,20 +1011,25 @@ namespace LEO
                                 logRecieved("Counter freq IC2 was not parsed  " + new string(inputValIc2, 0, 4));
                             }
                             break;
-                        /************************* IC1 Duty Cycle *************************/
+                        /****************** Duty Cycle nad Pulse Width *****************/
                         case Commands.CNT_DUTY_CYCLE_RECEIVE:
-                            while (port.BytesToRead < 6)
+                            while (port.BytesToRead < 21)
                             {
                                 wait_for_data(watchDog--);
                             }
                             char[] inputValIcDc1 = new char[64];
-                            port.Read(inputValIcDc1, 0, 6);
+                            port.Read(inputValIcDc1, 0, 21);
 
                             try
                             {
-                                cntMessage = new string(inputValIcDc1, 0, 6);
-                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_DUTY_CYCLE, "IC_DUTY_CYCLE", freq));
+                                string cntDutyCycle = new string(inputValIcDc1, 0, 6);
+                                double dutyCycle = double.Parse(cntDutyCycle, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                string cntPulseWidth = new string(inputValIcDc1, 6, 15);
+                                cntCfg.pulseWidth = double.Parse(cntPulseWidth, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                                
+                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_DUTY_CYCLE, "IC_DUTY_CYCLE", dutyCycle));
+                                /* There seems to be a problem passing two messages consequently in short time. */
+                        //        Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_PULSE_WIDTH, "IC_PULSE_WIDTH", pulseWidth));
                             }
                             catch (Exception ex)
                             {
@@ -916,26 +1038,48 @@ namespace LEO
 
                             port.DiscardInBuffer();
                             break;
-                        /************************* IC1 Pulse Width  *************************/
-                        case Commands.CNT_PULSE_WIDTH_RECEIVE:
-                            while (port.BytesToRead < 15)
-                            {
-                                wait_for_data(watchDog--);
-                            }
-                            char[] inputValIcPw1 = new char[64];
-                            port.Read(inputValIcPw1, 0, 15);
+                        /************************* IC1 Duty Cycle *************************/
+                        //case Commands.CNT_DUTY_CYCLE_RECEIVE:
+                        //    while (port.BytesToRead < 6)
+                        //    {
+                        //        wait_for_data(watchDog--);
+                        //    }
+                        //    char[] inputValIcDc1 = new char[64];
+                        //    port.Read(inputValIcDc1, 0, 6);
 
-                            try
-                            {
-                                cntMessage = new string(inputValIcPw1, 0, 15);
-                                freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                                Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_PULSE_WIDTH, "IC_PULSE_WIDTH", freq));
-                            }
-                            catch (Exception ex)
-                            {
-                                logRecieved("Counter pulse width was not parsed  " + new string(inputValIcPw1, 0, 4));
-                            }
-                            break;
+                        //    try
+                        //    {
+                        //        cntMessage = new string(inputValIcDc1, 0, 6);
+                        //        freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                        //        Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_DUTY_CYCLE, "IC_DUTY_CYCLE", freq));
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        logRecieved("Counter IC1 duty cycle was not parsed  " + new string(inputValIcDc1, 0, 4));
+                        //    }
+
+                        //    port.DiscardInBuffer();
+                        //    break;
+                        /************************* IC1 Pulse Width  *************************/
+                        //case Commands.CNT_PULSE_WIDTH_RECEIVE:
+                        //    while (port.BytesToRead < 15)
+                        //    {
+                        //        wait_for_data(watchDog--);
+                        //    }
+                        //    char[] inputValIcPw1 = new char[64];
+                        //    port.Read(inputValIcPw1, 0, 15);
+
+                        //    try
+                        //    {
+                        //        cntMessage = new string(inputValIcPw1, 0, 15);
+                        //        freq = double.Parse(cntMessage, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                        //        Counter_form.add_message(new Message(Message.MsgRequest.COUNTER_IC_PULSE_WIDTH, "IC_PULSE_WIDTH", freq));
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        logRecieved("Counter pulse width was not parsed  " + new string(inputValIcPw1, 0, 4));
+                        //    }
+                        //    break;
                         /************************* REF data *************************/
                         case Commands.CNT_REF_DATA:
                             while (port.BytesToRead < 10)
@@ -1104,6 +1248,8 @@ namespace LEO
 
         public void open_scope()
         {
+            close_logAnlys();
+            
             /* Close Synch PWM generator if Scope opened (due to DMA2) */
             if (SyncPwmOpened == FormOpened.SYNC_PWM_GENERATOR)
             {
@@ -1132,8 +1278,6 @@ namespace LEO
             }
         }
 
-
-
         public void close_scope()
         {
             if (Scope_form != null)
@@ -1143,23 +1287,13 @@ namespace LEO
             }
         }
 
-        public void close_freq_analysis()
-        {
-            if (FreqAnalysis_form != null)
-            {
-                FreqAnalysis_form.Close();
-                ADCFormOpened = FormOpened.NONE;
-                DACFormOpened = FormOpened.NONE;
-            }
-        }
-
         public void scopeClosed()
         {
             ADCFormOpened = FormOpened.NONE;
         }
 
         public void open_gen()
-        {
+        {            
             if (DACFormOpened == FormOpened.VOLT_SOURCE)
             {
                 close_source();
@@ -1187,15 +1321,17 @@ namespace LEO
         }
 
         public void close_gen()
-        {
+        {            
             if (Gen_form != null)
             {
-                Gen_form.Close();
+                Gen_form.Close();                
             }
         }
 
         public void open_pwm_gen()
         {
+            close_logAnlys();
+
             if (DACFormOpened == FormOpened.VOLT_SOURCE)
             {
                 close_source();
@@ -1256,6 +1392,8 @@ namespace LEO
 
         public void open_counter()
         {
+            close_logAnlys();            
+
             if (Counter_form == null || Counter_form.IsDisposed)
             {
                 Counter_form = new Counter(this);
@@ -1303,6 +1441,37 @@ namespace LEO
             }
         }
 
+        public void open_logAnlys()
+        {
+            close_scope();
+            close_counter();            
+
+            if(GenOpened == GenModeOpened.PWM)
+            {
+                close_gen();
+            }            
+
+            if (LogAnlys_form == null || LogAnlys_form.IsDisposed)
+            {
+                LogAnlysOpened = FormOpened.LOG_ANLYS;
+                LogAnlys_form = new LogicAnalyzer(this);
+                LogAnlys_form.Show();
+            }
+            else
+            {
+                LogAnlys_form.BringToFront();
+            }
+        }
+
+        public void close_logAnlys()
+        {
+            if (LogAnlys_form != null)
+            {
+                LogAnlys_form.Close();
+                LogAnlysOpened = FormOpened.NONE;
+            }            
+        }
+
         public void open_source()
         {
             if (DACFormOpened == FormOpened.GENERATOR)
@@ -1323,6 +1492,15 @@ namespace LEO
             else
             {
                 Source_form.BringToFront();
+            }
+        }
+
+        public void close_source()
+        {
+            if (Source_form != null)
+            {
+                Source_form.Close();
+                DACFormOpened = FormOpened.NONE;
             }
         }
 
@@ -1360,15 +1538,15 @@ namespace LEO
 
         }
 
-        public void close_source()
+        public void close_freq_analysis()
         {
-            if (Source_form != null)
+            if (FreqAnalysis_form != null)
             {
-                Source_form.Close();
+                FreqAnalysis_form.Close();
+                ADCFormOpened = FormOpened.NONE;
                 DACFormOpened = FormOpened.NONE;
             }
         }
-
 
         public void voltClosed()
         {
@@ -1389,7 +1567,6 @@ namespace LEO
             return this.commsCfg;
         }
 
-
         public void set_scope_mode(Scope.TRIG_MODE mod)
         {
             this.scopeCfg.mode = mod;
@@ -1399,7 +1576,6 @@ namespace LEO
         {
             return scopeCfg.mode;
         }
-
 
         public bool takeCommsSemaphore(int ms)
         {

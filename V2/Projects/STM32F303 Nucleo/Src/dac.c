@@ -86,8 +86,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
   /* USER CODE END DAC1_MspInit 0 */
     /* Peripheral clock enable */
     __DAC1_CLK_ENABLE();
-		
-  
+
     /**DAC1 GPIO Configuration    
     PA4     ------> DAC_OUT1
     PA5     ------> DAC_OUT2 
@@ -111,7 +110,6 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
     __HAL_LINKDMA(hdac,DMA_Handle1,hdma_dac1_ch1);
     __HAL_REMAPDMA_CHANNEL_ENABLE(HAL_REMAPDMA_TIM6_DAC1_CH1_DMA1_CH3);
 
-			
 		hdma_dac1_ch2.Instance = DMA1_Channel4;
     hdma_dac1_ch2.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hdma_dac1_ch2.Init.PeriphInc = DMA_PINC_DISABLE;
@@ -123,9 +121,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
 		HAL_DMA_Init(&hdma_dac1_ch2);
     __HAL_LINKDMA(hdac,DMA_Handle2,hdma_dac1_ch2);
     __HAL_REMAPDMA_CHANNEL_ENABLE(HAL_REMAPDMA_TIM7_DAC1_CH2_DMA1_CH4);
-
-
-
+		
   /* USER CODE END DAC_MspInit 1 */
   }
 }

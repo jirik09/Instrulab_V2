@@ -163,62 +163,57 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel1[0],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan1[0],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel1[1],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan1[1],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel2[0],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan2[0],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel2[1],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan2[1],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel3[0],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan3[0],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel3[1],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan3[1],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel4[0],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan4[0],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.syncPwmChannel4[1],0x0A</ItemText>
+          <ItemText>syncPwm.dataEdgeChan4[1],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.chan1</ItemText>
+          <ItemText>counter.tiMode</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.chan2</ItemText>
+          <ItemText>counter.counterIc.ic1buffer[0]</ItemText>
         </Ww>
         <Ww>
           <count>10</count>
           <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.chan3</ItemText>
-        </Ww>
-        <Ww>
-          <count>11</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>syncPwm.chan4</ItemText>
+          <ItemText>counter.counterIc.ic2buffer[0]</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -234,7 +229,7 @@
       </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
-        <periodic>0</periodic>
+        <periodic>1</periodic>
         <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
@@ -268,12 +263,12 @@
       <bAuto2GenD>0</bAuto2GenD>
       <SystemViewers>
         <Entry>
-          <Name>System Viewer\DMA2</Name>
-          <WinId>35904</WinId>
+          <Name>System Viewer\TIM1</Name>
+          <WinId>35903</WinId>
         </Entry>
         <Entry>
-          <Name>System Viewer\TIM8</Name>
-          <WinId>35905</WinId>
+          <Name>System Viewer\TIM3</Name>
+          <WinId>35904</WinId>
         </Entry>
       </SystemViewers>
     </TargetOption>
@@ -281,7 +276,7 @@
 
   <Group>
     <GroupName>Application/User</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -433,7 +428,7 @@
 
   <Group>
     <GroupName>Application/MDK-ARM</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -453,7 +448,7 @@
 
   <Group>
     <GroupName>Drivers/BSP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

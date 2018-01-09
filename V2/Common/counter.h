@@ -49,11 +49,21 @@ typedef enum{
 	SAMPLE_COUNT_NOT_CHANGED
 }counterRefSmplCntChange;
 
+typedef enum{	
+	EVENT_RISING = 0,
+	EVENT_FALLING
+}counterEventTypeDef;
+
 typedef enum{
 	CLEAR = 0,
 	TIMEOUT,
 	SEND_TI_DATA
-}counterTiState;
+}counterTiStateTypeDef;
+
+typedef enum{
+	TI_MODE_EVENT_SEQUENCE_INDEP = 0,
+	TI_MODE_FAST_EVENT_SEQUENCE_DEP
+}counterTiModeTypeDef;
 
 typedef enum{
 	BIN0 = 0,
@@ -90,7 +100,7 @@ typedef struct{
 	uint8_t ic2psc;
 	uint8_t ic1pscTemp;
 	uint8_t ic2pscTemp;
-	uint16_t tiTimeout; // TI timeout part of IC struct
+	uint32_t tiTimeout; // TI timeout part of IC struct
 }counterIcTypeDef;
 
 /* Common struct */
@@ -104,7 +114,10 @@ typedef struct{
 	counterIcChannel icChannel1;
 	counterIcChannel icChannel2;	
 	counterIcDutyCycle icDutyCycle;
-	counterTiState tiState;	
+	counterTiStateTypeDef tiState;	
+	counterTiModeTypeDef tiMode;
+	counterEventTypeDef eventChan1;
+	counterEventTypeDef eventChan2;
 	counterBin bin;
 	counterBin abba; 		// TI mode events sequence t_AB or t_BA
 }counterTypeDef;
@@ -158,14 +171,16 @@ void counterIcDutyCycleDisable(void);
 
 /* TI mode functions */
 void counterTiProcess(void);
-void counterSetTiTimeout(uint16_t timeout);
+void counterSetTiTimeout(uint32_t timeout);
+void counterSetTiMode_Independent(void);
+void counterSetTiMode_Dependent(void);
 
 /* REF mode functions */
 void counterSetRefPsc(uint16_t psc);
 void counterSetRefArr(uint16_t arr);
 
 void COUNTER_IC_TIM_Elapse(void);
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+void counterPeriodElapsedCallback(TIM_HandleTypeDef *htim);
 
 extern volatile counterTypeDef counter;
 extern uint32_t tim2clk, tim4clk, startTime;

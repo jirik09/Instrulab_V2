@@ -64,6 +64,7 @@ void genSetOutputBuffer(void);
 void genUnsetOutputBuffer(void);
 void genStart(void);
 void genStop(void);
+void genReset(void);
 
 /* PWM generator function prototypes */
 void genSetMode(uint8_t mode);

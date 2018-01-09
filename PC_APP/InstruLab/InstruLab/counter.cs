@@ -20,13 +20,15 @@ namespace LEO
         UInt32 refSamples = 1000000;
         double cntPaint;
         int circBuffSizeTest;
-        const UInt32 timEtrPeriphClock = 144000000;
+        UInt32 timEtrPeriphClock; // = 144000000;
+        UInt32 gatePeriphClock; // = 72000000;
         static string[] refPins = new string[2];
         ushort cntIcPresc1 = 1, cntIcPresc2 = 1;
         int trackVal1, trackVal2;
         bool trackIc1Rec = false, trackIc2Rec = false;
-        uint ic2buffer;
+        //        uint ic2buffer;
 
+        private const double crystalError = 0.00005; // 50 ppm maximum stated in range of -10 to 40 degrees
         private const string ETR_MIN = "Min val. 2";
         private const string ETR_MAX = "Max val. 200";
 
@@ -81,10 +83,17 @@ namespace LEO
             GUITimer.Start();
 
             scrollTimerConfig();
-            mcuTypeSetLabels();
+            mcuSetPeriphClocks();
+            mcuTypeSetLabels();            
 
             cnt_init_mode(CNT_MODES.ETR);
             cnt_start();
+        }
+
+        private void mcuSetPeriphClocks()
+        {
+            timEtrPeriphClock = (uint)device.cntCfg.counterPeriphClock;
+            gatePeriphClock = (uint)device.cntCfg.gatePeriphClock;
         }
 
         private void mcuTypeSetLabels()
@@ -93,10 +102,10 @@ namespace LEO
             label_cnt_etr_maxFreq.Text = (timEtrPeriphClock / 4 * 8 / 1000000).ToString() + " MHz";            // 1/4 periph clock = max ETR input frequency * 8 (prescaler)
 
             /* REF labels */
-            label_cnt_refRatio_pins.Text = "Frequency ratio (" + refPins[0] + " / " + refPins[1] + ")" + " [-]";
-            label_cnt_ref_input.Text = "Max. freq. reference input (" + refPins[1].ToString() + ") :";
-            label_cnt_ref_sec_input.Text = "Max. freq. second input (" + refPins[0].ToString() + ") :";
-            label_cnt_ref_maxFreq.Text = (timEtrPeriphClock / 4 * 8 / 1000000).ToString() + " MHz";
+            label_cnt_refRatio_pins.Text = "Frequency ratio (" + refPins[1] + " / " + refPins[0] + ")" + " [-]";
+            label_cnt_ref_input.Text = "Max. freq. reference input (" + refPins[0].ToString() + ") :";
+            label_cnt_ref_sec_input.Text = "Max. freq. second input (" + refPins[1].ToString() + ") :";
+            label_cnt_ref_maxFreq.Text = (timEtrPeriphClock / 4 / 1000000).ToString() + " MHz";
         }
 
         private void InitializeTIComponent()
@@ -197,8 +206,8 @@ namespace LEO
                     if (cntPaint > 10000000)
                     {
                         label_cnt_ic1_value.ForeColor = SystemColors.WindowFrame;
-                        label_cnt_ic1_value.Font = new Font("Times New Roman", 13);
-                        label_cnt_ic1_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
+                        label_cnt_ic1_value.Font = new Font("Times New Roman", 10);
+                        label_cnt_ic1_value.Text = "Frequency too high! Select\nHigh Frequency measurement mode.";
                     }
                     /* Hysterezis */
                     //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic1_value.Text == "Frequency > 10 MHz"))
@@ -206,16 +215,24 @@ namespace LEO
                     //    label_cnt_ic1_value.Text = "Frequency > 10 MHz";
                     //}
                     else
-                    {
-                        //double freqError = 
-
+                    {                        
                         if (cntPaint != 0)
                         {
                             label_cnt_ic1_value.ForeColor = Color.Black;
                             label_cnt_ic1_value.Font = new Font("Times New Roman", 21.75F);
                             label_cnt_ic1_value.Text = String.Format("{0:n9}", cntPaint);
                             label_cnt_ic1_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", 1 / cntPaint) : "0.000000";
-                            //label_cnt_ic1_acc_freq.Text = String.Format("± {0:n12}", freqError);
+
+                            /* Relative and absolute freq. error */
+                            double relativeQuantError = cntPaint / (timEtrPeriphClock - cntPaint);    // f_in / (time base freq - f_in)
+                            double absFreqError = relativeQuantError * cntPaint / cnt_ic1_trackBar.Value;
+                            double absTimeBaseError = cntPaint * crystalError;
+                            /* pm absolute freq. error pm timebase error */
+                            label_cnt_ic1_acc_freq.Text = String.Format("± {0:0.###e-00} ± {1:0.###e-00}", absFreqError, absTimeBaseError);
+                            
+                            double periodError = 1 / (cntPaint - absFreqError) - 1 / cntPaint;         // 1 / (f_in - absFreqError) - 1 / f_in
+                            double periodTimBaseError = 1 / (cntPaint - absTimeBaseError) - 1 / cntPaint;
+                            label_cnt_ic1_acc_period.Text = String.Format("± {0:0.###e-00} ± {1:0.###e-00}", periodError, periodTimBaseError);
                         }
                         com_ic1_indication();
                     }
@@ -226,8 +243,8 @@ namespace LEO
                     if (cntPaint > 10000000)
                     {
                         label_cnt_ic2_value.ForeColor = SystemColors.WindowFrame;
-                        label_cnt_ic2_value.Font = new Font("Times New Roman", 13);
-                        label_cnt_ic2_value.Text = "Frequency too high. Select\nHigh Frequency measurement tab.";
+                        label_cnt_ic2_value.Font = new Font("Times New Roman", 10);
+                        label_cnt_ic2_value.Text = "Frequency too high! Select\nHigh Frequency measurement mode.";
                     }
                     /* Hysterezis */
                     //else if ((cntPaint < 12000000) && (cntPaint > 9800000) && (label_cnt_ic2_value.Text == "Frequency > 10 MHz"))
@@ -242,6 +259,17 @@ namespace LEO
                             label_cnt_ic2_value.Font = new Font("Times New Roman", 21.75F);
                             label_cnt_ic2_value.Text = String.Format("{0:n9}", cntPaint);
                             label_cnt_ic2_period.Text = (cntPaint != 0) ? String.Format("{0:n9}", 1 / cntPaint) : "0.000000";
+
+                            /* Relative and absolute freq. error */
+                            double relativeQuantError = cntPaint / (timEtrPeriphClock - cntPaint);     // f_in / (time base freq - f_in)
+                            double freqError = relativeQuantError * cntPaint / cnt_ic2_trackBar.Value;  // relQuantError * f_in / samplesNum
+                            double absTimeBaseError = cntPaint * crystalError;
+                            /* pm absolute freq. error pm timebase error */
+                            label_cnt_ic2_acc_freq.Text = String.Format("± {0:0.###e-00} ± {1:0.###e-00}", freqError, absTimeBaseError);
+
+                            double periodError = 1 / (cntPaint - freqError) - 1 / cntPaint;  // 1 / (f_in - absFreqError) - 1 / f_in
+                            double periodTimBaseError = 1 / (cntPaint - absTimeBaseError) - 1 / cntPaint;
+                            label_cnt_ic2_acc_period.Text = String.Format("± {0:0.###e-00} ± {1:0.###e-00}", periodError, periodTimBaseError);
                         }
                         com_ic2_indication();
                     }
@@ -251,6 +279,9 @@ namespace LEO
                 {
                     label_cnt_ic_dutyCycle.Text = cntPaint.ToString("F3");
                     com_ic_dutyCycle_indication();
+
+                    label_cnt_ic_pulseWidth.Text = device.cntCfg.pulseWidth.ToString("F12");
+                    com_ic_pulseWidth_indication();
                 }
                 /************************************** IC1 PULSE WIDTH PRINT **************************************/
                 else if (req == Message.MsgRequest.COUNTER_IC_PULSE_WIDTH)
@@ -263,11 +294,19 @@ namespace LEO
                 {
                     label_cnt_ref_value.ForeColor = SystemColors.ControlText;
                     label_cnt_ref_value.Font = new Font("Times New Roman", 21.75F);
-                    label_cnt_ref_value.Text = String.Format("{0:n10}", (refSamples / cntPaint));
-                    /* Ratio A/B measurement error: ± Freq B / (freq A * N) -> 
-                    http://www.sophphx.caltech.edu/Lab_Equipment/Fluke_7261a_manual.pdf */
-                    //label_cnt_ref_acc.Text = String.Format("± {0:n6}", refSamples / (cntPaint * cntPaint));
-
+                    label_cnt_ref_value.Text = String.Format("{0:n14}", cntPaint / refSamples);
+                    /* Ratio A/B measurement error: ± Freq B / (freq A * N) -> http://www.sophphx.caltech.edu/Lab_Equipment/Fluke_7261a_manual.pdf */
+                    /* label_cnt_ref_acc.Text = String.Format("± {0:0.###e-00}", refSamples / (cntPaint * cntPaint)); */
+                    if (cntPaint != 0)
+                    {
+                        label_cnt_ref_acc.Text = String.Format("± {0:0.###e-00}", 1 / (double)refSamples);
+                    }
+                    else
+                    {
+                        label_cnt_ref_acc.Text = String.Format("± {0:0.###e-00}", 0);
+                    }
+                    
+                    freqRatioHistoryLabelsIterate();
                     com_ref_indication();
                 }
                 /************************************** REF WAIT PRINT **************************************/
@@ -299,6 +338,20 @@ namespace LEO
                     label_cnt_it_value.ForeColor = Color.Black;
                     label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
                     label_cnt_it_value.Text = String.Format("{0:n12}", cntPaint);
+
+                    //                   double relativeFreqQuantError = 1 / cntPaint / (timEtrPeriphClock - 1 / cntPaint);  // f_in / (time base freq - f_in)
+                    //                   double absFreqError = relativeFreqQuantError * 1 / cntPaint;                           // relQuantErr * f_in
+                    //                   double absTimeBaseFreqError = cntPaint * crystalError;
+                    //                   double absPeriodError = 1 / (1 / cntPaint - absFreqError) - cntPaint;                 // 1 / (f_in - absFreqError) - 1 / f_in
+                    //                   double absTimeBasePerError = 1 / (1 / cntPaint - absTimeBaseFreqError) - cntPaint;                
+
+                    double relativeFreqQuantError = 1 / cntPaint / (timEtrPeriphClock - 1 / cntPaint);
+                    double absFreqQuantError = relativeFreqQuantError * 1 / cntPaint;
+                    double absPerQuantError = 1 / (1 / cntPaint - absFreqQuantError) - cntPaint;
+                    double absTimeBasePerError = cntPaint * crystalError;
+                    label_cnt_ti_acc.Text = String.Format("± {0:0.###e-00} ± {1:0.###e-00}", absPerQuantError, absTimeBasePerError);
+
+                    tiHistoryLabelsIterate();
                     tiEnableGroupBoxes();
                     com_ti_indication();
                 }
@@ -313,15 +366,6 @@ namespace LEO
                 throw new System.ArgumentException("Counter painting went wrong");
             }
 
-        }
-
-        private void tiEnableGroupBoxes()
-        {
-            button_cnt_ti_enable.Text = "Start";
-            groupBox_ti_event_A.Enabled = true;
-            groupBox_ti_event_B.Enabled = true;
-            groupBox_ti_eventSeq.Enabled = true;
-            groupBox_ti_timeout.Enabled = true;
         }
 
         /************************************** ETR DATA PRINT **************************************/
@@ -352,18 +396,19 @@ namespace LEO
 
             /* Nucleo On-board crystal 20 ppm accuracy, Higher the frequency - Quantiz. error masked by Time Base error (and vice versa) */
             double quantFreqError = prescaler * 1000 / (float)getRadioNumber();   // [Hz] Quantization Frequency Error = f_gate * prescaler (RESOLUTION)                                                                                                                                                        
-            double timBaseError = 20 * cntPaint / 1000000;                        // [Hz] Time Base Error = (ppm / 1000000) * f_in
+            double timBaseError = cntPaint * crystalError;                        // [Hz] Time Base Error = (ppm / 1000000) * f_in
 
-            double freqError = quantFreqError + timBaseError;
-            double relativeFreqError = freqError / cntPaint * 100;                // (freqError / f_in) * 100 [%]  
-            double freqErrorAverage = quantFreqError / cnt_etr_trackBar.Value + timBaseError;
-            double relativeFreqErrorAverage = freqErrorAverage / average * 100;   // (freqErrorAverage / f_in_average) * 100 [%]  
+            //double freqError = quantFreqError + timBaseError;
+            //double relativeFreqError = freqError / cntPaint * 100;                // (freqError / f_in) * 100 [%]  
+            double freqErrorAverage = quantFreqError / cnt_etr_trackBar.Value;      // Averaging lowers only quentization error not timebase error
+            //double relativeFreqErrorAverage = freqErrorAverage / average * 100;   // (freqErrorAverage / f_in_average) * 100 [%]  
              
-            double periodErrorAverage = 1 / (average - freqErrorAverage) - 1 / average;          
+            double periodErrorAverage = 1 / (average - freqErrorAverage) - 1 / average;
+            double periodErrorTimeBase = 1 / (cntPaint - timBaseError) - 1 / cntPaint;
 
             if (cntPaint != 0)            
             { 
-                label_cnt_etr_acc_freq.Text = String.Format("± {0:n6}", freqError);                
+                label_cnt_etr_acc_freq.Text = String.Format("± {0:n1} ± {1:n6}", quantFreqError, timBaseError);                
             }
             else
             {
@@ -386,15 +431,16 @@ namespace LEO
                 Int32 difference = cnt_etr_trackBar.Value - (int)(avrgList.Count);
                 if ((gateTime != 5000) && (gateTime != 10000))
                 {
+                    /* Calculate time to wait for average frequency. */
                     label_cnt_etr_avrg.Text = "Wait " + ((difference * gateTime / 1000) + 1).ToString() + " seconds.";
-                    label_cnt_etr_period.Text = "Wait " + ((difference * gateTime / 1000) + 1).ToString() + " seconds.";
+                    label_cnt_etr_period.Text = "-----------";
                     label_cnt_etr_acc_period.Text = "± 0.000000";
                     label_cnt_etr_acc_average.Text = "± 0.000000";
                 }
                 else
                 {
                     label_cnt_etr_avrg.Text = "Wait " + (difference * gateTime / 1000).ToString() + " seconds.";
-                    label_cnt_etr_period.Text = "Wait " + (difference * gateTime / 1000).ToString() + " seconds.";
+                    label_cnt_etr_period.Text = "-----------";
                     label_cnt_etr_acc_period.Text = "± 0.000000";
                     label_cnt_etr_acc_average.Text = "± 0.000000";
                 }
@@ -410,14 +456,78 @@ namespace LEO
                 label_cnt_etr_period.Font = new Font("Times New Roman", 21.75F);
                 if (average != 0 && !Double.IsInfinity(freqErrorAverage))
                 {                       
-                    label_cnt_etr_period.Text = String.Format("{0:0.##e-00}", 1 / average);
-                    label_cnt_etr_acc_average.Text = String.Format("± {0:n6}", freqErrorAverage);
-                    label_cnt_etr_acc_period.Text = String.Format("± {0:0.##e-00}", periodErrorAverage);
+                    label_cnt_etr_period.Text = String.Format("{0:0.###e-00}", 1 / average);
+                    label_cnt_etr_acc_average.Text = String.Format("± {0:n6} ± {1:n6}", freqErrorAverage, timBaseError);
+                    label_cnt_etr_acc_period.Text = String.Format("± {0:0.###e-00} ± {1:0.###e-00} ", periodErrorAverage, periodErrorTimeBase);
                 }                
 
                 keyPress = KEY_PRESS.NO;
             }            
         }
+
+        private void tiEnableGroupBoxes()
+        {
+            button_cnt_ti_enable.Text = "Start";
+            groupBox_ti_event_A.Enabled = true;
+            groupBox_ti_event_B.Enabled = true;
+            groupBox_ti_eventSeq.Enabled = true;
+            groupBox_ti_timeout.Enabled = true;
+        }
+
+        private void tiHistoryLabelsIterate()
+        {
+            string eventSequence, edgeEventA, edgeEventB, evSeqFinalString;
+            eventSequence = (radioButton_it_eventSequence_ab.Checked) ? "AB" : "BA";
+            edgeEventA = (radioButton_it_rising_ch1.Checked) ? "R" : "F";
+            edgeEventB = (radioButton_it_rising_ch2.Checked) ? "R" : "F";
+
+            if (radioButton_it_eventSequence_ab.Checked)
+            {
+                evSeqFinalString = eventSequence + ": " + edgeEventA + edgeEventB;
+            }
+            else
+            {
+                evSeqFinalString = eventSequence + ": " + edgeEventB + edgeEventA;
+            }
+
+            this.label_ti_fifo_accuracy_4.Text = label_ti_fifo_accuracy_3.Text;
+            this.label_ti_fifo_accuracy_3.Text = label_ti_fifo_accuracy_2.Text;
+            this.label_ti_fifo_accuracy_2.Text = label_ti_fifo_accuracy_1.Text;
+            this.label_ti_fifo_accuracy_1.Text = label_cnt_ti_acc.Text;
+            this.label_ti_fifo_4.Text = label_ti_fifo_3.Text;
+            this.label_ti_fifo_3.Text = label_ti_fifo_2.Text;
+            this.label_ti_fifo_2.Text = label_ti_fifo_1.Text;
+            this.label_ti_fifo_1.Text = label_cnt_it_value.Text;
+
+            //this.label_ti_fifo_evseq_8.Text = label_ti_fifo_evseq_7.Text;
+            //this.label_ti_fifo_evseq_7.Text = label_ti_fifo_evseq_6.Text;
+            //this.label_ti_fifo_evseq_6.Text = label_ti_fifo_evseq_5.Text;
+            //this.label_ti_fifo_evseq_5.Text = label_ti_fifo_evseq_4.Text;
+            this.label_ti_fifo_evseq_4.Text = label_ti_fifo_evseq_3.Text;
+            this.label_ti_fifo_evseq_3.Text = label_ti_fifo_evseq_2.Text;
+            this.label_ti_fifo_evseq_2.Text = label_ti_fifo_evseq_1.Text;
+            this.label_ti_fifo_evseq_1.Text = evSeqFinalString;
+        }
+
+        private void freqRatioHistoryLabelsIterate()
+        {
+            //this.label_freqRatio_fifo_8.Text = label_freqRatio_fifo_7.Text;
+            //this.label_freqRatio_fifo_7.Text = label_freqRatio_fifo_6.Text;
+            this.label_freqRatio_fifo_6.Text = label_freqRatio_fifo_5.Text;
+            this.label_freqRatio_fifo_5.Text = label_freqRatio_fifo_4.Text;
+            this.label_freqRatio_fifo_4.Text = label_freqRatio_fifo_3.Text;
+            this.label_freqRatio_fifo_3.Text = label_freqRatio_fifo_2.Text;
+            this.label_freqRatio_fifo_2.Text = label_freqRatio_fifo_1.Text;
+            this.label_freqRatio_fifo_1.Text = label_cnt_ref_value.Text;
+
+            this.label_freqRatio_fifo_accuracy_6.Text = label_freqRatio_fifo_accuracy_5.Text;
+            this.label_freqRatio_fifo_accuracy_5.Text = label_freqRatio_fifo_accuracy_4.Text;
+            this.label_freqRatio_fifo_accuracy_4.Text = label_freqRatio_fifo_accuracy_3.Text;
+            this.label_freqRatio_fifo_accuracy_3.Text = label_freqRatio_fifo_accuracy_2.Text;
+            this.label_freqRatio_fifo_accuracy_2.Text = label_freqRatio_fifo_accuracy_1.Text;
+            this.label_freqRatio_fifo_accuracy_1.Text = label_cnt_ref_acc.Text;
+        }
+
         /* Color signalization the data came from device. */
         public void com_etr_indication()
         {
@@ -436,7 +546,7 @@ namespace LEO
 
         public void com_ic_pulseWidth_indication()
         {
-            cnt_ic_pulse_indic_ch2.BackColor = (cnt_ic_pulse_indic_ch2.BackColor == Color.Teal) ? Color.Maroon : Color.Teal;
+            cnt_ic_pulse_indic_ch2.BackColor = (cnt_ic_pulse_indic_ch2.BackColor == Color.Maroon) ? Color.Teal : Color.Maroon;
         }
 
         public void com_ic2_indication()
@@ -462,6 +572,7 @@ namespace LEO
         private void counter_FormClosing(object sender, FormClosingEventArgs e)
         {
             cnt_stop();
+            cnt_deinit();
         }
 
         public void cnt_start()
@@ -568,9 +679,9 @@ namespace LEO
             label_cnt_etr_avrg.Text = "0.000000";
             label_cnt_etr_value.Text = "0.000000";
             label_cnt_etr_period.Text = "0.000000";
-            label_cnt_etr_acc_freq.Text = "∓ 0.000000";
-            label_cnt_etr_acc_average.Text = "∓ 0.000000";
-            label_cnt_etr_acc_period.Text = "∓ 0.000000";
+            label_cnt_etr_acc_freq.Text = "± 0.000000";
+            label_cnt_etr_acc_average.Text = "± 0.000000";
+            label_cnt_etr_acc_period.Text = "± 0.000000";
             label_cnt_etr_prescaler.Text = "1";
             label_cnt_etr_minFreq.Text = "10 Hz";
         }
@@ -578,16 +689,32 @@ namespace LEO
         private void REF_appReinit()
         {
 
-            cnt_ref_sampleCount_textBox.Text = "10 000 000";
-            cnt_ref_trackBar1.Value = 10000;
-            cnt_ref_trackBar2.Value = 1000;
-            cnt_ref_count_textBox1.Text = "10000";
-            cnt_ref_count_textBox2.Text = "1000";
-            refSamples = 10000000;
+            cnt_ref_sampleCount_textBox.Text = "3600000000";
+            cnt_ref_trackBar1.Value = 60000;
+            cnt_ref_trackBar2.Value = 60000;
+            cnt_ref_count_textBox1.Text = "60000";
+            cnt_ref_count_textBox2.Text = "60000";
+            refSamples = 3600000000;
             label_cnt_ref_value.ForeColor = SystemColors.WindowFrame;
             label_cnt_ref_value.Font = new Font("Times New Roman", 14);
             label_cnt_ref_value.Text = "Change the sample count first.";            
-            label_cnt_ref_acc.Text = "∓ 0.000000";
+            label_cnt_ref_acc.Text = "± 0.000000";
+
+            //this.label_freqRatio_fifo_8.Text = "----------------";
+            //this.label_freqRatio_fifo_7.Text = "----------------";
+            this.label_freqRatio_fifo_6.Text = "----------------";
+            this.label_freqRatio_fifo_5.Text = "----------------";
+            this.label_freqRatio_fifo_4.Text = "----------------";
+            this.label_freqRatio_fifo_3.Text = "----------------";
+            this.label_freqRatio_fifo_2.Text = "----------------";
+            this.label_freqRatio_fifo_1.Text = "----------------";
+
+            this.label_freqRatio_fifo_accuracy_1.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_2.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_3.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_4.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_5.Text = "----------------";
+            this.label_freqRatio_fifo_accuracy_6.Text = "----------------";
 
             cnt_etr_trackBar.Value = 2; 
         }
@@ -642,14 +769,35 @@ namespace LEO
 
             this.pictureBox_ti_sequence.Image = Properties.Resources.ab_rising_rising;
 
-            trackBar_cnt_ti_timeout.Value = 4000;
-            textBox_cnt_ti_timeout.Text = "4000";
+            trackBar_cnt_ti_timeout.Value = 10;
+            textBox_cnt_ti_timeout.Text = "10";
 
             label_cnt_it_value.ForeColor = Color.Black;
             label_cnt_it_value.Font = new Font("Times New Roman", 21.75F);
 
             label_cnt_it_value.Text = "0.000000";
             label_cnt_ti_acc.Text = "± 0.000000";
+            label_ti_fifo_1.Text = "----------------";
+            label_ti_fifo_2.Text = "----------------";
+            label_ti_fifo_3.Text = "----------------";
+            label_ti_fifo_4.Text = "----------------";
+            label_ti_fifo_accuracy_1.Text = "----------------";
+            label_ti_fifo_accuracy_2.Text = "----------------";
+            label_ti_fifo_accuracy_3.Text = "----------------";
+            label_ti_fifo_accuracy_4.Text = "----------------";
+
+            //this.label_ti_fifo_evseq_8.Text = "---";
+            //this.label_ti_fifo_evseq_7.Text = "---";
+            //this.label_ti_fifo_evseq_6.Text = "---";
+            //this.label_ti_fifo_evseq_5.Text = "---";
+            this.label_ti_fifo_evseq_4.Text = "---";
+            this.label_ti_fifo_evseq_3.Text = "---";
+            this.label_ti_fifo_evseq_2.Text = "---";
+            this.label_ti_fifo_evseq_1.Text = "---";
+            this.label_ti_fifo_accuracy_1.Text = "----------------";
+            this.label_ti_fifo_accuracy_2.Text = "----------------";
+            this.label_ti_fifo_accuracy_3.Text = "----------------";
+            this.label_ti_fifo_accuracy_4.Text = "----------------";
         }
 
         private void icGuiReinit()
@@ -1724,7 +1872,7 @@ namespace LEO
                 case CNT_TIMER.TIM_SCROLL_TI:
                     scrollTimer.Stop();
                     device.send(Commands.COUNTER + ":" + Commands.CNT_TI_TIMEOUT_VALUE + " ");
-                    device.send_short(Convert.ToUInt16(textBox_cnt_ti_timeout.Text));
+                    device.send_int(Convert.ToInt32(textBox_cnt_ti_timeout.Text)*1000);
                     device.send(";");                                        
                     break;
                 case CNT_TIMER.TIM_SCROLL_ETR:
@@ -2201,6 +2349,30 @@ namespace LEO
             }
         }
 
+        private void radioButton_ti_mode_independent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_ti_mode_independent.Checked)
+            {
+                device.takeCommsSemaphore(semaphoreTimeout + 120);
+                device.send(Commands.COUNTER + ":" + Commands.CNT_TI_MODE + " " + Commands.CNT_TI_MODE_INDEPENDENT + ";");                                
+                device.giveCommsSemaphore();
+                
+                this.label_ti_mode.Text = "INDEPENDENT MODE:\nThe sequence of events does not matter. This fact is\nredeemed by lower resolution in comparison with\nDEPENDENT mode.";
+            }
+        }
+
+        private void radioButton_ti_mode_dependent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_ti_mode_dependent.Checked)
+            {
+                device.takeCommsSemaphore(semaphoreTimeout + 120);
+                device.send(Commands.COUNTER + ":" + Commands.CNT_TI_MODE + " " + Commands.CNT_TI_MODE_DEPENDENT + ";");
+                device.giveCommsSemaphore();
+
+                this.label_ti_mode.Text = "DEPENDENT MODE:\nUser must ensure the sequence of events meets the\nexpectations, otherwise wrong values are measured.\nI.e. the event expected to come first must come first.";
+            }
+        }
+
         private void trackBar_cnt_ti_timeout_Scroll(object sender, EventArgs e)
         {
             textBox_cnt_ti_timeout.ForeColor = Color.Black;
@@ -2225,16 +2397,16 @@ namespace LEO
                     e.Handled = true;
                     int timeout = Convert.ToInt32(textBox.Text);                    
 
-                    if (timeout < 500)
+                    if (timeout < 1)
                     {
                         textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
-                        textBox_cnt_ti_timeout.Text = IC_MIN + "500";
+                        textBox_cnt_ti_timeout.Text = IC_MIN + "1 s";
                         this.ActiveControl = null;
                     }
-                    else if (timeout > 28000)
+                    else if (timeout > 3600)
                     {
                         textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
-                        textBox_cnt_ti_timeout.Text = IC_MAX + "28000";
+                        textBox_cnt_ti_timeout.Text = IC_MAX + "3600 s";
                         this.ActiveControl = null;
                     }
                     else
@@ -2244,7 +2416,7 @@ namespace LEO
 
                         device.takeCommsSemaphore(semaphoreTimeout + 120);
                         device.send(Commands.COUNTER + ":" + Commands.CNT_TI_TIMEOUT_VALUE + " ");
-                        device.send_short((ushort)timeout);
+                        device.send_int(timeout*1000);
                         device.send(";");
                         device.giveCommsSemaphore();
                         
@@ -2279,24 +2451,24 @@ namespace LEO
             {
                 timeout = Convert.ToUInt16(textBox_cnt_ti_timeout.Text);                
 
-                if (timeout < 500)
+                if (timeout < 1)
                 {
                     textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
-                    textBox_cnt_ti_timeout.Text = IC_MIN + "500";
+                    textBox_cnt_ti_timeout.Text = IC_MIN + "1 s";
                 }
-                else if (timeout > 28000)
+                else if (timeout > 3600)
                 {
                     textBox_cnt_ti_timeout.ForeColor = Color.DarkRed;
-                    textBox_cnt_ti_timeout.Text = IC_MAX + "28000";
+                    textBox_cnt_ti_timeout.Text = IC_MAX + "3600 s";
                 }
                 else if (!textBox_cnt_ti_timeout.Text.Equals(trackBar_cnt_ti_timeout.Value.ToString()))
                 {
-                    trackBar_cnt_ti_timeout.Value = Convert.ToInt16(textBox_cnt_ti_timeout.Text);
+                    trackBar_cnt_ti_timeout.Value = Convert.ToInt32(textBox_cnt_ti_timeout.Text);
                     textBox_cnt_ti_timeout.Text = timeout.ToString();
 
                     device.takeCommsSemaphore(semaphoreTimeout + 120);
                     device.send(Commands.COUNTER + ":" + Commands.CNT_TI_TIMEOUT_VALUE + " ");
-                    device.send_short((ushort)timeout);
+                    device.send_int(timeout*1000);
                     device.send(";");
                     device.giveCommsSemaphore();
                 }

@@ -111,17 +111,50 @@ void TIM_SYNC_PWM_ChannelState(uint8_t channel, uint8_t state);
 void TIM_SYNC_PWM_DMA_ChanConfig(uint16_t ccr1st, uint16_t ccr2nd);
 void TIM_ARR_PSC_Reconfig(uint32_t arrPsc);
 
-void TIM_SYNC_PWM_SaveConfig(void);
-void TIM_SYNC_PWM_LoadConfig(void);
-
 void TIM_SYNC_PWM_StepMode_Enable(void);
 void TIM_SYNC_PWM_StepMode_Disable(void);
 #endif // USE_SYNC_PWM
 
 
 #ifdef USE_LOG_ANLYS
+extern DMA_HandleTypeDef hdma_tim4_up;
+
 void MX_TIM1_LOG_ANLYS_Init(void);
 void MX_TIM4_LOG_ANLYS_Init(void);
+
+void TIM_LogAnlys_Init(void);
+void TIM_LogAnlys_Deinit(void);
+
+void TIM_LogAnlys_Start(void);
+void TIM_LogAnlys_Stop(void);
+
+void TIM_PostTrigger_ARR_PSC_Reconfig(uint32_t arrPsc);
+void TIM_SamplingFreq_ARR_PSC_Reconfig(uint32_t arrPsc);
+
+void TIM_EnableTrigger(void);
+void TIM_PostTrigger_SoftwareStart(void);
+void TIM_TriggerConfig(uint8_t chan);
+
+void TIM_ConfigTrigger_Channel1(void);
+void TIM_ConfigTrigger_Channel2(void);
+void TIM_SetTrigger_channel1(void);
+void TIM_SetTrigger_channel2(void);
+void TIM_ResetTrigger_Channel1(void);
+void TIM_ResetTrigger_Channel2(void);
+void TIM_GPIOTrigConfig_Channel1(void);
+void TIM_GPIOTrigConfig_Channel2(void);
+void TIM_GPIOInputConfig_Channel1(void);
+void TIM_GPIOInputConfig_Channel2(void);
+
+void TIM_LogAnlys_RisingTrigger(void);
+void TIM_LogAnlys_FallingTrigger(void);
+void TIM_LogAnlys_RisingTrigger_Channel1(void);
+void TIM_LogAnlys_RisingTrigger_Channel2(void);
+void TIM_LogAnlys_FallingTrigger_Channel1(void);
+void TIM_LogAnlys_FallingTrigger_Channel2(void);
+
+void LOG_ANLYS_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+void LOG_ANLYS_TriggerEventOccuredCallback(DMA_HandleTypeDef *dmah);
 #endif //USE_LOG_ANLYS
 
 
@@ -153,6 +186,7 @@ void TIM_etr_deinit(void);
 void TIM_ref_deinit(void);
 void TIM_ic_deinit(void);
 void TIM_ti_deinit(void);
+void TIM_Counter_Deinit(void);
 
 void TIM_ETR_Start(void);
 void TIM_REF_Start(void);
@@ -182,6 +216,7 @@ void TIM_IC1_FallingOnly(void);
 void TIM_IC2_FallingOnly(void);
 void TIM_TI_Sequence_AB(void);
 void TIM_TI_Sequence_BA(void);
+void TIM_TI_ReconfigActiveEdges(void);
 
 void TIM_IC_DutyCycle_Start(void);
 void TIM_IC_DutyCycle_Stop(void);
@@ -199,6 +234,8 @@ uint8_t TIM_GetPrescaler(uint32_t regPrescValue);
 
 bool DMA_TransferComplete(DMA_HandleTypeDef *dmah);
 void DMA_Restart(DMA_HandleTypeDef *dmah);
+
+void COUNTER_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 
 extern void COUNTER_ETR_DMA_CpltCallback(DMA_HandleTypeDef *dmah);	
 extern void COUNTER_IC1_DMA_CpltCallback(DMA_HandleTypeDef *dmah);

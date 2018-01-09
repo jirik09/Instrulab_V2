@@ -76,6 +76,7 @@ void GeneratorTask(void const *argument){
 				}
 				generator.state=GENERATOR_IDLE;
 			}
+			
 		}else if(message[0]=='6'){ //set PWM mode
 			generatorSetModePWM();
 			TIMGenPwmInit();
@@ -83,8 +84,14 @@ void GeneratorTask(void const *argument){
 		}else if(message[0]=='7'){ //set DAC mode
 			generatorSetModeDAC();
 			TIMGenInit();
-		}
 
+		}else if(message[0]=='8'){ //deinit
+			if(generator.modeState==GENERATOR_DAC){				
+					TIMGenDacDeinit();
+			}else if(generator.modeState==GENERATOR_PWM){
+					TIMGenPwmDeinit();
+			}	
+		}
 	}
 }
 
@@ -292,7 +299,6 @@ void clearGenBuffer(void){
 	}
 }
 
-
 void genSetOutputBuffer(void){
 	DACSetOutputBuffer();
 }
@@ -323,7 +329,7 @@ uint8_t genSetDAC(uint16_t chann1,uint16_t chann2){
 	return result;
 }
 /**
-  * @brief  Start scope sampling
+  * @brief  Start generator
   * @param  None
   * @retval None
   */
@@ -332,12 +338,21 @@ void genStart(void){
 }
 
 /**
-  * @brief  Stop scope sampling
+  * @brief  Stop generator
   * @param  None
   * @retval None
   */
 void genStop(void){
 	xQueueSendToBack(generatorMessageQueue, "5Stop", portMAX_DELAY);
+}
+
+/**
+  * @brief  Disable peripheral by reseting it.
+  * @param  None
+  * @retval None
+  */
+void genReset(void){
+	xQueueSendToBack(generatorMessageQueue, "8Reset", portMAX_DELAY);
 }
 
 #endif // USE_GEN || USE_GEN_PWM

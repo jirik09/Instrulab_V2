@@ -95,7 +95,7 @@ namespace LEO
         const UInt32 pwmTimPeriphClock = 144000000;
         const double defaultFreq = 140625;
         const ushort defaultArr_ch1 = 1024;
-        const ushort defaultArr_ch2 = 512;
+        const ushort defaultArr_ch2 = 511;
 
         double realPwmFreq_ch1 = defaultFreq;
         double realPwmFreq_ch2 = defaultFreq;
@@ -341,6 +341,14 @@ namespace LEO
             device.send(Commands.GEN_MODE_PWM + ";");
             device.giveCommsSemaphore();
         }
+
+        public void Generator_PWM_Deinit()
+        {
+            device.takeCommsSemaphore(semaphoreTimeout + 102);
+            device.send(Commands.GENERATOR + ":" + Commands.GEN_PWM_DEINIT + ";");            
+            device.giveCommsSemaphore();
+        }
+
         /*************************** PWM fun END /***************************/
 
         private void data_sending(object sender, ElapsedEventArgs e)
@@ -1291,6 +1299,13 @@ namespace LEO
             device.giveCommsSemaphore();
         }
 
+        public void gen_reset()
+        {
+            device.takeCommsSemaphore(semaphoreTimeout + 102);
+            device.send(Commands.GENERATOR + ":" + Commands.RESET + ";");
+            device.giveCommsSemaphore();
+        }
+
         public void set_data_length(string chan, int len)
         {
             device.takeCommsSemaphore(semaphoreTimeout + 103);
@@ -1414,8 +1429,9 @@ namespace LEO
         {
             if (generating)
             {
-                gen_stop();
+                gen_stop();                
             }
+            gen_reset();
         }
 
 
@@ -2759,11 +2775,19 @@ namespace LEO
                     {
                         if ((arrMultipliedByPsc % pscTemp) == 0)
                         {
-                            if (pscTemp <= 65536 && (arrMultipliedByPsc / pscTemp <= 65536))
+                            if (arrMultipliedByPsc / pscTemp <= 65536)
                             {
                                 psc = pscTemp;
                                 break;
                             }
+                        }
+                    }
+
+                    if (psc != 0)
+                    {
+                        if (arrMultipliedByPsc / psc <= 65536)
+                        {
+                            break;
                         }
                     }
                 }

@@ -50,6 +50,7 @@
 #include "generator.h"
 #include "counter.h"
 #include "sync_pwm.h"
+#include "logic_analyzer.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -118,6 +119,7 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Init code generated for FreeRTOS */
+	/********************* Define Threads *********************/
   /* Create Start thread */
 	osThreadDef(CMD_PARSER_TASK, CmdParserTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(USER_TASK, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
@@ -140,6 +142,12 @@ int main(void)
 	osThreadDef(SYNC_PWM_TASK, SyncPwmTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	#endif //USE_SYNC_PWM
 	
+	#ifdef USE_LOG_ANLYS
+	osThreadDef(LOG_ANLYS_TASK, LogAnlysTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+	#endif //USE_LOG_ANLYS	
+	
+	
+	/********************* Create Threads *********************/
 	osThreadCreate (osThread(CMD_PARSER_TASK), NULL);
 	osThreadCreate (osThread(USER_TASK), NULL);
 	osThreadCreate (osThread(COMM_TASK), NULL);
@@ -160,6 +168,10 @@ int main(void)
 	#ifdef USE_SYNC_PWM
 	osThreadCreate (osThread(SYNC_PWM_TASK), NULL);
 	#endif //USE_SYNC_PWM
+	
+	#ifdef USE_LOG_ANLYS
+	osThreadCreate (osThread(LOG_ANLYS_TASK), NULL);
+	#endif //USE_LOG_ANLYS
 	
 	LED_Off();
 	

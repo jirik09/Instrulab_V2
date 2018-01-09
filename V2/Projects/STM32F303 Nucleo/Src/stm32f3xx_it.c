@@ -39,6 +39,7 @@
 #include "comms_hal.h"
 #include "counter.h"
 #include "tim.h"
+#include "logic_analyzer.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -116,30 +117,46 @@ void USART2_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
+
 #ifdef USE_COUNTER
 /**
 * @brief This function handles DMA1 channel2 global interrupt.
 */
 void DMA1_Channel2_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA1_Channel2_IRQn 0 */
-  /* USER CODE END DMA1_Channel2_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_tim2_up);
-  /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
-  /* USER CODE END DMA1_Channel2_IRQn 1 */
 }
+#endif //USE_COUNTER
 
+
+#ifdef USE_LOG_ANLYS
+/**
+* @brief This function handles DMA1 channel7 global interrupt for Logic Analyzer.
+*	Saves DMA CNDTR pointer state to find out later where the trigger occured.
+*/
+void DMA1_Channel7_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(&hdma_tim4_up);
+}
+#endif //USE_LOG_ANLYS
+
+
+#if defined(USE_COUNTER) || defined(USE_LOG_ANLYS)
 /**
 * @brief This function handles TIM4 global interrupt.
 */
 void TIM4_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM4_IRQn 0 */
-  /* USER CODE END TIM4_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim4);
-  /* USER CODE BEGIN TIM4_IRQn 1 */
-  /* USER CODE END TIM4_IRQn 1 */
+//  HAL_TIM_IRQHandler(&htim4);
+	
+	if(logAnlys.state == LOGA_ENABLED){
+		LOG_ANLYS_PeriodElapsedCallback(&htim4);
+		LOG_ANLYS_TriggerEventOccuredCallback(&hdma_tim4_up);
+	}else{
+		COUNTER_PeriodElapsedCallback(&htim4);
+	}
 }
+#endif // USE_COUNTER || USE_LOG_ANLYS
 
 /**
 * @brief This function handles DMA1 channel5 global interrupt.
@@ -170,7 +187,7 @@ void TIM4_IRQHandler(void)
 //  /* USER CODE END DMA1_Channel7_IRQn 1 */
 //}
 
-#endif //USE_COUNTER
+
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

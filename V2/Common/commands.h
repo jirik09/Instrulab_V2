@@ -22,7 +22,6 @@ typedef uint32_t command;
 #define STR_GEN_NEXT "G_NX"
 
 #ifdef USE_COUNTER
-
 #define STR_CNT_ETR_DATA "ETRD"		// data from ETR measurement
 #define STR_CNT_ETR_BUFF "ETRB"		// buffer itself
 
@@ -37,8 +36,13 @@ typedef uint32_t command;
 
 #define STR_CNT_DUTY_CYCLE  "DUT1"
 #define STR_CNT_PULSE_WIDTH "PWD1"
-
 #endif //USE_COUNTER
+
+#ifdef USE_LOG_ANLYS
+#define STR_LOG_ANLYS_TRIGGER_POINTER "LATP"
+#define STR_LOG_ANLYS_DATA_LENGTH "LADL"
+#define STR_LOG_ANLYS_DATA "LADT"
+#endif //USE_LOG_ANLYS
 
 
 // Macro definitions ==========================================================
@@ -70,6 +74,7 @@ REGISTER_CMD(RESET_DEVICE,RES!),
 REGISTER_CMD(SCOPE,OSCP),
 REGISTER_CMD(GENERATOR,GEN_),
 REGISTER_CMD(SYNC_PWM,SYNP),	
+REGISTER_CMD(LOG_ANLYS,LOGA),	
 REGISTER_CMD(COUNTER,CNT_),
 REGISTER_CMD(COMMS,COMS),
 REGISTER_CMD(SYSTEM,SYST),	
@@ -117,12 +122,15 @@ REGISTER_CMD(GEN_DATA_LENGTH_CH2,LCH2),
 REGISTER_CMD(GEN_CHANNELS,CHAN),
 REGISTER_CMD(GEN_START,STRT),
 REGISTER_CMD(GEN_STOP,STOP),
+REGISTER_CMD(GEN_RESET,RSET),
 
 /*******************************************************/
 /**************** PWM generator commands ***************/
 /*******************************************************/
 //PWM generator specific commands
 REGISTER_CMD(GET_PWM_CONFIG,PCF?),
+
+REGISTER_CMD(GEN_PWM_DEINIT,GPDI),	 	// Deinitialize PWM generator.
 
 REGISTER_CMD(GEN_PWM_FREQ_PSC,FPWP),	// setting PWM frequency by configuration of timer's PSC register
 REGISTER_CMD(GEN_PWM_FREQ_ARR,FPWA),	// setting PWM frequency by configuration of timer's ARR register
@@ -141,6 +149,24 @@ REGISTER_CMD(SYNC_PWM_FREQ,SFRQ),				// Set frequency command
 REGISTER_CMD(SYNC_PWM_CHAN_STATE,SSTA),	// Channel state
 
 REGISTER_CMD(SYNC_PWM_STEP,STEP),				// Step mode command (init, deinit)
+
+/*******************************************************/
+/*************** Logic Analyzer commands ***************/
+/*******************************************************/
+REGISTER_CMD(LOG_ANLYS_START,STRT),
+REGISTER_CMD(LOG_ANLYS_STOP,STOP),
+REGISTER_CMD(LOG_ANLYS_INIT,INIT),
+REGISTER_CMD(LOG_ANLYS_DEINIT,DEIN),
+
+REGISTER_CMD(LOG_ANLYS_POSTTRIG,POST),
+REGISTER_CMD(LOG_ANLYS_PRETRIG,PRET),
+
+REGISTER_CMD(LOG_ANLYS_SAMPLING_FREQ,SMPF),
+REGISTER_CMD(LOG_ANLYS_SAMPLES_NUM,SMPN),
+
+REGISTER_CMD(LOG_ANLYS_TRIGGER_MODE,TRGM),
+REGISTER_CMD(LOG_ANLYS_TRIGGER_EVENT,TRGE),
+REGISTER_CMD(LOG_ANLYS_TRIGGER_CHANNEL,TRGC),
 
 /*******************************************************/
 /******************* Counter commands ******************/
@@ -166,6 +192,9 @@ REGISTER_CMD(CNT_DUTY_CYCLE,DUCY),			// Command to initialize/deinitialize duty 
 //Counter IC and TI commands
 REGISTER_CMD(CNT_EVENT,EVNT),
 REGISTER_CMD(CNT_TIMEOUT_TIM,TIMO),
+
+//Counter TI commands
+REGISTER_CMD(CNT_TI_MODE,TIMD),
 
 //Counter REF commands
 REGISTER_CMD(CNT_MULT_PSC,PSC_),						
@@ -265,6 +294,15 @@ REGISTER_CMD(DUTY_CYCLE_DISABLE,DCX_),
 																	((CMD) == CMD_DUTY_CYCLE_ENABLE) || \
 																	((CMD) == CMD_DUTY_CYCLE_DISABLE))
 
+//Counter TI mode
+enum{
+REGISTER_CMD(MODE_EVENT_SEQUENCE_DEP,SEQD),
+REGISTER_CMD(MODE_EVENT_SEQUENCE_INDEP,SEQI),
+};
+
+#define isCounterTiMode(CMD) (((CMD) == CMD_MODE_EVENT_SEQUENCE_DEP) || \
+															((CMD) == CMD_MODE_EVENT_SEQUENCE_INDEP))		
+
 
 //Generator modes (NORMAL - DAC, ABNORMAL - PWM)
 enum{
@@ -296,6 +334,27 @@ REGISTER_CMD(SYNC_PWM_STEP_DISABLE,STED),
 
 #define isSyncPwmStepMode(CMD) (((CMD) == CMD_SYNC_PWM_STEP_ENABLE) || \
 																((CMD) == CMD_SYNC_PWM_STEP_DISABLE))		
+
+//Logic analyzer trigger event.
+enum{
+REGISTER_CMD(TRIG_MODE_AUTO,AUTO),
+REGISTER_CMD(TRIG_MODE_NORMAL,NORM),
+REGISTER_CMD(TRIG_MODE_SINGLE,SING),
+};
+
+#define isLogAnlysTriggerMode(CMD) (((CMD) == CMD_TRIG_MODE_AUTO) || \
+																		((CMD) == CMD_TRIG_MODE_NORMAL) || \
+																		((CMD) == CMD_TRIG_MODE_SINGLE))
+
+//Logic analyzer trigger event.
+enum{
+REGISTER_CMD(TRIG_EDGE_RISING,RISE),
+REGISTER_CMD(TRIG_EDGE_FALLING,FALL),
+};
+
+#define isLogAnlysTriggerEvent(CMD) (((CMD) == CMD_TRIG_EDGE_RISING) || \
+																		((CMD) == CMD_TRIG_EDGE_FALLING))		
+	
 
 //Scope tigger modes
 enum{

@@ -11,7 +11,8 @@
     <RootNamespace>LEO</RootNamespace>
     <AssemblyName>Little Embedded Oscilloscope</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\insta\</PublishUrl>
@@ -42,6 +43,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +53,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>035ABFF2DC5EDE8D9C546EA0133482E6ED9680EC</ManifestCertificateThumbprint>
@@ -142,6 +145,12 @@
     <Compile Include="Generator.Designer.cs">
       <DependentUpon>Generator.cs</DependentUpon>
     </Compile>
+    <Compile Include="LogicAnalyzer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogicAnalyzer.Designer.cs">
+      <DependentUpon>LogicAnalyzer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Measurements.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Program.cs" />
@@ -199,6 +208,9 @@
     <EmbeddedResource Include="Generator.resx">
       <DependentUpon>Generator.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LogicAnalyzer.resx">
+      <DependentUpon>LogicAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -255,17 +267,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LEO-logo_small.ico" />
-    <None Include="Resources\rising_rising.wmf" />
-    <None Include="Resources\edge_descending.wmf" />
-    <None Include="Resources\edge_ascending.wmf" />
     <None Include="Resources\edge_asc.wmf" />
     <None Include="Resources\ab_rising_falling.wmf" />
-    <None Include="Resources\ab_rising_falling1.wmf" />
-    <None Include="Resources\edge_asc1.wmf" />
-    <None Include="Resources\edge_descending1.wmf" />
-    <None Include="Resources\ab_rising_falling2.wmf" />
-    <None Include="Resources\edge_asc2.wmf" />
-    <None Include="Resources\edge_descending2.wmf" />
     <None Include="Resources\edge_desc.wmf" />
     <None Include="Resources\ab_rising_rising.wmf" />
     <None Include="Resources\ab_falling_falling.wmf" />

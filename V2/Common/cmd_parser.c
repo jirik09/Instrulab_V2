@@ -19,6 +19,7 @@
 #include "clock.h"
 #include "counter.h"
 #include "sync_pwm.h"
+#include "logic_analyzer.h"
 
 // External variables definitions =============================================
 xQueueHandle cmdParserMessageQueue;
@@ -27,6 +28,7 @@ command parseCommsCmd(void);
 command parseScopeCmd(void);
 command parseGeneratorCmd(void);
 command parseSyncPwmCmd(void);
+command parseLogAnlysCmd(void);
 command giveNextCmd(void);
 command parseCounterCmd(void);
 command parseGenPwmCmd(void);
@@ -110,6 +112,12 @@ void CmdParserTask(void const *argument){
 						printErrResponse(tempCmd);
 					break;
 					#endif //USE_SYNC_PWM		
+					#ifdef USE_LOG_ANLYS
+					case CMD_LOG_ANLYS: //parse logic analyzer command
+						tempCmd = parseLogAnlysCmd();
+						printErrResponse(tempCmd);
+					break;
+					#endif //USE_LOG_ANLYS							
 					default:
 					xQueueSendToBack(messageQueue, UNSUPORTED_FUNCTION_ERR_STR, portMAX_DELAY);
 					while(commBufferReadByte(&chr)==0 && chr!=';');
@@ -206,7 +214,10 @@ command parseCounterCmd(void)
 				}else if(cmdIn == CMD_MODE_TI){
 					counterSetMode(TI);
 				}
-			}
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}				
 			break;		
 		case CMD_CNT_GATE:
 			cmdIn = giveNextCmd();
@@ -222,7 +233,10 @@ command parseCounterCmd(void)
 				}else if(cmdIn == CMD_GATE_10s){
 					counterSetEtrGate(10000);
 				}					
-			}
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}	
 			break;
 		case CMD_CNT_EVENT:			
 			cmdIn = giveNextCmd();
@@ -244,7 +258,10 @@ command parseCounterCmd(void)
 				}else if(cmdIn == CMD_EVENT_SEQ_BA){
 					counterSetTiSequence_BA();
 				}
-			}				
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}					
 			break;	
 		case CMD_CNT_DUTY_CYCLE:			
 			cmdIn = giveNextCmd();
@@ -261,12 +278,24 @@ command parseCounterCmd(void)
 					counterIc2DutyCycleInit();
 				}else if(cmdIn == CMD_DUTY_CYCLE_DEINIT_CH2){
 					counterIc2DutyCycleDeinit();
-				}else if(cmdIn == CMD_DUTY_CYCLE_ENABLE){
-					counterIcDutyCycleEnable();
-				}else if(cmdIn == CMD_DUTY_CYCLE_DISABLE){
-					counterIcDutyCycleDisable();
 				}
-			}					
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}						
+			break;
+		case CMD_CNT_TI_MODE:			
+			cmdIn = giveNextCmd();
+			if(isCounterTiMode(cmdIn)){
+				if(cmdIn == CMD_MODE_EVENT_SEQUENCE_DEP){
+					counterSetTiMode_Dependent();
+				}else if(cmdIn == CMD_MODE_EVENT_SEQUENCE_INDEP){
+					counterSetTiMode_Independent();
+				}
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}						
 			break;	
 		case CMD_CNT_PRESC1:			
 			cmdIn = giveNextCmd();
@@ -280,7 +309,10 @@ command parseCounterCmd(void)
 				}else if(cmdIn == CMD_PRESC1_8x){
 					counterSetIc1Prescaler(8);								
 				}
-			}				
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}					
 			break;		
 		case CMD_CNT_PRESC2:			
 			cmdIn = giveNextCmd();
@@ -293,8 +325,14 @@ command parseCounterCmd(void)
 					counterSetIc2Prescaler(4);
 				}else if(cmdIn == CMD_PRESC2_8x){
 					counterSetIc2Prescaler(8);	
+				}else{
+					cmdIn = CMD_ERR;
+					error = COUNTER_INVALID_FEATURE_PARAM;
 				}					
-			}										
+			}else{
+				cmdIn = CMD_ERR;
+				error = COUNTER_INVALID_FEATURE_PARAM;
+			}											
 			break;	
 		case CMD_CNT_SAMPLE_COUNT1:			
 			cmdIn = giveNextCmd();	
@@ -336,7 +374,7 @@ command parseCounterCmd(void)
 		case CMD_CNT_TIMEOUT_TIM:		
 			cmdIn = giveNextCmd();	
 			if(cmdIn != CMD_END && cmdIn != CMD_ERR){				
-				counterSetTiTimeout((uint16_t)cmdIn);
+				counterSetTiTimeout((uint32_t)cmdIn);
 			}else{
 				cmdIn = CMD_ERR;
 				error = COUNTER_INVALID_FEATURE_PARAM;
@@ -356,15 +394,11 @@ command parseCounterCmd(void)
 			break;
 	}	
 	
-	if(error>0){
-		cmdIn=error;
-	}else{
-		cmdIn=CMD_END;
-	}
-	
+	cmdIn = (error > 0) ? error : CMD_END;
 	return cmdIn;
 }
 #endif // USE_COUNTER
+
 
 /**
   * @brief  Scope command parse function 
@@ -622,7 +656,6 @@ return cmdIn;
 
 
 #ifdef USE_SYNC_PWM
-
 /**
   * @brief  Synchronized PWM generator command parse function. 
   * @param  None
@@ -646,7 +679,10 @@ command parseSyncPwmCmd(void){
 				}else if(cmdIn == CMD_SYNC_PWM_STOP){
 					syncPwmSendStop();								
 				}			
-			}
+			}else{
+				cmdIn = CMD_ERR;
+				error = SYNC_PWM_INVALID_FEATURE;
+			}	
 			break;
 		case CMD_SYNC_PWM_STEP:
 			cmdIn = giveNextCmd();
@@ -656,7 +692,10 @@ command parseSyncPwmCmd(void){
 				}else if(cmdIn == CMD_SYNC_PWM_STEP_DISABLE){
 					syncPwmResetStepMode();	
 				}	
-			}
+			}else{
+				cmdIn = CMD_ERR;
+				error = SYNC_PWM_INVALID_FEATURE;
+			}	
 			break;
 		case CMD_SYNC_PWM_CHAN_NUM:
 			cmdIn = giveNextCmd();			
@@ -699,20 +738,125 @@ command parseSyncPwmCmd(void){
 			break;
 		default:
 			error = SYNC_PWM_INVALID_FEATURE;
-////				commsSendUint32(cmdIn);
 			cmdIn = CMD_ERR;
 		break;
 	}
-///////	}while(cmdIn != CMD_END && cmdIn != CMD_ERR && error==0);
-	if(error>0){
-		cmdIn=error;
-	}else{
-		cmdIn=CMD_END;
-	}
+	
+	cmdIn = (error > 0) ? error : CMD_END;	
 	return cmdIn;			
 }
 #endif // USE_SYNC_PWM
 
+
+#ifdef USE_LOG_ANLYS
+/**
+  * @brief  Logic Analyzer command parse function. 
+  * @param  None
+  * @retval Command ACK or ERR
+  */
+command parseLogAnlysCmd(void){
+	command cmdIn=CMD_ERR;
+	uint8_t error=0;
+
+	cmdIn = giveNextCmd();
+	switch (cmdIn)
+	{
+		case CMD_LOG_ANLYS_INIT:
+			logAnlysSendInit();		
+			break;
+		case CMD_LOG_ANLYS_DEINIT:
+			logAnlysSendDeinit();		
+			break;
+		case CMD_LOG_ANLYS_START:
+			logAnlysSendStart();			
+			break;
+		case CMD_LOG_ANLYS_STOP:
+			logAnlysSendStop();		
+			break;
+		case CMD_LOG_ANLYS_POSTTRIG:
+			cmdIn = giveNextCmd();									
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				logAnlysSetPosttrigger((uint32_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = LOG_ANLYS_INVALID_FEATURE;
+			}	
+			break;
+		case CMD_LOG_ANLYS_PRETRIG:
+			cmdIn = giveNextCmd();									
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				logAnlysSetPretrigger((uint32_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = LOG_ANLYS_INVALID_FEATURE;
+			}	
+			break;			
+		case CMD_LOG_ANLYS_SAMPLING_FREQ:
+			cmdIn = giveNextCmd();									
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				logAnlysSetSamplingFreq((uint32_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = LOG_ANLYS_INVALID_FEATURE;
+			}	
+			break;	
+		case CMD_LOG_ANLYS_SAMPLES_NUM:		// data length	
+			cmdIn = giveNextCmd();									
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				logAnlysSetSamplesNum((uint16_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = LOG_ANLYS_INVALID_FEATURE;
+			}	
+			break;	
+		case CMD_LOG_ANLYS_TRIGGER_MODE:
+			cmdIn = giveNextCmd();
+			if(isLogAnlysTriggerMode(cmdIn)){				
+				if(cmdIn == CMD_TRIG_MODE_AUTO){
+					 logAnlys.triggerMode = LOGA_MODE_AUTO;
+				}else if(cmdIn == CMD_TRIG_MODE_NORMAL){
+						logAnlys.triggerMode = LOGA_MODE_NORMAL;
+				}else if(cmdIn == CMD_TRIG_MODE_SINGLE){
+					logAnlys.triggerMode = LOGA_MODE_SINGLE;
+				}	
+			}				
+			break;				
+		case CMD_LOG_ANLYS_TRIGGER_CHANNEL:
+			cmdIn = giveNextCmd();									
+			if(cmdIn != CMD_END && cmdIn != CMD_ERR){
+				logAnlysSetTriggerChannel((uint32_t)cmdIn);
+			}else{
+				cmdIn = CMD_ERR;
+				error = LOG_ANLYS_INVALID_FEATURE;
+			}	
+			break;			
+		case CMD_LOG_ANLYS_TRIGGER_EVENT:			
+			cmdIn = giveNextCmd();
+			if(isLogAnlysTriggerEvent(cmdIn)){
+				if(cmdIn == CMD_TRIG_EDGE_RISING){
+					logAnlysSetTriggerRising();
+				}else if(cmdIn == CMD_TRIG_EDGE_FALLING){
+					logAnlysSetTriggerFalling();
+				}
+			}else{
+				cmdIn = CMD_ERR;
+			}
+			break;	
+		default:
+			error = LOG_ANLYS_INVALID_FEATURE;
+			cmdIn = CMD_ERR;
+		break;
+		case CMD_GET_CONFIG:
+				xQueueSendToBack(messageQueue, "YSendLogAnlysConfig", portMAX_DELAY);
+			break;		
+	}
+
+	cmdIn = (error > 0) ? error : CMD_END;
+	return cmdIn;			
+}
+
+#endif // USE_LOG_ANLYS		
+		
 
 #if defined(USE_GEN) || defined(USE_GEN_PWM)
 
@@ -789,7 +933,10 @@ command parseGeneratorCmd(void){
 			}else{
 				cmdIn = CMD_ERR;
 			}
-		break;				
+		break;	
+		case CMD_GEN_PWM_DEINIT:
+			generator_deinit();
+			break;
 		#endif // USE_GEN_PWM
 			
 		case CMD_GET_REAL_FREQ: //get sampling freq
@@ -844,14 +991,18 @@ command parseGeneratorCmd(void){
 			genStatusOK();
 		break;
 			
-		case CMD_GEN_START: //start sampling
+		case CMD_GEN_START: //start generating
 			genStart();
 			genStatusOK();
 		break;	
 		
-		case CMD_GEN_STOP: //stop sampling
+		case CMD_GEN_STOP: //stop generating
 			genStop();
 		break;	
+		
+		case CMD_GEN_RESET:
+			genReset();
+			break;
 		
 		case CMD_GET_CONFIG:
 			xQueueSendToBack(messageQueue, "6SendGenConfig", portMAX_DELAY);

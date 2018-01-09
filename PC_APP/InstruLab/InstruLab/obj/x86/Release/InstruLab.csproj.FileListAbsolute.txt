@@ -21,3 +21,32 @@ E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Generator.res
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Scope.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.VoltageSource.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.BodePlot.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.config
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.manifest
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.application
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.pdb
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\ZedGraph.dll
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.AboutBox.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.ArbDialog.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.BodePlot.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Counter.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.feedback.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Instrulab.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Generator.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.LogicAnalyzer.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Properties.Resources.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.SyncPwmGenerator.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Scope.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.VoltageSource.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Voltmeter.resources
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.csproj.GenerateResource.Cache
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.TrustInfo.xml
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.exe.manifest
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.application
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.exe
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.pdb
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.csprojResolveAssemblyReference.cache
+C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.config
+C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.exe
+C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.pdb

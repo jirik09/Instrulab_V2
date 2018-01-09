@@ -276,8 +276,7 @@ namespace LEO
         }
 
         private void Voltmeter_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            
+        {            
             device.takeCommsSemaphore(semaphoreTimeout + 110);
             device.send(Commands.SCOPE + ":" + Commands.STOP + ";");
             device.giveCommsSemaphore();

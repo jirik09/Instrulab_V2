@@ -58,6 +58,9 @@ void GeneratingDisable (void);
 
 void GEN_DAC_DMA_deinit(void);
 	 
+extern DMA_HandleTypeDef hdma_dac1_ch1;
+extern DMA_HandleTypeDef hdma_dac1_ch2;
+	 
 #ifdef __cplusplus
 }
 #endif

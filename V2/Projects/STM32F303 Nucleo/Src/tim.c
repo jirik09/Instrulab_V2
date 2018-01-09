@@ -66,6 +66,7 @@ TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim4;
 DMA_HandleTypeDef hdma_tim1_up;
+DMA_HandleTypeDef hdma_tim4_up;
 #endif //USE_LOG_ANLYS
 
 #ifdef USE_SYNC_PWM
@@ -80,6 +81,9 @@ DMA_HandleTypeDef hdma_tim8_ch4_trig_com;
 uint32_t tim2clk, tim4clk;
 extern portTickType xStartTime;
 extern xSemaphoreHandle counterMutex;
+uint32_t timCcerRegCc1eVal = 0x01;
+uint32_t timCcerRegCc2eVal = 0x10;
+#define TIM2_CCER_ADDR  0x40000020
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
@@ -318,9 +322,81 @@ static void MX_TIM7_GEN_PWM_Init(void)
 
 
 /* ************************************************************************************** */
+/* ---------------------------- START OF SYNC PWM GENERATOR ----------------------------- */
+#ifdef USE_SYNC_PWM
+/* TIM8 init function using to generate synchronized PWMs */
+static void MX_TIM8_SYNC_PWM_Init(void)
+{
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_OC_InitTypeDef sConfigOC;
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
+
+	/* TIM8 running on 72 MHz - Run 1 Hz by default. */
+  htim8.Instance = TIM8;
+  htim8.Init.Prescaler = 1151; // 1151
+  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim8.Init.Period = 62499; // 62499
+  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim8.Init.RepetitionCounter = 0;
+  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  HAL_TIM_Base_Init(&htim8);
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  HAL_TIM_ConfigClockSource(&htim8, &sClockSourceConfig);
+
+  HAL_TIM_OC_Init(&htim8);
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig);
+
+  sConfigOC.OCMode = TIM_OCMODE_TOGGLE;  
+	sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+	sConfigOC.OCNPolarity = TIM_OCNPOLARITY_LOW;			
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;	
+//	sConfigOC.Pulse = 0;
+	sConfigOC.Pulse = syncPwm.dataEdgeChan1[1];
+  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_1);		
+	sConfigOC.Pulse = syncPwm.dataEdgeChan2[1];
+  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_2);
+	sConfigOC.Pulse = syncPwm.dataEdgeChan3[1];
+  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_3);	
+	sConfigOC.Pulse = syncPwm.dataEdgeChan4[1];
+  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_4);
+
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+  sBreakDeadTimeConfig.DeadTime = 0;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.BreakFilter = 0;
+  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
+  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
+  sBreakDeadTimeConfig.Break2Filter = 0;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+  HAL_TIMEx_ConfigBreakDeadTime(&htim8, &sBreakDeadTimeConfig);  
+	
+	/* CCRx DMA request enable */
+//	TIM8->DIER |= TIM_DIER_CC1DE;
+//	TIM8->DIER |= TIM_DIER_CC2DE;
+//	TIM8->DIER |= TIM_DIER_CC3DE;
+//	TIM8->DIER |= TIM_DIER_CC4DE;
+}
+#endif // USE_SYNC_PWM
+/* ----------------------------- END OF SYNC PWM GENERATOR ------------------------------ */
+/* ************************************************************************************** */
+
+
+/* ************************************************************************************** */
 /* ------------------------------ START OF LOGIC ANALYZER ------------------------------- */
 #ifdef USE_LOG_ANLYS
-/* TIM1 init function */
+/* TIM1 init function. TIM1 clocked on 144 MHz (PLL as source) */
+/* TIM1 (DMA transfer trigger) is HW stopped by TIM4 (posttrigger) update event (overflow). */
 void MX_TIM1_LOG_ANLYS_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
@@ -330,7 +406,7 @@ void MX_TIM1_LOG_ANLYS_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 1;
+  htim1.Init.Period = 14399;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -349,25 +425,29 @@ void MX_TIM1_LOG_ANLYS_Init(void)
   HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig);
 }
 
-/* TIM4 init function */
+/* TIM4 init function - Clocked on 72 MHz. */
 void MX_TIM4_LOG_ANLYS_Init(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_SlaveConfigTypeDef sSlaveConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
 
+	/* By default 1 Ksample buffer, 10 Ksamples per second, 50% trigger
+		 => 50 ms pretrigger, 50 ms posttrigger - 20 Hz (PSC = 1200, ARR = 60K) */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 0;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 1;
+  htim4.Init.Prescaler = 1199;
+	htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 59999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   HAL_TIM_Base_Init(&htim4);
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
   HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig);
+	
+	HAL_TIM_OnePulse_Init(&htim4, TIM_OPMODE_SINGLE);
 
-  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_COMBINED_RESETTRIGGER;
   sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
   sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
   sSlaveConfig.TriggerFilter = 0;
@@ -383,74 +463,7 @@ void MX_TIM4_LOG_ANLYS_Init(void)
 
 
 /* ************************************************************************************** */
-/* ---------------------------- START OF SYNC PWM GENERATOR ----------------------------- */
-#ifdef USE_SYNC_PWM
-/* TIM8 init function using to generate synchronized PWMs */
-static void MX_TIM8_SYNC_PWM_Init(void)
-{
-  TIM_ClockConfigTypeDef sClockSourceConfig;
-  TIM_MasterConfigTypeDef sMasterConfig;
-  TIM_OC_InitTypeDef sConfigOC;
-  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
-
-  htim8.Instance = TIM8;
-  htim8.Init.Prescaler = 2303;
-  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 62499;
-  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim8.Init.RepetitionCounter = 0;
-  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  HAL_TIM_Base_Init(&htim8);
-
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  HAL_TIM_ConfigClockSource(&htim8, &sClockSourceConfig);
-
-  HAL_TIM_OC_Init(&htim8);
-
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig);
-
-  sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
-  sConfigOC.Pulse = 65535;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_LOW;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
-  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_1);	
-  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_2);
-  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_3);
-  HAL_TIM_OC_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_4);
-
-  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
-  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
-  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-  sBreakDeadTimeConfig.DeadTime = 0;
-  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
-  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
-  sBreakDeadTimeConfig.BreakFilter = 0;
-  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
-  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
-  sBreakDeadTimeConfig.Break2Filter = 0;
-  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
-  HAL_TIMEx_ConfigBreakDeadTime(&htim8, &sBreakDeadTimeConfig);  
-	
-	/* CCRx DMA request enable */
-	TIM8->DIER |= TIM_DIER_CC1DE;
-	TIM8->DIER |= TIM_DIER_CC2DE;
-	TIM8->DIER |= TIM_DIER_CC3DE;
-	TIM8->DIER |= TIM_DIER_CC4DE;
-}
-#endif // USE_SYNC_PWM
-/* ----------------------------- END OF SYNC PWM GENERATOR ------------------------------ */
-/* ************************************************************************************** */
-
-
-
-/* ************************************************************************************** */
-/* ---------------------------- START OF COUNTER DEFINITIONS ---------------------------- */
+/* ----------------------- START OF COUNTER FUNCTION DEFINITIONS ------------------------ */
 #ifdef USE_COUNTER
 /* ************************************************************************************** */
 /* ---------------------- Counter timer peripherals INIT functions ---------------------- */
@@ -464,9 +477,9 @@ static void MX_TIM4_Init(void)
 
   htim4.Instance = TIM4;
 	if(counter.state == COUNTER_REF){
-		/* REF mode - 10M samples (10000 * 1000) */
-		htim4.Init.Prescaler = 999;		
-		htim4.Init.Period = 9999;								
+		/* REF mode - 36B samples (60000 * 60000) */
+		htim4.Init.Prescaler = 59999;		
+		htim4.Init.Period = 59999;								
 	}else if(counter.state == COUNTER_ETR){
 		/* ETR mode - 100 ms gate time by default */
 		htim4.Init.Prescaler = TIM4_PSC;			// by default 7199 for ETR mode
@@ -521,7 +534,7 @@ static void MX_TIM2_ETRorREF_Init(void)
   sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
   sClockSourceConfig.ClockFilter = 0;
   HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig);
-
+	
   sSlaveConfig.SlaveMode = TIM_SLAVEMODE_COMBINED_RESETTRIGGER;
   sSlaveConfig.InputTrigger = TIM_TS_ITR3;
 	sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
@@ -571,15 +584,15 @@ static void MX_TIM2_ICorTI_Init(void)
 	HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_2);
 	
 //	TIM2 -> DIER |= TIM_DIER_UDE;					/* __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE); */			
-	TIM2 -> CCMR1 |= TIM_CCMR1_CC1S_0;  	/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TI1	*/
-	TIM2 -> CCMR1 |= TIM_CCMR1_CC2S_0;		/* IC2 is mapped on TI2 */		
+	TIM2->CCMR1 |= TIM_CCMR1_CC1S_0;  	/* Capture/Compare 1 Selection - CC1 channel is configured as input, IC1 is mapped on TI1	*/
+	TIM2->CCMR1 |= TIM_CCMR1_CC2S_0;		/* IC2 is mapped on TI2 */		
 	
-	TIM2 -> CCER |= TIM_CCER_CC1E;				/* CC1 channel configured as input: This bit determines if a capture of the counter value can
+	TIM2->CCER |= TIM_CCER_CC1E;				/* CC1 channel configured as input: This bit determines if a capture of the counter value can
 																					 actually be done into the input capture/compare register 1 (TIMx_CCR1) or not.  */
-	TIM2 -> CCER |= TIM_CCER_CC2E;		
+	TIM2->CCER |= TIM_CCER_CC2E;		
 	
-	TIM2 -> DIER |= TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request */
-	TIM2 -> DIER |= TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request */
+	TIM2->DIER |= TIM_DIER_CC1DE;				/* Capture/Compare 1 DMA request */
+	TIM2->DIER |= TIM_DIER_CC2DE;				/* Capture/Compare 1 DMA request */
 }
 
 #endif //USE_COUNTER
@@ -656,16 +669,15 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				hdma_tim6_up.Init.Mode = DMA_CIRCULAR;
 				hdma_tim6_up.Init.Priority = DMA_PRIORITY_HIGH;
 				HAL_DMA_Init(&hdma_tim6_up);
-				TIM6->DIER |= TIM_DIER_UDE;
-
-				__HAL_DMA_REMAP_CHANNEL_ENABLE(HAL_REMAPDMA_TIM6_DAC1_CH1_DMA1_CH3);
-				__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim6_up);
+				TIM6->DIER |= TIM_DIER_UDE;				
+				
+				__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim6_up);				
 			}
 			if(htim_base->Instance==TIM7){
 				__TIM7_CLK_ENABLE();
 				
 				/* Peripheral DMA init*/
-				hdma_tim7_up.Instance = DMA2_Channel4;   // DMA2_Channel4
+				hdma_tim7_up.Instance = DMA1_Channel4;   // DMA2_Channel4
 				hdma_tim7_up.Init.Direction = DMA_MEMORY_TO_PERIPH;
 				hdma_tim7_up.Init.PeriphInc = DMA_PINC_DISABLE;
 				hdma_tim7_up.Init.MemInc = DMA_MINC_ENABLE;
@@ -674,7 +686,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 				hdma_tim7_up.Init.Mode = DMA_CIRCULAR;
 				hdma_tim7_up.Init.Priority = DMA_PRIORITY_HIGH;
 				HAL_DMA_Init(&hdma_tim7_up);
-				TIM7->DIER |= TIM_DIER_UDE;
+				TIM7->DIER |= TIM_DIER_UDE;				
 				
 				__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim7_up);
 			}			
@@ -696,7 +708,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     */
     GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_TIM8;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);		
@@ -712,6 +724,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     hdma_tim8_ch1.Init.Mode = DMA_CIRCULAR;
     hdma_tim8_ch1.Init.Priority = DMA_PRIORITY_HIGH;
     HAL_DMA_Init(&hdma_tim8_ch1);
+		TIM8->DIER |= TIM_DIER_CC1DE;
 
     __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC1],hdma_tim8_ch1);
 
@@ -725,6 +738,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     hdma_tim8_ch2.Init.Mode = DMA_CIRCULAR;
     hdma_tim8_ch2.Init.Priority = DMA_PRIORITY_HIGH;
     HAL_DMA_Init(&hdma_tim8_ch2);
+		TIM8->DIER |= TIM_DIER_CC2DE;
 
     __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC2],hdma_tim8_ch2);
 
@@ -738,9 +752,10 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     hdma_tim8_ch3_up.Init.Mode = DMA_CIRCULAR;
     hdma_tim8_ch3_up.Init.Priority = DMA_PRIORITY_HIGH;
     HAL_DMA_Init(&hdma_tim8_ch3_up);
+		TIM8->DIER |= TIM_DIER_CC3DE;
 
     __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC3],hdma_tim8_ch3_up);
-		__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim8_ch3_up);
+		//__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim8_ch3_up);
 
     /* TIM8_CH4_TRIG_COM Init */
     hdma_tim8_ch4_trig_com.Instance = DMA2_Channel2;
@@ -752,14 +767,94 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     hdma_tim8_ch4_trig_com.Init.Mode = DMA_CIRCULAR;
     hdma_tim8_ch4_trig_com.Init.Priority = DMA_PRIORITY_HIGH;
     HAL_DMA_Init(&hdma_tim8_ch4_trig_com);
+		TIM8->DIER |= TIM_DIER_CC4DE;
 
     __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim8_ch4_trig_com);		
   }
 	#endif //USE_SYNC_PWM
 	
-	#ifdef USE_LOG_ANLYS
 	
+	
+	#ifdef USE_LOG_ANLYS
+  if(htim_base->Instance==TIM1)
+  {
+    /* Peripheral clock enable */
+    __HAL_RCC_TIM1_CLK_ENABLE();
+		
+		/*Configure GPIO pins : PB10 PB11 PB12 PB13 PB7 PB8 PB9 */
+		GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13 
+														|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+		GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+		GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  
+    /* TIM1 DMA Init */
+    /* TIM1_UP Init */
+    hdma_tim1_up.Instance = DMA1_Channel5;
+    hdma_tim1_up.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_tim1_up.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_tim1_up.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_tim1_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_tim1_up.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_tim1_up.Init.Mode = DMA_CIRCULAR;
+    hdma_tim1_up.Init.Priority = DMA_PRIORITY_HIGH;
+    HAL_DMA_Init(&hdma_tim1_up);
+		/* Trigger DMA by TIMer to transfer data from GPIO IDR reg. to memory buffer. */
+		TIM1->DIER |= TIM_DIER_UDE;		
+
+    __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim1_up);
+  }
+  
+	if(htim_base->Instance==TIM4 && logAnlys.state==LOGA_ENABLED)
+  {
+    /* Peripheral clock enable */
+    __HAL_RCC_TIM4_CLK_ENABLE();
+  
+    /**TIM4 GPIO Configuration    
+    PB6     ------> TIM4_CH1 */
+    GPIO_InitStruct.Pin = GPIO_PIN_6;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);			
+		
+		/* TIM4 DMA Init */
+    /* TIM4_UP Init -  */
+    hdma_tim4_up.Instance = DMA1_Channel7;
+    hdma_tim4_up.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_tim4_up.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_tim4_up.Init.MemInc = DMA_MINC_DISABLE;
+    hdma_tim4_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_tim4_up.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_tim4_up.Init.Mode = DMA_NORMAL;
+    hdma_tim4_up.Init.Priority = DMA_PRIORITY_HIGH;
+    HAL_DMA_Init(&hdma_tim4_up);
+		/* Enable DMA request from Capture/Compare event on Channel 1. */
+		/* Trigger interrupt after posttriger timer elapses (Update Event). */
+		TIM4->DIER |= TIM_DIER_UIE;
+		/* Trigger DMA on capture compare event to save triggerPointer (DMA CNDTR reg.) */
+		TIM4->DIER |= TIM_DIER_CC1DE;
+		/* Trigger interrupt on capture/compare event to disable trigger. */
+		TIM4->DIER |= TIM_DIER_CC1IE;				
+		
+		/* Link the DMA */
+    __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim4_up);	
+		/* Register DMA CpltCallback to deactivate trigger input to prevent triggering again. */
+		HAL_DMA_RegisterCallback(&hdma_tim4_up, HAL_DMA_XFER_CPLT_CB_ID, LOG_ANLYS_TriggerEventOccuredCallback);
+		
+		/* DMA1_Channel2_IRQn interrupt configuration */
+		HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 9, 0);
+		HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);	
+
+    /* TIM4 interrupt Init */
+    HAL_NVIC_SetPriority(TIM4_IRQn, 9, 0);
+    HAL_NVIC_EnableIRQ(TIM4_IRQn);
+  }
 	#endif //USE_LOG_ANLYS
+	
+	
 	
 	#ifdef USE_COUNTER    	
 	if(htim_base->Instance==TIM2){
@@ -833,7 +928,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 			/* Several peripheral DMA handle pointers point to the same DMA handle.
 			 Be aware that there is only one channel to perform all the requested DMAs. */
 			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC2],hdma_tim2_ch2_ch4);
-			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
+//			__HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC4],hdma_tim2_ch2_ch4);		
 
 			hdma_tim2_ch1.Instance = DMA1_Channel5;
 			hdma_tim2_ch1.Init.Direction = DMA_PERIPH_TO_MEMORY;
@@ -865,6 +960,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 //			HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 9, 0);
 //			HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);										
 			
+				/* Since heap_2 is incorporated it is quite unhandy using dynamic memory allocation. */
 //			counter.counterIc.ic1buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic1BufferSize*sizeof(uint32_t));
 //			counter.counterIc.ic2buffer = (uint32_t *)pvPortMalloc(counter.counterIc.ic2BufferSize*sizeof(uint32_t));	
 		}
@@ -916,7 +1012,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 		#ifdef USE_GEN
 		if(generator.modeState==GENERATOR_DAC){
 			if(htim_base->Instance==TIM6){
-				__TIM6_CLK_DISABLE();				
+				__TIM6_CLK_DISABLE();	
 			}
 			if(htim_base->Instance==TIM7){
 				__TIM7_CLK_DISABLE();				
@@ -933,14 +1029,12 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 				__TIM3_CLK_DISABLE();
 			}
 			if(htim_base->Instance==TIM6){
-				__TIM6_CLK_DISABLE();
-				
+				__TIM6_CLK_DISABLE();				
 				/* Peripheral DMA DeInit*/
 				HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);				
 			}
 			if(htim_base->Instance==TIM7){
-				__TIM7_CLK_DISABLE();
-				
+				__TIM7_CLK_DISABLE();				
 				/* Peripheral DMA DeInit*/
 				HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);				
 			}
@@ -962,6 +1056,39 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
     HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_CC4]);
   }
 	#endif //USE_SYNC_PWM
+	
+	#ifdef USE_LOG_ANLYS
+	if(htim_base->Instance==TIM1){
+    /* Peripheral clock disable */
+    __HAL_RCC_TIM1_CLK_DISABLE();
+    /* TIM1 DMA DeInit */
+    HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);		
+	}
+	
+	if(htim_base->Instance==TIM4 && logAnlys.state==ENABLE){
+    __HAL_RCC_TIM4_CLK_DISABLE();
+		
+    /**TIM4 GPIO Configuration    
+    PB6     ------> TIM4_CH1 */
+		if(logAnlys.trigConfig == TRIG_CHAN1){
+			HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6);		
+		}else{
+			HAL_GPIO_DeInit(GPIOB, GPIO_PIN_7);		
+		} 
+		/* Disable DMA request from Capture/Compare event on both Channels. */
+		TIM4->DIER &= ~TIM_DIER_CC1DE;		
+		TIM4->DIER &= ~TIM_DIER_CC2DE;		
+		/* Disable capturing */
+		TIM4->CCER &= ~TIM_CCER_CC1E; 
+		TIM4->CCER &= ~TIM_CCER_CC2E;
+
+		HAL_DMA_UnRegisterCallback(&hdma_tim4_up, HAL_DMA_XFER_CPLT_CB_ID);			
+		HAL_DMA_DeInit(htim_base->hdma[TIM_DMA_ID_UPDATE]);	
+		HAL_NVIC_DisableIRQ(DMA1_Channel7_IRQn);
+		HAL_NVIC_DisableIRQ(TIM4_IRQn);
+	}
+	
+	#endif //USE_LOG_ANLYS
 	
 	#ifdef USE_COUNTER
 	if(htim_base->Instance==TIM2){
@@ -999,8 +1126,6 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 	//		vPortFree(counter.counterIc.ic2buffer);
 	//		counter.counterIc.ic1buffer = NULL;
 	//		counter.counterIc.ic2buffer = NULL;	
-	
-	//		HAL_TIM_Base_DeInit(&htim4);
 		}		
 		__TIM2_CLK_DISABLE(); 		
 	}
@@ -1025,6 +1150,10 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 
 
 
+
+/* ************************************************************************************** */
+/* --------------------------------- SCOPE FUNCTIONS ------------------------------------ */
+/* ************************************************************************************** */
 /* USER CODE BEGIN 1 */
 #ifdef USE_SCOPE
 uint8_t TIM_Reconfig_scope(uint32_t samplingFreq,uint32_t* realFreq){
@@ -1049,6 +1178,13 @@ uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes){
 }
 #endif //USE_SCOPE
 
+
+
+
+
+/* ************************************************************************************** */
+/* ----------------------------- GEN and PWM GEN FUNCTIONS ------------------------------ */
+/* ************************************************************************************** */
 #if defined(USE_GEN) || defined(USE_GEN_PWM)
 uint8_t TIM_Reconfig_gen(uint32_t samplingFreq,uint8_t chan,uint32_t* realFreq){
 	if(chan==0){
@@ -1078,6 +1214,13 @@ void TIMGenInit(void){
 #endif //USE_GEN || USE_GEN_PWM
 
 
+
+
+
+/* ************************************************************************************** */
+/* ------------------- PWM GENERATOR (CHANGING DUTY CYCLE) FUNCTIONS -------------------- */
+/* ************************************************************************************** */
+
 #ifdef USE_GEN_PWM
 void TIM_DMA_Reconfig(uint8_t chan){	
 	if(chan==0){
@@ -1090,12 +1233,17 @@ void TIM_DMA_Reconfig(uint8_t chan){
 }
 
 void PWMGeneratingEnable(void){
-	if(generator.numOfChannles==1){				
+	if(generator.numOfChannles==1){	
+		/* After sole Generator initialization, PWM generator do not enter TIMGenPwmInit() 
+		function and thus UDE bits are not configured. Must be set here. */
+		TIM6->DIER |= TIM_DIER_UDE;			
 		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-		HAL_TIM_Base_Start(&htim6);		
-	}else if(generator.numOfChannles>1){				
+		HAL_TIM_Base_Start(&htim6);				
+	}else if(generator.numOfChannles>1){	
+		TIM6->DIER |= TIM_DIER_UDE;			
 		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-		HAL_TIM_Base_Start(&htim6);						
+		HAL_TIM_Base_Start(&htim6);	
+		TIM7->DIER |= TIM_DIER_UDE;			
 		HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);		
 		HAL_TIM_Base_Start(&htim7);			
 	}
@@ -1114,17 +1262,30 @@ void PWMGeneratingDisable(void){
 }
 
 void TIMGenPwmInit(void){
-		MX_TIM1_GEN_PWM_Init();	
-		MX_TIM6_GEN_PWM_Init();
-		MX_TIM3_GEN_PWM_Init();			// PWM generation
-		MX_TIM7_GEN_PWM_Init();			// DMA transaction timing
+	MX_TIM1_GEN_PWM_Init();	
+	MX_TIM6_GEN_PWM_Init();
+	MX_TIM3_GEN_PWM_Init();			// PWM generation
+	MX_TIM7_GEN_PWM_Init();			// DMA transaction timing
 }
 
 void TIMGenPwmDeinit(void){
-		HAL_TIM_Base_DeInit(&htim1);
-		HAL_TIM_Base_DeInit(&htim6);			
-		HAL_TIM_Base_DeInit(&htim3);		
-		HAL_TIM_Base_DeInit(&htim7);
+//	HAL_TIM_Base_DeInit(&htim1);
+//	HAL_TIM_Base_DeInit(&htim6);			
+//	HAL_TIM_Base_DeInit(&htim3);		
+//	HAL_TIM_Base_DeInit(&htim7);
+	
+	/* Reset TIM peripherals */
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM6RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM6RST;	
+	
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM7RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM7RST;	
+	
+	RCC->APB2RSTR |= RCC_APB2RSTR_TIM1RST;
+	RCC->APB2RSTR &= ~RCC_APB2RSTR_TIM1RST;	
+	
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM3RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM3RST;	
 }
 
 void TIMGenPWMEnable(void){
@@ -1138,8 +1299,19 @@ void TIMGenPWMDisable(void){
 }
 
 void TIMGenDacDeinit(void){
-	HAL_TIM_Base_DeInit(&htim6);
-	HAL_TIM_Base_DeInit(&htim7);
+//	HAL_TIM_Base_DeInit(&htim6);
+//	HAL_TIM_Base_DeInit(&htim7);
+	
+	/* Reset TIM peripherals */
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM6RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM6RST;	
+	
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM7RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM7RST;	
+	
+	/* Reset DAC peripheral */
+	RCC->APB1RSTR |= RCC_APB1RSTR_DAC1RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_DAC1RST;		
 }
 
 void TIM_GEN_PWM_PSC_Config(uint16_t pscVal, uint8_t chan){
@@ -1160,17 +1332,30 @@ void TIM_GEN_PWM_ARR_Config(uint16_t arrVal, uint8_t chan){
 
 #endif //USE_GEN_PWM
 
+
+
+
+
+/* ************************************************************************************* */
+/* ----------------------- SYNCHRONIZED PWM GENERATOR FUNCTIONS ------------------------ */
+/* ************************************************************************************* */
 #ifdef USE_SYNC_PWM
-void TIM_SYNC_PWM_Init(void){	
+void TIM_SYNC_PWM_Init(void){		
 	MX_TIM8_SYNC_PWM_Init();
+	/* Very thanks to optimization 3, TIM Base Init function 
+		is not called from SYNC PWM Initi function. */
 	HAL_TIM_Base_Init(&htim8);
 }
 
 void TIM_SYNC_PWM_Deinit(void){
 	HAL_TIM_Base_DeInit(&htim8);	
+	
+	/* Reset TIM8 preipheral */
+	RCC->APB2RSTR |= RCC_APB2RSTR_TIM8RST;
+	RCC->APB2RSTR &= ~RCC_APB2RSTR_TIM8RST;	
 }
 
-/* Set the channel to be enabled or disabled */
+/* Set the channel to be enabled or disabled. */
 void TIM_SYNC_PWM_ChannelState(uint8_t channel, uint8_t state)
 {
 	if(channel == 1){
@@ -1184,115 +1369,136 @@ void TIM_SYNC_PWM_ChannelState(uint8_t channel, uint8_t state)
 	}
 }
 
+/* Start generating Output Compare signals. */
 void TIM_SYNC_PWM_Start(void)
-{				
-	if(syncPwm.chan1 == CHAN_ENABLE){				
-		HAL_DMA_Start(&hdma_tim8_ch1, (uint32_t)&syncPwm.syncPwmChannel1[0], (uint32_t)&(TIM8->CCR1), 2);			
-		HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_1);		
+{		
+	if(syncPwm.chan1 == CHAN_ENABLE){		
+		TIM8->CCR1 = syncPwm.dataEdgeChan1[1];		
+		TIM8->DIER |= TIM_DIER_CC1DE;
+		HAL_DMA_Start(&hdma_tim8_ch1, (uint32_t)&syncPwm.dataEdgeChan1[0], (uint32_t)&(TIM8->CCR1), 2);						
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);	
 	}
 	
-	if(syncPwm.chan2 == CHAN_ENABLE){						
-		HAL_DMA_Start(&hdma_tim8_ch2, (uint32_t)&syncPwm.syncPwmChannel2[0], (uint32_t)&(TIM8->CCR2), 2);						
-		HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_2);			
+	if(syncPwm.chan2 == CHAN_ENABLE){	
+		TIM8->CCR2 = syncPwm.dataEdgeChan2[1];		
+		TIM8->DIER |= TIM_DIER_CC2DE;				
+		HAL_DMA_Start(&hdma_tim8_ch2, (uint32_t)&syncPwm.dataEdgeChan2[0], (uint32_t)&(TIM8->CCR2), 2);						
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);		
 	}
 	
-	if(syncPwm.chan3 == CHAN_ENABLE){			
-		HAL_DMA_Start(&hdma_tim8_ch3_up, (uint32_t)&syncPwm.syncPwmChannel3[0], (uint32_t)&(TIM8->CCR3), 2);		
-		HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_3);		
+	if(syncPwm.chan3 == CHAN_ENABLE){		
+		TIM8->CCR3 = syncPwm.dataEdgeChan3[1];
+		TIM8->DIER |= TIM_DIER_CC3DE;		
+		HAL_DMA_Start(&hdma_tim8_ch3_up, (uint32_t)&syncPwm.dataEdgeChan3[0], (uint32_t)&(TIM8->CCR3), 2);	
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_3, TIM_CCx_ENABLE);				
 	}
 	
-	if(syncPwm.chan4 == CHAN_ENABLE){					
-		HAL_DMA_Start(&hdma_tim8_ch4_trig_com, (uint32_t)&syncPwm.syncPwmChannel4[0], (uint32_t)&(TIM8->CCR4), 2);		
-		HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_4);		
+	if(syncPwm.chan4 == CHAN_ENABLE){			
+		TIM8->CCR4 = syncPwm.dataEdgeChan4[1];
+		TIM8->DIER |= TIM_DIER_CC4DE;
+		HAL_DMA_Start(&hdma_tim8_ch4_trig_com, (uint32_t)&syncPwm.dataEdgeChan4[0], (uint32_t)&(TIM8->CCR4), 2);		
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_4, TIM_CCx_ENABLE);	
 	}	
-		
-	if(syncPwm.stepMode == CHAN_ENABLE){
-		TIM8->CR1 |= TIM_CR1_CEN;
-	}		
+	/* Master Output Enable. */
+	__HAL_TIM_MOE_ENABLE(&htim8);	
+	/* Start generating. */
+	TIM8->CR1 |= TIM_CR1_CEN;		
 }
 
+/* Stop generating Output Compare signals. */
 void TIM_SYNC_PWM_Stop(void)
 {	
-	if(syncPwm.chan1 == CHAN_ENABLE){						
-			HAL_DMA_Abort(&hdma_tim8_ch1);	
-			HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_1);	
+	/* Disable the peripheral */
+	__HAL_TIM_DISABLE(&htim8); 
+	/* Master Output Enable Disable */
+	__HAL_TIM_MOE_DISABLE(&htim8);
+	
+	if(syncPwm.chan1 == CHAN_ENABLE){		
+		TIM8->DIER &= ~TIM_DIER_CC1DE;		
+		HAL_DMA_Abort(&hdma_tim8_ch1);	
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_1, TIM_CCx_DISABLE);		
 	}
 	
-	if(syncPwm.chan2 == CHAN_ENABLE){								
-			HAL_DMA_Abort(&hdma_tim8_ch2);		
-			HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_2);	
+	if(syncPwm.chan2 == CHAN_ENABLE){		
+		TIM8->DIER &= ~TIM_DIER_CC2DE;				
+		HAL_DMA_Abort(&hdma_tim8_ch2);		
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_2, TIM_CCx_DISABLE);		
 	}
 	
-	if(syncPwm.chan3 == CHAN_ENABLE){						
-			HAL_DMA_Abort(&hdma_tim8_ch3_up);		
-			HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_3);
+	if(syncPwm.chan3 == CHAN_ENABLE){	
+		TIM8->DIER &= ~TIM_DIER_CC3DE;				
+		HAL_DMA_Abort(&hdma_tim8_ch3_up);		
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_3, TIM_CCx_DISABLE);		
 	}
 	
-	if(syncPwm.chan4 == CHAN_ENABLE){						
-			HAL_DMA_Abort(&hdma_tim8_ch4_trig_com);				
-			HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);	
+	if(syncPwm.chan4 == CHAN_ENABLE){	
+		TIM8->DIER &= ~TIM_DIER_CC4DE;		
+		HAL_DMA_Abort(&hdma_tim8_ch4_trig_com);		
+		TIM_CCxChannelCmd(htim8.Instance, TIM_CHANNEL_4, TIM_CCx_DISABLE);				
 	}
-	
+
 	/* Save configuration. */
-	TIM_SYNC_PWM_SaveConfig();
+	syncPwm.timAutoReloadReg = TIM8->ARR;
+	syncPwm.timPrescReg = TIM8->PSC;
 	
 	/* There are DMA pending requests when stopped. Unfortunately 
 	cannot be cleared in another way. */
 	RCC->APB2RSTR |= RCC_APB2RSTR_TIM8RST;
 	RCC->APB2RSTR &= ~RCC_APB2RSTR_TIM8RST;	
+	
 	MX_TIM8_SYNC_PWM_Init();
 	
+	/* Set One Pulse Mode after reset if previously enabled. Funny thing is 
+	the peripheral does not work if CEN bit is not enabled right after OPM bit. 
+	And even funnier is it does not generate a pulse. Bloody hell! */
+	if(syncPwm.stepMode==CHAN_ENABLE){	
+		TIM_SYNC_PWM_StepMode_Enable();
+	}
+	
 	/* Load previous configuration. */
-	TIM_SYNC_PWM_LoadConfig();
+	htim8.Init.Prescaler = syncPwm.timPrescReg;
+  htim8.Init.Period = syncPwm.timAutoReloadReg;
+  HAL_TIM_Base_Init(&htim8);	
 }
 
-/* Configure the required DMA for n-th channel. The channel number is sent in previous message. */
+/* Configure the required DMA for n-th channel. CCR register in time of rising edge and falling edge. 
+The channel number is sent in previous message. */
 void TIM_SYNC_PWM_DMA_ChanConfig(uint16_t ccr1st, uint16_t ccr2nd)
-{	
+{
 	switch (syncPwm.channelToConfig)
 	{
 		case SYNC_PWM_CHANNEL1:
-			syncPwm.syncPwmChannel1[0] = ccr1st;
-			syncPwm.syncPwmChannel1[1] = ccr2nd;			
+			syncPwm.dataEdgeChan1[0] = ccr2nd;
+			syncPwm.dataEdgeChan1[1] = ccr1st;		
 			break;
 		case SYNC_PWM_CHANNEL2:
-			syncPwm.syncPwmChannel2[0] = ccr1st;
-			syncPwm.syncPwmChannel2[1] = ccr2nd;						
+			syncPwm.dataEdgeChan2[0] = ccr2nd;
+			syncPwm.dataEdgeChan2[1] = ccr1st;						
 			break;
 		case SYNC_PWM_CHANNEL3:
-			syncPwm.syncPwmChannel3[0] = ccr1st;
-			syncPwm.syncPwmChannel3[1] = ccr2nd;						
+			syncPwm.dataEdgeChan3[0] = ccr2nd;
+			syncPwm.dataEdgeChan3[1] = ccr1st;	
 			break;
 		case SYNC_PWM_CHANNEL4:
-			syncPwm.syncPwmChannel4[0] = ccr1st;
-			syncPwm.syncPwmChannel4[1] = ccr2nd;						
+			syncPwm.dataEdgeChan4[0] = ccr2nd;
+			syncPwm.dataEdgeChan4[1] = ccr1st;						
 			break;
 		default:
 			break;
-	}		
+	}	
 }
 
-void TIM_SYNC_PWM_SaveConfig(void)
-{
-	syncPwm.timAutoReloadReg = TIM8->ARR;
-	syncPwm.timPrescReg = TIM8->PSC;
-}
-
-void TIM_SYNC_PWM_LoadConfig(void)
-{
-	TIM8->ARR = syncPwm.timAutoReloadReg;
-	TIM8->PSC = syncPwm.timPrescReg;
-}
-
+/* Enable STEP mode */
 void TIM_SYNC_PWM_StepMode_Enable(void)
-{
-	TIM8->CR1 |= TIM_CR1_OPM;
+{	
+	TIM8->CR1 |= TIM_CR1_OPM;			
 	syncPwm.stepMode = CHAN_ENABLE;
 }
 
+/* Disable STEP mode */
 void TIM_SYNC_PWM_StepMode_Disable(void)
 {
-	TIM8->CR1 &= ~TIM_CR1_OPM;
+	TIM8->CR1 &= ~TIM_CR1_OPM;	
 	syncPwm.stepMode = CHAN_DISABLE;
 }
 
@@ -1302,19 +1508,403 @@ void TIM_SYNC_PWM_StepMode_Disable(void)
   * @retval none 
   */
 void TIM_ARR_PSC_Reconfig(uint32_t arrPsc)
-{					
-	uint16_t arr, psc;		
-	arr = (uint16_t)arrPsc;
-	psc = (uint16_t)(arrPsc >> 16);
-	
-	TIM8->ARR = arr;
-	TIM8->PSC = psc;
+{								
+  htim8.Init.Prescaler = (uint16_t)(arrPsc >> 16);
+  htim8.Init.Period = (uint16_t)arrPsc;
+  HAL_TIM_Base_Init(&htim8);	
 }
 
 #endif //USE_SYNC_PWM
 
 
+
+
+
+/* ************************************************************************************** */
+/* ----------------------------- LOGIC ANALYZER FUNCTIONS ------------------------------- */
+/* ************************************************************************************** */
+#ifdef USE_LOG_ANLYS
+/* ************************************************************************************** */
+/* ------------------------ Logic analyzer Interrupts/Callbacks ------------------------- */
+/* ************************************************************************************** */
+void LOG_ANLYS_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if(__HAL_TIM_GET_FLAG(htim, TIM_FLAG_UPDATE) != RESET)
+  {
+    if(__HAL_TIM_GET_IT_SOURCE(htim, TIM_IT_UPDATE) != RESET)
+    { 
+      __HAL_TIM_CLEAR_IT(htim, TIM_IT_UPDATE);
+			/* Some flags need to be cleared so the CNDTR register can be changed in TIM_LogAnlys_Start function. */
+			HAL_DMA_Abort(&hdma_tim1_up);			
+      logAnlysPeriodElapsedCallback();
+    }
+  }
+}
+
+/* Unable the trigger in this interrupt callback */
+void LOG_ANLYS_TriggerEventOccuredCallback(DMA_HandleTypeDef *dmah)
+{
+	/* Interrupt comes from CC1. */
+	if(__HAL_TIM_GET_FLAG(&htim4, TIM_FLAG_CC1) != RESET)
+  {
+		if(__HAL_TIM_GET_IT_SOURCE(&htim4, TIM_IT_CC1) != RESET)
+    { 
+			__HAL_TIM_CLEAR_IT(&htim4, TIM_IT_CC1);
+			
+			if(logAnlys.trigConfig == TRIG_CHAN1){
+				/* Disable capturing */
+				TIM4->CCER &= ~TIM_CCER_CC1E; 
+				/* Disable DMA request from channel 1 */
+				TIM4->DIER &= ~TIM_DIER_CC1DE;
+				/* Disable Capture Compare interrupt to disable trigger. */
+				TIM4->DIER &= ~TIM_DIER_CC1IE;	
+				
+				logAnlys.trigOccur = TRIG_OCCURRED;
+			}			
+		}
+	}
+	/* Interrupt comes from CC2. */
+	if(__HAL_TIM_GET_FLAG(&htim4, TIM_FLAG_CC2) != RESET)
+  {
+		if(__HAL_TIM_GET_IT_SOURCE(&htim4, TIM_IT_CC2) != RESET)
+    { 
+			__HAL_TIM_CLEAR_IT(&htim4, TIM_IT_CC2);
+			
+			if(logAnlys.trigConfig == TRIG_CHAN2){
+				/* Disable capturing */
+				TIM4->DIER &= ~TIM_DIER_CC2DE;
+				/* Disable DMA request from channel 2 */
+				TIM4->DIER &= ~TIM_DIER_CC2DE;
+				/* Disable Capture Compare interrupt to disable trigger. */
+				TIM4->DIER &= ~TIM_DIER_CC2IE;					
+				
+				logAnlys.trigOccur = TRIG_OCCURRED;
+			}			
+		}
+	}	
+}
+
+/* ************************************************************************************** */
+/* --------------------- Logic analyzer Initialization + Starting ----------------------- */
+/* ************************************************************************************** */
+
+void TIM_LogAnlys_Init(void)
+{
+	MX_TIM1_LOG_ANLYS_Init();
+	MX_TIM4_LOG_ANLYS_Init();
+}
+
+void TIM_LogAnlys_Deinit(void)
+{
+//	HAL_TIM_Base_DeInit(&htim1);
+//	HAL_TIM_Base_DeInit(&htim4);
+	
+	RCC->APB2RSTR |= RCC_APB2RSTR_TIM1RST;
+	RCC->APB2RSTR &= ~RCC_APB2RSTR_TIM1RST;
+	
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM4RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM4RST;	
+}
+
+void TIM_LogAnlys_Start(void)
+{	
+	/* Trigger interrupt after posttriger timer elapses (Update Event). */
+	TIM4->DIER |= TIM_DIER_UIE;
+	/* Enable DMA transfers. */
+	HAL_DMA_Start(&hdma_tim1_up, (uint32_t)&(GPIOB->IDR), (uint32_t)logAnlys.bufferMemory, logAnlys.samplesNumber);		
+	/* Start TIM1 to trigger DMA for data transfering with user required frequency. */
+	HAL_TIM_Base_Start(&htim1);	
+}
+
+void TIM_LogAnlys_Stop(void)
+{
+	/* Aborted so the CNDTR (data length - number of samples) can be changed. */
+	HAL_DMA_Abort(&hdma_tim1_up);	
+	HAL_DMA_Abort(&hdma_tim4_up);
+	HAL_TIM_Base_Stop(&htim1);
+	HAL_TIM_Base_Stop(&htim4);
+	TIM4->CNT = 0;
+	/* Slave TIM1 is stopped by TIM4 upon Update Event
+	   and TIM4 is initialized in One Pulse Mode. */
+}
+
+/* F303RE nucleo - TIM4 timing */
+void TIM_PostTrigger_ARR_PSC_Reconfig(uint32_t arrPsc)
+{
+	uint16_t arr, psc;		
+	arr = (uint16_t)arrPsc;
+	psc = (uint16_t)(arrPsc >> 16);
+	
+	TIM4->ARR = arr;
+	TIM4->PSC = psc;
+}
+
+/* F303RE nucleo - TIM1 */
+void TIM_SamplingFreq_ARR_PSC_Reconfig(uint32_t arrPsc)
+{
+	uint16_t arr, psc;		
+	arr = (uint16_t)arrPsc;
+	psc = (uint16_t)(arrPsc >> 16);
+	
+	TIM1->ARR = arr;
+	TIM1->PSC = psc;
+}
+
+void TIM_PostTrigger_SoftwareStart(void)
+{
+	TIM4->CNT = 0;
+	HAL_TIM_Base_Start(&htim4);
+}
+
+/* Enabled in logAnlys Task after pretrigger time thread.sleep time. */
+void TIM_EnableTrigger(void)
+{
+	HAL_DMA_Start(&hdma_tim4_up, (uint32_t)&(hdma_tim1_up.Instance->CNDTR), (uint32_t)logAnlys.triggerPointer, 1);		
+	
+	if(logAnlys.trigConfig == TRIG_CHAN1){
+		/* DMA request enable */
+		TIM4->DIER |= TIM_DIER_CC1DE;				
+		/* Enable capturing */
+		TIM4->CCER |= TIM_CCER_CC1E;
+		/* Enable Capture Compare interrupt to disable trigger. */
+		TIM4->DIER |= TIM_DIER_CC1IE;		
+		
+	}else if(logAnlys.trigConfig == TRIG_CHAN2){
+		/* DMA request enable */
+		TIM4->DIER |= TIM_DIER_CC2DE;				
+		/* Enable capturing */
+		TIM4->CCER |= TIM_CCER_CC2E;
+		/* Enable Capture Compare interrupt to disable trigger. */		
+		TIM4->DIER |= TIM_DIER_CC2IE;		
+	}
+}
+
+void TIM_LogAnlys_RisingTrigger(void){
+	if(logAnlys.trigConfig == TRIG_CHAN1){
+		TIM_LogAnlys_RisingTrigger_Channel1();
+	}else{
+		TIM_LogAnlys_RisingTrigger_Channel2();
+	}	
+}
+
+void TIM_LogAnlys_FallingTrigger(void){
+	if(logAnlys.trigConfig == TRIG_CHAN1){
+		TIM_LogAnlys_FallingTrigger_Channel1();
+	}else{
+		TIM_LogAnlys_FallingTrigger_Channel2();
+	}
+}
+
+/* Rising even to be used as trigger.	*/					
+void TIM_LogAnlys_RisingTrigger_Channel1(void)
+{
+	TIM4->CCER &= ~(uint16_t)(TIM_CCER_CC1P | TIM_CCER_CC1NP);	
+	logAnlys.trigEdge = TRIG_EDGE_RISING;
+}
+
+/* Rising even to be used as trigger.	*/					
+void TIM_LogAnlys_RisingTrigger_Channel2(void)
+{
+	TIM4->CCER &= ~(uint16_t)(TIM_CCER_CC2P | TIM_CCER_CC2NP);	
+	logAnlys.trigEdge = TRIG_EDGE_RISING;
+}
+
+/* Falling even to be used as trigger.	*/
+void TIM_LogAnlys_FallingTrigger_Channel1(void)
+{
+	TIM4->CCER &= ~(uint16_t)(TIM_CCER_CC1NP);	
+	TIM4->CCER |= (uint16_t)(TIM_CCER_CC1P);	
+	logAnlys.trigEdge = TRIG_EDGE_FALLING;
+}
+
+/* Falling even to be used as trigger.	*/
+void TIM_LogAnlys_FallingTrigger_Channel2(void)
+{
+	TIM4->CCER &= ~(uint16_t)(TIM_CCER_CC2NP);	
+	TIM4->CCER |= (uint16_t)(TIM_CCER_CC2P);	
+	logAnlys.trigEdge = TRIG_EDGE_FALLING;
+}
+
+/* Can be 1 or 2 - PB6 or PB7 */
+void TIM_TriggerConfig(uint8_t chan)
+{
+	if(chan == 1){
+		TIM_ConfigTrigger_Channel1();
+		logAnlys.trigConfig = TRIG_CHAN1;
+		
+		if(logAnlys.trigEdge == TRIG_EDGE_RISING){
+			TIM_LogAnlys_RisingTrigger_Channel1();
+		}else{
+			TIM_LogAnlys_FallingTrigger_Channel1();
+		}
+	}else if(chan == 2){
+		TIM_ConfigTrigger_Channel2();
+		logAnlys.trigConfig = TRIG_CHAN2;
+		
+		if(logAnlys.trigEdge == TRIG_EDGE_RISING){
+			TIM_LogAnlys_RisingTrigger_Channel2();
+		}else{
+			TIM_LogAnlys_FallingTrigger_Channel2();
+		}		
+	}
+}
+
+void TIM_ConfigTrigger_Channel1(void)
+{
+	/* Do not run timer after initialization, wait for start command */
+	//TIM4->CR1 &= ~TIM_CR1_CEN;
+	HAL_TIM_Base_Stop(&htim4);
+	
+	TIM_ResetTrigger_Channel2();
+	TIM_GPIOInputConfig_Channel2();
+	
+	TIM_GPIOTrigConfig_Channel1();				
+	TIM_SetTrigger_channel1();
+}
+
+void TIM_ConfigTrigger_Channel2(void)
+{	
+	/* Do not run timer after initialization, wait for start command */
+	//TIM4->CR1 &= ~TIM_CR1_CEN;
+	HAL_TIM_Base_Stop(&htim4);
+	
+	TIM_ResetTrigger_Channel1();	
+	TIM_GPIOInputConfig_Channel1();
+	
+	TIM_GPIOTrigConfig_Channel2();		
+	TIM_SetTrigger_channel2();
+}
+
+void TIM_SetTrigger_channel1(void)
+{
+	/* Set TIM CNT to zero */
+	TIM4->CNT = 0;			
+	/* Set IC1 prescaler to 1 */
+	TIM4->CCMR1 &= ~TIM_CCMR1_IC1PSC;			
+	/* Select the valid trigger input TI1FP1 */
+	TIM4->SMCR &= ~TIM_SMCR_TS;
+	TIM4->SMCR |= TIM_SMCR_TS_0 | TIM_SMCR_TS_2;			
+	/* Configure the slave mode controller in reset mode */
+//	TIM4->SMCR &= ~TIM_SMCR_SMS;
+//	TIM4->SMCR |= TIM_SMCR_SMS_2;	
+}
+
+void TIM_SetTrigger_channel2(void)
+{
+	/* Set TIM CNT to zero */
+	TIM4->CNT = 0;					
+	/* Set IC2 prescaler to 1 */
+	TIM4->CCMR1 &= ~TIM_CCMR1_IC2PSC;		
+	/* Select the valid trigger input TI2FP2 */
+	TIM4->SMCR &= ~TIM_SMCR_TS;
+	TIM4->SMCR |= TIM_SMCR_TS_1 | TIM_SMCR_TS_2;			
+	/* Configure the slave mode controller in reset mode */
+//	TIM4->SMCR &= ~TIM_SMCR_SMS;
+//	TIM4->SMCR |= TIM_SMCR_SMS_2;		
+}
+
+void TIM_ResetTrigger_Channel1(void)
+{	
+	/* Disable capturing */
+	TIM4->CCER &= ~TIM_CCER_CC1E; 	
+	/* Disable DMA request from channel 1 */
+	TIM4->DIER &= ~TIM_DIER_CC1DE;
+	/* Disable Capture Compare interrupt to disable trigger. */		
+	TIM4->DIER &= ~TIM_DIER_CC1IE;			
+	/* Unselect the trigger input */
+	TIM4->SMCR &= ~TIM_SMCR_TS;		
+	/* Disable the slave mode controller */
+//	TIM4->SMCR &= ~TIM_SMCR_SMS;		
+}
+
+
+void TIM_ResetTrigger_Channel2(void)
+{	
+	/* Disable capturing */
+	TIM4->CCER &= ~TIM_CCER_CC2E; 
+	/* Disable DMA request from channel 2 */
+	TIM4->DIER &= ~TIM_DIER_CC2DE;
+	/* Disable Capture Compare interrupt to disable trigger. */		
+	TIM4->DIER &= ~TIM_DIER_CC2IE;			
+	/* Unselect the trigger input */
+	TIM4->SMCR &= ~TIM_SMCR_TS;		
+	/* Disable the slave mode controller */
+//	TIM4->SMCR &= ~TIM_SMCR_SMS;		
+}
+
+void TIM_GPIOTrigConfig_Channel1(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct;	
+	
+	/**TIM4 GPIO Configuration   
+	PB6     ------> TIM4_CH1 */
+	GPIO_InitStruct.Pin = GPIO_PIN_6;
+	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+}
+
+void TIM_GPIOTrigConfig_Channel2(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct;	
+	
+	/**TIM4 GPIO Configuration    
+	PB7     ------> TIM4_CH2 */
+	GPIO_InitStruct.Pin = GPIO_PIN_7;
+	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+}
+
+void TIM_GPIOInputConfig_Channel1(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct;	
+
+	GPIO_InitStruct.Pin = GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);	
+}
+
+void TIM_GPIOInputConfig_Channel2(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct;	
+	
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);			
+}
+
+#endif //USE_LOG_ANLYS
+
+
+
+
+
+/* ************************************************************************************** */
+/* ---------------------------------- COUNTER FUNCTIONS --------------------------------- */
+/* ************************************************************************************** */
 #ifdef USE_COUNTER
+/* ISR CpltCallback */
+void COUNTER_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if(__HAL_TIM_GET_FLAG(htim, TIM_FLAG_UPDATE) != RESET)
+  {
+    if(__HAL_TIM_GET_IT_SOURCE(htim, TIM_IT_UPDATE) !=RESET)
+    { 
+      __HAL_TIM_CLEAR_IT(htim, TIM_IT_UPDATE);
+      counterPeriodElapsedCallback(htim);
+    }
+  }
+}
+	
 /* ************************************************************************************** */
 /* ---------------------------- Counter timer INIT functions ---------------------------- */
 /* ************************************************************************************** */
@@ -1326,18 +1916,34 @@ void TIM_counter_etr_init(void){
 }
 
 void TIM_counter_ref_init(void){	
+	/* There are DMA pending requests when stopped. Unfortunately 
+	cannot be cleared in another way. */
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM2RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM2RST;	
+
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM4RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM4RST;		
+	
 	TIM_doubleClockVal();
 	MX_TIM4_Init();
 	MX_TIM2_ETRorREF_Init();
 }
 
-void TIM_counter_ic_init(void){
+void TIM_counter_ic_init(void){	
 	TIM_doubleClockVal();	
 	MX_TIM4_Init();
 	MX_TIM2_ICorTI_Init();
 }
 
 void TIM_counter_ti_init(void){
+	/* There are DMA pending requests when stopped. Unfortunately 
+	cannot be cleared in another way. */
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM2RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM2RST;	
+
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM4RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM4RST;		
+	
 	TIM_doubleClockVal();	
 	MX_TIM4_Init();	
 	MX_TIM2_ICorTI_Init();
@@ -1357,24 +1963,41 @@ void TIM_doubleClockVal(void){
 /* --------------------------- Counter timer DEINIT functions --------------------------- */
 /* ************************************************************************************** */
 void TIM_etr_deinit(void){
+//	TIM_Counter_Deinit();
+	
 	HAL_TIM_Base_DeInit(&htim2);	
-	HAL_TIM_Base_DeInit(&htim4);	
+	HAL_TIM_Base_DeInit(&htim4);		
 }
 
 void TIM_ref_deinit(void){
+//	TIM_Counter_Deinit();
+	
 	HAL_TIM_Base_DeInit(&htim2);
-	HAL_TIM_Base_DeInit(&htim4);	
+	HAL_TIM_Base_DeInit(&htim4);		
 }
 
 void TIM_ic_deinit(void){
+//	TIM_Counter_Deinit();
+	
 	HAL_TIM_Base_DeInit(&htim2);	
-	HAL_TIM_Base_DeInit(&htim4);			
+	HAL_TIM_Base_DeInit(&htim4);				
 }
 
 void TIM_ti_deinit(void){
+//	TIM_Counter_Deinit();
+	
 	HAL_TIM_Base_DeInit(&htim2);	
 	HAL_TIM_Base_DeInit(&htim4);		
-	TIM_TI_Deinit();
+	TIM_TI_Deinit();	
+}
+
+void TIM_Counter_Deinit(void){
+	/* Reset TIM4 preipheral */
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM4RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM4RST;	
+	/* Reset TIM2 preipheral */
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM2RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM2RST;	
 }
 
 /* ************************************************************************************** */
@@ -1446,31 +2069,95 @@ void TIM_TI_Start(void)
 {				
 	/* Get systick value to handle timeout */
 	xStartTime = xTaskGetTickCount();
-
+	
+	/* There are two modes:
+	
+		1)  FAST DEPENDENT MODE - Can measure time between two quick consecutive events. Maximal
+				resolution is given by time base of TIM2 (for NUCLEO-STM32F303RE it's 1 / 144 MHz). 
+				One channel is configured to reset timer's CNT on required event (rising or falling edge).
+				An event that occurs on second channel triggers DMA transfer to save CNT value.
+	
+				This approach encounters one major problem - if an edge on the second channel comes first
+				the DMA transfer is triggered before the CNT is reset (and retriggered - combined slave mode).
+				That means a wrong value is saved and the computed time is not valid. Therefore, user has
+				to ensure that events come in the required sequence (the edge incoming on the channel that 
+				is cofigured to reset CNT has to transit first). This problem is handled by INDEPENDENT MODE.
+	
+	
+		2)	INDEPENDENT MODE - Is able to give correct answers without ensuring of required events sequence. 
+				The event that is expected to come first (one that resets CNT) may come after the one that trigger
+				DMA. The reason is, in this mode, DMA transfer of second channel is not enabled until first event
+				(that should reset CNT) occures. When the first event resets CNT a DMA transfer configuring CCER
+				register of TIM2 is triggered to enable capturing on the second channel. When this DMA transfer is
+				processed the second event can be captured.
+				
+				It's nice, but if two quick consecutive edges come and the DMA transfer enabling capturing is not
+				processed yet, the edge is not captured.
+	*/
+	
 	/* Set DMA CNDTR buffer count */
 	if(counter.abba == BIN1){
+		/* Set DMA to transfer time of event on channel 1 after TIM CNT is reset by an event on channel 2 */
 		HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&(TIM2->CCR1), (uint32_t)counter.counterIc.ic1buffer, 1);	
+		
+		if(counter.tiMode==TI_MODE_EVENT_SEQUENCE_INDEP){			
+			if(counter.eventChan1==EVENT_FALLING){
+				timCcerRegCc1eVal |= (uint32_t)TIM_CCER_CC1P;
+			}else{
+				timCcerRegCc1eVal &= (uint32_t)~TIM_CCER_CC1P;
+			}
+			TIM_TI_ReconfigActiveEdges();	
+			/* Set DMA to enable capturing of the channel 1 after an event comes on channel 2. This Method
+			prevents capturing an event if no event came first on the desired channel. */				
+			HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&timCcerRegCc1eVal, (uint32_t)TIM2_CCER_ADDR, 1);	
+			/* Disable Capturing on channel 1 to be enabled later after an event on channel 2 comes. */
+			TIM2->CCER &= ~TIM_CCER_CC1E;			
+			/* Enable Capturing on channel 2. */
+			TIM2->CCER |= TIM_CCER_CC2E;			
+		}
+				
 	}else{
-		HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, 1);				
+		/* Set DMA to transfer time of event on channel 2 after TIM CNT is reset by an event on channel 1 */
+		HAL_DMA_Start(&hdma_tim2_ch2_ch4, (uint32_t)&(TIM2->CCR2), (uint32_t)counter.counterIc.ic2buffer, 1);		
+
+		if(counter.tiMode==TI_MODE_EVENT_SEQUENCE_INDEP){		
+			if(counter.eventChan2==EVENT_FALLING){
+				timCcerRegCc2eVal |= (uint32_t)TIM_CCER_CC2P;
+			}else{
+				timCcerRegCc2eVal &= (uint32_t)~TIM_CCER_CC2P;
+			}		
+			TIM_TI_ReconfigActiveEdges();
+			/* Set DMA to enable capturing of the channel 2 after an event comes on channel 1. This Method
+			prevents capturing an event if no event came first on the desired channel. */
+			HAL_DMA_Start(&hdma_tim2_ch1, (uint32_t)&timCcerRegCc2eVal, (uint32_t)TIM2_CCER_ADDR, 1);		
+			/* Disable Capturing on channel 2 to be enabled later after an event on channel 1 comes. */
+			TIM2->CCER &= ~TIM_CCER_CC2E;			
+			/* Enable Capturing on channel 1. */
+			TIM2->CCER |= TIM_CCER_CC1E;	
+		}		
 	}		
 	
+	/* TIM2 is used as time base for time capturing. */
 	HAL_TIM_Base_Start(&htim2);	
+	/* TIM4 is used for time elapse event to check whether already the required data is transfered. */
 	HAL_TIM_Base_Start_IT(&htim4);		
 
 	/* DMA requests enable */
 	TIM2->DIER |= TIM_DIER_CC1DE;
-	TIM2->DIER |= TIM_DIER_CC2DE;			
+	TIM2->DIER |= TIM_DIER_CC2DE;		
 	
-	/* Enable capturing */
-	TIM2->CCER |= TIM_CCER_CC2E;
-	TIM2->CCER |= TIM_CCER_CC1E;	
+	if(counter.tiMode!=TI_MODE_EVENT_SEQUENCE_INDEP){
+		/* Enable capturing */
+		TIM2->CCER |= TIM_CCER_CC1E;
+		TIM2->CCER |= TIM_CCER_CC2E;	
+	}
 }
 
 void TIM_TI_Stop(void)
 {
 	/* Abort DMA transfers */
-	HAL_DMA_Abort(&hdma_tim2_ch1);	
-	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);	
+	HAL_DMA_Abort(&hdma_tim2_ch1);
+	HAL_DMA_Abort(&hdma_tim2_ch2_ch4);
 //	HAL_TIM_Base_Stop_DMA(&htim2);
 	
 	HAL_TIM_Base_Stop_IT(&htim4);	
@@ -1498,15 +2185,15 @@ void TIM_TI_Init(void)
 	TIM2->CCMR1 &= ~TIM_CCMR1_IC1PSC;		
 	/* Set IC2 prescaler to 1 */
 	TIM2->CCMR1 &= ~TIM_CCMR1_IC2PSC;		
-	/* Select the valid trigger input TI1FP1 */
+	/* Select the valid trigger input TI1FP1 */	
 	TIM2->SMCR &= ~TIM_SMCR_TS;
 	TIM2->SMCR |= TIM_SMCR_TS_0 | TIM_SMCR_TS_2;			
-	/* Configure the slave mode controller in reset mode */
+	/* Configure the slave mode controller in Combined reset + trigger mode */
 	TIM2->SMCR &= ~TIM_SMCR_SMS;
-	TIM2->SMCR |= TIM_SMCR_SMS_2;
+	TIM2->SMCR |= TIM_SMCR_SMS_3;
 	
 	/* The very first number transfered by DMA on first event (timer triggered)
-		 is random number (who knows why) -> throw away */
+		 is random number -> throw away */
 	counter.bin = BIN0;	
 	/* AB event sequence first */
 	counter.abba = BIN0;	
@@ -1836,22 +2523,45 @@ void TIM_IC2_FallingOnly(void)
 	TIM2->CCER |= (uint16_t)(TIM_CCER_CC2P);	
 }
 
-void TIM_TI_Sequence_AB(void){
+void TIM_TI_Sequence_AB(void){				
 	/* Select the valid trigger input TI1FP1 */
 	TIM2->SMCR &= ~TIM_SMCR_TS;
 	TIM2->SMCR |= TIM_SMCR_TS_0 | TIM_SMCR_TS_2;	
+	/* Configure the slave mode controller in Combined reset + trigger mode */
+	TIM2->SMCR &= ~TIM_SMCR_SMS;
+	TIM2->SMCR |= TIM_SMCR_SMS_3;		
 	/* ABBA used for calculation decision in counterTiProcess() function.
 		 Time t_AB - time delay between AB events measured. */
 	counter.abba = BIN0;
 }
 
-void TIM_TI_Sequence_BA(void){
+void TIM_TI_Sequence_BA(void){	
 	/* Select the valid trigger input TI2FP2 */
 	TIM2->SMCR &= ~TIM_SMCR_TS;
 	TIM2->SMCR |= TIM_SMCR_TS_1 | TIM_SMCR_TS_2;	
+	/* Configure the slave mode controller in Combined reset + trigger mode */
+	TIM2->SMCR &= ~TIM_SMCR_SMS;
+	TIM2->SMCR |= TIM_SMCR_SMS_3;		
 	/* ABBA used for calculation decision in counterTiProcess() function.
 		 Time t_BA - time delay between BA events measured. */
 	counter.abba = BIN1;
+}
+
+void TIM_TI_ReconfigActiveEdges(void)
+{
+	if(counter.eventChan1==EVENT_RISING){
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1P | TIM_CCER_CC1NP);		
+	}else{
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC1NP);	
+		TIM2->CCER |= (uint16_t)(TIM_CCER_CC1P);	
+	}	
+	
+	if(counter.eventChan2==EVENT_RISING){
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2P | TIM_CCER_CC2NP);		
+	}else{
+		TIM2->CCER &= ~(uint16_t)(TIM_CCER_CC2NP);	
+		TIM2->CCER |= (uint16_t)(TIM_CCER_CC2P);			
+	}				
 }
 
 /**
@@ -1936,10 +2646,10 @@ bool DMA_TransferComplete(DMA_HandleTypeDef *dmah)
 	uint32_t dmaIsrReg = dmah->DmaBaseAddress->ISR;	
 		
 	if(dmaIsrReg & (uint32_t)(DMA_FLAG_TC1 << dmah->ChannelIndex)){		
-		if(counter.state == COUNTER_IC){
+//		if(counter.state == COUNTER_IC){
 			/* Clear the transfer complete flag */
 			dmah->DmaBaseAddress->IFCR = DMA_FLAG_TC1 << dmah->ChannelIndex;						
-		}		
+//		}		
 		return true;		
 	} else {		
 		return false;
