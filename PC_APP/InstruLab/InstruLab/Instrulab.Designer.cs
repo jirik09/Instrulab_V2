@@ -179,10 +179,10 @@
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
-            this.panel2.Location = new System.Drawing.Point(719, 277);
+            this.panel2.BackgroundImage = global::LEO.Properties.Resources.logo_en_tiny;
+            this.panel2.Location = new System.Drawing.Point(709, 269);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(161, 109);
+            this.panel2.Size = new System.Drawing.Size(177, 117);
             this.panel2.TabIndex = 4;
             // 
             // groupBox_device_info
@@ -196,7 +196,7 @@
             this.groupBox_device_info.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_device_info.Name = "groupBox_device_info";
             this.groupBox_device_info.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox_device_info.Size = new System.Drawing.Size(706, 403);
+            this.groupBox_device_info.Size = new System.Drawing.Size(705, 403);
             this.groupBox_device_info.TabIndex = 3;
             this.groupBox_device_info.TabStop = false;
             this.groupBox_device_info.Text = "Device info";
@@ -209,7 +209,7 @@
             this.label_device.Location = new System.Drawing.Point(4, 15);
             this.label_device.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_device.Name = "label_device";
-            this.label_device.Size = new System.Drawing.Size(696, 28);
+            this.label_device.Size = new System.Drawing.Size(695, 28);
             this.label_device.TabIndex = 3;
             this.label_device.Text = "No device connected";
             this.label_device.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -236,7 +236,7 @@
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 1;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(696, 352);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(695, 352);
             this.tableLayoutPanel8.TabIndex = 2;
             // 
             // groupBox_analysator
@@ -253,7 +253,7 @@
             this.groupBox_analysator.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_analysator.Location = new System.Drawing.Point(578, 3);
             this.groupBox_analysator.Name = "groupBox_analysator";
-            this.groupBox_analysator.Size = new System.Drawing.Size(115, 346);
+            this.groupBox_analysator.Size = new System.Drawing.Size(114, 346);
             this.groupBox_analysator.TabIndex = 6;
             this.groupBox_analysator.TabStop = false;
             this.groupBox_analysator.Text = "Logic analyzer";
@@ -338,7 +338,7 @@
             this.button_logic.Location = new System.Drawing.Point(7, 318);
             this.button_logic.Margin = new System.Windows.Forms.Padding(2);
             this.button_logic.Name = "button_logic";
-            this.button_logic.Size = new System.Drawing.Size(100, 23);
+            this.button_logic.Size = new System.Drawing.Size(99, 23);
             this.button_logic.TabIndex = 0;
             this.button_logic.Text = "Logic analyzer";
             this.button_logic.UseVisualStyleBackColor = true;
@@ -1209,10 +1209,10 @@
             // 
             this.btn_connect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_connect.Enabled = false;
-            this.btn_connect.Location = new System.Drawing.Point(716, 391);
+            this.btn_connect.Location = new System.Drawing.Point(713, 391);
             this.btn_connect.Margin = new System.Windows.Forms.Padding(2);
             this.btn_connect.Name = "btn_connect";
-            this.btn_connect.Size = new System.Drawing.Size(82, 20);
+            this.btn_connect.Size = new System.Drawing.Size(80, 20);
             this.btn_connect.TabIndex = 1;
             this.btn_connect.Text = "Connect";
             this.btn_connect.UseVisualStyleBackColor = true;
@@ -1221,10 +1221,10 @@
             // btn_scan
             // 
             this.btn_scan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_scan.Location = new System.Drawing.Point(808, 391);
+            this.btn_scan.Location = new System.Drawing.Point(802, 391);
             this.btn_scan.Margin = new System.Windows.Forms.Padding(2);
             this.btn_scan.Name = "btn_scan";
-            this.btn_scan.Size = new System.Drawing.Size(76, 20);
+            this.btn_scan.Size = new System.Drawing.Size(79, 20);
             this.btn_scan.TabIndex = 1;
             this.btn_scan.Text = "Scan";
             this.btn_scan.UseVisualStyleBackColor = true;
@@ -1235,10 +1235,10 @@
             this.listBox_devices.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox_devices.FormattingEnabled = true;
-            this.listBox_devices.Location = new System.Drawing.Point(716, 10);
+            this.listBox_devices.Location = new System.Drawing.Point(713, 12);
             this.listBox_devices.Margin = new System.Windows.Forms.Padding(2);
             this.listBox_devices.Name = "listBox_devices";
-            this.listBox_devices.Size = new System.Drawing.Size(170, 238);
+            this.listBox_devices.Size = new System.Drawing.Size(170, 251);
             this.listBox_devices.TabIndex = 0;
             // 
             // statusStrip1
@@ -1370,7 +1370,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(800, 440);
+            this.MinimumSize = new System.Drawing.Size(888, 500);
             this.Name = "Instrulab";
             this.Text = "Little Embedded Oscilloscope";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Instrulab_FormClosing);

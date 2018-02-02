@@ -55,7 +55,6 @@ C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Deb
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.application
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.exe
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.pdb
-C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csprojResolveAssemblyReference.cache
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.AboutBox.resources
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.ArbDialog.resources
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.BodePlot.resources

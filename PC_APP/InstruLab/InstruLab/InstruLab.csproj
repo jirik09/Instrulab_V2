@@ -267,6 +267,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LEO-logo_small.ico" />
+    <Content Include="Resources\logo_en_tiny.png" />
     <None Include="Resources\edge_asc.wmf" />
     <None Include="Resources\ab_rising_falling.wmf" />
     <None Include="Resources\edge_desc.wmf" />
@@ -277,6 +278,7 @@
     <None Include="Resources\ba_falling_rising.wmf" />
     <None Include="Resources\ba_rising_falling.wmf" />
     <None Include="Resources\ba_rising_rising.wmf" />
+    <None Include="Resources\LOGO_CTU_AJ_bold.png" />
     <Content Include="Resources\logo_cvut_vertical_tiny.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

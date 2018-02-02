@@ -21,6 +21,9 @@ E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Generator.res
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.Scope.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.VoltageSource.resources
 E:\Git\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\LEO.BodePlot.resources
+C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.config
+C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.exe
+C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.pdb
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.config
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.manifest
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.application
@@ -46,7 +49,3 @@ C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.application
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.exe
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.pdb
-C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.csprojResolveAssemblyReference.cache
-C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Release\Little Embedded Oscilloscope.exe.config
-C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.exe
-C:\Users\Maeval\Desktop\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.pdb

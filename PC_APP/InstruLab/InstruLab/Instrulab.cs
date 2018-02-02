@@ -307,6 +307,7 @@ namespace LEO
                     this.leo_etr_label.Text = "--";
                     this.leo_ref_label.Text = "--";
                     this.leo_ic_label.Text = "--";
+                    this.leo_event_label.Text = "--";
                     this.label_syncPwm_freq.Text = "--";
                     this.label_syncPwm_chanNum.Text = "--";
                     this.label_syncPwm_resol.Text = "--";
@@ -315,6 +316,10 @@ namespace LEO
                     this.label_logAnlys_buff_len.Text = "--";
                     this.label_logAnlys_chanNum.Text = "--";
                     this.label_logAnlys_pins.Text = "--";
+                    this.label_pwmGen_freq.Text = "--";
+                    this.label_pwmGen_resol.Text = "--";
+                    this.label_pwmGen_channs.Text = "--";
+                    this.label_pwmGen_pins.Text = "--";
 
                     this.btn_scope_open.Enabled = false;
                     this.btn_voltmeter_open.Enabled = false;
