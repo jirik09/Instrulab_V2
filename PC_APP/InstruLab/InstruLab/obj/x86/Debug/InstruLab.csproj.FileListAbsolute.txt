@@ -74,3 +74,29 @@ C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.application
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.exe
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.pdb
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.exe.config
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.exe.manifest
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.application
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.exe
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\bin\Debug\Little Embedded Oscilloscope.pdb
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csprojResolveAssemblyReference.cache
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.AboutBox.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.ArbDialog.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.BodePlot.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.Counter.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.feedback.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.Instrulab.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.Generator.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.LogicAnalyzer.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.Properties.Resources.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.SyncPwmGenerator.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.Scope.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.VoltageSource.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\LEO.Voltmeter.resources
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csproj.GenerateResource.Cache
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csproj.CoreCompileInputs.cache
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.TrustInfo.xml
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.exe.manifest
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.application
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.exe
+D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.pdb

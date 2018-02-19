@@ -113,8 +113,6 @@
             this.label_cnt_modes = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox_mixed = new System.Windows.Forms.GroupBox();
-            this.btn_freq_analysis_open = new System.Windows.Forms.Button();
             this.groupBox_syncPwmGenerator = new System.Windows.Forms.GroupBox();
             this.label_syncPwm_pins = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -153,7 +151,6 @@
             this.groupBox_pwmGen.SuspendLayout();
             this.groupBox_counter.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox_mixed.SuspendLayout();
             this.groupBox_syncPwmGenerator.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -1063,41 +1060,15 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.groupBox_mixed, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.groupBox_syncPwmGenerator, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(463, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.60606F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 127F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(109, 346);
             this.tableLayoutPanel2.TabIndex = 5;
-            // 
-            // groupBox_mixed
-            // 
-            this.groupBox_mixed.Controls.Add(this.btn_freq_analysis_open);
-            this.groupBox_mixed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_mixed.Location = new System.Drawing.Point(0, 219);
-            this.groupBox_mixed.Margin = new System.Windows.Forms.Padding(0);
-            this.groupBox_mixed.Name = "groupBox_mixed";
-            this.groupBox_mixed.Size = new System.Drawing.Size(109, 127);
-            this.groupBox_mixed.TabIndex = 5;
-            this.groupBox_mixed.TabStop = false;
-            this.groupBox_mixed.Text = "Mixed";
-            // 
-            // btn_freq_analysis_open
-            // 
-            this.btn_freq_analysis_open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_freq_analysis_open.Enabled = false;
-            this.btn_freq_analysis_open.Location = new System.Drawing.Point(4, 99);
-            this.btn_freq_analysis_open.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_freq_analysis_open.Name = "btn_freq_analysis_open";
-            this.btn_freq_analysis_open.Size = new System.Drawing.Size(100, 23);
-            this.btn_freq_analysis_open.TabIndex = 0;
-            this.btn_freq_analysis_open.Text = "Freq. analy.";
-            this.btn_freq_analysis_open.UseVisualStyleBackColor = true;
             // 
             // groupBox_syncPwmGenerator
             // 
@@ -1114,7 +1085,7 @@
             this.groupBox_syncPwmGenerator.Location = new System.Drawing.Point(0, 0);
             this.groupBox_syncPwmGenerator.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox_syncPwmGenerator.Name = "groupBox_syncPwmGenerator";
-            this.groupBox_syncPwmGenerator.Size = new System.Drawing.Size(109, 219);
+            this.groupBox_syncPwmGenerator.Size = new System.Drawing.Size(109, 346);
             this.groupBox_syncPwmGenerator.TabIndex = 4;
             this.groupBox_syncPwmGenerator.TabStop = false;
             this.groupBox_syncPwmGenerator.Text = "PWM Sync.";
@@ -1196,7 +1167,7 @@
             this.button_syncPwmGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button_syncPwmGenerator.Enabled = false;
-            this.button_syncPwmGenerator.Location = new System.Drawing.Point(5, 191);
+            this.button_syncPwmGenerator.Location = new System.Drawing.Point(5, 318);
             this.button_syncPwmGenerator.Margin = new System.Windows.Forms.Padding(2);
             this.button_syncPwmGenerator.Name = "button_syncPwmGenerator";
             this.button_syncPwmGenerator.Size = new System.Drawing.Size(100, 23);
@@ -1356,7 +1327,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(199, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "CTU FEE 2017 - Jiří Hladík, Jan Mucala";
+            this.label1.Text = "CTU FEE 2018 - Jiří Hladík, Jan Mucala";
             // 
             // Instrulab
             // 
@@ -1391,7 +1362,6 @@
             this.groupBox_counter.ResumeLayout(false);
             this.groupBox_counter.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.groupBox_mixed.ResumeLayout(false);
             this.groupBox_syncPwmGenerator.ResumeLayout(false);
             this.groupBox_syncPwmGenerator.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -1506,8 +1476,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button button_PWM;
-        private System.Windows.Forms.GroupBox groupBox_mixed;
-        private System.Windows.Forms.Button btn_freq_analysis_open;
         private System.Windows.Forms.GroupBox groupBox_analysator;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label_logAnlys_smpl;

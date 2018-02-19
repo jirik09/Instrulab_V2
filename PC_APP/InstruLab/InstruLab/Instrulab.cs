@@ -97,16 +97,17 @@ namespace LEO
                     this.toolStripStatusLabel.Text = "Connected to " + comms.get_connected_device_port();
                     this.toolStripStatusLabel_color.BackColor = Color.LightGreen;
 
-                    this.Text = "Instrulab - (" + comms.get_connected_device_port() + ") " + comms.get_connected_device().get_name();
+                    this.Text = "LEO - (" + comms.get_connected_device_port() + ") " + comms.get_connected_device().get_name();
 
                     this.btn_scope_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_voltmeter_open.Enabled = comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_gen_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.btn_voltage_source_open.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
                     this.button_counter.Enabled = comms.get_connected_device().cntCfg.isCnt ? true : false;
-                    this.button_PWM.Enabled = comms.get_connected_device().genCfg.isGen ? true : false;
+                    this.button_PWM.Enabled = comms.get_connected_device().pwmGenCfg.isPwmGen ? true : false;
                     this.button_syncPwmGenerator.Enabled = comms.get_connected_device().syncPwmCfg.isSyncPwm ? true : false;
                     this.button_logic.Enabled = comms.get_connected_device().logAnlysCfg.isLogAnlys ? true : false;
+                    
 
                     ////this.btn_freq_analysis_open.Enabled = comms.get_connected_device().genCfg.isGen && comms.get_connected_device().scopeCfg.isScope ? true : false;
                     this.btn_connect.Text = "Disconnect";
@@ -326,7 +327,6 @@ namespace LEO
                     this.btn_gen_open.Enabled = false;
                     this.btn_scan.Enabled = true;
                     this.btn_voltage_source_open.Enabled = false;
-                    this.btn_freq_analysis_open.Enabled = false;
                     this.button_counter.Enabled = false;
                     this.button_PWM.Enabled = false;
                     this.button_logic.Enabled = false;
@@ -457,10 +457,13 @@ namespace LEO
                     if (dev[4] == ':')
                     {
                         dev = dev.Substring(0, 4);
+                    }else if (dev[5] == ':')
+                    {
+                        dev = dev.Substring(0, 5);
                     }
                     else
                     {
-                        dev = dev.Substring(0, 5);
+                        dev = dev.Substring(0, 6);
                     }
                     comms.add_message(new Message(Message.MsgRequest.CONNECT_DEVICE, dev));
                     //  this.toolStripStatusLabel_status.Text = "Connecting to " + dev;

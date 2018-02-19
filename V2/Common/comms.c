@@ -678,6 +678,8 @@ void sendGenConf(){
 }
 #endif //USE_GEN
 
+
+#ifdef USE_GEN_PWM
 void sendGenPwmConf(void){
 	uint8_t i;
 	commsSendString("GENP");		
@@ -693,6 +695,7 @@ void sendGenPwmConf(void){
 		}
 	}
 }
+#endif //USE_GEN_PWM
 
 #ifdef USE_SYNC_PWM
 void sendSyncPwmConf(void)

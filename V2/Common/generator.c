@@ -61,8 +61,10 @@ void GeneratorTask(void const *argument){
 					genInit();
 					GeneratingEnable();
 				}else if(generator.modeState==GENERATOR_PWM){
+					#ifdef USE_GEN_PWM
 					genPwmInit();
 					PWMGeneratingEnable();
+					#endif //USE_GEN_PWM
 				}
 				generator.state=GENERATOR_RUN;
 			}
@@ -72,14 +74,18 @@ void GeneratorTask(void const *argument){
 				if(generator.modeState==GENERATOR_DAC){
 					GeneratingDisable();
 				}else if(generator.modeState==GENERATOR_PWM){
+					#ifdef USE_GEN_PWM
 					PWMGeneratingDisable();
+					#endif //USE_GEN_PWM
 				}
 				generator.state=GENERATOR_IDLE;
 			}
 			
 		}else if(message[0]=='6'){ //set PWM mode
+			#ifdef USE_GEN_PWM
 			generatorSetModePWM();
 			TIMGenPwmInit();
+			#endif //USE_GEN_PWM
 			
 		}else if(message[0]=='7'){ //set DAC mode
 			generatorSetModeDAC();
@@ -89,7 +95,9 @@ void GeneratorTask(void const *argument){
 			if(generator.modeState==GENERATOR_DAC){				
 					TIMGenDacDeinit();
 			}else if(generator.modeState==GENERATOR_PWM){
+					#ifdef USE_GEN_PWM
 					TIMGenPwmDeinit();
+				#endif //USE_GEN_PWM
 			}	
 		}
 	}
@@ -123,7 +131,9 @@ void generatorSetModeDAC(void){
 void generator_deinit(void){
 	switch(generator.modeState){
 		case GENERATOR_PWM:
+			#ifdef USE_GEN_PWM
 			TIMGenPwmDeinit();
+			#endif //USE_GEN_PWM
 			break;
 		case GENERATOR_DAC:
 			TIMGenDacDeinit();
@@ -131,6 +141,7 @@ void generator_deinit(void){
 	}
 }
 
+#ifdef USE_GEN_PWM
 void genSetPwmFrequencyPSC(uint32_t pscVal, uint8_t chan){
 	TIM_GEN_PWM_PSC_Config(pscVal, chan);		// -1 subtraction made in PC app
 }
@@ -138,6 +149,7 @@ void genSetPwmFrequencyPSC(uint32_t pscVal, uint8_t chan){
 void genSetPwmFrequencyARR(uint32_t arrVal, uint8_t chan){
 	TIM_GEN_PWM_ARR_Config(arrVal, chan);		// -1 subtraction made in PC app
 }
+#endif //USE_GEN_PWM
 
 /**
   * @brief  Generator set Default values

@@ -149,7 +149,7 @@ namespace LEO
         public CounterConfig_def cntCfg;
         private StreamWriter logWriter;
         private List<String> logger = new List<String>();
-        private const bool writeLog = true;
+        private const bool writeLog = false;
         Scope Scope_form;
         Generator Gen_form;
         Voltmeter Volt_form;

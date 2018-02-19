@@ -1211,6 +1211,22 @@ void TIMGenInit(void){
 	MX_TIM6_Init();
 	MX_TIM7_Init();
 }
+
+void TIMGenDacDeinit(void){
+//	HAL_TIM_Base_DeInit(&htim6);
+//	HAL_TIM_Base_DeInit(&htim7);
+	
+	/* Reset TIM peripherals */
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM6RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM6RST;	
+	
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM7RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM7RST;	
+	
+	/* Reset DAC peripheral */
+	RCC->APB1RSTR |= RCC_APB1RSTR_DAC1RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_DAC1RST;		
+}
 #endif //USE_GEN || USE_GEN_PWM
 
 
@@ -1296,22 +1312,6 @@ void TIMGenPWMEnable(void){
 void TIMGenPWMDisable(void){
   HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
-}
-
-void TIMGenDacDeinit(void){
-//	HAL_TIM_Base_DeInit(&htim6);
-//	HAL_TIM_Base_DeInit(&htim7);
-	
-	/* Reset TIM peripherals */
-	RCC->APB1RSTR |= RCC_APB1RSTR_TIM6RST;
-	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM6RST;	
-	
-	RCC->APB1RSTR |= RCC_APB1RSTR_TIM7RST;
-	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM7RST;	
-	
-	/* Reset DAC peripheral */
-	RCC->APB1RSTR |= RCC_APB1RSTR_DAC1RST;
-	RCC->APB1RSTR &= ~RCC_APB1RSTR_DAC1RST;		
 }
 
 void TIM_GEN_PWM_PSC_Config(uint16_t pscVal, uint8_t chan){

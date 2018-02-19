@@ -16,7 +16,7 @@ namespace LEO
         MailMessage mailMsg;
         string LeoPlatform = "none";
         string LeoFWversion = "none";
-        const string SWVersion = "2.01.00.002";
+        const string SWVersion = "2.13.00.002";
 
 
 

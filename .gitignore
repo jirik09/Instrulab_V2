@@ -33,3 +33,9 @@ logfile*.txt
 
 # other
 *.chm
+*.cache
+*.CopyComplete
+*.cache
+PC_APP/InstruLab/InstruLab/obj/x86/Debug/DesignTimeResolveAssemblyReferences.cache
+*.Cache
+*.cache
