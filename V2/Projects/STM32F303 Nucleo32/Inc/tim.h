@@ -61,6 +61,8 @@ uint32_t getMaxScopeSamplingFreq(uint8_t ADCRes);
 #endif //USE_SCOPE
 
 #ifdef USE_GEN
+void TIMGenInit(void);
+void TIMGenDacDeinit(void);
 void TIMGenEnable(void);
 void TIMGenDisable(void);
 void MX_TIM6_Init(void);

@@ -411,7 +411,7 @@
             this.ToolStripMenuItem_50ksmp,
             this.ToolStripMenuItem_100ksmp});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.toolStripMenuItem1.Text = "Data length";
             // 
             // toolStripMenuItem2
@@ -518,7 +518,7 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(132, 6);
             // 
             // bitsToolStripMenuItem_12bit
             // 
@@ -526,7 +526,7 @@
             this.bitsToolStripMenuItem_12bit.CheckOnClick = true;
             this.bitsToolStripMenuItem_12bit.CheckState = System.Windows.Forms.CheckState.Checked;
             this.bitsToolStripMenuItem_12bit.Name = "bitsToolStripMenuItem_12bit";
-            this.bitsToolStripMenuItem_12bit.Size = new System.Drawing.Size(152, 22);
+            this.bitsToolStripMenuItem_12bit.Size = new System.Drawing.Size(135, 22);
             this.bitsToolStripMenuItem_12bit.Text = "12 bits";
             this.bitsToolStripMenuItem_12bit.Click += new System.EventHandler(this.bitsToolStripMenuItem_12bit_Click);
             // 
@@ -534,14 +534,14 @@
             // 
             this.bitsToolStripMenuItem_8bit.CheckOnClick = true;
             this.bitsToolStripMenuItem_8bit.Name = "bitsToolStripMenuItem_8bit";
-            this.bitsToolStripMenuItem_8bit.Size = new System.Drawing.Size(152, 22);
+            this.bitsToolStripMenuItem_8bit.Size = new System.Drawing.Size(135, 22);
             this.bitsToolStripMenuItem_8bit.Text = "8 bits";
             this.bitsToolStripMenuItem_8bit.Click += new System.EventHandler(this.bitsToolStripMenuItem_8bit_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(132, 6);
             // 
             // channelToolStripMenuItem_1ch
             // 
@@ -549,7 +549,7 @@
             this.channelToolStripMenuItem_1ch.CheckOnClick = true;
             this.channelToolStripMenuItem_1ch.CheckState = System.Windows.Forms.CheckState.Checked;
             this.channelToolStripMenuItem_1ch.Name = "channelToolStripMenuItem_1ch";
-            this.channelToolStripMenuItem_1ch.Size = new System.Drawing.Size(152, 22);
+            this.channelToolStripMenuItem_1ch.Size = new System.Drawing.Size(135, 22);
             this.channelToolStripMenuItem_1ch.Text = "1 channel";
             this.channelToolStripMenuItem_1ch.Click += new System.EventHandler(this.channelToolStripMenuItem_1ch_Click);
             // 
@@ -557,7 +557,7 @@
             // 
             this.channelToolStripMenuItem_2ch.CheckOnClick = true;
             this.channelToolStripMenuItem_2ch.Name = "channelToolStripMenuItem_2ch";
-            this.channelToolStripMenuItem_2ch.Size = new System.Drawing.Size(152, 22);
+            this.channelToolStripMenuItem_2ch.Size = new System.Drawing.Size(135, 22);
             this.channelToolStripMenuItem_2ch.Text = "2 channels";
             this.channelToolStripMenuItem_2ch.Click += new System.EventHandler(this.channelToolStripMenuItem_2ch_Click);
             // 
@@ -565,7 +565,7 @@
             // 
             this.channelToolStripMenuItem_3ch.CheckOnClick = true;
             this.channelToolStripMenuItem_3ch.Name = "channelToolStripMenuItem_3ch";
-            this.channelToolStripMenuItem_3ch.Size = new System.Drawing.Size(152, 22);
+            this.channelToolStripMenuItem_3ch.Size = new System.Drawing.Size(135, 22);
             this.channelToolStripMenuItem_3ch.Text = "3 channels";
             this.channelToolStripMenuItem_3ch.Click += new System.EventHandler(this.channelToolStripMenuItem_3ch_Click);
             // 
@@ -573,7 +573,7 @@
             // 
             this.channelToolStripMenuItem_4ch.CheckOnClick = true;
             this.channelToolStripMenuItem_4ch.Name = "channelToolStripMenuItem_4ch";
-            this.channelToolStripMenuItem_4ch.Size = new System.Drawing.Size(152, 22);
+            this.channelToolStripMenuItem_4ch.Size = new System.Drawing.Size(135, 22);
             this.channelToolStripMenuItem_4ch.Text = "4 channels";
             this.channelToolStripMenuItem_4ch.Click += new System.EventHandler(this.channelToolStripMenuItem_4ch_Click);
             // 
@@ -584,6 +584,7 @@
             this.channel2ToolStripMenuItem,
             this.channel3ToolStripMenuItem,
             this.channel4ToolStripMenuItem});
+            this.inputToolStripMenuItem.Enabled = false;
             this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
             this.inputToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.inputToolStripMenuItem.Text = "Input";
@@ -600,14 +601,14 @@
             // default1ToolStripMenuItem
             // 
             this.default1ToolStripMenuItem.Name = "default1ToolStripMenuItem";
-            this.default1ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.default1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.default1ToolStripMenuItem.Text = "Default";
             this.default1ToolStripMenuItem.Click += new System.EventHandler(this.default1ToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(109, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(149, 6);
             // 
             // channel2ToolStripMenuItem
             // 
@@ -621,14 +622,14 @@
             // default2ToolStripMenuItem
             // 
             this.default2ToolStripMenuItem.Name = "default2ToolStripMenuItem";
-            this.default2ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.default2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.default2ToolStripMenuItem.Text = "Default";
             this.default2ToolStripMenuItem.Click += new System.EventHandler(this.default2ToolStripMenuItem_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(109, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(149, 6);
             // 
             // channel3ToolStripMenuItem
             // 
@@ -642,14 +643,14 @@
             // default3ToolStripMenuItem
             // 
             this.default3ToolStripMenuItem.Name = "default3ToolStripMenuItem";
-            this.default3ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.default3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.default3ToolStripMenuItem.Text = "Default";
             this.default3ToolStripMenuItem.Click += new System.EventHandler(this.default3ToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(109, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(149, 6);
             // 
             // channel4ToolStripMenuItem
             // 
@@ -663,14 +664,14 @@
             // default4ToolStripMenuItem
             // 
             this.default4ToolStripMenuItem.Name = "default4ToolStripMenuItem";
-            this.default4ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.default4ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.default4ToolStripMenuItem.Text = "Default";
             this.default4ToolStripMenuItem.Click += new System.EventHandler(this.default4ToolStripMenuItem_Click);
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(109, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(149, 6);
             // 
             // toolStripMenuItem7
             // 
@@ -691,7 +692,7 @@
             this.range0ToolStripMenuItem.CheckOnClick = true;
             this.range0ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.range0ToolStripMenuItem.Name = "range0ToolStripMenuItem";
-            this.range0ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.range0ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.range0ToolStripMenuItem.Text = "Default";
             this.range0ToolStripMenuItem.Click += new System.EventHandler(this.range0ToolStripMenuItem_Click);
             // 
@@ -699,7 +700,7 @@
             // 
             this.range1ToolStripMenuItem.CheckOnClick = true;
             this.range1ToolStripMenuItem.Name = "range1ToolStripMenuItem";
-            this.range1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.range1ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.range1ToolStripMenuItem.Text = "Range 1";
             this.range1ToolStripMenuItem.Click += new System.EventHandler(this.range1ToolStripMenuItem_Click);
             // 
@@ -707,7 +708,7 @@
             // 
             this.range2ToolStripMenuItem.CheckOnClick = true;
             this.range2ToolStripMenuItem.Name = "range2ToolStripMenuItem";
-            this.range2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.range2ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.range2ToolStripMenuItem.Text = "Range 2";
             this.range2ToolStripMenuItem.Click += new System.EventHandler(this.range2ToolStripMenuItem_Click);
             // 
@@ -715,20 +716,20 @@
             // 
             this.range3ToolStripMenuItem.CheckOnClick = true;
             this.range3ToolStripMenuItem.Name = "range3ToolStripMenuItem";
-            this.range3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.range3ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.range3ToolStripMenuItem.Text = "Range 3";
             this.range3ToolStripMenuItem.Click += new System.EventHandler(this.range3ToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(113, 6);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Enabled = false;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // toolStripMenuItem3
@@ -747,7 +748,7 @@
             // 
             this.ch1Ch2ToolStripMenuItem_plus.CheckOnClick = true;
             this.ch1Ch2ToolStripMenuItem_plus.Name = "ch1Ch2ToolStripMenuItem_plus";
-            this.ch1Ch2ToolStripMenuItem_plus.Size = new System.Drawing.Size(152, 22);
+            this.ch1Ch2ToolStripMenuItem_plus.Size = new System.Drawing.Size(151, 22);
             this.ch1Ch2ToolStripMenuItem_plus.Text = "Ch1 + Ch2";
             this.ch1Ch2ToolStripMenuItem_plus.Click += new System.EventHandler(this.ch1Ch2ToolStripMenuItem_plus_Click);
             // 
@@ -755,7 +756,7 @@
             // 
             this.ch1Ch2ToolStripMenuItem_minus.CheckOnClick = true;
             this.ch1Ch2ToolStripMenuItem_minus.Name = "ch1Ch2ToolStripMenuItem_minus";
-            this.ch1Ch2ToolStripMenuItem_minus.Size = new System.Drawing.Size(152, 22);
+            this.ch1Ch2ToolStripMenuItem_minus.Size = new System.Drawing.Size(151, 22);
             this.ch1Ch2ToolStripMenuItem_minus.Text = "Ch1 - Ch2";
             this.ch1Ch2ToolStripMenuItem_minus.Click += new System.EventHandler(this.ch1Ch2ToolStripMenuItem_minus_Click);
             // 
@@ -763,7 +764,7 @@
             // 
             this.ch2Ch1ToolStripMenuItem_minus.CheckOnClick = true;
             this.ch2Ch1ToolStripMenuItem_minus.Name = "ch2Ch1ToolStripMenuItem_minus";
-            this.ch2Ch1ToolStripMenuItem_minus.Size = new System.Drawing.Size(152, 22);
+            this.ch2Ch1ToolStripMenuItem_minus.Size = new System.Drawing.Size(151, 22);
             this.ch2Ch1ToolStripMenuItem_minus.Text = "Ch2 - Ch1";
             this.ch2Ch1ToolStripMenuItem_minus.Click += new System.EventHandler(this.ch2Ch1ToolStripMenuItem_minus_Click);
             // 
@@ -771,7 +772,7 @@
             // 
             this.ch1XCh2ToolStripMenuItem_mult.CheckOnClick = true;
             this.ch1XCh2ToolStripMenuItem_mult.Name = "ch1XCh2ToolStripMenuItem_mult";
-            this.ch1XCh2ToolStripMenuItem_mult.Size = new System.Drawing.Size(152, 22);
+            this.ch1XCh2ToolStripMenuItem_mult.Size = new System.Drawing.Size(151, 22);
             this.ch1XCh2ToolStripMenuItem_mult.Text = "Ch1 x Ch2";
             this.ch1XCh2ToolStripMenuItem_mult.Click += new System.EventHandler(this.ch1XCh2ToolStripMenuItem_mult_Click);
             // 
@@ -779,7 +780,7 @@
             // 
             this.FFTCh1ToolStripMenuItem.CheckOnClick = true;
             this.FFTCh1ToolStripMenuItem.Name = "FFTCh1ToolStripMenuItem";
-            this.FFTCh1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.FFTCh1ToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.FFTCh1ToolStripMenuItem.Text = "FFT Ch1 (beta)";
             this.FFTCh1ToolStripMenuItem.Click += new System.EventHandler(this.FFTCh1ToolStripMenuItem_Click);
             // 
@@ -806,14 +807,14 @@
             // 
             this.uARTToolStripMenuItem.CheckOnClick = true;
             this.uARTToolStripMenuItem.Name = "uARTToolStripMenuItem";
-            this.uARTToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.uARTToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.uARTToolStripMenuItem.Text = "UART";
             // 
             // sPIToolStripMenuItem
             // 
             this.sPIToolStripMenuItem.CheckOnClick = true;
             this.sPIToolStripMenuItem.Name = "sPIToolStripMenuItem";
-            this.sPIToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.sPIToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.sPIToolStripMenuItem.Text = "SPI";
             // 
             // fourierTransformToolStripMenuItem
@@ -990,7 +991,7 @@
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
             this.panel2.Controls.Add(this.tableLayoutPanel1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 337);
+            this.panel2.Location = new System.Drawing.Point(0, 338);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(751, 135);
             this.panel2.TabIndex = 0;
@@ -1885,7 +1886,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel3.Location = new System.Drawing.Point(549, 24);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(202, 313);
+            this.panel3.Size = new System.Drawing.Size(202, 314);
             this.panel3.TabIndex = 1;
             // 
             // tableLayoutPanel4
@@ -1901,7 +1902,7 @@
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.5F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.5F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(202, 313);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(202, 314);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // groupBox_cursors_vertical
@@ -2155,7 +2156,7 @@
             this.groupBox_cursors_horizontal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_cursors_horizontal.Location = new System.Drawing.Point(3, 167);
             this.groupBox_cursors_horizontal.Name = "groupBox_cursors_horizontal";
-            this.groupBox_cursors_horizontal.Size = new System.Drawing.Size(196, 143);
+            this.groupBox_cursors_horizontal.Size = new System.Drawing.Size(196, 144);
             this.groupBox_cursors_horizontal.TabIndex = 4;
             this.groupBox_cursors_horizontal.TabStop = false;
             this.groupBox_cursors_horizontal.Text = "Horizontal cursors";
@@ -2181,7 +2182,7 @@
             this.trackBar_hor_cur_a.Maximum = 2048;
             this.trackBar_hor_cur_a.Name = "trackBar_hor_cur_a";
             this.trackBar_hor_cur_a.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_hor_cur_a.Size = new System.Drawing.Size(25, 124);
+            this.trackBar_hor_cur_a.Size = new System.Drawing.Size(25, 125);
             this.trackBar_hor_cur_a.TabIndex = 0;
             this.trackBar_hor_cur_a.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_hor_cur_a.ValueChanged += new System.EventHandler(this.trackBar_hor_cur_a_ValueChanged);
@@ -2269,7 +2270,7 @@
             this.trackBar_hor_cur_b.Maximum = 2048;
             this.trackBar_hor_cur_b.Name = "trackBar_hor_cur_b";
             this.trackBar_hor_cur_b.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_hor_cur_b.Size = new System.Drawing.Size(25, 124);
+            this.trackBar_hor_cur_b.Size = new System.Drawing.Size(25, 125);
             this.trackBar_hor_cur_b.TabIndex = 0;
             this.trackBar_hor_cur_b.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_hor_cur_b.ValueChanged += new System.EventHandler(this.trackBar_hor_cur_b_ValueChanged);
@@ -2334,7 +2335,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(549, 313);
+            this.panel1.Size = new System.Drawing.Size(549, 314);
             this.panel1.TabIndex = 3;
             // 
             // label_color_ch4
@@ -2467,7 +2468,7 @@
             this.zedGraphControl_scope.ScrollMinX = 0D;
             this.zedGraphControl_scope.ScrollMinY = 0D;
             this.zedGraphControl_scope.ScrollMinY2 = 0D;
-            this.zedGraphControl_scope.Size = new System.Drawing.Size(549, 313);
+            this.zedGraphControl_scope.Size = new System.Drawing.Size(549, 314);
             this.zedGraphControl_scope.TabIndex = 1;
             // 
             // panel5
@@ -2479,14 +2480,14 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(751, 472);
+            this.panel5.Size = new System.Drawing.Size(751, 473);
             this.panel5.TabIndex = 1;
             // 
             // Scope
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(751, 472);
+            this.ClientSize = new System.Drawing.Size(751, 473);
             this.Controls.Add(this.panel5);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;

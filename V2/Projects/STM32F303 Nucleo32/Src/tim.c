@@ -35,6 +35,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
+#include "dac.h"
 #include "mcu_config.h"
 /* USER CODE BEGIN 0 */
 
@@ -81,6 +82,31 @@ void MX_TIM3_Init(void)
   * @retval None
   */
 	#ifdef USE_GEN
+
+void TIMGenInit(void){
+	MX_TIM6_Init();
+	MX_TIM7_Init();
+	MX_DAC1_Init();
+	MX_DAC2_Init();
+}
+
+void TIMGenDacDeinit(void){
+//	HAL_TIM_Base_DeInit(&htim6);
+//	HAL_TIM_Base_DeInit(&htim7);
+	
+	/* Reset TIM peripherals */
+	
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM6RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM6RST;	
+	
+	RCC->APB1RSTR |= RCC_APB1RSTR_TIM7RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM7RST;	
+	
+	/* Reset DAC peripheral */
+	RCC->APB1RSTR |= RCC_APB1RSTR_DAC1RST;
+	RCC->APB1RSTR &= ~RCC_APB1RSTR_DAC1RST;		
+}
+	
 void MX_TIM6_Init(void)
 {
   TIM_MasterConfigTypeDef sMasterConfig;

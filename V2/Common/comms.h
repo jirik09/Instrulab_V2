@@ -31,6 +31,7 @@ typedef struct
 extern xQueueHandle messageQueue;
 
 // Exported functions =========================================================
+void LLCommTask(void const *argument);
 void CommTask(void const *argument);
 uint8_t commBufferReadByte(uint8_t *ret);
 uint8_t commBufferReadNBytes(uint8_t *mem, uint16_t count);

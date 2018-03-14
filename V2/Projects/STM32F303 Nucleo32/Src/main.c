@@ -96,15 +96,6 @@ int main(void)
 	MX_TIM3_Init();
 	CalibrateADC();
 	#endif //USE_SCOPE
-
-
-
-	#ifdef USE_GEN
-	MX_TIM6_Init();
-	MX_TIM7_Init();
-	MX_DAC1_Init();
-	MX_DAC2_Init();
-	#endif //USE_GEN  
   
 
   /* USER CODE BEGIN 2 */
@@ -116,6 +107,7 @@ int main(void)
 	osThreadDef(CMD_PARSER_TASK, CmdParserTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 	osThreadDef(USER_TASK, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
 	osThreadDef(COMM_TASK, CommTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+	osThreadDef(LL_COMM_TASK, LLCommTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
 	#ifdef USE_SCOPE
 	osThreadDef(SCOPE_TASK, ScopeTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
 	osThreadDef(SCOPE_TRIG_TASK, ScopeTriggerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
@@ -127,6 +119,7 @@ int main(void)
 	osThreadCreate (osThread(CMD_PARSER_TASK), NULL);
 	osThreadCreate (osThread(USER_TASK), NULL);
 	osThreadCreate (osThread(COMM_TASK), NULL);
+	osThreadCreate (osThread(LL_COMM_TASK), NULL);
 	#ifdef USE_SCOPE
 	osThreadCreate (osThread(SCOPE_TASK), NULL);
 	osThreadCreate (osThread(SCOPE_TRIG_TASK), NULL);

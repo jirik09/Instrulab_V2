@@ -45,6 +45,27 @@ void sendSystemVersion(void);
 void assertPins(void);
 
 // Function definitions =======================================================
+//portTASK_FUNCTION(vPrintTask, pvParameters) {
+void LLCommTask(void const *argument){
+
+	portBASE_TYPE xHigherPriorityTaskWoken;
+	while(1){
+		while (GetDMAIndex()!=comm.writePointer){
+			xSemaphoreTakeRecursive(commsMutex, portMAX_DELAY);
+			if(comm.memory[comm.writePointer]==';'){
+				comm.state = BUFF_DATA;
+				xQueueSendToBackFromISR(cmdParserMessageQueue, "1TryParseCmd", &xHigherPriorityTaskWoken);
+			}
+			comm.writePointer=(comm.writePointer+1)%COMM_BUFFER_SIZE;
+			xSemaphoreGiveRecursive(commsMutex);
+		}
+		taskYIELD();
+	}
+
+
+}
+
+
 /**
   * @brief  Communication task function.
   * @param  Task handler, parameters pointer
@@ -62,9 +83,14 @@ void CommTask(void const *argument){
 	#endif //USE_USB
 	
 	
-	commsInit();
+	
 	messageQueue = xQueueCreate(5, 30);
 	commsMutex = xSemaphoreCreateRecursiveMutex();
+	
+	xSemaphoreTakeRecursive(commsMutex, portMAX_DELAY);
+	commsInit();
+	xSemaphoreGiveRecursive(commsMutex);
+	
 	char message[30];
 
 	#ifdef USE_SCOPE
@@ -400,6 +426,7 @@ void commsInit(void){
 	comm.writePointer = 0;
 	comm.readPointer = 0;
 	comm.state = BUFF_EMPTY;
+	HAL_UART_Receive_DMA(&huart2,comm.memory,comm.bufferSize);
 }
 
 /**

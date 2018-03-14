@@ -37,7 +37,7 @@ namespace LEO
                     {
                         case Message.MsgRequest.FIND_DEVICES:
                             clearListOfDevices();
-                            find_devices(115200, 1, 0);
+                            find_devices(230400, 1, 0);
                             break;
                         case Message.MsgRequest.CONNECT_DEVICE:
                             connect_device(messg.GetMessage());

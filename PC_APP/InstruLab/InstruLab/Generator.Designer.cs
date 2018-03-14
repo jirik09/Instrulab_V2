@@ -1436,7 +1436,7 @@
             this.label_pwmResol_ch1.AutoSize = true;
             this.label_pwmResol_ch1.Location = new System.Drawing.Point(6, 136);
             this.label_pwmResol_ch1.Name = "label_pwmResol_ch1";
-            this.label_pwmResol_ch1.Size = new System.Drawing.Size(57, 13);
+            this.label_pwmResol_ch1.Size = new System.Drawing.Size(56, 13);
             this.label_pwmResol_ch1.TabIndex = 5;
             this.label_pwmResol_ch1.Text = "log₂(n) = N";
             // 
@@ -1557,7 +1557,7 @@
             this.label_pwmResol_ch2.AutoSize = true;
             this.label_pwmResol_ch2.Location = new System.Drawing.Point(6, 137);
             this.label_pwmResol_ch2.Name = "label_pwmResol_ch2";
-            this.label_pwmResol_ch2.Size = new System.Drawing.Size(57, 13);
+            this.label_pwmResol_ch2.Size = new System.Drawing.Size(56, 13);
             this.label_pwmResol_ch2.TabIndex = 12;
             this.label_pwmResol_ch2.Text = "log₂(n) = N";
             // 

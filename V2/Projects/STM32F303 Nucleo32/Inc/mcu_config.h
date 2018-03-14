@@ -21,7 +21,7 @@
 
 // Communication constatnts ===================================================
 #define COMM_BUFFER_SIZE 256
-#define UART_SPEED 115200
+#define UART_SPEED 230400
 
 #define USART_TX_PIN_STR "PA2_" //must be 4 chars
 #define USART_RX_PIN_STR "PA15" //must be 4 chars 

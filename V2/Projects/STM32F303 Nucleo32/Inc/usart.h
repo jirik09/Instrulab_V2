@@ -43,7 +43,7 @@
 #include "mcu_config.h"
 
 extern UART_HandleTypeDef huart2;
-
+uint16_t GetDMAIndex(void);
 void MX_USART2_UART_Init(void);
 uint8_t UARTsendChar(char chr);
 uint8_t UARTsendBuff(char *chr, uint32_t len);
