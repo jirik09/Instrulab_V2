@@ -52,6 +52,8 @@ extern void xPortSysTickHandler(void);
 extern PCD_HandleTypeDef hpcd_USB_FS;
 #endif //USE_USB
 extern UART_HandleTypeDef huart2;
+extern DMA_HandleTypeDef hdma_usart2_rx;
+//extern DMA_HandleTypeDef hdma_usart2_tx;
 
 #ifdef USE_COUNTER
 
@@ -116,7 +118,18 @@ void USART2_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+/**
+* @brief This function handles DMA1 channel6 global interrupt.
+*/
+void DMA1_Channel6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
 
+  /* USER CODE END DMA1_Channel6_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart2_rx);
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
+  /* USER CODE END DMA1_Channel6_IRQn 1 */
+}
 
 #ifdef USE_COUNTER
 /**
@@ -137,6 +150,7 @@ void DMA1_Channel2_IRQHandler(void)
 void DMA1_Channel7_IRQHandler(void)
 {
   HAL_DMA_IRQHandler(&hdma_tim4_up);
+//	  HAL_DMA_IRQHandler(&hdma_usart2_tx);
 }
 #endif //USE_LOG_ANLYS
 

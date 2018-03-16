@@ -48,13 +48,11 @@ DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart2_tx;
 
 
-/* USART2 init function */
-
 uint16_t GetDMAIndex(void){
 	return COMM_BUFFER_SIZE-hdma_usart2_rx.Instance->CNDTR;
 }
 
-
+/* USART2 init function */
 void MX_USART2_UART_Init(void)
 {
 	
