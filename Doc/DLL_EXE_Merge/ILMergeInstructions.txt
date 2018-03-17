@@ -1,0 +1,11 @@
+ILMerge.exe downloaded from:
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=17630
+
+Purpose: Merge #.exe with #.dll
+
+Steps:
+1) Move ILMerge.exe into the directory where #.exe and #.dll files are located. 
+2) Open command line and insert the following code:
+ILMerge.exe /target:winexe /targetplatform:"v4,C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /out:outputfile.exe leo.exe ZedGraph.dll
+
+where leo.exe is the application to be merged with ZedGraph.dll library into one outputfile.exe.

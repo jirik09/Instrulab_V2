@@ -2356,23 +2356,24 @@ void TIM_ETRP_Config(double freq)
 {
 	uint32_t smcr = TIM2 -> SMCR;	
 	/* Check the range of the input frequency and set the ETR prescaler */
-	if ((freq >= (tim2clk / 4)) && freq < ((tim2clk / 2))){		
-			if ((smcr & 0x3000) != TIM_SMCR_ETPS_0){
-				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;
-				TIM2 -> SMCR |= TIM_SMCR_ETPS_0;												/* Set ETR prescaler to 2 */
-			}
+	if(freq < (tim2clk / 4)){
+			TIM2 -> SMCR &= ~TIM_SMCR_ETPS;													/* Set ETR prescaler to 1 */		
+		
+	} else if ((freq >= (tim2clk / 4)) && freq < ((tim2clk / 2))){		
+		if ((smcr & 0x3000) != TIM_SMCR_ETPS_0){
+			TIM2 -> SMCR &= ~TIM_SMCR_ETPS;
+			TIM2 -> SMCR |= TIM_SMCR_ETPS_0;												/* Set ETR prescaler to 2 */
+		}
 	} else if ((freq >= (tim2clk / 2)) && (freq < (tim2clk))) {
-			if ((smcr & 0x3000) != TIM_SMCR_ETPS_1){			
-				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;				
-				TIM2 -> SMCR |= TIM_SMCR_ETPS_1;												/* Set ETR prescaler to 4 */
-			}			
-	} else if ((freq >= (tim2clk)) && (freq < (tim2clk * 2))) {		
-			if ((smcr & 0x3000) != TIM_SMCR_ETPS){	
-				TIM2 -> SMCR &= ~TIM_SMCR_ETPS;				
-				TIM2 -> SMCR |= TIM_SMCR_ETPS;													/* Set ETR prescaler to 8 */
-			}					
-	} else if ((smcr & 0x3000) != 0) {															
-			TIM2 -> SMCR &= ~TIM_SMCR_ETPS;														/* Set ETR prescaler to 1 */										
+		if ((smcr & 0x3000) != TIM_SMCR_ETPS_1){			
+			TIM2 -> SMCR &= ~TIM_SMCR_ETPS;				
+			TIM2 -> SMCR |= TIM_SMCR_ETPS_1;												/* Set ETR prescaler to 4 */
+		}			
+	} else {		
+		if ((smcr & 0x3000) != TIM_SMCR_ETPS){	
+			TIM2 -> SMCR &= ~TIM_SMCR_ETPS;				
+			TIM2 -> SMCR |= TIM_SMCR_ETPS;													/* Set ETR prescaler to 8 */
+		}					
 	}
 }
 
