@@ -1485,6 +1485,7 @@ namespace LEO
 
             if (Source_form == null || Source_form.IsDisposed)
             {
+                GenOpened = GenModeOpened.DAC;
                 Source_form = new VoltageSource(this);
                 Source_form.Show();
                 DACFormOpened = FormOpened.VOLT_SOURCE;

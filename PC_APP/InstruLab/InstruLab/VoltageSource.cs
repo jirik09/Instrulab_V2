@@ -62,6 +62,15 @@ namespace LEO
             this.groupBox_ch_1.Enabled = numChannels >= 1 ? true : false;
             this.groupBox_ch_2.Enabled = numChannels >= 2 ? true : false;
 
+            Generator_DAC_Init();
+        }
+
+        void Generator_DAC_Init()
+        {
+            device.takeCommsSemaphore(semaphoreTimeout + 102);
+            device.send(Commands.GENERATOR + ":" + Commands.GEN_MODE + " ");
+            device.send(Commands.GEN_MODE_DAC + ";");
+            device.giveCommsSemaphore();
         }
 
         private void RefreshDAC(object sender, ElapsedEventArgs e)

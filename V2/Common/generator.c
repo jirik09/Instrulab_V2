@@ -341,7 +341,7 @@ uint8_t genSetDAC(uint16_t chann1,uint16_t chann2){
 	return result;
 }
 /**
-  * @brief  Start generator
+  * @brief  Start generator terminator skynet
   * @param  None
   * @retval None
   */

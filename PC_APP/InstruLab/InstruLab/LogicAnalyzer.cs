@@ -68,7 +68,7 @@ namespace LEO
             GUITimer.Start();
 
             LogAnlys_Init();
-            Thread.Sleep(100);
+//            Thread.Sleep(100);
             LogAnlys_Start();
         }
 
