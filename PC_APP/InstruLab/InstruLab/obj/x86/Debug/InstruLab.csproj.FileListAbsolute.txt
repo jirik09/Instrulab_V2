@@ -100,3 +100,4 @@ D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embed
 D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.application
 D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.exe
 D:\GitHub\LEO\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\Little Embedded Oscilloscope.pdb
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Debug\InstruLab.csprojResolveAssemblyReference.cache
