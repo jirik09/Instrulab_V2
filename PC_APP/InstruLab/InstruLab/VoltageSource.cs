@@ -96,6 +96,7 @@ namespace LEO
                     device.takeCommsSemaphore(semaphoreTimeout + 103);
                     device.send(Commands.GENERATOR + ":" + Commands.GEN_DAC_VAL + " ");
                     usedVdda = device.systemCfg.VDDA_actual;
+                    tmpData_ch1 = (int)Math.Round(voltChann1 / (device.genCfg.VRefMax - device.genCfg.VRefMin) * (Math.Pow(2, device.genCfg.dataDepth)) * device.systemCfg.VDDA_target / device.systemCfg.VDDA_actual + (Math.Pow(2, device.genCfg.dataDepth - 1)) - (device.genCfg.VRefMax + device.genCfg.VRefMin) / (device.genCfg.VRefMax - device.genCfg.VRefMin) * (Math.Pow(2, device.genCfg.dataDepth - 1)));
                     tmpData_ch2 = (int)Math.Round(voltChann2 / (device.genCfg.VRefMax - device.genCfg.VRefMin) * (Math.Pow(2, device.genCfg.dataDepth)) * device.systemCfg.VDDA_target / device.systemCfg.VDDA_actual + (Math.Pow(2, device.genCfg.dataDepth - 1)) - (device.genCfg.VRefMax + device.genCfg.VRefMin) / (device.genCfg.VRefMax - device.genCfg.VRefMin) * (Math.Pow(2, device.genCfg.dataDepth - 1)));
 
                     // invert whe shield present because it has inverting amplifier
