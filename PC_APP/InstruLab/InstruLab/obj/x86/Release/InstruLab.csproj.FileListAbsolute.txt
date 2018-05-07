@@ -49,3 +49,4 @@ C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.application
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.exe
 C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\Little Embedded Oscilloscope.pdb
+C:\Users\Maeval\Documents\GitHub\Instrulab_V2\PC_APP\InstruLab\InstruLab\obj\x86\Release\InstruLab.csprojResolveAssemblyReference.cache

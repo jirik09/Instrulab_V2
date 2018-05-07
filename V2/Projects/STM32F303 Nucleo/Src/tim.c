@@ -776,7 +776,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 	
 	
 	#ifdef USE_LOG_ANLYS
-  if(htim_base->Instance==TIM1)
+  if(htim_base->Instance==TIM1 && logAnlys.state==LOGA_ENABLED)
   {
     /* Peripheral clock enable */
     __HAL_RCC_TIM1_CLK_ENABLE();
@@ -801,7 +801,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     hdma_tim1_up.Init.Priority = DMA_PRIORITY_HIGH;
     HAL_DMA_Init(&hdma_tim1_up);
 		/* Trigger DMA by TIMer to transfer data from GPIO IDR reg. to memory buffer. */
-		TIM1->DIER |= TIM_DIER_UDE;		
+		TIM1->DIER |= TIM_DIER_UDE;				
 
     __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim1_up);
   }
@@ -829,18 +829,18 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     hdma_tim4_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_tim4_up.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_tim4_up.Init.Mode = DMA_NORMAL;
-    hdma_tim4_up.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_tim4_up.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     HAL_DMA_Init(&hdma_tim4_up);
 		/* Enable DMA request from Capture/Compare event on Channel 1. */
 		/* Trigger interrupt after posttriger timer elapses (Update Event). */
 		TIM4->DIER |= TIM_DIER_UIE;
 		/* Trigger DMA on capture compare event to save triggerPointer (DMA CNDTR reg.) */
-		TIM4->DIER |= TIM_DIER_CC1DE;
-		/* Trigger interrupt on capture/compare event to disable trigger. */
+		//TIM4->DIER |= TIM_DIER_CC1DE;		
+		/* Trigger interrupt on capture event to disable the trigger (+ save the trigger pointer in ISR instead DMA doing it). */
 		TIM4->DIER |= TIM_DIER_CC1IE;				
 		
 		/* Link the DMA */
-    __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim4_up);	
+    __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim4_up);			
 		/* Register DMA CpltCallback to deactivate trigger input to prevent triggering again. */
 		HAL_DMA_RegisterCallback(&hdma_tim4_up, HAL_DMA_XFER_CPLT_CB_ID, LOG_ANLYS_TriggerEventOccuredCallback);
 		
@@ -1549,6 +1549,8 @@ void LOG_ANLYS_TriggerEventOccuredCallback(DMA_HandleTypeDef *dmah)
   {
 		if(__HAL_TIM_GET_IT_SOURCE(&htim4, TIM_IT_CC1) != RESET)
     { 
+			//logAnlys.triggerPointer = hdma_tim1_up.Instance->CNDTR;
+			
 			__HAL_TIM_CLEAR_IT(&htim4, TIM_IT_CC1);
 			
 			if(logAnlys.trigConfig == TRIG_CHAN1){
@@ -1568,6 +1570,8 @@ void LOG_ANLYS_TriggerEventOccuredCallback(DMA_HandleTypeDef *dmah)
   {
 		if(__HAL_TIM_GET_IT_SOURCE(&htim4, TIM_IT_CC2) != RESET)
     { 
+			//logAnlys.triggerPointer = hdma_tim1_up.Instance->CNDTR;
+			
 			__HAL_TIM_CLEAR_IT(&htim4, TIM_IT_CC2);
 			
 			if(logAnlys.trigConfig == TRIG_CHAN2){
@@ -1656,10 +1660,12 @@ void TIM_PostTrigger_SoftwareStart(void)
 	HAL_TIM_Base_Start(&htim4);
 }
 
-/* Enabled in logAnlys Task after pretrigger time thread.sleep time. */
+/* Called from logAnlys Task after pretrigger thread.sleep time elapsed. */
 void TIM_EnableTrigger(void)
 {
-	HAL_DMA_Start(&hdma_tim4_up, (uint32_t)&(hdma_tim1_up.Instance->CNDTR), (uint32_t)logAnlys.triggerPointer, 1);		
+	// 0x4002005C hdma_tim1_up.Instance->CNDTR
+	HAL_DMA_Abort(&hdma_tim4_up);
+	HAL_DMA_Start(&hdma_tim4_up, (uint32_t)(&hdma_tim1_up.Instance->CNDTR), (uint32_t)&logAnlys.triggerPointer, 1);		
 	
 	if(logAnlys.trigConfig == TRIG_CHAN1){
 		/* DMA request enable */

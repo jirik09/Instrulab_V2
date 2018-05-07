@@ -306,7 +306,8 @@ void CommTask(void const *argument){
 			
 			#endif //USE_COUNTER			
 		/* ---------------------------------------------------- */	
-		/* ------------------ END OF COUNTER ------------------ */
+		/* ------------------- COUNTER END -------------------- */
+		/* --------------- LOGIC ANALYZER START --------------- */
 		/* ---------------------------------------------------- */	
 		/* Send LOGIC ANALYZER data */
 		}else if(message[0]=='L'){
@@ -315,7 +316,7 @@ void CommTask(void const *argument){
 				commsSendString(STR_LOG_ANLYS_TRIGGER_POINTER);	
 				commsSendUint32(logAnlys.triggerPointer);
 				logAnlys.trigOccur = TRIG_NOT_OCCURRED;
-			}
+			}			
 			/* 16-bit GPIO register by DMA to 16-bit array. Array send 8-bit by 8-bit to PC. samplesNumber countes with 16-bit array. */
 			commsSendString(STR_LOG_ANLYS_DATA_LENGTH);				
 			commsSendUint32(logAnlys.samplesNumber * 2);	

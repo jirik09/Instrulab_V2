@@ -124,7 +124,7 @@ void logAnlysStart(void){
 	/* Start sampling */
 	TIM_LogAnlys_Start();		
 	/* Wait the pretrigger time */
-	vTaskDelay(logAnlys.preTriggerTime/portTICK_RATE_MS);
+	vTaskDelay(logAnlys.preTriggerTime/*/portTICK_RATE_MS*/);
 	
 	if(logAnlys.triggerMode == LOGA_MODE_AUTO){
 		/* In AUTO trigger mode the posttriger is started without event trigger. After posttrigger 
@@ -139,7 +139,7 @@ void logAnlysStop(void){
 	TIM_LogAnlys_Stop();
 }	
 
-/* Configure TIM1 to trigger DMA with required frequency. */
+/* Configure TIM1 to trigger DMA data transfering with required frequency. */
 void logAnlysSetSamplingFreq(uint32_t arrPsc){
 	TIM_SamplingFreq_ARR_PSC_Reconfig(arrPsc);
 }
