@@ -53,7 +53,7 @@ extern PCD_HandleTypeDef hpcd_USB_FS;
 #endif //USE_USB
 extern UART_HandleTypeDef huart2;
 extern DMA_HandleTypeDef hdma_usart2_rx;
-//extern DMA_HandleTypeDef hdma_usart2_tx;
+extern DMA_HandleTypeDef hdma_usart2_tx;
 
 #ifdef USE_COUNTER
 
@@ -150,6 +150,8 @@ void DMA1_Channel2_IRQHandler(void)
 void DMA1_Channel7_IRQHandler(void)
 {
   HAL_DMA_IRQHandler(&hdma_tim4_up);
+	HAL_DMA_IRQHandler(&hdma_usart2_tx);
+	huart2.gState =HAL_UART_STATE_READY;
 //	  HAL_DMA_IRQHandler(&hdma_usart2_tx);
 }
 #endif //USE_LOG_ANLYS
