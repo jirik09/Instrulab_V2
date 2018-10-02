@@ -166,8 +166,6 @@ namespace LEO
         private int semaphoreTakenBy = 0;
         private bool portError = false;
 
-        private string LastCommand = "";
-
         /* Counter vars */
         double freq;
         int buff;
@@ -1179,11 +1177,6 @@ namespace LEO
                                     {
                                         break;
                                     }
-                                    if (err == 999 && LastCommand.Equals(Commands.SCOPE + ":" + Commands.SCOPE_NEXT + ";")) {
-                                        LastCommand = "";
-                                        this.send(Commands.SCOPE + ":" + Commands.SCOPE_NEXT + ";");
-                                        //MessageBox.Show("Recovered from Err\r\n" + new string(inputMsg, 0, 4) + "\r\n" + getErrReason(err), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    } 
                                     if (lastError != err)
                                     {
                                         MessageBox.Show("Error recieved \r\n" + new string(inputMsg, 0, 4) + "\r\n" + getErrReason(err), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1607,7 +1600,6 @@ namespace LEO
         {
             try
             {
-                LastCommand = s;
                 port.Write(s);
 
                 //   if (!s.Equals("OSCP:SRAT")) {

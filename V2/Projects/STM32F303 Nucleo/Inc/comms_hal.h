@@ -15,13 +15,6 @@ void commsSendInt32(int32_t num);
 void commsSendUint32(uint32_t num);
 void commsSendBuff(uint8_t *buff, uint16_t len);
 void commsSendString(char *chr);
-void commsSendDMA(uint8_t chr);
-void commsSendInt32DMA(int32_t num);
-void commsSendUint32DMA(uint32_t num);
-void commsSendBuffDMA(uint8_t *buff, uint16_t len);
-void commsSendStringDMA(char *chr);
-void flushBuff(uint16_t threshold);
-void XferComplete(DMA_HandleTypeDef *hdma);
 void commsRecieveUSB(uint8_t chr);
 void commsRecieveUART(uint8_t chr);
 

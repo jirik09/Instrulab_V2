@@ -22,9 +22,7 @@
 
 // Communication constatnts ===================================================
 #define COMM_BUFFER_SIZE 256
-#define COMM_TX_BUFFER_SIZE 256
-#define COMMS_BULK_SIZE 200
-#define UART_SPEED 230400
+#define UART_SPEED 115200
 
 #define USART_GPIO GPIOA
 #define USART_TX GPIO_PIN_2

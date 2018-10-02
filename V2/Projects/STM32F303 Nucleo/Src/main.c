@@ -205,8 +205,11 @@ static void StartThread(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-		xQueueSendToBack(messageQueue, "QflushComms", portMAX_DELAY);
-		osDelay(10);
+    osDelay(400);
+		LED_On();
+		osDelay(40);
+		LED_Off();
+		
   }
 
   /* USER CODE END 5 */ 

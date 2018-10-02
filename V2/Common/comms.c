@@ -29,9 +29,7 @@
 xQueueHandle messageQueue;
 static xSemaphoreHandle commsMutex ;
 static uint8_t commBuffMem[COMM_BUFFER_SIZE];
-static uint8_t commTXBuffMem[COMM_TX_BUFFER_SIZE];
 static commBuffer comm;
-commBuffer commTX;
 char cntMessage[30];
 void sendSystConf(void);
 void sendCommsConf(void);
@@ -124,13 +122,14 @@ void CommTask(void const *argument){
 		
 		//send IDN string
 		if(message[0]=='0'){
-			commsSendStringDMA(STR_ACK);
-			commsSendStringDMA(IDN_STRING);
+			commsSendString(STR_ACK);
+			commsSendString(IDN_STRING);
 			#ifdef USE_SHIELD
 			if(isScopeShieldConnected()){
-				commsSendStringDMA(SHIELD_STRING);
+				commsSendString(SHIELD_STRING);
 			}
-			#endif			
+			#endif
+			
 			
 		//send data
 		}else if(message[0]=='1'){
@@ -175,40 +174,40 @@ void CommTask(void const *argument){
 					//sending header
 					header[14]=(i+1);
 					
-					commsSendBuffDMA(header,16);
+					commsSendBuff(header,16);
 					
-					if(dataLenFirst>COMMS_BULK_SIZE ){
+					if(dataLenFirst>16384 ){
 						tmpToSend=dataLenFirst;
 						k=0;
-						while(tmpToSend>COMMS_BULK_SIZE){
-							commsSendBuffDMA(pointer + j+k*COMMS_BULK_SIZE, COMMS_BULK_SIZE);
+						while(tmpToSend>16384){
+							commsSendBuff(pointer + j+k*16384, 16384);
 							k++;
-							tmpToSend-=COMMS_BULK_SIZE;
+							tmpToSend-=16384;
 						}
 						if(tmpToSend>0){
-						commsSendBuffDMA(pointer + j+k*COMMS_BULK_SIZE, tmpToSend);
+						commsSendBuff(pointer + j+k*16384, tmpToSend);
 						}
 					}else if(dataLenFirst>0){
-						commsSendBuffDMA(pointer + j, dataLenFirst);
+						commsSendBuff(pointer + j, dataLenFirst);
 					}
 					
-					if(dataLenSecond>COMMS_BULK_SIZE ){
+					if(dataLenSecond>16384 ){
 						tmpToSend=dataLenSecond;
 						k=0;
-						while(tmpToSend>COMMS_BULK_SIZE){
-							commsSendBuffDMA(pointer+k*COMMS_BULK_SIZE, COMMS_BULK_SIZE);
+						while(tmpToSend>16384){
+							commsSendBuff(pointer+k*16384, 16384);
 							k++;
-							tmpToSend-=COMMS_BULK_SIZE;
+							tmpToSend-=16384;
 						}
 						if(tmpToSend>0){
-						commsSendBuffDMA(pointer+k*COMMS_BULK_SIZE, tmpToSend);
+						commsSendBuff(pointer+k*16384, tmpToSend);
 						}
 					}else if(dataLenSecond>0){
-						commsSendBuffDMA(pointer, dataLenSecond);
+						commsSendBuff(pointer, dataLenSecond);
 					}
 				}	
 				///commsSendString("COMMS_DataSending\r\n");
-				commsSendStringDMA(STR_SCOPE_OK);
+				commsSendString(STR_SCOPE_OK);
 				xQueueSendToBack(scopeMessageQueue, "2DataSent", portMAX_DELAY);
 				
 			}
@@ -223,7 +222,7 @@ void CommTask(void const *argument){
 				header_gen[9]=(uint8_t)(j>>16);
 				header_gen[10]=(uint8_t)(j>>8);
 				header_gen[11]=(uint8_t)(j);
-				commsSendBuffDMA(header_gen,12);
+				commsSendBuff(header_gen,12);
 			}
 			#endif //USE_GEN || USE_GEN_PWM
 			
@@ -235,18 +234,18 @@ void CommTask(void const *argument){
 			
 			/* ETR mode configured */	
 			if(counter.state==COUNTER_ETR){
-				commsSendStringDMA(STR_CNT_ETR_DATA);
+				commsSendString(STR_CNT_ETR_DATA);
 				sprintf(cntMessage, "%016.6f", counter.counterEtr.freq);
-				commsSendStringDMA(cntMessage);		
+				commsSendString(cntMessage);		
 				
 			/* REF mode configured */		
 			}else if(counter.state==COUNTER_REF){
-				commsSendStringDMA(STR_CNT_REF_DATA);
+				commsSendString(STR_CNT_REF_DATA);
 				/* Here only the buffer is sent - PC app calculates frequency ratio as:
 					 REF buffer / ETR buffer = arr * psc / buffer - where arr and psc is already 
 					 known by PC app (user set) */
 				sprintf(cntMessage, "%010d", counter.counterEtr.buffer);
-				commsSendStringDMA(cntMessage);										
+				commsSendString(cntMessage);										
 				
 			/* IC mode configured channel 1 */	
 			}else if(counter.state==COUNTER_IC){		
@@ -254,16 +253,16 @@ void CommTask(void const *argument){
 				if(counter.icDutyCycle==DUTY_CYCLE_DISABLED){	
 					
 					if(counter.icChannel1==COUNTER_IRQ_IC){												
-						commsSendStringDMA(STR_CNT_IC1_DATA);
+						commsSendString(STR_CNT_IC1_DATA);
 						sprintf(cntMessage, "%016.6f", counter.counterIc.ic1freq);
-						commsSendStringDMA(cntMessage);	
+						commsSendString(cntMessage);	
 						counter.icChannel1=COUNTER_IRQ_IC_PASS;
 					}	
 
 					if(counter.icChannel2==COUNTER_IRQ_IC){							
-						commsSendStringDMA(STR_CNT_IC2_DATA);	
+						commsSendString(STR_CNT_IC2_DATA);	
 						sprintf(cntMessage, "%016.6f", counter.counterIc.ic2freq);
-						commsSendStringDMA(cntMessage);															
+						commsSendString(cntMessage);															
 						counter.icChannel2=COUNTER_IRQ_IC_PASS;
 					}						
 
@@ -273,9 +272,9 @@ void CommTask(void const *argument){
 					char cntMessage2[15];
 					sprintf(cntMessage2, "%015.12f", counter.counterIc.ic2freq);
 					
-					commsSendStringDMA(STR_CNT_DUTY_CYCLE);
-					commsSendStringDMA(cntMessage);					
-					commsSendStringDMA(cntMessage2);	
+					commsSendString(STR_CNT_DUTY_CYCLE);
+					commsSendString(cntMessage);					
+					commsSendString(cntMessage2);	
 				
 //					commsSendString(STR_CNT_PULSE_WIDTH);
 //					sprintf(cntMessage, "%015.12f", counter.counterIc.ic2freq);
@@ -286,43 +285,44 @@ void CommTask(void const *argument){
 			}else if(counter.state==COUNTER_TI){						
 				switch(counter.tiState){
 					case TIMEOUT:
-						commsSendStringDMA(STR_CNT_TI_TIMEOUT);
+						commsSendString(STR_CNT_TI_TIMEOUT);
 						sprintf(cntMessage, "%02d", 2);						
 						break;
 					case SEND_TI_DATA:
-						commsSendStringDMA(STR_CNT_TI_DATA);
+						commsSendString(STR_CNT_TI_DATA);
 						sprintf(cntMessage, "%016.12f", counter.counterIc.ic1freq);																		
 						break;
 					case CLEAR:
 						break;
 				}
-				commsSendStringDMA(cntMessage);					
+				commsSendString(cntMessage);					
 				counter.tiState = CLEAR;
 			}								
 	
 		}else if(message[0]=='O'){
-			commsSendStringDMA(STR_CNT_REF_WARN);			
+			commsSendString(STR_CNT_REF_WARN);			
 			sprintf(cntMessage, "%02d", 2);
-			commsSendStringDMA(cntMessage);			
+			commsSendString(cntMessage);			
 			
 			#endif //USE_COUNTER			
 		/* ---------------------------------------------------- */	
-		/* ------------------ END OF COUNTER ------------------ */
+		/* ------------------- COUNTER END -------------------- */
+		/* --------------- LOGIC ANALYZER START --------------- */
 		/* ---------------------------------------------------- */	
 		/* Send LOGIC ANALYZER data */
 		}else if(message[0]=='L'){
 			#ifdef USE_LOG_ANLYS
 			if(logAnlys.trigOccur == TRIG_OCCURRED){
-				commsSendStringDMA(STR_LOG_ANLYS_TRIGGER_POINTER);	
-				commsSendUint32DMA(logAnlys.triggerPointer);
+				commsSendString(STR_LOG_ANLYS_TRIGGER_POINTER);	
+				commsSendUint32(logAnlys.triggerPointer);
 				logAnlys.trigOccur = TRIG_NOT_OCCURRED;
-			}
+			}			
 			/* 16-bit GPIO register by DMA to 16-bit array. Array send 8-bit by 8-bit to PC. samplesNumber countes with 16-bit array. */
-			commsSendStringDMA(STR_LOG_ANLYS_DATA_LENGTH);				
-			commsSendUint32DMA(logAnlys.samplesNumber * 2);	
+			commsSendString(STR_LOG_ANLYS_DATA_LENGTH);				
+			commsSendUint32(logAnlys.samplesNumber * 2);	
 			/* Send data */
-			commsSendStringDMA(STR_LOG_ANLYS_DATA);	
-			commsSendBuffDMA((uint8_t *)logAnlys.bufferMemory,(logAnlys.samplesNumber * 2));			
+			commsSendString(STR_LOG_ANLYS_DATA);	
+			commsSendBuff((uint8_t *)logAnlys.bufferMemory,(logAnlys.samplesNumber * 2));			
 			#endif //USE_LOG_ANLYS
 		// send system config
 		}else if(message[0]=='3'){
@@ -382,36 +382,32 @@ void CommTask(void const *argument){
 		// send gen next data block
 		}else if(message[0]=='7'){
 			#if defined(USE_GEN) || defined(USE_GEN_PWM)
-			commsSendStringDMA(STR_GEN_NEXT);
+			commsSendString(STR_GEN_NEXT);
 			#endif //USE_GEN || USE_GEN_PWM
 			
 		// send gen ok status
 		}else if(message[0]=='8'){
 			#if defined(USE_GEN) || defined(USE_GEN_PWM)
-			commsSendStringDMA(STR_GEN_OK);
+			commsSendString(STR_GEN_OK);
 			#endif //USE_GEN || USE_GEN_PWM
 			
 		}else if (message[0]=='9'){
 			sendSystemVersion();
 			
-		}else if (message[0]=='Q'){
-			flushBuff(0);
-			
 		}else if (message[0] == 'I'){
 			xQueueReceive(messageQueue, message, portMAX_DELAY);
-			commsSendStringDMA(message);
+			commsSendString(message);
 			/////commsSendString("\r\n");
 			
 		//send ACK_	
 		}else if (message[0]=='A'){
-			commsSendStringDMA(STR_ACK);
+			commsSendString(STR_ACK);
 			
 		// not known message -> send it
 		}else{
-			commsSendStringDMA(message);
+			commsSendString(message);
 			/////commsSendString("\r\n");
 		}
-		flushBuff(200);
 		xSemaphoreGiveRecursive(commsMutex);		
 	}
 }
@@ -431,11 +427,6 @@ void commsInit(void){
 	comm.writePointer = 0;
 	comm.readPointer = 0;
 	comm.state = BUFF_EMPTY;
-	commTX.memory = commTXBuffMem;
-	commTX.bufferSize = COMM_TX_BUFFER_SIZE;
-	commTX.writePointer = 0;
-	commTX.readPointer = 0;
-	commTX.state = BUFF_EMPTY;
 	HAL_UART_Receive_DMA(&huart2,comm.memory,comm.bufferSize);
 }
 
@@ -553,165 +544,165 @@ uint16_t getBytesAvailable(){
 
 
 void sendSystConf(){
-	commsSendStringDMA("SYST");
-	commsSendUint32DMA(HAL_RCC_GetHCLKFreq());  //CCLK
-	commsSendUint32DMA(HAL_RCC_GetPCLK2Freq()); //PCLK
-	commsSendStringDMA(MCU);
+	commsSendString("SYST");
+	commsSendUint32(HAL_RCC_GetHCLKFreq());  //CCLK
+	commsSendUint32(HAL_RCC_GetPCLK2Freq()); //PCLK
+	commsSendString(MCU);
 }
 
 void sendCommsConf(){
-	commsSendStringDMA("COMM");
-	commsSendUint32DMA(COMM_BUFFER_SIZE);
-	commsSendUint32DMA(UART_SPEED);
-	commsSendStringDMA(USART_TX_PIN_STR);
-	commsSendStringDMA(USART_RX_PIN_STR);
+	commsSendString("COMM");
+	commsSendUint32(COMM_BUFFER_SIZE);
+	commsSendUint32(UART_SPEED);
+	commsSendString(USART_TX_PIN_STR);
+	commsSendString(USART_RX_PIN_STR);
 	#ifdef USE_USB
-	commsSendStringDMA("USB_");
-	commsSendStringDMA(USB_DP_PIN_STR);
-	commsSendStringDMA(USB_DM_PIN_STR);
+	commsSendString("USB_");
+	commsSendString(USB_DP_PIN_STR);
+	commsSendString(USB_DM_PIN_STR);
 	#endif
 }
 
 void sendSystemVersion(){
-	commsSendStringDMA("VER_");
-	commsSendStringDMA("Instrulab FW"); 	//12
-	commsSendStringDMA(FW_VERSION); 			//4
-	commsSendStringDMA(BUILD);						//4
-	commsSendStringDMA("FreeRTOS");			//8	
-	commsSendStringDMA(tskKERNEL_VERSION_NUMBER);//6
-	commsSendStringDMA("ST HAL");				//6
-	commsSendDMA('V');
-	commsSendDMA((HAL_GetHalVersion()>>24)+48);
-	commsSendDMA('.');
-	commsSendDMA((HAL_GetHalVersion()>>16)+48);
-	commsSendDMA('.');
-	commsSendDMA((HAL_GetHalVersion()>>8)+48); //6
+	commsSendString("VER_");
+	commsSendString("Instrulab FW"); 	//12
+	commsSendString(FW_VERSION); 			//4
+	commsSendString(BUILD);						//4
+	commsSendString("FreeRTOS");			//8	
+	commsSendString(tskKERNEL_VERSION_NUMBER);//6
+	commsSendString("ST HAL");				//6
+	commsSend('V');
+	commsSend((HAL_GetHalVersion()>>24)+48);
+	commsSend('.');
+	commsSend((HAL_GetHalVersion()>>16)+48);
+	commsSend('.');
+	commsSend((HAL_GetHalVersion()>>8)+48); //6
 
 }
 
 #ifdef USE_SCOPE
 void sendScopeConf(){
 	uint8_t i;
-	commsSendStringDMA("OSCP");
-	commsSendUint32DMA(MAX_SAMPLING_FREQ);
-	commsSendUint32DMA(MAX_SCOPE_BUFF_SIZE);
-	commsSendUint32DMA(MAX_ADC_CHANNELS);
+	commsSendString("OSCP");
+	commsSendUint32(MAX_SAMPLING_FREQ);
+	commsSendUint32(MAX_SCOPE_BUFF_SIZE);
+	commsSendUint32(MAX_ADC_CHANNELS);
 	for (i=0;i<MAX_ADC_CHANNELS;i++){
 		switch(i){
 			case 0:
-				commsSendStringDMA(SCOPE_CH1_PIN_STR);
+				commsSendString(SCOPE_CH1_PIN_STR);
 				break;
 			case 1:
-				commsSendStringDMA(SCOPE_CH2_PIN_STR);
+				commsSendString(SCOPE_CH2_PIN_STR);
 				break;
 			case 2:
-				commsSendStringDMA(SCOPE_CH3_PIN_STR);
+				commsSendString(SCOPE_CH3_PIN_STR);
 				break;
 			case 3:
-				commsSendStringDMA(SCOPE_CH4_PIN_STR);
+				commsSendString(SCOPE_CH4_PIN_STR);
 				break;
 		}
 	}
-	commsSendUint32DMA(SCOPE_VREF);
-	commsSendUint32DMA(SCOPE_VREF_INT);
-	commsSendBuffDMA((uint8_t*)scopeGetRanges(&i),i);
+	commsSendUint32(SCOPE_VREF);
+	commsSendUint32(SCOPE_VREF_INT);
+	commsSendBuff((uint8_t*)scopeGetRanges(&i),i);
 }
 #endif //USE_SCOPE
 
 #ifdef USE_COUNTER
 void sendCounterConf(){
-	commsSendStringDMA("CNT_");
-	commsSendUint32DMA(CNT_COUNTER_PERIPH_CLOCK);
-	commsSendUint32DMA(CNT_GATE_PERIPH_CLOCK);
-	commsSendStringDMA(COUNTER_MODES);
-	commsSendStringDMA(CNT_ETR_PIN);
-	commsSendStringDMA(CNT_IC_CH1_PIN);
-	commsSendStringDMA(CNT_IC_CH2_PIN);
-	commsSendStringDMA(CNT_REF1_PIN);
-	commsSendStringDMA(CNT_REF2_PIN);
+	commsSendString("CNT_");
+	commsSendUint32(CNT_COUNTER_PERIPH_CLOCK);
+	commsSendUint32(CNT_GATE_PERIPH_CLOCK);
+	commsSendString(COUNTER_MODES);
+	commsSendString(CNT_ETR_PIN);
+	commsSendString(CNT_IC_CH1_PIN);
+	commsSendString(CNT_IC_CH2_PIN);
+	commsSendString(CNT_REF1_PIN);
+	commsSendString(CNT_REF2_PIN);
 	/* Timer Interval pins (Events) */
-	commsSendStringDMA(CNT_IC_CH1_PIN);
-	commsSendStringDMA(CNT_IC_CH2_PIN);
+	commsSendString(CNT_IC_CH1_PIN);
+	commsSendString(CNT_IC_CH2_PIN);
 }
 #endif //USE_COUNTER
 
 #ifdef USE_SCOPE
 void sendScopeInputs(){
 	uint8_t i,j;
-	commsSendStringDMA("INP_");
+	commsSendString("INP_");
 	
 	if(MAX_ADC_CHANNELS>=1){
-		commsSendDMA(ANALOG_DEFAULT_INPUTS[0]);
+		commsSend(ANALOG_DEFAULT_INPUTS[0]);
 	}
 	if(MAX_ADC_CHANNELS>=2){
-		commsSendDMA(ANALOG_DEFAULT_INPUTS[1]);
+		commsSend(ANALOG_DEFAULT_INPUTS[1]);
 	}
 	if(MAX_ADC_CHANNELS>=3){
-		commsSendDMA(ANALOG_DEFAULT_INPUTS[2]);
+		commsSend(ANALOG_DEFAULT_INPUTS[2]);
 	}
 	if(MAX_ADC_CHANNELS>=4){
-		commsSendDMA(ANALOG_DEFAULT_INPUTS[3]);
+		commsSend(ANALOG_DEFAULT_INPUTS[3]);
 	}
 	
 	for (i=0;i<MAX_ADC_CHANNELS;i++){
-		commsSendStringDMA("/");
+		commsSendString("/");
 		for (j=0;j<NUM_OF_ANALOG_INPUTS[i];j++){
 			if(j>0){
-				commsSendStringDMA(":");
+				commsSendString(":");
 			}
 			switch(i){
 			case 0:
-				commsSendStringDMA((char *)ANALOG_CHANN_ADC1_NAME[j]);
+				commsSendString((char *)ANALOG_CHANN_ADC1_NAME[j]);
 				break;
 			case 1:
-				commsSendStringDMA((char *)ANALOG_CHANN_ADC2_NAME[j]);
+				commsSendString((char *)ANALOG_CHANN_ADC2_NAME[j]);
 				break;
 			case 2:
-				commsSendStringDMA((char *)ANALOG_CHANN_ADC3_NAME[j]);
+				commsSendString((char *)ANALOG_CHANN_ADC3_NAME[j]);
 				break;
 			case 3:
-				commsSendStringDMA((char *)ANALOG_CHANN_ADC4_NAME[j]);
+				commsSendString((char *)ANALOG_CHANN_ADC4_NAME[j]);
 				break;
 			}
 		}
 	}
-	commsSendStringDMA("/");
-	commsSendStringDMA(";");
+	commsSendString("/");
+	commsSendString(";");
 }
 #endif //USE_SCOPE
 
 #ifdef USE_GEN
 void sendGenConf(){
 	uint8_t i;
-	commsSendStringDMA("GEN_");
-	commsSendUint32DMA(MAX_GENERATING_FREQ);
-	commsSendUint32DMA(MAX_GENERATOR_BUFF_SIZE);
-	commsSendUint32DMA(DAC_DATA_DEPTH);
-	commsSendUint32DMA(MAX_DAC_CHANNELS);
+	commsSendString("GEN_");
+	commsSendUint32(MAX_GENERATING_FREQ);
+	commsSendUint32(MAX_GENERATOR_BUFF_SIZE);
+	commsSendUint32(DAC_DATA_DEPTH);
+	commsSendUint32(MAX_DAC_CHANNELS);
 	for (i=0;i<MAX_DAC_CHANNELS;i++){
 		switch(i){
 			case 0:
-				commsSendStringDMA(GEN_CH1_PIN_STR);
+				commsSendString(GEN_CH1_PIN_STR);
 				break;
 			case 1:
-				commsSendStringDMA(GEN_CH2_PIN_STR);
+				commsSendString(GEN_CH2_PIN_STR);
 				break;
 		}
 	}
 #ifdef USE_SHIELD
 	if(isScopeShieldConnected()){
-		commsSendInt32DMA(SHIELD_GEN_LOW);
-		commsSendUint32DMA(SHIELD_GEN_HIGH); 
+		commsSendInt32(SHIELD_GEN_LOW);
+		commsSendUint32(SHIELD_GEN_HIGH); 
 	}else{
-		commsSendUint32DMA(0);
-		commsSendUint32DMA(GEN_VREF);
+		commsSendUint32(0);
+		commsSendUint32(GEN_VREF);
 	}
 #else
-	commsSendUint32DMA(0);
-	commsSendUint32DMA(GEN_VREF);
+	commsSendUint32(0);
+	commsSendUint32(GEN_VREF);
 #endif
-	commsSendUint32DMA(GEN_VDDA);
-	commsSendUint32DMA(GEN_VREF_INT);
+	commsSendUint32(GEN_VDDA);
+	commsSendUint32(GEN_VREF_INT);
 }
 #endif //USE_GEN
 
@@ -719,15 +710,15 @@ void sendGenConf(){
 #ifdef USE_GEN_PWM
 void sendGenPwmConf(void){
 	uint8_t i;
-	commsSendStringDMA("GENP");		
-	commsSendUint32DMA(MAX_GEN_PWM_CHANNELS);
+	commsSendString("GENP");		
+	commsSendUint32(MAX_GEN_PWM_CHANNELS);
 	for (i=0;i<MAX_DAC_CHANNELS;i++){
 		switch(i){
 			case 0:
-				commsSendStringDMA(GEN_PWM_CH1_PIN);
+				commsSendString(GEN_PWM_CH1_PIN);
 				break;
 			case 1:
-				commsSendStringDMA(GEN_PWM_CH2_PIN);					
+				commsSendString(GEN_PWM_CH2_PIN);					
 				break;
 		}
 	}
@@ -738,23 +729,23 @@ void sendGenPwmConf(void){
 void sendSyncPwmConf(void)
 {
 	uint8_t i;
-	commsSendStringDMA("SYNP");		
-	commsSendUint32DMA(SYNC_PWM_TIM_PERIPH_CLOCK);
-	commsSendUint32DMA(MAX_SYNC_PWM_FREQ);
-	commsSendUint32DMA(MAX_SYNC_PWM_CHANNELS);
+	commsSendString("SYNP");		
+	commsSendUint32(SYNC_PWM_TIM_PERIPH_CLOCK);
+	commsSendUint32(MAX_SYNC_PWM_FREQ);
+	commsSendUint32(MAX_SYNC_PWM_CHANNELS);
 	for (i=0;i<MAX_SYNC_PWM_CHANNELS;i++){
 		switch(i){
 			case 0:
-				commsSendStringDMA(SYNC_PWM_CH1_PIN);
+				commsSendString(SYNC_PWM_CH1_PIN);
 				break;
 			case 1:
-				commsSendStringDMA(SYNC_PWM_CH2_PIN);
+				commsSendString(SYNC_PWM_CH2_PIN);
 				break;			
 			case 2:
-				commsSendStringDMA(SYNC_PWM_CH3_PIN);	
+				commsSendString(SYNC_PWM_CH3_PIN);	
 				break;
 			case 3:
-				commsSendStringDMA(SYNC_PWM_CH4_PIN);	
+				commsSendString(SYNC_PWM_CH4_PIN);	
 				break;
 		}
 	}
@@ -765,37 +756,37 @@ void sendSyncPwmConf(void)
 void sendLogAnlysConf(void)
 {
 	uint8_t i;
-	commsSendStringDMA("LOGA");
-	commsSendUint32DMA(LOG_ANLYS_POSTTRIG_PERIPH_CLOCK);
-	commsSendUint32DMA(LOG_ANLYS_TIMEBASE_PERIPH_CLOCK);
-	commsSendUint32DMA(LOG_ANLYS_SAMPLING_FREQ);
-	commsSendUint32DMA(LOG_ANLYS_BUFFER_LENGTH);
-	commsSendUint32DMA(LOG_ANLYS_CHANNELS_NUM);
+	commsSendString("LOGA");
+	commsSendUint32(LOG_ANLYS_POSTTRIG_PERIPH_CLOCK);
+	commsSendUint32(LOG_ANLYS_TIMEBASE_PERIPH_CLOCK);
+	commsSendUint32(LOG_ANLYS_SAMPLING_FREQ);
+	commsSendUint32(LOG_ANLYS_BUFFER_LENGTH);
+	commsSendUint32(LOG_ANLYS_CHANNELS_NUM);
 	for (i=0;i<LOG_ANLYS_CHANNELS_NUM;i++){
 		switch(i){
 			case 0:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH1);
+				commsSendString(LOG_ANLYS_PIN_CH1);
 				break;
 			case 1:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH2);
+				commsSendString(LOG_ANLYS_PIN_CH2);
 				break;			
 			case 2:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH3);	
+				commsSendString(LOG_ANLYS_PIN_CH3);	
 				break;
 			case 3:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH4);	
+				commsSendString(LOG_ANLYS_PIN_CH4);	
 				break;
 			case 4:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH5);	
+				commsSendString(LOG_ANLYS_PIN_CH5);	
 				break;
 			case 5:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH6);	
+				commsSendString(LOG_ANLYS_PIN_CH6);	
 				break;
 			case 6:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH7);	
+				commsSendString(LOG_ANLYS_PIN_CH7);	
 				break;
 			case 7:
-				commsSendStringDMA(LOG_ANLYS_PIN_CH8);	
+				commsSendString(LOG_ANLYS_PIN_CH8);	
 				break;			
 		}
 	}	
@@ -805,9 +796,9 @@ void sendLogAnlysConf(void)
 #ifdef USE_SHIELD
 void sendShieldPresence(void){
 	if(isScopeShieldConnected()){
-		commsSendStringDMA(STR_ACK);
+		commsSendString(STR_ACK);
 	}else{
-		commsSendStringDMA(STR_NACK);
+		commsSendString(STR_NACK);
 	}
 }
 
